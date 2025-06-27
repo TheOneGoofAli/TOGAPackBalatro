@@ -66,7 +66,8 @@ SMODS.Sound({key = "infraredend", path = "ir_end.ogg"}) -- Infrared End (ending 
 SMODS.Sound({key = "o97doorbell", path = "doorbell.wav"}) -- doorbell.wav from Office 97 Multimedia
 SMODS.Sound({key = "o97glide", path = "glide.wav"}) -- glide.wav from Office 97 Multimedia
 SMODS.Sound({key = "mmeclap", path = "CLAP.WAV"}) -- clap.wav from Windows 3.0 MME
-SMODS.Sound({key = "officehammer", path = "HAMMER.WAV"}) -- hammer.wav from Microsoft Office sounds
+SMODS.Sound({key = "officehammer", path = "HAMMER.WAV"}) -- hammer.wav from Microsoft Office sounds, unused as of 1.7.1-RC1
+SMODS.Sound({key = "roverbark", path = "roverbark.ogg"}) -- 0002.wav, Microsoft Agent - Rover
 SMODS.Sound({key = "mscmenucmd", path = "Musica Menu Command.ogg"}) -- Musica Sound Scheme (95 & NT4)
 SMODS.Sound({key = "spb", path = "kc57.ogg"}) -- Unused in Knuckles Chaotix, Self-Propelled Bomb targeting first place in SRB2Kart/Dr. Robotnik's Ring Racers.
 SMODS.Sound({key = "thundershield", path = "DSZIO3.ogg"}) -- Thunder Shield
@@ -486,28 +487,35 @@ end
 
 -- Any additional scoring with chips and what not.
 togabalatro.extrascoring = function(context, scoring_hand)
-	local spacecadet, rover = SMODS.find_card('j_toga_spacecadetpinball'), SMODS.find_card('j_toga_rover')
 	if context.cardarea == G.play then
-		if next(spacecadet) then
-			for i = 1, #spacecadet do
-				context.main_scoring = true
-				local card = spacecadet[i]
-				for r = 1, card.ability.extra.alltrig do
-					if (pseudorandom("toga_spacecadetpinball") < G.GAME.probabilities.normal/3 or card.ability.cry_rigged) and scoring_hand then
-						if not card.ability.pinballscore then card.ability.pinballscore = true; card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('toga_pinballing')}) end
-						SMODS.score_card(pseudorandom_element(context.scoring_hand, pseudoseed('spacecadet')), context)
+		local spacecadetcalc = {}
+		SMODS.calculate_context({spacecadetscore = true}, spacecadetcalc)
+		for _, eval in pairs(spacecadetcalc) do
+			for key, eval2 in pairs(eval) do
+				local notyetscored = true
+				if eval2.card then
+					for i = 1, math.floor(to_number(tonumber(eval2.spacecadet)) or eval2.card and to_number(eval2.card.ability.extra.alltrig) or 1) do
+						--if (pseudorandom("toga_spacecadetpinball") < G.GAME.probabilities.normal/3 or eval2.card.ability.cry_rigged) and scoring_hand then
+						if (SMODS.pseudorandom_probability(card, "toga_spacecadetpinball", 1, 3) or eval2.card.ability.cry_rigged) and scoring_hand then
+							if notyetscored then notyetscored = false; card_eval_status_text(eval2.card, 'extra', nil, nil, nil, {message = localize('toga_pinballing')}) end
+							SMODS.score_card(pseudorandom_element(context.scoring_hand, pseudoseed('spacecadet')), context)
+						end
 					end
 				end
-				context.main_scoring = nil
 			end
 		end
-		if next(rover) then
-			for r = 1, #rover do
-				local card = rover[r]
-				for i = 1, #G.deck.cards do
-					if (pseudorandom("toga_rover") < G.GAME.probabilities.normal/card.ability.extra.odds or card.ability.cry_rigged) then
-						if not card.ability.roverscore then card.ability.roverscore = true; card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('toga_roverwoof')}) end
-						SMODS.score_card(G.deck.cards[i], context)
+		local rovercalc = {}
+		SMODS.calculate_context({roverscore = true}, rovercalc)
+		for _, eval in pairs(rovercalc) do
+			for key, eval2 in pairs(eval) do
+				local notyetscored = true
+				if eval2.card then
+					for i = 1, #G.deck.cards do
+						--if (pseudorandom("toga_rover") < G.GAME.probabilities.normal/(eval2.odds or eval2.card.ability.extra and eval2.card.ability.extra.odds or 8) or eval2.card.ability.cry_rigged) then
+						if (SMODS.pseudorandom_probability(card, "toga_rover", 1, (eval2.odds or eval2.card.ability.extra and eval2.card.ability.extra.odds or 8)) or eval2.card.ability.cry_rigged) then
+							if notyetscored then notyetscored = false; card_eval_status_text(eval2.card, 'extra', nil, nil, nil, {message = localize('toga_roverwoof'), sound = not silent and togabalatro.config.SFXWhenTriggered and "toga_roverbark"}) end
+							SMODS.score_card(G.deck.cards[i], context)
+						end
 					end
 				end
 			end
@@ -515,22 +523,96 @@ togabalatro.extrascoring = function(context, scoring_hand)
 	end
 end
 
+-- [Hand in held ability detection.] Commented out for now, could not figure out how to get this working.
+-- togabalatro.checkhihability = function(context)
+	-- local areas = togabalatro.areaprocess(SMODS.get_card_areas('playing_cards'))
+	-- local hashihability = false
+	-- for _, area in ipairs(areas) do
+		-- if area == G.hand then
+			-- local curcards = togabalatro.preprocess(context, area.cards)
+			-- for _, card in ipairs(curcards) do
+				-- if context.end_of_round then context.playing_card_end_of_round = true end
+				-- local effects = {eval_card(card, context)}
+				-- SMODS.calculate_quantum_enhancements(card, effects, context)
+
+				-- context.playing_card_end_of_round = nil
+				-- togabalatro.effects1 = effects
+				-- -- print(inspect(togabalatro.ret))
+				-- for k, v in pairs(effects) do
+					-- for i, t in pairs(v) do
+						-- print(k, v, i, t)
+						-- if next(t) then print('!'); return true end
+					-- end
+				-- end
+			-- end
+		-- end
+		-- if area ~= G.hand then
+			-- local curcards = togabalatro.preprocess(context, area.cards)
+			-- for _, card in ipairs(curcards) do
+				-- if card.seal == 'toga_urlseal' then
+					-- if context.end_of_round then context.playing_card_end_of_round = true end
+					-- local effects = {eval_card(card, context)}
+					-- SMODS.calculate_quantum_enhancements(card, effects, context)
+
+					-- context.playing_card_end_of_round = nil
+					-- togabalatro.effects2 = effects
+					-- -- print(inspect(togabalatro.ret))
+					-- for k, v in pairs(effects) do
+						-- for i, t in pairs(v) do
+							-- print(k, v, i, t)
+							-- if next(t) then print('!'); return true end
+						-- end
+					-- end
+				-- end
+			-- end
+		-- end
+	-- end
+	-- return false
+-- end
+
 -- Custom scoring of held in hand abilities.
 togabalatro.heldinhandscoring = function(context, scoring_hand)
 	if context.cardarea == G.hand then
 		context.main_scoring = true
 		local areas = togabalatro.areaprocess(SMODS.get_card_areas('playing_cards'))
-		for _, area in ipairs(areas) do
-			if area ~= G.hand then
-				local curcards = togabalatro.preprocess(context, area.cards)
-				for _, card in ipairs(curcards) do
-					if card.seal == 'toga_urlseal' then
-						SMODS.score_card(card, context)
+		togabalatro.scoreheldinhand(areas, context)
+		
+		local clippitcalc = {}
+		SMODS.calculate_context({clippitscore = true, cardarea = context.cardarea}, clippitcalc)
+		
+		--local hasanyhih = togabalatro.checkhihability(context) -- [Hand in held ability detection.] Commented out for now, could not figure out how to get this working.
+		--if hasanyhih then
+			for _, eval in pairs(clippitcalc) do
+				for key, eval2 in pairs(eval) do
+					if eval2.card then
+						for i = 1, math.floor(eval2.rescores or eval2.card.ability.extra and eval2.card.ability.extra.rescores or 1) do
+							--card_eval_status_text(eval2.card, 'extra', nil, nil, nil, {message = localize('toga_pinballing'), sound = not silent and togabalatro.config.SFXWhenTriggered and "toga_officehammer"})
+							togabalatro.scoreheldinhand(areas, context, true)
+						end
 					end
 				end
 			end
-		end
+		--end
 		context.main_scoring = nil
+	end
+end
+
+togabalatro.scoreheldinhand = function(areas, context, handrescore)
+	for _, area in ipairs(areas) do
+		if area == G.hand and handrescore then
+			local curcards = togabalatro.preprocess(context, area.cards)
+			for _, card in ipairs(curcards) do
+				SMODS.score_card(card, context)
+			end
+		end
+		if area ~= G.hand then
+			local curcards = togabalatro.preprocess(context, area.cards)
+			for _, card in ipairs(curcards) do
+				if card.seal == 'toga_urlseal' then
+					SMODS.score_card(card, context)
+				end
+			end
+		end
 	end
 end
 
@@ -595,6 +677,21 @@ togabalatro.eorproc = function(area, card, context, i)
 	end
 end
 
+-- This bit is 100% experimental... there should be a better way for doing this, right?
+togabalatro.triggereof = function(areas, context)
+	local contextcopy = context
+	contextcopy.cardarea = G.hand
+	for i, area in ipairs(areas) do
+		if area ~= G.hand and area.cards then
+			for _, card in ipairs(area.cards) do
+				if card.seal == 'toga_urlseal' then
+					togabalatro.eorproc(area, card, contextcopy, i)
+				end
+			end
+		end
+	end
+end
+
 -- Hooking to run it back.
 sendInfoMessage("Hooking SMODS.calculate_end_of_round_effects...", "TOGAPack")
 local calcendroundref = SMODS.calculate_end_of_round_effects
@@ -605,20 +702,27 @@ function SMODS.calculate_end_of_round_effects(context)
 		calcendroundref(context)
 		togabalatro.forcereverse = false
 	end
-	-- This bit is 100% experimental... there should be a better way for doing this, right?
-	local areas = togabalatro.areaprocess(SMODS.get_card_areas('playing_cards'))
-	if context.cardarea == G.hand then
-		local contextcopy = context
-		contextcopy.cardarea = G.hand
-		for i, area in ipairs(areas) do
-			if area ~= G.hand and area.cards then
-				for _, card in ipairs(area.cards) do
-					if card.seal == 'toga_urlseal' then
-						togabalatro.eorproc(area, card, contextcopy, i)
+	
+	if context.cardarea == G.hand and context.end_of_round then
+		local areas = togabalatro.areaprocess(SMODS.get_card_areas('playing_cards'))
+		togabalatro.triggereof(areas, context) -- initial end of round scoring of cards with Hyperlink Seals
+		local clippitcalc = {}
+		SMODS.calculate_context({clippitscore_eor = true, cardarea = context.cardarea}, clippitcalc)
+		--local hasanyhih = togabalatro.checkhihability(context) -- [Hand in held ability detection.] Commented out for now, could not figure out how to get this working.
+		--if hasanyhih then
+			for _, eval in pairs(clippitcalc) do
+				for key, eval2 in pairs(eval) do
+					if eval2.card then
+						for i = 1, math.floor(eval2.rescores or eval2.card.ability.extra and eval2.card.ability.extra.rescores or 1) do
+							--card_eval_status_text(eval2.card, 'extra', nil, nil, nil, {message = localize('toga_pinballing'), sound = not silent and togabalatro.config.SFXWhenTriggered and "toga_officehammer"})
+							calcendroundref(context)
+							
+							togabalatro.triggereof(areas, context) -- rescore...
+						end
 					end
 				end
 			end
-		end
+		--end
 	end
 end
 

@@ -221,7 +221,7 @@ SMODS.Voucher{
 	rarity = 3,
 	config = { rarity = 3 },
 	loc_vars = function(self, info_queue, card)
-		return {vars = { G.GAME.probabilities.normal or 1, G.P_SEALS.toga_sealseal.config.odds or 1337 }}
+		return {vars = { SMODS.get_probability_vars(card or self, 1, G.P_SEALS.toga_sealseal.config.odds or 1337) }}
 	end,
 }
 

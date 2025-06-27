@@ -290,7 +290,7 @@ return {
 			j_toga_winupdate = {
 				name = 'Joker Update',
 				text = {
-					"{C:attention}Numerical{} values of a random Joker are",
+					"{C:attention}Numerical{} values of a {C:attention}random{} Joker are",
 					"increased by {C:attention}#1#%{} when defeating {C:attention}Blinds{}.",
 					"{C:inactive,s:0.8}Cannot affect self or copies of self.{}"
 				}
@@ -316,9 +316,8 @@ return {
 			j_toga_clippit = {
 				name = 'Clippit',
 				text = {
-					"Retrigger all card",
-					"{C:attention}held in hand{}",
-					"abilities {C:attention}#1#{} times."
+					"Rescore all {C:attention}held in hand{}",
+					"card abilities {C:attention}#1#{} time(s)."
 				}
 			},
 			j_toga_asterism = {

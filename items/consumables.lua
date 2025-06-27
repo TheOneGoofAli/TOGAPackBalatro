@@ -216,7 +216,7 @@ SMODS.Consumable {
 				info_queue[#info_queue + 1] = G.P_CENTERS[v]
 			end
 		end
-		return {key = love.keyboard.isDown("lshift") and self.key.."_showminerals" or self.key, vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds }}
+		return {key = love.keyboard.isDown("lshift") and self.key.."_showminerals" or self.key, vars = { SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) }}
 	end,
 	can_use = function(self, card, area, copier)
 		return G.playing_cards and #G.playing_cards > 1
@@ -228,7 +228,8 @@ SMODS.Consumable {
 		end
 		for k, v in ipairs(cards) do
 			if SMODS.has_enhancement(v, 'm_stone') then
-				if pseudorandom("toga_minediamonds") < G.GAME.probabilities.normal/card.ability.extra.odds then
+				--if pseudorandom("toga_minediamonds") < G.GAME.probabilities.normal/card.ability.extra.odds then
+				if SMODS.pseudorandom_probability(card, "toga_minediamonds", 1, card.ability.extra.odds) then
 					local enhancement = SMODS.poll_enhancement({ guaranteed = true, options = togabalatro.oredict.minerals, type_key = 'modmineral' })
 					G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
 						card:juice_up()
@@ -281,7 +282,8 @@ SMODS.Consumable{
 	config = {extra = { cardlimit = spbcardmin, odds = 4, activated = false } },
 	loc_vars = function(self, info_queue, card)
 		card.ability.extra.cardlimit = math.max(G.deck and G.deck.cards and math.floor(#G.deck.cards*spbdeckpart) or 0, spbcardmin)
-		return {vars = { math.floor(card.ability.extra.cardlimit), card.ability.extra.odds, (G.GAME and G.GAME.probabilities.normal or 1), spbcardmin, spbdeckpart*100 } }
+		local basechance, odds = SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds)
+		return {vars = { math.floor(card.ability.extra.cardlimit), odds, basechance, spbcardmin, spbdeckpart*100 } }
 	end,
 	can_use = function(self, card, area, copier)
 		return G.deck and G.deck.cards and #G.deck.cards > 0
@@ -298,7 +300,8 @@ SMODS.Consumable{
 	end,
 	remove_from_deck = function(self, card, from_debuff)
 		if card.ability.extra.activated then return end
-		if pseudorandom("toga_selfpropelledbomb") < G.GAME.probabilities.normal/card.ability.extra.odds then
+		--if pseudorandom("toga_selfpropelledbomb") < G.GAME.probabilities.normal/card.ability.extra.odds then
+		if SMODS.pseudorandom_probability(card, "toga_selfpropelledbomb", 1, card.ability.extra.odds) then
 			toga_spbdeckwreck(card, true)
 		else
 			card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_safe_ex'), sound = togabalatro.config.SFXWhenRemoving and 'toga_thundershield'})

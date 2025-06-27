@@ -31,18 +31,23 @@ SMODS.Joker{
 	cost = 4,
 	blueprint_compat = false,
 	perishable_compat = false,
-	add_to_deck = function(self, card, from_debuff)
-		if not from_debuff then
-			for k, v in pairs(G.GAME.probabilities) do
-				G.GAME.probabilities[k] = v/2
-			end
-		end
-	end,
-	remove_from_deck = function(self, card, from_debuff)
-		if not from_debuff then
-			for k, v in pairs(G.GAME.probabilities) do
-				G.GAME.probabilities[k] = v*2
-			end
+	-- add_to_deck = function(self, card, from_debuff)
+		-- if not from_debuff then
+			-- for k, v in pairs(G.GAME.probabilities) do
+				-- G.GAME.probabilities[k] = v/2
+			-- end
+		-- end
+	-- end,
+	-- remove_from_deck = function(self, card, from_debuff)
+		-- if not from_debuff then
+			-- for k, v in pairs(G.GAME.probabilities) do
+				-- G.GAME.probabilities[k] = v*2
+			-- end
+		-- end
+	-- end,
+	calculate = function(self, card, context)
+		if context.mod_probability and not context.blueprint then
+			return { numerator = context.numerator / 2 }
 		end
 	end,
 	pixel_size = { w = 69, h = 94 }

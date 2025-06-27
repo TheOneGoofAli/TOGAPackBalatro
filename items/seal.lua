@@ -10,13 +10,13 @@ SMODS.Seal{
 	loc_vars = function(self, info_queue, card)
 		if G and G.GAME and G.GAME.used_vouchers then
 			return { key = G.GAME.used_vouchers['v_toga_caniofferyouanegg'] == true and self.key..'_alt2' or G.GAME.used_vouchers['v_toga_sealegg'] == true and self.key..'_alt1'
-				or self.key, vars = G.GAME.used_vouchers['v_toga_sealegg'] == true and { G.GAME.probabilities.normal or 1, self.config.odds or 1337 } }
+				or self.key, vars = G.GAME.used_vouchers['v_toga_sealegg'] == true and { SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).odds) } }
 		end
 	end,
 	sound = { sound = "gold_seal", per = 1.2, vol = 0.4 },
 	calculate = function(self, card, context)
 		if context.main_scoring and context.cardarea == G.play and card and card.ability.seal then
-			local negativeroll = pseudorandom("sealseal") < G.GAME.probabilities.normal/card.ability.seal.odds
+			local negativeroll = SMODS.pseudorandom_probability(context.other_card or card or self, "sealseal", 1, card.ability.seal.odds)
 			return {
 				func = function()
 					local createnegative = false
