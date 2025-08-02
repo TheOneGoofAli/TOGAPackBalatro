@@ -1082,3 +1082,8 @@ for _, file in ipairs{"joker.lua", "deck.lua", "voucher.lua", "enhancement.lua",
 	sendDebugMessage("Executing items/"..file, "TOGAPack")
 	assert(SMODS.load_file("items/"..file))()
 end
+
+if JokerDisplay then
+	sendInfoMessage("Adding JokerDisplay compatibility...", "TOGAPack")
+	SMODS.load_file("compatibility/JokerDisplay.lua")()
+end
