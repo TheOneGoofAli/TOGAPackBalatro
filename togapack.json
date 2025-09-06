@@ -7,7 +7,7 @@
 	"main_file": "togastuff.lua",
 	"priority": 2,
 	"badge_colour": "fd9712",
-	"version": "1.9.3a3",
+	"version": "1.9.3a4",
 	"dependencies": ["Steamodded (>=1.0.0~BETA-0827c)"],
 	"conflicts": ["Talisman (<<2.1.0*~)"],
 	"allow_redistribution": true

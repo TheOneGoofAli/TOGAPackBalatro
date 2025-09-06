@@ -436,7 +436,7 @@ SMODS.Joker{
 						if G.GAME.hands[v] and G.GAME.hands[v].visible then names[#names+1] = v end
 					end
 					local hand = pseudorandom_element(names, pseudoseed('ie'))
-					togabalatro.modifylevelchipsmult(curcard, hand, false, to_number(G.GAME.hands[hand].s_chips)/card.ability.extra.phchips, to_number(G.GAME.hands[hand].s_mult)/card.ability.extra.phmult, cxt)
+					togabalatro.modifylevelchipsmult(curcard, hand, false, G.GAME.hands[hand].s_chips/card.ability.extra.phchips, G.GAME.hands[hand].s_mult/card.ability.extra.phmult, cxt)
 				end
 			}
 		end
@@ -1489,7 +1489,7 @@ SMODS.Joker{
 	cost = 6,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.before then
+		if context.after then
 			local cardsplayed = context.full_hand or G.play and G.play.cards
 			if #cardsplayed > 1 then
 				for i = 1, #cardsplayed do

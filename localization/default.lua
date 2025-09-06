@@ -335,10 +335,14 @@ return {
 			j_toga_clippit = {
 				name = 'Clippit',
 				text = {
-					"Rescore all {C:attention}held in hand{}",
-					"card abilities {C:attention}#1#{} time(s).",
-					"{C:inactive,s:0.8}It looks like you're trying to naneinf.{}",
-					"{C:inactive,s:0.8}Would you like help?{}"
+					{
+						"Rescore all {C:attention}held in hand{}",
+						"card abilities {C:attention}#1#{} time(s).",
+					},
+					{
+						"{C:inactive,s:0.8}It looks like you're trying to naneinf.{}",
+						"{C:inactive,s:0.8}Would you like help?{}"
+					}
 				}
 			},
 			j_toga_asterism = {
@@ -384,7 +388,7 @@ return {
 				name = 'Skill: Iron Will',
 				text = {
 					"Prevents death if active and at",
-					"least {C:money}$1{} is held, sets money to $0",
+					"least {C:money}$1{} is held, sets money to {C:money}$0{}",
 					"and becomes inactive. {C:attention}Recharges{}",
 					"upon {C:attention}defeating{} a Boss Blind.",
 					"{C:inactive,s:0.8}Currently: #2#{}"
@@ -476,12 +480,16 @@ return {
 			j_toga_tomscott = {
 				name = 'Tom Scott',
 				text = {
-					"Gives {X:mult,C:white}X#1#{} Mult for every",
-					"{C:attention}copy{} of itself held",
-					"{C:inactive}(Currently {}{X:mult,C:white}X#2#{} {C:inactive}Mult){}",
-					"{C:inactive,s:0.8}Stacks multiplicatively.{}",
-					"{C:inactive,s:0.8}I am currently a Joker{}",
-					"{C:inactive,s:0.8}in the Balatro video game.{}"
+					{
+						"Gives {X:mult,C:white}X#1#{} Mult for every",
+						"{C:attention}copy{} of itself held",
+						"{C:inactive}(Currently {}{X:mult,C:white}X#2#{} {C:inactive}Mult){}",
+						"{C:inactive,s:0.8}Stacks multiplicatively.{}",
+					},
+					{
+						"{C:inactive,s:0.8}I am currently a Joker{}",
+						"{C:inactive,s:0.8}in the Balatro video game.{}"
+					}
 				}
 			},
 			j_toga_megasxlr = {
@@ -495,13 +503,17 @@ return {
 			j_toga_jarate = {
 				name = 'Jarate',
 				text = {
-					"{C:attention}#1#% Blind{} requirements",
-					"when selecting a {C:attention}Boss Blind{}.",
-					"Scored cards {C:attention}lose{} their",
-					"enhancements, editions and seals.",
-					"Recharges when {C:attention}entering{} shop.",
-					"{C:inactive,s:0.8}#2#",
-					"{C:inactive,s:0.8}Ah... {C:inactive,s:0.8,E:1}piss!{}"
+					{
+						"{C:attention}#1#% Blind{} requirements",
+						"when selecting a {C:attention}Boss Blind{}.",
+						"Scored cards {C:attention}lose{} their",
+						"enhancements, editions and seals.",
+						"Recharges when {C:attention}entering{} shop.",
+						"{C:inactive,s:0.8}#2#",
+					},
+					{
+						"{C:inactive}Ah... {C:inactive,E:1}piss!{}"
+					}
 				}
 			},
 			j_toga_goldenwrench = {
@@ -906,10 +918,15 @@ return {
 			j_toga_cavingjkr = {
 				name = 'Caving Joker',
 				text = {
-					"All played {C:attention}non-face{} cards",
-					"become {C:attention}Stone{} cards",
-					"{C:inactive,s:0.75}May reveal rank or suit{}",
-					"{C:inactive,s:0.75}of certain cards...{}",
+					{
+						"All played {C:attention}non-face{} cards",
+						"become {C:attention}Stone{} cards",
+						"afterwards",
+					},
+					{
+						"{C:inactive,s:0.75}May reveal rank or suit{}",
+						"{C:inactive,s:0.75}of certain cards...{}",
+					}
 				},
 			},
 			j_toga_miningjkr = {
