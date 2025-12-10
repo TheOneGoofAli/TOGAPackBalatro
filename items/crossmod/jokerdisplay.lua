@@ -108,7 +108,7 @@ togabalatro.jd_def["j_toga_virtualmemory"] = {
 	},
 	text_config = { colour = G.C.GREEN, scale = 0.4 },
 	calc_function = function(card)
-		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds), card.ability.extra.odds } }
+		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds) } }
 	end,
 }
 

@@ -261,7 +261,7 @@ end
 
 local cuiboxgameoverref = create_UIBox_game_over
 function create_UIBox_game_over()
-	if togabalatro.config.SpecialDeckMusic and G.GAME.selected_back.effect.center.key == 'b_toga_srb2kartdeck' then
+	if togabalatro.config.SpecialDeckMusic and G.GAME.selected_back.effect.center.key == 'b_toga_srb2kartdeck' and not togabalatro.checksiiva() then
 		local show_lose_cta = false
 		local eased_red = copy_table(G.GAME.round_resets.ante <= G.GAME.win_ante and G.C.RED or G.C.BLUE)
 		eased_red[4] = 0
@@ -669,41 +669,43 @@ local bmpcurval, notifyitemreinit = togabalatro.config.BMPAllItems, false
 local kingcdival, notifykingcdi = togabalatro.config.KingCDIDeck, false
 local wtfdeckval, notifywtfdeck = togabalatro.config.WTFDeck, false
 local cfgrestartval = { ['EnableQE'] = true }
-function love.update( dt )
-	-- Hello everybody, my name is Windiplier.
-	if love.window.isMinimized() and not ismin then
-		ismin = true
-		togabalatro.playwindowsfx('min')
-	elseif ismin and not love.window.isMinimized() then
-		ismin = false
-		togabalatro.playwindowsfx('restup')
-	elseif love.window.isMaximized() and not ismax then
-		ismax = true
-		togabalatro.playwindowsfx('max')
-	elseif ismax and not love.window.isMaximized() then
-		ismax = false
-		togabalatro.playwindowsfx('restdw')
-	end
-	
-	if togabalatro.config.EnableQE ~= qeval and not notifyrestart then
-		notifyrestart = true
-		togabalatro.systemchanges({ source = 'qe', uifunc = togabalatro.needrestartqeui })
-	end
-	
-	if togabalatro.config.BMPAllItems ~= bmpcurval and not notifyitemreinit then
-		notifyitemreinit = true
-		togabalatro.config.mpnotice = nil
-		togabalatro.systemchanges({ source = 'bmp', uifunc = togabalatro.needrestartbmpui })
-	end
-	
-	if togabalatro.config.KingCDIDeck ~= kingcdival and not notifykingcdi then
-		notifykingcdi = true
-		togabalatro.systemchanges({ source = 'kingcdi', uifunc = togabalatro.needrestartkingcdi })
-	end
-	
-	if togabalatro.config.WTFDeck ~= wtfdeckval and not notifywtfdeck then
-		notifywtfdeck = true
-		togabalatro.systemchanges({ source = 'wtfdeck', uifunc = togabalatro.needrestartwtfdeck })
+function love.update(dt)
+	if togabalatro then
+		-- Hello everybody, my name is Windiplier.
+		if love.window.isMinimized() and not ismin then
+			ismin = true
+			togabalatro.playwindowsfx('min')
+		elseif ismin and not love.window.isMinimized() then
+			ismin = false
+			togabalatro.playwindowsfx('restup')
+		elseif love.window.isMaximized() and not ismax then
+			ismax = true
+			togabalatro.playwindowsfx('max')
+		elseif ismax and not love.window.isMaximized() then
+			ismax = false
+			togabalatro.playwindowsfx('restdw')
+		end
+		
+		if togabalatro.config.EnableQE ~= qeval and not notifyrestart then
+			notifyrestart = true
+			togabalatro.systemchanges({ source = 'qe', uifunc = togabalatro.needrestartqeui })
+		end
+		
+		if togabalatro.config.BMPAllItems ~= bmpcurval and not notifyitemreinit then
+			notifyitemreinit = true
+			togabalatro.config.mpnotice = nil
+			togabalatro.systemchanges({ source = 'bmp', uifunc = togabalatro.needrestartbmpui })
+		end
+		
+		if togabalatro.config.KingCDIDeck ~= kingcdival and not notifykingcdi then
+			notifykingcdi = true
+			togabalatro.systemchanges({ source = 'kingcdi', uifunc = togabalatro.needrestartkingcdi })
+		end
+		
+		if togabalatro.config.WTFDeck ~= wtfdeckval and not notifywtfdeck then
+			notifywtfdeck = true
+			togabalatro.systemchanges({ source = 'wtfdeck', uifunc = togabalatro.needrestartwtfdeck })
+		end
 	end
 	
 	loveupdref(dt)
@@ -723,6 +725,11 @@ function Game:main_menu(ctx)
 	if togabalatro.stjcheck() then
 		G.E_MANAGER:add_event(Event({
 			func = function() togabalatro.stjnotice() return true end
+		}))
+	end
+	if togabalatro.checksiiva() then
+		G.E_MANAGER:add_event(Event({
+			func = function() togabalatro.qualatronotice() return true end
 		}))
 	end
     return r

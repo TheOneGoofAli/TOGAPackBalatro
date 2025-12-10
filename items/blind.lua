@@ -206,6 +206,14 @@ SMODS.Blind{
 	dollars = 5,
 	mult = 2,
 	boss = { min = 4 },
+	in_pool = function(self)
+		if G.GAME and G.GAME.round_resets and G.GAME.round_resets.ante and (tonumber(to_number(G.GAME.round_resets.ante)) or 0) >= 4 then
+			for k, v in pairs(G.playing_cards) do
+				if SMODS.has_no_rank(v) then return true end
+			end
+		end
+		return false
+	end,
 	debuff_hand = function(self, cards, hand, handname, check)
 		for k, v in ipairs(cards or {}) do
 			if SMODS.has_no_rank(v) then return false end

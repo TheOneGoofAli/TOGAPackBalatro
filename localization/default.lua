@@ -2330,6 +2330,10 @@ return {
 				"has multibox descriptions. As such, because some items in TOGA's Stuff use",
 				"them, they will use different localization entries instead."
 			},
+			toga_qualatro = {
+				"Qualatro detected",
+				"Custom music added by TOGA's Stuff may not play.",
+			},
 			toga_talismanjoke = {
 				"Talisman detected", "Numbers WILL be compared to tables.", "You've been warned.",
 			},

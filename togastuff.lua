@@ -127,7 +127,7 @@ SMODS.Sound({
 	key = "music_balatro98",
 	path = "balatro98.ogg",
 	select_music_track = function()
-		return togabalatro.config.UseCustomMMMusic and G.STAGE == G.STAGES.MAIN_MENU
+		return (not togabalatro.checksiiva()) and togabalatro.config.UseCustomMMMusic and G.STAGE == G.STAGES.MAIN_MENU
 		or togabalatro.config.BoosterPackMusic and G.pack_cards and not G.screenwipe and G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER
 		and (SMODS.OPENED_BOOSTER.config.center.key == 'p_toga_togazipboosterpack' or SMODS.OPENED_BOOSTER.config.center.key == 'p_toga_togaziparchivepack'
 		or SMODS.OPENED_BOOSTER.config.center.key == 'p_toga_togararpack' or SMODS.OPENED_BOOSTER.config.center.key == 'p_toga_togacardcabpack'
@@ -139,7 +139,8 @@ SMODS.Sound({
 	key = "music_spbattacklose",
 	path = "O_SPBA_L.ogg",
 	select_music_track = function()
-		return G.STATE == G.STATES.GAME_OVER and togabalatro.config.SpecialDeckMusic and G.GAME.selected_back.effect.center.key == 'b_toga_srb2kartdeck' and G.OVERLAY_MENU and G.OVERLAY_MENU:get_UIE_by_ID('game_over_UI') and 69420
+		return G.STATE == G.STATES.GAME_OVER and togabalatro.config.SpecialDeckMusic and G.GAME.selected_back.effect.center.key == 'b_toga_srb2kartdeck'
+		and G.OVERLAY_MENU and G.OVERLAY_MENU:get_UIE_by_ID('game_over_UI') and not togabalatro.checksiiva() and 69420
 	end,
 	sync = false,
 	pitch = 1,
@@ -150,7 +151,8 @@ SMODS.Sound({
 	key = "music_spbattackwin",
 	path = "O_SPBA_W.ogg",
 	select_music_track = function()
-		return G.SETTINGS.paused and G.GAME.won and togabalatro.config.SpecialDeckMusic and G.GAME.selected_back.effect.center.key == 'b_toga_srb2kartdeck' and G.OVERLAY_MENU and G.OVERLAY_MENU:get_UIE_by_ID('you_win_UI') and 69420
+		return G.SETTINGS.paused and G.GAME.won and togabalatro.config.SpecialDeckMusic and G.GAME.selected_back.effect.center.key == 'b_toga_srb2kartdeck'
+		and G.OVERLAY_MENU and G.OVERLAY_MENU:get_UIE_by_ID('you_win_UI') and not togabalatro.checksiiva() and 69420
 	end,
 	sync = false,
 	pitch = 1,
@@ -162,7 +164,7 @@ SMODS.Sound({
 	path = "upgradestation.ogg",
 	pitch = 1,
 	select_music_track = function()
-		return togabalatro.config.UseCustomModTabMusic and SMODS.LAST_SELECTED_MOD_TAB and G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI.id == "TOGAPack" and 2
+		return togabalatro.config.UseCustomModTabMusic and SMODS.LAST_SELECTED_MOD_TAB and G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI.id == "TOGAPack" and not togabalatro.checksiiva() and 2
 	end,
 })
 
@@ -653,6 +655,10 @@ end
 
 togabalatro.checkbmp = function()
 	return next(SMODS.find_mod('Multiplayer')) or false
+end
+
+togabalatro.checksiiva = function()
+	return next(SMODS.find_mod('Qualatro')) or false
 end
 
 -- As Talisman is now optional and we have some items using this, best keep these.

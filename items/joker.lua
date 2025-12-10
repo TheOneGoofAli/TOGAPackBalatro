@@ -2775,14 +2775,14 @@ togabalatro.bmpexclude = {
 
 -- Absolute exclusions.
 togabalatro.bmpbreakingitems = {
-	['drivespace'] = true, ['wscript'] = true, ['joker203'] = true
+	['drivespace'] = true, ['wscript'] = true, ['joker203'] = true, ['albanianvirus'] = true
 }
 
 -- Actually go through the initialization of Jokers.
 local intjkrname = "j_toga_"
 togabalatro.canjokerload = function(key)
 	if type(key) ~= 'string' then return false end
-	if togabalatro.checkbmp() and togabalatro.bmpexclude[key] and not togabalatro.bmpbreakingitems[key] and not togabalatro.config.BMPAllItems then
+	if togabalatro.checkbmp() and (togabalatro.bmpexclude[key] or togabalatro.bmpbreakingitems[key]) and not togabalatro.config.BMPAllItems then
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Skipping loading of "..intjkrname..key.." due to presence of Balatro Multiplayer.", "TOGAPack") end
 		return false
 	end
