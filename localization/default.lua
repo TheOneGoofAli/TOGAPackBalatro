@@ -2438,6 +2438,7 @@ return {
 			toga_startupsfxuse = "Use selected SFX for next game startup",
 			toga_windowsfxuse = "SFX when window state changes",
 			toga_crashsfxuse = "Play a sound when game crashes",
+			toga_titlecard = "Removes card from title screen",
 			toga_qestuff = "Quantum enhancement / Blissful Deck*",
 			toga_kingcdideck = "Harkinian Deck*",
 			toga_wtfdecktoggle = "WIT Deck*",

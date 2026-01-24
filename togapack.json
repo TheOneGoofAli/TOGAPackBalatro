@@ -10,5 +10,5 @@
 	"version": "1.12.2",
 	"dependencies": ["Steamodded (>=1.0.0~BETA-1224a)"],
 	"conflicts": ["Talisman (<<2.4.0*~)"],
-	"allow_redistribution": true,
+	"allow_redistribution": true
 }

@@ -21,4 +21,5 @@ return {
 	["WindowSFXUse"] = true,
 	["WindowSFXTheme"] = 13,
 	["BonusLoadScreen"] = false,
+	["RemoveTogaTitleCard"] = false,
 }
