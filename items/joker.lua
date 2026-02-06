@@ -452,7 +452,7 @@ table.insert(jokers, {
 				func = function()
 					local names = {}
 					for k, v in ipairs(G.handlist) do
-						if G.GAME.hands[v] and G.GAME.hands[v].visible then names[#names+1] = v end
+						if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then names[#names+1] = v end
 					end
 					if next(names) then
 						local hand = pseudorandom_element(names, pseudoseed('ie'))
@@ -1228,9 +1228,10 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'nonebattery',
-	config = { extra = { xmult = 2 } },
+	config = { extra = { xmult = 2, bm = 6 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult } }
+		local state = love.system.getPowerInfo() or ''
+		return { key = state ~= 'nobattery' and self.key.."_alt" or self.key, vars = { card.ability.extra.xmult, SMODS.signed_dollars(card.ability.extra.bm) } }
 	end,
 	unlocked = true,
 	in_pool = function()
@@ -1239,7 +1240,7 @@ table.insert(jokers, {
 	rarity = 1,
 	atlas = 'TOGAJokersMain',
 	pos = { x = 5, y = 6 },
-	cost = 4,
+	cost = 5,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
 		if context.joker_main then
@@ -1247,6 +1248,10 @@ table.insert(jokers, {
 			if state == 'nobattery' then return { xmult = card.ability.extra.xmult } end
 		end
 	end,
+	calc_dollar_bonus = function(self, card)
+		local state = love.system.getPowerInfo() or ''
+		if state ~= 'nobattery' then return card.ability.extra.bm end
+    end,
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
@@ -1812,9 +1817,10 @@ table.insert(jokers, {
 	atlas = 'TOGAJokersBeOS',
 	pos = { x = 0, y = 0 },
 	cost = 6,
-	blueprint_compat = false,
+	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.ending_shop and not context.blueprint then
+		if context.ending_shop then
+			local ccard = context.retrigger_joker or context.blueprint_card or card
 			G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
 			return { func = function()
 				G.E_MANAGER:add_event(Event({func = function()
@@ -1822,7 +1828,7 @@ table.insert(jokers, {
 						G.E_MANAGER:add_event(Event({func = function()
 							play_sound('timpani')
 							SMODS.add_card({ key = 'c_toga_glteapot' })
-							card:juice_up()
+							ccard:juice_up()
 							return true
 						end}))
 						delay(0.6)
@@ -2112,6 +2118,9 @@ table.insert(jokers, {
 		return { vars = { card.ability.extra.curmult > 0 and card.ability.extra.curmult or (G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.planet or 0) * card.ability.extra.bonusmult, card.ability.extra.bonusmult } }
 	end,
 	unlocked = true,
+	in_pool = function()
+		return togabalatro.config.ShowPower
+	end,
 	rarity = 2,
 	atlas = 'TOGAJokersOther',
 	pos = { x = 0, y = 1 },
@@ -2125,7 +2134,8 @@ table.insert(jokers, {
 		end
 		
 		if (context.joker_main or context.forcetrigger) and card.ability.extra.curmult > 0 then return { mult = card.ability.extra.curmult } end
-	end
+	end,
+	poweritem = true
 })
 
 table.insert(jokers, {
@@ -2181,12 +2191,11 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'mcanvil',
-	config = { extra = { curxmult = 0, steelxmult = 0.5 } },
+	config = { extra = { ixmult = 0.05 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_toga_iron
-		card.ability.extra.steelxmult = math.max(card.ability.extra.steelxmult, 0.5)
-		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { 1+card.ability.extra.curxmult, card.ability.extra.steelxmult } }
+		return { vars = { card.ability.extra.ixmult } }
 	end,
 	unlocked = true,
 	rarity = 3,
@@ -2194,7 +2203,7 @@ table.insert(jokers, {
 	pos = { x = 2, y = 1 },
 	soul_pos = { x = 4, y = 1 },
 	cost = 8,
-	blueprint_compat = true,
+	blueprint_compat = false,
 	calculate = function(self, card, context)
 		if context.before and not context.blueprint then
 			if context.scoring_hand and #context.scoring_hand > 0 then
@@ -2204,6 +2213,7 @@ table.insert(jokers, {
 					if v.config.center.key == 'm_steel' and not v.debuff and not v.anviled then
 						steel = steel + 1
 						v.anviled = true
+						v.ability.perma_h_x_mult = (v.ability.perma_h_x_mult or 0) + card.ability.extra.ixmult
 						G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
 							card:juice_up()
 							v.anviled = nil
@@ -2212,21 +2222,8 @@ table.insert(jokers, {
 						card_eval_status_text(v, 'extra', nil, nil, nil, {message = localize('toga_anviltrigger'), sound = not silent and togabalatro.config.SFXWhenTriggered and 'toga_anviluse', pitch = not silent and togabalatro.config.SFXWhenTriggered and togabalatro.randompitch()})
 					end
 				end
-				if steel > 0 then
-					SMODS.scale_card(card, {
-						ref_table = card.ability.extra,
-						ref_value = "curxmult",
-						scalar_value = "steelxmult",
-						operation = function(ref_table, ref_value, initial, change)
-							ref_table[ref_value] = initial + steel*change
-						end,
-						scaling_message = {message = localize('k_upgrade_ex').." x"..steel, sound = togabalatro.config.SFXWhenTriggered and 'toga_xporb'}
-					})
-				end
 			end
 		end
-		
-		if context.joker_main then return { xmult = 1+card.ability.extra.curxmult } end
 	end
 })
 
@@ -2701,6 +2698,17 @@ table.insert(jokers, {
 })
 
 table.insert(jokers, {
+	key = 'achemoth',
+	unlocked = true,
+	rarity = 2,
+	atlas = 'TOGAJokerMoth',
+	pos = { x = 0, y = 0 },
+	cost = 6,
+	display_size = { w = 71 * 1.63, h = 95 },
+	pixel_size = { w = 71, h = 95 }
+})
+
+table.insert(jokers, {
 	key = 'chrome',
 	config = { extra = { xmult = 1.5, process = 'Chrome', totalxmult = 0 } },
 	loc_vars = function(self, info_queue, card)
@@ -2923,11 +2931,6 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'albanianvirus',
-	loc_vars = function(self, info_queue, card)
-		if card.ability.albavirusactive then
-			info_queue[#info_queue + 1] = {key = "toga_albavirusinfo", set = 'Other'}
-		end
-	end,
 	unlocked = true,
 	in_pool = function()
 		return togabalatro.config.JokeJokersActive -- Should only spawn if allowed to via config!
@@ -2939,38 +2942,58 @@ table.insert(jokers, {
 	no_collection = true,
 	cost = 1,
 	blueprint_compat = false,
+	perishable_compat = false,
 	calculate = function(self, card, context)
-		if (context.selling_card and not context.selling_self) or context.remove_playing_cards then
-			card.ability.albavirusactive = nil
-		elseif context.selling_self and card.ability.albavirusactive then
-			G.STATE = G.STATES.GAME_OVER
-			if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then 
-				G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-			end
-			G:save_settings()
-			G.FILE_HANDLER.force = true
-			G.STATE_COMPLETE = false
+		if context.setting_blind and context.blind and context.blind.boss then
+			local eval = function() return G.GAME.blind.in_blind == false or card.ability.baljeets end
+			juice_card_until(card, eval, true)
 		end
-	end,
-	add_to_deck = function(self, card, from_debuff)
-		if G.STAGE == G.STAGES.RUN and not G.screenwipe and not from_debuff then
-			card.ability.albavirusactive = true
-			togabalatro.albavirusnoted()
+		
+		if context.remove_playing_cards and context.removed and next(context.removed) then
+			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+				update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+					play_sound('tarot1')
+					card:juice_up(0.8, 0.5)
+					G.TAROT_INTERRUPT_PULSE = true
+					return true end }))
+				update_hand_text({delay = 0}, {mult = '+', StatusText = true})
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+					play_sound('tarot1')
+					card:juice_up(0.8, 0.5)
+					return true end }))
+				update_hand_text({delay = 0}, {chips = '+', StatusText = true})
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+					play_sound('tarot1')
+					card:juice_up(0.8, 0.5)
+					G.TAROT_INTERRUPT_PULSE = nil
+					return true end }))
+				update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+0.25'})
+				delay(1.3)
+				for k, v in pairs(G.GAME.hands) do
+					level_up_hand(card, k, true, 0.25)
+				end
+				update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+					SMODS.debuff_card(card, 'baljeet', 'baljeet')
+					SMODS.destroy_cards(card, true, nil, true)
+				return true end }))
+			return true end }))
 		end
-	end,
-	remove_from_deck = function(self, card, from_debuff)
-		if card.ability.albavirusactive and not from_debuff then
-			G.STATE = G.STATES.GAME_OVER
-			if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then 
-				G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
-			end
-			G:save_settings()
-			G.FILE_HANDLER.force = true
-			G.STATE_COMPLETE = false
+		
+		if context.end_of_round and context.main_eval and context.beat_boss then
+			card.ability.baljeets = true
+			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+				SMODS.debuff_card(card, 'baljeet', 'baljeet')
+				SMODS.destroy_cards(card, true, nil, true)
+			return true end }))
 		end
 	end,
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
+	end,
+	set_ability = function(self, card, initial, delay_sprites)
+		card:set_eternal(true)
 	end,
 	jokeitem = true,
 	remainhidden = true
@@ -3004,6 +3027,8 @@ if Talisman then
 						table.insert(results, {
 							ee_mult = card.ability.extra.part > 1 and card.ability.extra.part or nil,
 							eemult_message = card.ability.extra.part > 1 and {message = localize{ type = "variable", key = "toga_EEmult", vars = { card.ability.extra.part } }, colour = G.C.MULT, sound = "talisman_eemult"} or nil,
+							card = context.blueprint_card or card,
+							message_card = context.other_consumeable
 						})
 					end
 					return SMODS.merge_effects(results)
@@ -3011,6 +3036,8 @@ if Talisman then
 					return {
 						ee_mult = card.ability.extra.part > 1 and card.ability.extra.part or nil,
 						eemult_message = card.ability.extra.part > 1 and {message = localize{ type = "variable", key = "toga_EEmult", vars = { card.ability.extra.part } }, colour = G.C.MULT, sound = "talisman_eemult"} or nil,
+						card = context.blueprint_card or card,
+						message_card = context.other_consumeable
 					}
 				end
 			end
@@ -3056,7 +3083,7 @@ if Talisman then
 		perishable_compat = false,
 		calculate = function(self, card, context)
 			if context.joker_main then
-				local echipcalc = (1 + (card.ability.extra.cardechip*#G.playing_cards))
+				local echipcalc = G.playing_cards and 1 + (card.ability.extra.cardechip*#G.playing_cards) or 1
 				return {
 					e_chips = echipcalc > 1 and echipcalc or nil,
 					echip_message = echipcalc > 1 and {message = localize{ type = "variable", key = "toga_Echip", vars = { echipcalc } }, colour = G.C.DARK_EDITION, sound = "talisman_echip"} or nil
@@ -3087,12 +3114,12 @@ end
 togabalatro.bmpexclude = {
 	['monitor'] = true, ['chrome'] = true, ['firefox'] = true, ['jimboplus'] = true, ['gamecontrollers'] = true,
 	['dragndrop'] = true, ['nonebattery'] = true, ['cpu'] = true, ['pcmcia'] = true, ['pso2ironwill'] = true,
-	['drivespace'] = true, ['wscript'] = true, ['albanianvirus'] = true, ['jokersrb2kart'] = true
+	['drivespace'] = true, ['wscript'] = true, ['jokersrb2kart'] = true
 }
 
 -- Absolute exclusions.
 togabalatro.bmpbreakingitems = {
-	['pso2ironwill'] = true, ['drivespace'] = true, ['wscript'] = true, ['albanianvirus'] = true, ['jokersrb2kart'] = true
+	['pso2ironwill'] = true, ['drivespace'] = true, ['wscript'] = true, ['jokersrb2kart'] = true
 }
 
 -- Actually go through the initialization of Jokers.

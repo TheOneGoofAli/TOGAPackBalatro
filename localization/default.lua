@@ -150,6 +150,24 @@ return {
 					"Start with a {C:attention}TOGA{} Joker",
 				}
 			},
+			b_toga_coffeedeck = {
+				name = 'Coffee Bean Deck',
+				text = {
+					"{X:attention,C:white}X0.8{} base,",
+					"{X:attention,C:white}X1.25{} per-level",
+					"{C:blue}Chips{} and {C:red}Mult",
+					"on poker hands",
+				}
+			},
+			b_toga_meshdeck = {
+				name = 'Meshed Deck',
+				text = {
+					"{X:attention,C:white}X1.25{} base,",
+					"{X:attention,C:white}X0.8{} per-level",
+					"{C:blue}Chips{} and {C:red}Mult",
+					"on poker hands",
+				}
+			},
 		},
 		Blind = {
 			bl_toga_dialupmodem = {
@@ -259,26 +277,9 @@ return {
 			j_toga_mcanvil = {
 				name = 'Anvil',
 				text = {
-					{
-						"Played {C:attention}Steel Cards{} are",
-						"{C:attention}converted{} to {C:attention}Iron Cards{}",
-						"when scored"
-					},
-					{
-						"This Joker gains {X:mult,C:white}X#2#{} Mult",
-						"for every {C:attention}Steel Card{}",
-						"converted this way",
-						"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive} Mult){}"
-					}
-				}
-			},
-			j_toga_mcanvil_stj = {
-				name = 'Anvil',
-				text = {
-					"This Joker {C:attention}converts{} scoring {C:attention}Steel Cards{}",
-					"to {C:attention}Iron Cards{} and gains {X:mult,C:white}X#2#{} Mult",
-					"for each one converted",
-					"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive} Mult){}"
+					"Played {C:attention}Steel Cards{} are {C:attention}converted{}",
+					"to {C:attention}Iron Cards{} and permanently gain",
+					"{C:attention}held in hand{} {X:mult,C:white}X#1#{} Mult when scored",
 				}
 			},
 			j_toga_taskmgr = {
@@ -807,8 +808,8 @@ return {
 				text = {
 					"{s:0.9}Hi, I am an Albanian virus but because of poor technology in",
 					"{s:0.9}my country unfortunately I am not able to harm your run.",
-					"{s:0.9}Please be so kind to destroy one of your important",
-					"{s:0.9}cards yourself and then forward me to other users. Many thanks",
+					"{s:0.9}Please be so kind to {C:attention,s:0.9}destroy{s:0.9} one of your important",
+					"{s:0.9}{C:attention,s:0.9}cards{s:0.9} yourself and then forward me to the {C:attention,s:0.9}boss{s:0.9}. Many thanks",
 					"{s:0.9}for your cooperation! Best regards,Albanian virus"
 				}
 			},
@@ -1012,6 +1013,16 @@ return {
 				}
 			},
 			j_toga_hammer = {
+				name = {'Hammer', '{s:0.6}(Atom Smasher)'},
+				text = {
+					"{C:attention}Held in hand Glass{} cards",
+					"are also {C:attention}scored{} as if they",
+					"had been {C:attention}played{} but their",
+					"{C:green}chance{} to {C:red}break{} is {C:attention}doubled{}",
+					"{C:inactive,s:0.8}Anyone remember Atom Smasher?{}"
+				}
+			},
+			j_toga_hammer_stj = {
 				name = 'Hammer',
 				text = {
 					"{C:attention}Held in hand Glass{} cards",
@@ -1133,6 +1144,13 @@ return {
 				text = {
 					"{X:mult,C:white}X#1#{} Mult when system",
 					"does {C:attention}not{} have a {C:attention}battery",
+				}
+			},
+			j_toga_nonebattery_alt = {
+				name = 'None Battery',
+				text = {
+					"Earn {C:money}#2#{} at end of round",
+					"when system {C:attention}has{} a {C:attention}battery",
 				}
 			},
 			j_toga_dragndrop = {
@@ -1281,7 +1299,7 @@ return {
 				text = {
 					"If a {C:planet}Planet{} card for",
 					"{C:attention}scoring poker hand{} is held,",
-					"{X:purple,C:white}X1.97{} {C:attention}base{} Chips and Mult",
+					"{X:purple,C:white}X1.97{} {C:attention}base{} {C:chips}Chips{} and {C:mult}Mult",
 					"{C:inactive,s:0.8}(Does not stack with copies.)"
 				}
 			},
@@ -1471,6 +1489,13 @@ return {
 					"{C:attention}Consumeable{} is used",
 				}
 			},
+			j_toga_achemoth = {
+				name = 'Achemon Sphinx',
+				text = {
+					"{C:attention}Two Pairs{} count as",
+					"{C:attention}Full Houses",
+				}
+			},
 		},
 		Enhanced = {
 			m_toga_notification = {
@@ -1604,6 +1629,48 @@ return {
 					"{C:green}#2# in #3#{} chance",
 					"to {C:red}destroy{} card",
 					"No rank or suit",
+				},
+			},
+			m_toga_constantan = {
+				name = "Constantan Card",
+				text = {
+					"Retrigger this card",
+					"{C:attention}#1#{} times",
+				},
+			},
+			m_toga_lead = {
+				name = "Lead Card",
+				text = {
+					"{C:enhanced,E:1}Heavy{}",
+					"{s:0.9}Never scores",
+				},
+			},
+			m_toga_zinc = {
+				name = "Zinc Card",
+				text = {
+					"{s:0.9}When destroyed, other",
+					"{s:0.9}playing cards gain",
+					"{s:0.9}permanent {C:red,s:0.9}#1#{s:0.9} Mult",
+				},
+			},
+			m_toga_brass = {
+				name = "Brass Card",
+				text = {
+					"{C:attention}Increased",
+					"area limit",
+					"when held",
+				},
+			},
+			m_toga_enderium = {
+				name = "Enderium Card",
+				text = {
+					"{X:purple,C:white,s:0.9}X#1#{} {C:attention,s:0.9}total {C:chips,s:0.9}Chips{s:0.9} and {C:mult,s:0.9}Mult",
+				},
+			},
+			m_toga_platinum = {
+				name = "Platinum Card",
+				text = {
+					"{C:planet,E:1}Otherworldly{}",
 				},
 			},
 		},
@@ -2195,6 +2262,28 @@ return {
 					"= 1x Refined Glowstone",
 				},
 			},
+			toga_alloyconstantan = {
+				name = "Constantan Card Recipe",
+				text = {
+					"1x Copper + 1x Nickel",
+					"= 2x Constantan",
+				},
+			},
+			toga_alloybrass = {
+				name = "Brass Card Recipe",
+				text = {
+					"1x Copper + 1x Zinc",
+					"= 2x Brass",
+				},
+			},
+			toga_alloyenderium = {
+				name = "Enderium Card Recipe",
+				text = {
+					"3x Lead + 1x Platinum",
+					"+ 1x any Spectral held (consumed)",
+					"= 4x Lumium",
+				},
+			},
 			toga_togateal_sticker={
                 name = "Teal (TOGA) Sticker",
                 text = {
@@ -2203,6 +2292,21 @@ return {
                     "{C:attention}Stake{} difficulty",
                 },
             },
+			toga_heavycard = {
+				name = "Heavy Card (Passive)",
+				text = {
+					"{X:attention,C:white}X#1#{} Blind requirement",
+					"{C:inactive,s:0.8}(Stacks with other {C:attention,s:0.8}Lead{C:inactive,s:0.8} cards)"
+				},
+			},
+			toga_otherworldlycard = {
+				name = "Otherworldly Card (Passive)",
+				text = {
+					"If played, {C:green}#1# in #2#{} chance to",
+					"{C:attention}upgrade{} a {C:attention}random{} poker hand",
+					"after hand is played",
+				},
+			},
 		},
 		Partner = {
 			pnr_toga_startupdisk={
@@ -2375,6 +2479,9 @@ return {
 			toga_invarrecipe = "2x Iron + 1x Nickel = 3x Invar",
 			toga_lumiumrecipe = "3x Tin + 1x Silver + 1x Glowstone (consumed) = 4x Lumium",
 			toga_refglowstonerecipe = "1x Osmium + 1x Glowstone (consumed) = 1x Refined Glowstone",
+			toga_constantanrecipe = "1x Copper + 1x Nickel = 2x Constantan",
+			toga_brassrecipe = "1x Copper + 1x Zinc = 2x Brass",
+			toga_enderiumrecipe = "3x Lead + 1x Platinum + 1x held Spectral (consumed) = 4x Enderium",
 			toga_alloy = "Alloy",
 			toga_crafttarot = "Crafting Tarot",
 			toga_minetarot = "Mining Tarot",
@@ -2559,7 +2666,7 @@ return {
 				"ERROR", "An unknown error has occured whilst writing to config file.", "Exit Balatro and delete the TOGAPack.jkr file manually."
 			},
 			toga_albavirusnote = {
-				"WARNING", "You just obtained Albanian Virus for the first time!", "You are recommended to read the 'Heads Up!' tooltip", "when hovering over the Joker for your own sake."
+				"WARNING", "You just obtained Albanian Virus for the first time!", "You are recommended to read the Joker description carefully."
 			},
 			toga_bmpnormal = {
 				"Balatro Multiplayer detected", "Because TOGA's Stuff has not been tested with Balatro Multiplayer,", "you may experience unexpected crashes with specific items.",
@@ -2587,6 +2694,18 @@ return {
 			},
 			toga_talismanjoke = {
 				"Talisman detected", "Pray nothing compares numbers to tables."
+			},
+			toga_pwx = {
+				"POLTERWORX detected",
+				"Please note that some items of TOGA's Stuff may produce",
+				"unexpected behaviour, not work correctly or cause",
+				"crashes with POLTERWORX present.",
+			},
+			toga_incantation = {
+				"Incantation detected",
+				"Please note that some items of TOGA's Stuff may not",
+				"work as intended or cause crashes when stacked due to how",
+				"Incantation handles consumeable stacking.",
 			},
 		},
 	}

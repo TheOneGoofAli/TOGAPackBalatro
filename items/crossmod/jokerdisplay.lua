@@ -879,47 +879,6 @@ togabalatro.jd_def["j_toga_asterism"] = {
 	end
 }
 
-togabalatro.jd_def["j_toga_mcanvil"] = {
-	text = {
-		{
-			border_nodes = {
-				{ text = "X" },
-				{ ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" }
-			}
-		},
-	},
-	reminder_text = {
-		{
-			border_nodes = {
-				{ text = "+X", colour = G.C.UI.TEXT_LIGHT },
-				{ ref_table = "card.joker_display_values", ref_value = "steelxmult", colour = G.C.UI.TEXT_LIGHT }
-			}
-		},
-		{ text = " (" },
-		{ ref_table = "card.joker_display_values", ref_value = "steels" },
-		{ text = ")" },
-	},
-	calc_function = function(card)
-		local _, _, hand = JokerDisplay.evaluate_hand()
-		local steels, isleftmost = 0, false
-		if G.jokers then
-			local anvils = {}
-			for i = 1, #G.jokers.cards do
-				if G.jokers.cards[i].config.center.key == "j_toga_mcanvil" then table.insert(anvils, G.jokers.cards[i]); break end
-			end
-			if anvils[1] and anvils[1] == card then isleftmost = true end
-		end
-		if isleftmost then
-			for _, v in pairs(hand) do
-				if v.config.center.key == 'm_steel' and not v.debuff then steels = steels + 1 end
-			end
-		end
-		card.joker_display_values.steels = steels
-		card.joker_display_values.steelxmult = steels*card.ability.extra.steelxmult
-		card.joker_display_values.xmult = 1+card.ability.extra.curxmult
-	end
-}
-
 togabalatro.jd_def["j_toga_spacecadetpinball"] = {
 	text = {
 		{ text = "1", colour = G.C.FILTER },

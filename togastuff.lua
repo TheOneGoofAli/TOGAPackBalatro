@@ -71,6 +71,32 @@ togabalatro.calculate = function(self, context)
 			end
 		end
 	end
+	
+	if context.after then
+		for _, c in ipairs(context.full_hand) do
+			if c and SMODS.has_enhancement(c, 'm_toga_platinum') and SMODS.pseudorandom_probability(c, 'toga_platinum', 1, c.ability.owodds) then
+				local names = {}
+				for k, v in ipairs(G.handlist) do
+					if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then names[#names+1] = v end
+				end
+				if next(names) then
+					local hand = pseudorandom_element(names, pseudoseed('otherworldly'))
+					SMODS.calculate_effect({ level_up = true, level_up_hand = hand or G.GAME.last_hand_played }, c)
+				end
+			end
+		end
+	end
+	
+	if context.remove_playing_cards and context.removed and next(context.removed) then
+		for k, v in pairs(context.removed) do
+			if SMODS.has_enhancement(v, 'm_toga_zinc') and tonumber(v.ability.toga_gmult) then
+				SMODS.calculate_effect({ message = localize('k_upgrade_ex') }, G.deck.cards[1] or G.deck)
+				for _, c in pairs(G.playing_cards or {}) do
+					c.ability.perma_mult = (c.ability.perma_mult or 0) + v.ability.toga_gmult
+				end
+			end
+		end
+	end
 end
 
 togabalatro.nfs = require('nativefs')
@@ -265,7 +291,7 @@ SMODS.ObjectType{
 		["j_toga_skifree_skier"] = true, ["j_toga_skifree_yeti"] = true, ["j_toga_mmc"] = true,
 		["j_toga_chipchallenge"] = true, ["j_toga_franziska"] = true, ["j_toga_sonicthehedgehog"] = true,
 		["j_toga_genie"] = true, ["j_toga_kauru"] = true, ["j_toga_victor"] = true,
-		["j_toga_softram"] = true,
+		["j_toga_softram"] = true, ["j_toga_achemoth"] = true, 
 	}
 }
 
@@ -479,7 +505,7 @@ togabalatro.chipchallenge_handchoice = function(joker)
 	if not (joker and joker.ability and type(joker.ability.extra) == 'table') then return end
 	local names = {}
 	for k, v in ipairs(G.handlist) do
-		if G.GAME.hands[v] and G.GAME.hands[v].visible then names[#names+1] = v end
+		if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then names[#names+1] = v end
 	end
 	if next(names) then
 		local hand = pseudorandom_element(names, pseudoseed('challengedchips'))
@@ -866,7 +892,7 @@ togabalatro.handlimitchange = function(val, set_to, ptype)
 	end
 end
 
--- Do additional stuff when playing a hand.
+-- Additional stuff when playing a hand.
 togabalatro.playextracards = function()
 	-- SMS enhancement.
 	local sms_deck = {}
@@ -908,15 +934,19 @@ togabalatro.getconscount = function()
 	return count
 end
 
-local overflowcheck, incantationcheck = next(SMODS.find_mod('Overflow')) and Overflow, next(SMODS.find_mod('Incantation')) and Incantation
+local overflowcheck, incantationcheck, saturncheck = next(SMODS.find_mod('Overflow')) and Overflow, next(SMODS.find_mod('Incantation')) and Incantation, next(SMODS.find_mod('Saturn')) and Saturn
 -- Check for Overflow or Incantation...
 togabalatro.stackingcompat = function(consumable)
-	-- The new and shiny Overflow!
-	if overflowcheck and consumable and consumable.ability and consumable.ability.immutable and consumable.ability.immutable.overflow_amount then
+	if not (consumable and consumable.ability) then return end
+	-- Overflow check.
+	if overflowcheck and consumable.ability.immutable and consumable.ability.immutable.overflow_amount then
 		return true, consumable.ability.immutable.overflow_amount
-	-- ...but Incantation exists too, I guess.
-	elseif incantationcheck and consumable and consumable.ability and consumable.ability.qty then
-		return true, consumable.ability.qty
+	-- Incantation check.
+	elseif incantationcheck and consumable.ability.qty then
+		return true, consumable:getQty() or consumable.ability.qty
+	-- Saturn check.
+	elseif saturncheck and consumable.ability.amt then
+		return true, consumable.ability.amt
 	end
 end
 
@@ -932,16 +962,6 @@ togabalatro.postloadinit = function()
 		end
 	end
 	-- TOGA-TARGET: post-mod-init
-end
-
--- In case Incantation is used, check if it is the specific fork version so that the consumeables don't do unintended things...
-if SMODS.Mods['incantation'] and SMODS.Mods['incantation'].can_load and not SMODS.Mods['incantation'].togafork and not string.find(SMODS.Mods['incantation'].version, '-TOGA_fork') then
-	error([[
-	Please obtain TheOneGoofAli's fork of Incantation to prevent unintended behaviour of the consumeables
-	added by TOGA's Stuff at https://github.com/TheOneGoofAli/JensBalatroCollection in order to continue.
-	Otherwise, remove it or add a '.lovelyignore' file into its' folder to disable it.
-	Alternatively, why not check out Overflow at https://github.com/lord-ruby/Overflow for stacking too?
-	]], 0)
 end
 
 -- I've not done such loading since making Windows for SRB2, but as the content is split off from this main file, gotta do it!

@@ -36,11 +36,17 @@ togabalatro.oredict.invar = {'m_toga_invar'}
 togabalatro.oredict.glowstone = {'m_toga_glowstone'}
 togabalatro.oredict.lumium = {'m_toga_lumium'}
 togabalatro.oredict.chocolate = {'m_toga_chocolate'}
+togabalatro.oredict.constantan = {'m_toga_constantan'}
+togabalatro.oredict.lead = {'m_toga_lead'}
+togabalatro.oredict.zinc = {'m_toga_zinc'}
+togabalatro.oredict.brass = {'m_toga_brass'}
+togabalatro.oredict.enderium = {'m_toga_enderium'}
+togabalatro.oredict.platinum = {'m_toga_platinum'}
 
 -- Set up a global pool of 'minerals' in our OreDictionary.
-togabalatro.oredict.minerals = {'m_gold', 'm_toga_coalcoke', 'm_toga_iron', 'm_toga_copper', 'm_toga_tin', 'm_toga_silver', 'm_toga_osmium', 'm_toga_redstone', 'm_toga_nickel', 'm_toga_glowstone'}
+togabalatro.oredict.minerals = {'m_gold', 'm_toga_coalcoke', 'm_toga_iron', 'm_toga_copper', 'm_toga_tin', 'm_toga_silver', 'm_toga_osmium', 'm_toga_redstone', 'm_toga_nickel', 'm_toga_glowstone', 'm_toga_lead', 'm_toga_zinc', "m_toga_platinum"}
 -- ...and one for alloys.
-togabalatro.oredict.alloys = {'m_toga_electrum', 'm_toga_bronze', 'm_toga_signalum', 'm_toga_invar', 'm_toga_lumium', 'm_toga_refinedglowstone'}
+togabalatro.oredict.alloys = {'m_toga_electrum', 'm_toga_bronze', 'm_toga_signalum', 'm_toga_invar', 'm_toga_lumium', 'm_toga_refinedglowstone', 'm_toga_constantan', 'm_toga_brass', 'm_toga_enderium'}
 
 togabalatro.is_mineral = function(card)
 	if not card then return false end
@@ -210,6 +216,54 @@ togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selca
 	return osmium and glowstone and osmium ~= glowstone, { cards = { osmium }, destroycard = { glowstone }, allcards = { osmium, glowstone } }, 'm_toga_refinedglowstone', localize('toga_refglowstonerecipe')
 end
 
+-- 1x Copper + 1x Nickel = 2x Constantan
+togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
+	selcards = selcards or {}
+	local copper, nickel = nil, nil
+	for i, v in ipairs(selcards) do
+		if togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper = v end
+		if togabalatro.oredictcheck(v, togabalatro.oredict.nickel) then nickel = v end
+	end
+	return copper and nickel and copper ~= nickel, { cards = { copper, nickel } }, 'm_toga_constantan', localize('toga_constantanrecipe')
+end
+
+-- 1x Copper + 1x Zinc = 2x Brass
+togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
+	selcards = selcards or {}
+	local copper, zinc = nil, nil
+	for i, v in ipairs(selcards) do
+		if togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper = v end
+		if togabalatro.oredictcheck(v, togabalatro.oredict.zinc) then zinc = v end
+	end
+	return copper and zinc and copper ~= zinc, { cards = { copper, zinc } }, 'm_toga_brass', localize('toga_brassrecipe')
+end
+
+-- 3x Lead + 1x Platinum = 4x Enderium (must also hold a Spectral card in Consumeables)
+togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
+	local spectral
+	for k, v in ipairs((G.consumeables or {}).cards) do
+		if v.ability.set == 'Spectral' then spectral = v; break end
+	end
+	if not spectral then return end
+	
+	selcards = selcards or {}
+	local lead1, lead2, lead3, platinum = nil, nil, nil, nil
+	local lead1ok, lead2ok, lead3ok, platinumok = false, false, false, false
+	local iter, iterlimit = 0, 100
+	for i, v in ipairs(selcards) do
+		repeat -- scary jank, but works.
+			iter = iter + 1
+			if not lead1ok and togabalatro.oredictcheck(v, togabalatro.oredict.lead) then lead1 = v; lead1ok = true; break end
+			if not lead2ok and togabalatro.oredictcheck(v, togabalatro.oredict.lead) then lead2 = v; lead2ok = true; break end
+			if not lead3ok and togabalatro.oredictcheck(v, togabalatro.oredict.lead) then lead3 = v; lead3ok = true; break end
+			if not platinumok and togabalatro.oredictcheck(v, togabalatro.oredict.platinum) then platinum = v; break end
+		until (lead1ok and lead2ok and lead3ok and platinumok) or iter > iterlimit
+	end
+	
+	return lead1 and lead2 and lead3 and platinum and spectral and lead1 ~= platinum and lead1 ~= spectral and lead1 ~= lead2 and lead2 ~= lead3 and lead1 ~= lead3,
+		 { cards = { lead1, lead2, lead3, platinum }, destroycard = { spectral }, allcards = { lead1, lead2, lead3, platinum, spectral } }, 'm_toga_enderium', localize('toga_enderiumrecipe')
+end
+
 -- Check recipe.
 togabalatro.checkvalidrecipe = function()
 	local text, recipetxt, userecipetxt = localize('toga_novalidrecipe'), localize('toga_unknownvalidrecipe'), false
@@ -227,7 +281,7 @@ togabalatro.checkvalidrecipe = function()
 end
 
 -- Valid recipe text stuff.
-togabalatro.currentrecipetxt = {"toga_alloysteel", "toga_alloyelectrum", "toga_alloybronze", "toga_alloysignalum", "toga_alloyinvar", "toga_alloylumium", "toga_alloyrefglowstone"}
+togabalatro.currentrecipetxt = {"toga_alloysteel", "toga_alloyelectrum", "toga_alloybronze", "toga_alloysignalum", "toga_alloyinvar", "toga_alloylumium", "toga_alloyrefglowstone", "toga_alloyconstantan", "toga_alloyenderium"}
 
 -- Feel the heat of the Smeltery.
 SMODS.Consumable{
@@ -283,11 +337,11 @@ SMODS.Consumable{
 		
 		if cardtable.destroycard and #cardtable.destroycard > 0 then
 			local destroyed_cards = {}
-			for k, dcard in ipairs(G.hand.cards) do
+			--for k, dcard in ipairs(G.hand.cards) do
 				for i, v in ipairs(cardtable.destroycard) do
-					if v == dcard then destroyed_cards[#destroyed_cards+1] = dcard end
+					destroyed_cards[#destroyed_cards+1] = v
 				end
-			end
+			--end
 			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
 				play_sound('tarot1')
 				card:juice_up(0.3, 0.5)
@@ -308,7 +362,7 @@ SMODS.Consumable{
 		if to_big(G.GAME.dollars) - to_big(card.ability.extra.usecost) >= to_big(G.GAME.bankrupt_at) then return true end
 	end,
 	set_badges = function(self, card, badges)
-        badges[#badges] = create_badge(localize('toga_crafttarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1.2)
+        badges[#badges+1] = create_badge(localize('toga_crafttarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 0.9)
     end,
 	pixel_size = { w = 71, h = 77 },
 	perishable_compat = false,
@@ -376,13 +430,15 @@ SMODS.Consumable {
 		end
 	end,
 	set_badges = function(self, card, badges)
-        badges[#badges] = create_badge(localize('toga_minetarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1.2)
+        badges[#badges+1] = create_badge(localize('toga_minetarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 0.9)
     end,
 	pixel_size = { w = 71, h = 77 },
 	perishable_compat = false,
 	eternal_compat = false,
 	can_stack = false,
-	toga_donotreuse = true
+	toga_donotreuse = true,
+	no_bulkuse = true,
+	can_mass_use = false,
 }
 
 SMODS.Consumable {
@@ -429,7 +485,9 @@ SMODS.Consumable {
 	perishable_compat = false,
 	eternal_compat = false,
 	poweritem = true,
-	toga_donotreuse = true
+	toga_donotreuse = true,
+	no_bulkuse = true,
+	can_mass_use = false,
 }
 
 -- SPB function.
@@ -488,7 +546,9 @@ SMODS.Consumable{
 	perishable_compat = false,
 	eternal_compat = false,
 	can_stack = false,
-	toga_donotreuse = true
+	toga_donotreuse = true,
+	no_bulkuse = true,
+	can_mass_use = false,
 }
 
 SMODS.Consumable {
@@ -526,7 +586,9 @@ SMODS.Consumable {
 		end
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
 	end,
-	poweritem = true
+	poweritem = true,
+	no_bulkuse = true,
+	can_mass_use = false,
 }
 
 SMODS.Consumable {
@@ -564,7 +626,9 @@ SMODS.Consumable {
 		delay(0.2)
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
 	end,
-	poweritem = true
+	poweritem = true,
+	no_bulkuse = true,
+	can_mass_use = false,
 }
 
 SMODS.Consumable {
@@ -602,7 +666,9 @@ SMODS.Consumable {
 		delay(0.2)
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
 	end,
-	poweritem = true
+	poweritem = true,
+	no_bulkuse = true,
+	can_mass_use = false,
 }
 
 SMODS.Consumable {
@@ -640,7 +706,9 @@ SMODS.Consumable {
 		end
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
 	end,
-	poweritem = true
+	poweritem = true,
+	no_bulkuse = true,
+	can_mass_use = false,
 }
 
 SMODS.Consumable {
@@ -706,7 +774,9 @@ SMODS.Consumable {
 	end,
 	pixel_size = { w = 71, h = 77 },
 	poweritem = true,
-	can_stack = false
+	can_stack = false,
+	no_bulkuse = true,
+	can_mass_use = false,
 }
 
 SMODS.Consumable {
@@ -726,7 +796,10 @@ SMODS.Consumable {
 		return false
 	end,
 	calculate = function(self, card, context)
-		if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then return { dollars = card.ability.extra.money } end
+		if context.end_of_round and context.main_eval then
+			local isstack, qty = togabalatro.stackingcompat(card)
+			return { dollars = isstack and qty and card.ability.extra.money*qty or card.ability.extra.money }
+		end
 	end,
 	no_collection = true,
 	pixel_size = { w = 56, h = 95 },

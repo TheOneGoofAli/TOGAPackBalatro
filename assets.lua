@@ -29,6 +29,7 @@ SMODS.Atlas{key = "TOGAJokersPSO2", path = "togapso2.png", px = 71, py = 95}
 SMODS.Atlas{key = "TOGASonic", path = "togasonic.png", px = 75, py = 95}
 SMODS.Atlas{key = "TOGASuperSonic", path = "togasupersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 3, fps = 4}
 SMODS.Atlas{key = "TOGAHyperSonic", path = "togahypersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 12, fps = 4}
+SMODS.Atlas{key = "TOGAJokerMoth", path = "togajokersm.png", px = 116, py = 95}
 SMODS.Atlas{key = "modicon", path = "togaicon.png", px = 34, py = 34, atlas_table = 'ANIMATION_ATLAS', frames = 6, fps = 3}
 
 -- Hear me scream.

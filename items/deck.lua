@@ -138,6 +138,7 @@ SMODS.Back{
 							cardtable[i]:remove()
 						end
 					end
+					G.GAME.starting_deck_size = #G.playing_cards or 4
 					add_tag(Tag('tag_coupon'))
 					play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
 					play_sound('holo1', 0.4, 1)
@@ -283,6 +284,54 @@ SMODS.Back{
 			func = function()
 				if G.jokers then
 					SMODS.add_card({ set = 'TOGAJKR' })
+					return true
+				end
+			end,
+		}))
+	end,
+}
+
+SMODS.Back{
+	key = "coffeedeck",
+	pos = { x = 2, y = 2 },
+	atlas = "TOGADeckBack",
+	unlocked = true,
+	apply = function(self, back)
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if G.GAME.hands then
+					for _, h in pairs(G.GAME.hands) do
+						h.s_chips = to_big(h.s_chips)*0.8
+						h.s_mult = to_big(h.s_mult)*0.8
+						h.l_chips = to_big(h.l_chips)*1.25
+						h.l_mult = to_big(h.l_mult)*1.25
+						h.mult = math.max(to_big(h.s_mult) + to_big(h.l_mult)*(to_big(h.level) - to_big(1)), to_big(1))
+						h.chips = math.max(to_big(h.s_chips) + to_big(h.l_chips)*(to_big(h.level) - to_big(1)), to_big(0))
+					end
+					return true
+				end
+			end,
+		}))
+	end,
+}
+
+SMODS.Back{
+	key = "meshdeck",
+	pos = { x = 3, y = 2 },
+	atlas = "TOGADeckBack",
+	unlocked = true,
+	apply = function(self, back)
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if G.GAME.hands then
+					for _, h in pairs(G.GAME.hands) do
+						h.s_chips = to_big(h.s_chips)*1.25
+						h.s_mult = to_big(h.s_mult)*1.25
+						h.l_chips = to_big(h.l_chips)*0.8
+						h.l_mult = to_big(h.l_mult)*0.8
+						h.mult = math.max(to_big(h.s_mult) + to_big(h.l_mult)*(to_big(h.level) - to_big(1)), to_big(1))
+						h.chips = math.max(to_big(h.s_chips) + to_big(h.l_chips)*(to_big(h.level) - to_big(1)), to_big(0))
+					end
 					return true
 				end
 			end,
