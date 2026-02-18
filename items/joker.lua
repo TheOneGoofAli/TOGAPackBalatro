@@ -3082,7 +3082,7 @@ end
 if Talisman then
 	table.insert(jokers, {
 		key = 'quacksoft',
-		config = { extra = { cardechip = 0.1 } },
+		config = { extra = { cardechip = 0.05 } },
 		loc_vars = function(self, info_queue, card)
 			local c = G.play and G.play.cards or G.hand and G.hand.highlighted or {}
 			local amt = type(c) == 'table' and #c or 0
