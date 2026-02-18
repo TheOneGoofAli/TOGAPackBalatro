@@ -1238,14 +1238,7 @@ table.insert(jokers, {
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff)
-		if G.STAGE == G.STAGES.RUN and not G.screenwipe then
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					change_shop_size(-1)
-					return true
-				end
-			}))
-		end
+		G.GAME.shop.joker_max = G.GAME.shop.joker_max - 1
 	end
 })
 
