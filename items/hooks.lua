@@ -959,6 +959,26 @@ local function toga_reusecons(self, area, copier, reuser)
 	end
 end
 
+local ofburef = Overflow and Overflow.bulk_use
+if Overflow and ofburef then
+	function Overflow.bulk_use(card, area, amount)
+		local ret = ofburef(card, area, amount)
+		local consusecalc = {}
+		SMODS.calculate_context({toga_reuse_consumeable = card, toga_overflow_bulkuse = true}, consusecalc)
+		for _, eval in pairs(consusecalc) do
+			for key, eval2 in pairs(eval) do
+				if eval2.card and tonumber(eval2.amount) and math.floor(eval2.amount) >= 1 then
+					for i = 1, eval2.amount do
+						SMODS.calculate_effect({message = localize('k_again_ex')}, eval2.card)
+						ofburef(card, area, amount)
+					end
+				end
+			end
+		end
+		return ret
+	end
+end
+
 function Card:use_consumeable(area, copier)
 	local ret = carduseconsref(self, area, copier)
 	-- Consumeable reuse/retrigger context.

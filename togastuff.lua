@@ -944,16 +944,16 @@ togabalatro.getconscount = function()
 end
 
 local overflowcheck, incantationcheck, saturncheck = next(SMODS.find_mod('Overflow')) and Overflow, next(SMODS.find_mod('Incantation')) and Incantation, next(SMODS.find_mod('Saturn')) and Saturn
--- Check for Overflow or Incantation...
+-- Check for Overflow or Incantation... or Saturn?
 togabalatro.stackingcompat = function(consumable)
 	if not (consumable and consumable.ability) then return end
 	-- Overflow check.
-	if overflowcheck and consumable.ability.immutable and consumable.ability.immutable.overflow_amount then
-		return true, consumable.ability.immutable.overflow_amount
-	-- Incantation check.
+	if overflowcheck and consumable:getQty() or consumable.ability.immutable and consumable.ability.immutable.overflow_amount then
+		return true, consumable:getQty() or consumable.qty
+	-- Incantation check, although this will be deprecated.
 	elseif incantationcheck and consumable.ability.qty then
 		return true, consumable:getQty() or consumable.ability.qty
-	-- Saturn check.
+	-- Saturn check... why?
 	elseif saturncheck and consumable.ability.amt then
 		return true, consumable.ability.amt
 	end

@@ -549,6 +549,7 @@ SMODS.Consumable{
 	toga_donotreuse = true,
 	no_bulkuse = true,
 	can_mass_use = false,
+	can_bulk_use = false
 }
 
 SMODS.Consumable {
@@ -588,6 +589,7 @@ SMODS.Consumable {
 	end,
 	poweritem = true,
 	no_bulkuse = true,
+	can_bulk_use = false,
 	can_mass_use = false,
 }
 
@@ -628,6 +630,7 @@ SMODS.Consumable {
 	end,
 	poweritem = true,
 	no_bulkuse = true,
+	can_bulk_use = false,
 	can_mass_use = false,
 }
 
@@ -668,6 +671,7 @@ SMODS.Consumable {
 	end,
 	poweritem = true,
 	no_bulkuse = true,
+	can_bulk_use = false,
 	can_mass_use = false,
 }
 
@@ -708,6 +712,7 @@ SMODS.Consumable {
 	end,
 	poweritem = true,
 	no_bulkuse = true,
+	can_bulk_use = false,
 	can_mass_use = false,
 }
 
@@ -776,6 +781,7 @@ SMODS.Consumable {
 	poweritem = true,
 	can_stack = false,
 	no_bulkuse = true,
+	can_bulk_use = false,
 	can_mass_use = false,
 }
 
@@ -809,5 +815,6 @@ SMODS.Consumable {
 	pixel_size = { w = 56, h = 95 },
 	can_stack = false,
 	no_bulkuse = true,
+	can_bulk_use = false,
 	can_mass_use = false,
 }
