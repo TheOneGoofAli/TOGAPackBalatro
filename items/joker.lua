@@ -2586,7 +2586,7 @@ table.insert(jokers, {
 	key = 'speedsneakers',
 	config = { extra = { xmultpart = 0.12, dollars = 5 } },
 	loc_vars = function(self, info_queue, card)
-		local total = togabalatro.gethowmuch(card.ability.extra.dollars, card.ability.extra.xmultpart)
+		local total = togabalatro.gethowmuch(card.ability.extra.dollars, card.ability.extra.xmultpart)*card.ability.extra.xmultpart
 		return { vars = { card.ability.extra.xmultpart, card.ability.extra.dollars, to_big(1)+to_big(total) > to_big(1) and to_big(1)+to_big(total) or to_big(1) } }
 	end,
 	unlocked = true,
@@ -2598,7 +2598,7 @@ table.insert(jokers, {
 	pixel_size = { w = 69, h = 74 },
 	calculate = function(self, card, context)
 		if context.joker_main then
-			local total = togabalatro.gethowmuch(card.ability.extra.dollars, card.ability.extra.xmultpart)
+			local total = togabalatro.gethowmuch(card.ability.extra.dollars, card.ability.extra.xmultpart)*card.ability.extra.xmultpart
 			return { xmult = to_big(1)+to_big(total) > to_big(1) and to_big(1)+to_big(total) or 1 }
 		end
 	end,
