@@ -74,7 +74,7 @@ togabalatro.calculate = function(self, context)
 	
 	if context.after then
 		for _, c in ipairs(context.full_hand) do
-			if c and SMODS.has_enhancement(c, 'm_toga_platinum') and SMODS.pseudorandom_probability(c, 'toga_platinum', 1, c.ability.owodds) then
+			if c and SMODS.has_enhancement(c, 'm_toga_platinum') and SMODS.pseudorandom_probability(c, 'toga_platinum', 1, c.ability.owodds or 5) then
 				local names = {}
 				for k, v in ipairs(G.handlist) do
 					if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then names[#names+1] = v end
@@ -89,10 +89,11 @@ togabalatro.calculate = function(self, context)
 	
 	if context.remove_playing_cards and context.removed and next(context.removed) then
 		for k, v in pairs(context.removed) do
-			if SMODS.has_enhancement(v, 'm_toga_zinc') and tonumber(v.ability.toga_gmult) then
+			if SMODS.has_enhancement(v, 'm_toga_zinc') then
+				local m = v.ability.toga_gmult or 1
 				SMODS.calculate_effect({ message = localize('k_upgrade_ex') }, G.deck.cards[1] or G.deck)
 				for _, c in pairs(G.playing_cards or {}) do
-					c.ability.perma_mult = (c.ability.perma_mult or 0) + v.ability.toga_gmult
+					c.ability.perma_mult = (c.ability.perma_mult or 0) + m
 				end
 			end
 		end
