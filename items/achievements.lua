@@ -79,9 +79,9 @@ SMODS.Achievement {
 	bypass_all_unlocked = true,
 	hidden_text = true,
 	unlock_condition = function(self, args)
-		if args and args.type and args.type == 'supersoniccheck_toga' then
+		if args and args.type and args.type == 'hypersoniccheck_toga' then
 			local ac = args.card
-			if ac and ac.config and ac.config.center and ac.config.center.key and ac.config.center.key == 'j_toga_supersonicthehedgehog' then
+			if ac and ac.config and ac.config.center and ac.config.center.key and ac.config.center.key == 'j_toga_hypersonicthehedgehog' then
 				return true
 			end
 		end
