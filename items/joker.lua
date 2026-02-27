@@ -786,17 +786,8 @@ table.insert(jokers, {
 	key = 'netscapenavigator',
 	unlocked = true,
 	in_pool = function()
-		if G.playing_cards then
-			for i = 1, #G.playing_cards do
-				if G.playing_cards[i] and G.playing_cards[i].edition and G.playing_cards[i].edition.holo then return true end
-			end
-		end
-		for k, v in pairs(G.jokers, G.consumeables, G.vouchers) do
-			if type(v) == 'table' and v.cards then
-				for _, c in pairs(v.cards) do
-					if c and c.edition and c.edition.holo then return true end
-				end
-			end
+		for k, v in pairs({G.playing_cards, G.jokers and G.jokers.cards, G.consumeables and G.consumeables.cards, G.vouchers and G.vouchers.cards}) do
+			if v and v.edition and v.edition.holo then return true end
 		end
 	end,
 	rarity = 3,
@@ -805,12 +796,15 @@ table.insert(jokers, {
 	cost = 8,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if (context.retrigger_joker_check and not context.retrigger_joker) or context.repetition then
+		if (context.retrigger_joker_check and not context.retrigger_joker) then
+			local isnn = context.other_card and context.other_card.config and context.other_card.center and context.other_card.config.center.key and context.other_card.config.center.key == 'j_toga_netscapenavigator'
+			if not isnn then return { repetitions = 1 } end
+		end
+		
+		if context.repetition then
 			local othcrd = context.other_card
 			if othcrd and othcrd ~= card and othcrd.edition and othcrd.edition.holo then
-				if not (context.retrigger_joker_check and othcrd.config and othcrd.config.center and othcrd.config.center.key and othcrd.config.center.key == 'j_toga_netscapenavigator') then
-					return { repetitions = 1 }
-				end
+				return { repetitions = 1 }
 			end
 		end
 	end,

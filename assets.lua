@@ -186,7 +186,7 @@ SMODS.Sound({
 	path = "upgradestation.ogg",
 	pitch = 1,
 	select_music_track = function()
-		return togabalatro.config.UseCustomModTabMusic and SMODS.LAST_SELECTED_MOD_TAB and G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI.id == "TOGAPack" and not togabalatro.checksiiva() and 2007
+		return togabalatro.config.UseCustomModTabMusic and SMODS.LAST_SELECTED_MOD_TAB and G.ACTIVE_MOD_UI and G.ACTIVE_MOD_UI.id == "TOGAPack" and not togabalatro.checksiiva() and 69421
 	end,
 })
 
