@@ -2574,6 +2574,7 @@ return {
 			toga_wtfdecktoggle = "WIT Deck*",
 			toga_titlescreencard = "Add 'Windows 95' card to main menu",
 			toga_achievementsfxuse = "Play custom sound when getting mods' achievements",
+			toga_applyretroactiveplcm = "Apply changes to per-level Chips and Mult of poker hands retroactively*",
 			toga_restartrequire = "* Restart required",
 			toga_sfxswaptext = "SFX Swap Level:",
 			toga_sfxswapnone = "None",
@@ -2704,6 +2705,9 @@ return {
 			},
 			toga_needrestartstjfix = {
 				"Mod Config Change", "You must restart Balatro before changes to the", "Slay the Jokers fix will take effect.", "", "Do you want to restart Balatro now?"
+			},
+			toga_needrestartra = {
+				"Mod Config Change", "You must restart Balatro before changes to the", "retroactive application will take effect.", "", "Do you want to restart Balatro now?"
 			},
 			toga_bonusloadscreenrestart = {
 				"Mod Config Change", "You must restart Balatro before changes to the", "loading screen will take effect.", "", "Do you want to restart Balatro now?"

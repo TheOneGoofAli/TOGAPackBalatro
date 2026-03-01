@@ -22,5 +22,6 @@ return {
 	["WindowSFXTheme"] = 13,
 	["BonusLoadScreen"] = false,
 	["TitleScreenCard"] = true,
-	["AchievementSFX"] = true
+	["AchievementSFX"] = true,
+	["PLCMRetroactive"] = false,
 }

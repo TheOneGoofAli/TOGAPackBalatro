@@ -692,6 +692,8 @@ local qeval, notifyrestart = togabalatro.config.EnableQE, false
 local bmpcurval, notifyitemreinit = togabalatro.config.BMPAllItems, false
 local kingcdival, notifykingcdi = togabalatro.config.KingCDIDeck, false
 local wtfdeckval, notifywtfdeck = togabalatro.config.WTFDeck, false
+local tcval = togabalatro.config.TitleScreenCard
+local raval, notifyra = togabalatro.getretroactive(), false
 sendInfoMessage("Hooking love.update...", "TOGAPack")
 function love.update(dt)
 	if togabalatro then
@@ -710,6 +712,11 @@ function love.update(dt)
 				ismax = false
 				togabalatro.playwindowsfx('restdw')
 			end
+		end
+		
+		if tcval ~= togabalatro.config.TitleScreenCard then
+			tcval = togabalatro.config.TitleScreenCard
+			togabalatro.setmenucardsfunc()
 		end
 		
 		if togabalatro.config.EnableQE ~= qeval and not notifyrestart then
@@ -731,6 +738,11 @@ function love.update(dt)
 		if togabalatro.config.WTFDeck ~= wtfdeckval and not notifywtfdeck then
 			notifywtfdeck = true
 			togabalatro.systemchanges({ source = 'wtfdeck', uifunc = togabalatro.needrestartwtfdeck })
+		end
+		
+		if togabalatro.config.PLCMRetroactive ~= raval and not notifyra then
+			notifyra = true
+			togabalatro.systemchanges({ source = 'retroactiveapply', uifunc = togabalatro.needrestartretroactive })
 		end
 	end
 	

@@ -135,16 +135,19 @@ end
 
 togabalatro.getrandcons = function(seed)
 	seed = seed or 'grep'
-	local getconspool = get_current_pool('Consumeables')
+	local getconspool = SMODS.get_clean_pool('Consumeables')
 	local curcons, iter, iterlimit = nil, 0, 2222
 	while iter < iterlimit do
 		curcons = pseudorandom_element(getconspool, pseudoseed(seed))
+		iter = iter + 1
 		if curcons ~= "UNAVAILABLE" then break end
 	end
 	if curcons and curcons ~= "UNAVAILABLE" then return curcons else return "c_tower" end
 end
 
 togabalatro.iswindows = function(card)
+	if not (card and card.config and card.config.center and card.config.center.key) then return end
+	
 	if card.config.center.key == 'j_toga_win95' or card.config.center.key == 'j_toga_win98'
 	or card.config.center.key == 'j_toga_win98' or card.config.center.key == 'j_toga_winmillenium'
 	or card.config.center.key == 'j_toga_win2000' or card.config.center.key == 'j_toga_winxp'
@@ -223,39 +226,124 @@ togabalatro.execstartupsfx = function(change_context)
 		play_sound(togabalatro.startupsfx[togabalatro.config.StartUpSFX.Selected], 1, 0.5)
 	end
 	togabalatro.has_tried_startup = true
-	
+end
+
+-- ...oh well.
+togabalatro.setmenucardsfunc = function()
+	if not (togabalatro and togabalatro.config and type(togabalatro.config.TitleScreenCard) == 'boolean') then return end
 	if togabalatro.config.TitleScreenCard then
-		-- Sneak our title screen card addition here.
-		local replace_card = Card(G.title_top.T.x, G.title_top.T.y, G.CARD_W, G.CARD_H, nil, G.P_CENTERS.j_toga_win95)
-		replace_card.click = function() G.FUNCS.openModUI_TOGAPack() end
-		G.title_top.T.w = G.title_top.T.w*1.7675
-		G.title_top.T.x = G.title_top.T.x - 0.8
-		replace_card.T.w = replace_card.T.w*1.1*1.2
-		replace_card.T.h = replace_card.T.h*1.1*1.2
-		G.title_top:emplace(replace_card)
-
-		replace_card.states.visible = false
-		replace_card.no_ui = true
-		replace_card.ambient_tilt = 0.0
-
-		G.E_MANAGER:add_event(Event({
-			trigger = 'after',
-			delay = change_context == 'game' and 1.5 or 0,
-			blockable = false,
-			blocking = false,
-			func = (function()
-				if change_context == 'splash' then 
-					replace_card.states.visible = true
-					replace_card:start_materialize({G.C.WHITE,G.C.WHITE}, true, 2.5)
-					play_sound('whoosh1', math.random()*0.1 + 0.3,0.3)
-					play_sound('crumple'..math.random(1,5), math.random()*0.2 + 0.6,0.65)
-				else
-					replace_card.states.visible = true
-					replace_card:start_materialize({G.C.WHITE,G.C.WHITE}, nil, 1.2)
+		togabalatro.menu_cards = function()
+			return {
+				{ key = 'j_toga_win95' },
+				func = function()
+					for _, c in pairs(G.title_top and G.title_top.cards or {}) do
+						if c and c.config and c.config.center and c.config.center.key and c.config.center.key == 'j_toga_win95' then
+							c.click = function() G.FUNCS.openModUI_TOGAPack() end
+							break
+						end
+					end
 				end
-				G.VIBRATION = G.VIBRATION + 1
-				return true
-		end)}))
+			}
+		end
+	else
+		togabalatro.menu_cards = nil
+	end
+	if togabalatro.config.DoMoreLogging then sendInfoMessage("menu_cards definition updated.", "TOGAPack") end
+end
+togabalatro.setmenucardsfunc()
+
+-- Moved here instead.
+local retroactive = togabalatro.config.PLCMRetroactive
+togabalatro.getretroactive = function() return retroactive end
+togabalatro.modifyhandchipsmult = function(card, hand, instant, context, bchips, bmult, lchips, lmult)
+	bchips, bmult, lchips, lmult = bchips or 0, bmult or 0, lchips or 0, lmult or 0
+	context = context or {}
+	local cbc, cbm, clc, clm = tonumber(to_number(bchips) or 0) ~= 0, tonumber(to_number(bmult) or 0) ~= 0, tonumber(to_number(lchips) or 0) ~= 0, tonumber(to_number(lmult) or 0) ~= 0
+	local cbase, clevel = (cbc or cbm) and true or false, (clc or clm) and true or false
+	if not (cbase or clevel or hand) then return end
+	local prevals
+	if SMODS.displaying_scoring and not (SMODS.displayed_hand == hand) then
+		prevals = copy_table(G.GAME.current_round.current_hand)
+		prevals.level = (G.GAME.hands[prevals.handname] or {}).level or ''
+		prevals.chips = hand_chips
+		prevals.mult = mult
+	end
+	if not (instant or Talisman and Talisman.config_file.disable_anims) then
+		if cbase then
+			update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('toga_basecm').." "..localize(hand, 'poker_hands'), chips = G.GAME.hands[hand].s_chips, mult = G.GAME.hands[hand].s_mult, level=''})
+			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+				play_sound('tarot1')
+				if card then card:juice_up(0.8, 0.5) end
+				G.TAROT_INTERRUPT_PULSE = true
+				return true end }))
+			if cbm then
+				update_hand_text({delay = 0}, {mult = G.GAME.hands[hand].s_mult + bmult, StatusText = true})
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+					play_sound('tarot1')
+					if card then card:juice_up(0.8, 0.5) end
+				return true end }))
+			end
+			if cbc then
+				update_hand_text({delay = 0}, {chips = G.GAME.hands[hand].s_chips + bchips, StatusText = true})
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+					play_sound('tarot1')
+					if card then card:juice_up(0.8, 0.5) end
+				return true end }))
+			end
+			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+				G.TAROT_INTERRUPT_PULSE = nil
+			return true end }))
+			delay(1.3)
+		end
+		if clevel then
+			update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('toga_perlevel').." "..localize(hand, 'poker_hands'), chips = G.GAME.hands[hand].l_chips, mult = G.GAME.hands[hand].l_mult, level=''})
+			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+				play_sound('tarot1')
+				if card then card:juice_up(0.8, 0.5) end
+				G.TAROT_INTERRUPT_PULSE = true
+				return true end }))
+			if clm then
+				update_hand_text({delay = 0}, {mult = G.GAME.hands[hand].l_mult + lmult, StatusText = true})
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+					play_sound('tarot1')
+					if card then card:juice_up(0.8, 0.5) end
+				return true end }))
+			end
+			if clc then
+				update_hand_text({delay = 0}, {chips = G.GAME.hands[hand].l_chips + lchips, StatusText = true})
+				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+					play_sound('tarot1')
+					if card then card:juice_up(0.8, 0.5) end
+				return true end }))
+			end
+			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+				G.TAROT_INTERRUPT_PULSE = nil
+			return true end }))
+			delay(1.3)
+		end
+		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.5}, prevals or {mult = 0, chips = 0, handname = '', level = ''})
+	else
+		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.5}, prevals or {mult = 0, chips = 0, handname = '', level = ''})
+	end
+	
+	if Talisman and Talisman.config_file.disable_anims then
+		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.1, func = function()
+			play_sound('tarot1')
+		return true end }))
+	end
+	if cbase then
+		if togabalatro.config.DoMoreLogging then sendInfoMessage(localize('toga_basecm').." "..localize(hand, 'poker_hands'), "TOGAPack") end
+		if cbc then G.GAME.hands[hand].s_chips = to_big(G.GAME.hands[hand].s_chips) + to_big(bchips) end
+		if cbm then G.GAME.hands[hand].s_mult = to_big(G.GAME.hands[hand].s_mult) + to_big(bmult) end
+	end
+	if clevel then
+		if togabalatro.config.DoMoreLogging then sendInfoMessage(localize('toga_perlevel').." "..localize(hand, 'poker_hands'), "TOGAPack") end
+		if clc then G.GAME.hands[hand].l_chips = to_big(G.GAME.hands[hand].l_chips) + to_big(lchips) end
+		if clm then G.GAME.hands[hand].l_mult = to_big(G.GAME.hands[hand].l_mult) + to_big(lmult) end
+	end
+	if retroactive then
+		if (clm or cbm) then G.GAME.hands[hand].mult = to_big(G.GAME.hands[hand].s_mult) + to_big(G.GAME.hands[hand].l_mult)*(to_big(G.GAME.hands[hand].level) - to_big(1)) end
+		if (clc or cbc) then G.GAME.hands[hand].chips = to_big(G.GAME.hands[hand].s_chips) + to_big(G.GAME.hands[hand].l_chips)*(to_big(G.GAME.hands[hand].level) - to_big(1)) end
 	end
 end
 

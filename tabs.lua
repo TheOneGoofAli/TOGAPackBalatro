@@ -41,22 +41,6 @@ togabalatro.config_tab = function()
 				{n = G.UIT.T, config = { text = localize('toga_startupsfx'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT, tooltip = { title = localize('toga_description'), text = {localize('toga_desc_startupsfx1'), localize('toga_desc_startupsfx2')} } }},
 			}},
 		}},
-		not togabalatro.checksiiva() and {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
-			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
-				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "UseCustomModTabMusic" },
-			}},
-			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
-				{n = G.UIT.T, config = { text = localize('toga_modtabmusicswap'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
-			}},
-		}} or nil,
-		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
-			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
-				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "DoCrashSFX" },
-			}},
-			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
-				{n = G.UIT.T, config = { text = localize('toga_crashsfxuse'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
-			}},
-		}},
 		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
 			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
 				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "TitleScreenCard" },
@@ -67,10 +51,10 @@ togabalatro.config_tab = function()
 		}},
 		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
 			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
-				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "AchievementSFX" },
+				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "PLCMRetroactive" },
 			}},
 			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
-				{n = G.UIT.T, config = { text = localize('toga_achievementsfxuse'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+				{n = G.UIT.T, config = { text = localize('toga_applyretroactiveplcm'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
 			}},
 		}},
 		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
@@ -169,6 +153,14 @@ togabalatro.startupsfx_tab = function()
 		}} or nil,
 		not togabalatro.checksiiva() and {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
 			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
+				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "UseCustomModTabMusic" },
+			}},
+			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
+				{n = G.UIT.T, config = { text = localize('toga_modtabmusicswap'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+			}},
+		}} or nil,
+		not togabalatro.checksiiva() and {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
 				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "BoosterPackMusic" },
 			}},
 			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
@@ -187,6 +179,22 @@ togabalatro.startupsfx_tab = function()
 			}},
 			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
 				UIBox_button({label = {localize('toga_startupsfxtest')}, button = "togabalatro_playsfx", minw = 1.3, minh = 0.7})
+			}},
+		}},
+		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
+				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "DoCrashSFX" },
+			}},
+			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
+				{n = G.UIT.T, config = { text = localize('toga_crashsfxuse'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+			}},
+		}},
+		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
+				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "AchievementSFX" },
+			}},
+			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
+				{n = G.UIT.T, config = { text = localize('toga_achievementsfxuse'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
 			}},
 		}},
 		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {

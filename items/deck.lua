@@ -131,14 +131,6 @@ SMODS.Back{
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				if G.playing_cards then
-					local cardtable = {}
-					for k, v in ipairs(G.playing_cards) do cardtable[#cardtable+1] = v end
-					for i=#cardtable, 1, -1 do
-						if cardtable[i].base.id ~= 14 then
-							cardtable[i]:remove()
-						end
-					end
-					G.GAME.starting_deck_size = #G.playing_cards or 4
 					add_tag(Tag('tag_coupon'))
 					play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
 					play_sound('holo1', 0.4, 1)
@@ -146,7 +138,10 @@ SMODS.Back{
 				end
 			end,
 		}))
-	end
+	end,
+	initial_deck = {
+		Ranks = { 'Ace' }
+	}
 }
 
 SMODS.Back{

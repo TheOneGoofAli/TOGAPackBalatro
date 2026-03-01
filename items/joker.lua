@@ -346,91 +346,6 @@ table.insert(jokers, {
 	end
 })
 
-togabalatro.modifyhandchipsmult = function(card, hand, instant, context, bchips, bmult, lchips, lmult)
-	bchips, bmult, lchips, lmult = bchips or 0, bmult or 0, lchips or 0, lmult or 0
-	context = context or {}
-	local cbase, clevel = (to_number(bchips) ~= 0 or to_number(bmult) ~= 0) and true or false, (to_number(lchips) ~= 0 or to_number(lmult) ~= 0) and true or false
-	if not (cbase or clevel) then return end
-	local prevals
-	if SMODS.displaying_scoring and not (SMODS.displayed_hand == hand) then
-		prevals = copy_table(G.GAME.current_round.current_hand)
-		prevals.level = (G.GAME.hands[prevals.handname] or {}).level or ''
-		prevals.chips = hand_chips
-		prevals.mult = mult
-	end
-	if not (instant or Talisman and Talisman.config_file.disable_anims) then
-		if cbase then
-			update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('toga_basecm').." "..localize(hand, 'poker_hands'), chips = G.GAME.hands[hand].s_chips, mult = G.GAME.hands[hand].s_mult, level=''})
-			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
-				play_sound('tarot1')
-				if card then card:juice_up(0.8, 0.5) end
-				G.TAROT_INTERRUPT_PULSE = true
-				return true end }))
-			if bmult and to_number(bmult) ~= 0 then
-				update_hand_text({delay = 0}, {mult = G.GAME.hands[hand].s_mult + bmult, StatusText = true})
-				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-					play_sound('tarot1')
-					if card then card:juice_up(0.8, 0.5) end
-				return true end }))
-			end
-			if bchips and to_number(bchips) ~= 0 then
-				update_hand_text({delay = 0}, {chips = G.GAME.hands[hand].s_chips + bchips, StatusText = true})
-				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-					play_sound('tarot1')
-					if card then card:juice_up(0.8, 0.5) end
-				return true end }))
-			end
-			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-				G.TAROT_INTERRUPT_PULSE = nil
-			return true end }))
-			delay(1.3)
-		end
-		if clevel then
-			update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('toga_perlevel').." "..localize(hand, 'poker_hands'), chips = G.GAME.hands[hand].l_chips, mult = G.GAME.hands[hand].l_mult, level=''})
-			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
-				play_sound('tarot1')
-				if card then card:juice_up(0.8, 0.5) end
-				G.TAROT_INTERRUPT_PULSE = true
-				return true end }))
-			if lmult and to_number(lmult) ~= 0 then
-				update_hand_text({delay = 0}, {mult = G.GAME.hands[hand].l_mult + lmult, StatusText = true})
-				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-					play_sound('tarot1')
-					if card then card:juice_up(0.8, 0.5) end
-				return true end }))
-			end
-			if lchips and to_number(lchips) ~= 0 then
-				update_hand_text({delay = 0}, {chips = G.GAME.hands[hand].l_chips + lchips, StatusText = true})
-				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-					play_sound('tarot1')
-					if card then card:juice_up(0.8, 0.5) end
-				return true end }))
-			end
-			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-				G.TAROT_INTERRUPT_PULSE = nil
-			return true end }))
-			delay(1.3)
-		end
-		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.5}, prevals or {mult = 0, chips = 0, handname = '', level = ''})
-	else
-		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.5}, prevals or {mult = 0, chips = 0, handname = '', level = ''})
-	end
-	
-	if Talisman and Talisman.config_file.disable_anims then
-		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.1, func = function()
-			play_sound('tarot1')
-		return true end }))
-	end
-	
-	if togabalatro.config.DoMoreLogging then sendInfoMessage(localize('toga_perlevel').." "..localize(hand, 'poker_hands'), "TOGAPack") end
-	G.GAME.hands[hand].s_chips = to_big(G.GAME.hands[hand].s_chips) + to_big(bchips)
-	G.GAME.hands[hand].s_mult = to_big(G.GAME.hands[hand].s_mult) + to_big(bmult)
-	G.GAME.hands[hand].l_chips = to_big(G.GAME.hands[hand].l_chips) + to_big(lchips)
-	G.GAME.hands[hand].l_mult = to_big(G.GAME.hands[hand].l_mult) + to_big(lmult)
-	G.GAME.hands[hand].mult = math.max(to_big(G.GAME.hands[hand].s_mult) + to_big(G.GAME.hands[hand].l_mult)*(to_big(G.GAME.hands[hand].level) - to_big(1)), to_big(1))
-	G.GAME.hands[hand].chips = math.max(to_big(G.GAME.hands[hand].s_chips) + to_big(G.GAME.hands[hand].l_chips)*(to_big(G.GAME.hands[hand].level) - to_big(1)), to_big(0))
-end
-
 table.insert(jokers, {
 	key = 'ie',
 	config = { extra = { phchips = 0.2, phmult = 0.25 } },
@@ -456,7 +371,9 @@ table.insert(jokers, {
 					end
 					if next(names) then
 						local hand = pseudorandom_element(names, pseudoseed('ie'))
-						togabalatro.modifyhandchipsmult(curcard, hand, false, cxt, nil, nil, G.GAME.hands[hand].s_chips*card.ability.extra.phchips, G.GAME.hands[hand].s_mult*card.ability.extra.phmult )
+						if hand and G.GAME.hands[hand] then
+							togabalatro.modifyhandchipsmult(curcard, hand, false, cxt, nil, nil, G.GAME.hands[hand].s_chips*card.ability.extra.phchips, G.GAME.hands[hand].s_mult*card.ability.extra.phmult )
+						end
 					end
 				end
 			}
