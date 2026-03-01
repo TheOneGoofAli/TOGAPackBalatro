@@ -100,7 +100,7 @@ togabalatro.calculate = function(self, context)
 	end
 end
 
-togabalatro.nfs = require('nativefs')
+togabalatro.nfs = require("SMODS.nativefs")
 togabalatro.errorhandler = function()
 	if togabalatro.config.DoCrashSFX and not togabalatro.crashtrig then
 		local afile = togabalatro.mancrashed and togabalatro.path.."/assets/sounds/awwcrap.ogg" or togabalatro.path.."/assets/sounds/macperforma5400.ogg"
