@@ -143,7 +143,7 @@ match_indent = true
 
 [[patches]]
 [patches.pattern]
-target = '=[SMODS _ "src/loader.lua"]'
+target = "main.lua"
 pattern = "love.graphics.setColor(1, 1, 1, 1)"
 position = "after"
 payload = "if type(toga_extraimgdraw) == 'function' then toga_extraimgdraw(progress) end"
@@ -176,6 +176,6 @@ sources = ["base64.lua"]
 
 [[patches]]
 [patches.copy]
-target = '=[SMODS _ "src/loader.lua"]'
+target = "main.lua"
 position = "append"
 sources = ["loads.lua"]

@@ -29,6 +29,8 @@ function G.FUNCS.toga_mancrash()
 	}))
 end
 
+local NFS = togabalatro.nfs
+
 local function writeloadscreenscript(bonus)
 	local fpath = bonus and togabalatro.path.."misc/win31/loads.lua" or togabalatro.path.."misc/filecopy/loads.lua"
 	if not NFS.getInfo(fpath) then return false end
@@ -98,14 +100,14 @@ function togabalatro.clearconfig(only_intro)
 		togabalatro.config.talismannotice = nil
 		SMODS.save_mod_config(togabalatro)
 	else
+		writeloadscreenscript(false)
 		local success = pcall(function()
 			NFS.createDirectory('config')
 			local tconfig = SMODS.load_file("config.lua", "TOGAPack")()
 			local serialized = 'return '..serialize(tconfig)
 			NFS.write(('config/%s.jkr'):format(togabalatro.id), serialized)
 		end)
-		if success then togabalatro.config = nil; SMODS.restart_game()
-		else togabalatro.systemchanges({ source = 'resetconfigerror', uifunc = togabalatro.resetcfgerror}) end
+		if success then SMODS.restart_game() else togabalatro.systemchanges({ source = 'resetconfigerror', uifunc = togabalatro.resetcfgerror}) end
 	end
 end
 
