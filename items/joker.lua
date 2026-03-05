@@ -762,7 +762,7 @@ table.insert(jokers, {
 	key = 'tempinternetfiles',
 	config = { extra = { curxmult = 1, percard = 0.01 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.curxmult, card.ability.extra.percard } }
+		return { vars = { card.ability.extra.curxmult, card.ability.extra.percard, localize('Flush', "poker_hands") } }
 	end,
 	unlocked = true,
 	rarity = 3,
@@ -1865,6 +1865,9 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'solitairejoker',
+	loc_vars = function(self, info_queue, card)
+		return { vars = { localize('Straight', "poker_hands") } }
+	end,
 	unlocked = true,
 	rarity = 2,
 	atlas = 'TOGAJokersOther',
@@ -2443,6 +2446,7 @@ table.insert(jokers, {
 	unlocked = true,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
+		return { vars = { localize('Flush', "poker_hands") } }
 	end,
 	rarity = 2,
 	atlas = 'TOGAJokersOther',
@@ -2457,6 +2461,7 @@ table.insert(jokers, {
 	unlocked = true,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
+		return { vars = { localize('Straight', "poker_hands") } }
 	end,
 	rarity = 2,
 	atlas = 'TOGAJokersOther',
@@ -2634,6 +2639,9 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'achemoth',
+	loc_vars = function(self, info_queue, card)
+		return { vars = { localize('Two Pair', "poker_hands"), localize('Full House', "poker_hands") } }
+	end,
 	unlocked = true,
 	rarity = 2,
 	atlas = 'TOGAJokerMoth',

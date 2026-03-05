@@ -191,7 +191,7 @@ SMODS.Voucher{
 	config = { rarity = 3, extra = { copies = 1 } },
 	loc_vars = function(self, info_queue, card)
 		local actualcopies = math.floor(card.ability.extra.copies)
-		return { key = actualcopies > 1 and self.key..'_multiple' or self.key, vars = { actualcopies > 1 and actualcopies or 1 } }
+		return { key = actualcopies > 1 and self.key..'_multiple' or self.key, vars = { actualcopies > 1 and actualcopies or 1, localize('Flush', "poker_hands") } }
 	end,
 	calculate = function(self, card, context)
 		if card.ability.extra.copies < 1 then card.ability.extra.copies = 1 end -- at least one.

@@ -1,3 +1,5 @@
+local sfit = localize('Straight Flush', "poker_hands")
+
 return {
 	descriptions = {
 		Mod = {
@@ -256,15 +258,6 @@ return {
 					"{C:inactive,s:0.8}Have you updated your system yet?{}",
 				}
 			},
-			j_toga_y2kbug_lite = {
-				name = 'Y2K Bug',
-				text = {
-					"If the played hand contains a",
-					"{C:attention}2{} and a {C:attention}King{}, scoring cards",
-					"give {C:red}+#2#{} Mult",
-					"{C:inactive,s:0.8}Have you updated your system yet?{}",
-				}
-			},
 			j_toga_controlpanel = {
 				name = 'Control Panel',
 				text = {
@@ -312,7 +305,7 @@ return {
 			j_toga_solitairejoker = {
 				name = 'Solitaire Joker',
 				text = {
-					"{C:attention}Straights{} can wrap around",
+					"{C:attention}#1#s{} can wrap around",
 					"{C:inactive}(ex: {C:attention}3{C:inactive}, {C:attention}2{C:inactive}, {C:attention}A{C:inactive}, {C:attention}K{C:inactive}, {C:attention}Q{C:inactive}){}",
 					"{C:inactive,s:0.8}An Office regular.{}"
 				}
@@ -880,7 +873,7 @@ return {
 				name = 'Downloaded Program Files',
 				text = {
 					"Gains {X:mult,C:white}X#2#{} Mult when a card is drawn.",
-					"Resets if {C:blue}played{}/{C:red}discarded{} hand contains a {C:attention}Flush{}.",
+					"Resets if {C:blue}played{}/{C:red}discarded{} hand contains a {C:attention}#3#{}.",
 					"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive} Mult){}",
 				}
 			},
@@ -1274,14 +1267,14 @@ return {
 			j_toga_toiletrock = {
 				name = 'Toilet Rock',
 				text = {
-					"{C:attention}Flushes{} can be made",
+					"{C:attention}#1#es{} can be made",
 					"out of {C:attention}Stone Cards{}",
 				}
 			},
 			j_toga_wishingstones = {
 				name = 'Wishing Stones',
 				text = {
-					"{C:attention}Straights{} can be made",
+					"{C:attention}#1#s{} can be made",
 					"out of {C:attention}Stone Cards{}",
 				}
 			},
@@ -1492,8 +1485,8 @@ return {
 			j_toga_achemoth = {
 				name = 'Achemon Sphinx',
 				text = {
-					"{C:attention}Two Pairs{} count as",
-					"{C:attention}Full Houses",
+					"{C:attention}#1#s{} count as",
+					"{C:attention}#2#s",
 				}
 			},
 		},
@@ -1947,7 +1940,7 @@ return {
 			v_toga_dataflush = {
 				name = "ipconfig /flushdns",
 				text = {
-					"Discarding hands containing a {C:attention}Flush{}",
+					"Discarding hands containing a {C:attention}#2#{}",
 					"creates a {C:dark_edition}Negative{} copy of a random",
 					"{C:attention}consumable{} card currently held."
 				},
@@ -1955,7 +1948,7 @@ return {
 			v_toga_dataflush_multiple = {
 				name = "ipconfig /flushdns",
 				text = {
-					"Discarding hands containing a {C:attention}Flush{}",
+					"Discarding hands containing a {C:attention}#2#{}",
 					"creates #1# {C:dark_edition}Negative{} copies of a random",
 					"{C:attention}consumable{} card currently held."
 				},
@@ -2661,7 +2654,7 @@ return {
 			ach_toga_win10k = 'Have 5 copies of Windows 2000',
 			ach_toga_winmecrash = 'Get Windows ME debuffed',
 			ach_toga_teapots = 'Have 3 or more GLTeapots',
-			ach_toga_sfrock = 'Play a Straight Flush with only Stone Cards',
+			ach_toga_sfrock = 'Play a '..(sfit or 'Straight Flush')..' with only Stone Cards',
 			ach_toga_altloadscrn = 'Activate a different loading screen',
 			ach_toga_altloadscrn_hidden = 'Rumors speak of "ALT" + "D" held together',
 			ach_toga_manualcrash = 'Use the "Crash?" button',
