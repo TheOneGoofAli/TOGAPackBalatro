@@ -220,7 +220,7 @@ togabalatro.startupsfx_tab = function()
 end
 
 togabalatro.getitemsforoptions = function()
-	local items, list = {}, {"j_toga_jokersrb2kart"}
+	local items, list = {}, {}
 	for i, v in ipairs(list) do
 		if G.P_CENTERS[v] and not G.P_CENTERS[v].no_collection then
 			local gencard = Card(G.CARD_W, G.CARD_H, G.CARD_W, G.CARD_H, nil, G.P_CENTERS[v], { bypass_discovery_center = true, bypass_discovery_ui = true })
@@ -229,7 +229,7 @@ togabalatro.getitemsforoptions = function()
 			items[#items+1] = gencard
 		end
 	end
-	return items, #list or 1
+	return items, #list or 0
 end
 
 togabalatro.itemoptions_tab = function()

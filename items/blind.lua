@@ -242,3 +242,16 @@ SMODS.Blind{
 		return true
 	end
 }
+
+-- Add check for a specific deck.
+SMODS.Blind:take_ownership('bl_psychic',
+    {
+		in_pool = function(self)
+			if G.GAME.selected_back.effect.center.key == "b_toga_311deck" then
+				return false
+			end
+			return true
+		end
+    },
+	true
+)

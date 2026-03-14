@@ -40,10 +40,9 @@ return {
 			b_toga_srb2kartdeck = {
 				name = 'Karting Deck',
 				text = {
-					"Start run with",
-					"a special {C:attention,T:j_toga_jokersrb2kart}Karting Joker{}",
-					"{C:spectral,s:0.8}Spectral{s:0.8} cards",
-					"{s:0.8}may appear in shop"
+					"{C:attention}#1#s{} require",
+					"{C:attention}1{} less card",
+					"{C:red}#2#{} hand size",
 				}
 			},
 			b_toga_againdeck = {
@@ -252,7 +251,7 @@ return {
 			j_toga_y2kbug = {
 				name = 'Y2K Bug',
 				text = {
-					"If the played hand contains a",
+					"If played hand contains a",
 					"{C:attention}2{} and a {C:attention}King{}, scoring cards",
 					"give {C:chips}+#1#{} Chips and {C:red}+#2#{} Mult",
 					"{C:inactive,s:0.8}Have you updated your system yet?{}",
@@ -270,9 +269,28 @@ return {
 			j_toga_mcanvil = {
 				name = 'Anvil',
 				text = {
-					"Played {C:attention}Steel Cards{} are {C:attention}converted{}",
-					"to {C:attention}Iron Cards{} and permanently gain",
-					"{C:attention}held in hand{} {X:mult,C:white}X#1#{} Mult when scored",
+					{
+						"Played {C:attention}Steel Cards{} are",
+						"{C:attention}converted{} to {C:attention}Iron Cards{}",
+						"afterwards",
+					},
+					{
+						"Played {C:attention}Iron Cards{} gain",
+						"{C:attention}held in hand{} {X:mult,C:white}X#1#{} Mult",
+						"afterwards"
+					},
+				}
+			},
+			j_toga_mcanvil_stj = {
+				name = 'Anvil',
+				text = {
+					"Played {C:attention}Steel Cards{} are",
+					"{C:attention}converted{} to {C:attention}Iron Cards{}",
+					"afterwards",
+					"",
+					"Played {C:attention}Iron Cards{} gain",
+					"{C:attention}held in hand{} {X:mult,C:white}X#1#{} Mult",
+					"afterwards"
 				}
 			},
 			j_toga_taskmgr = {
@@ -286,11 +304,10 @@ return {
 			j_toga_useraccounts = {
 				name = 'User Accounts',
 				text = {
-					"{C:green}#2# in #3#{} chance for scoring cards to",
-					"give {X:mult,C:white}XMult{} based on half of calculated",
-					"average of remaining {C:chips}hands{} & {C:red}discards{}",
-					"and {C:attention}Joker{} & {C:attention}Consumable{} slots.",
-					"{C:inactive,s:0.9}(Currently {}{X:mult,C:white,s:0.9}X#1#{}{C:inactive,s:0.9} Mult){}",
+					"This Joker gains {C:chips}#2#{} Chips",
+                    "if played hand has a {C:attention}3",
+                    "or exactly {C:attention}3{} cards",
+                    "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
 				}
 			},
 			j_toga_jimbo95 = {
@@ -386,19 +403,12 @@ return {
 			j_toga_jokersrb2kart = {
 				name = 'Karting Joker',
 				text = {
-					"Gains {X:mult,C:white}XMult{} when performing {C:attention}actions{}",
-					"{C:red,s:0.8}Self debuffs if {X:mult,C:white,s:0.8}XMult{C:red,s:0.8} goes below {X:mult,C:white,s:0.8}X1{}{C:red,s:0.8}{}",
+					"Gains {X:mult,C:white}X#2#{} Mult",
+					"if played hand",
+					"contains a {C:attention}#3#{}",
 					"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive} Mult){}",
-					"{C:inactive,s:0.7}I am literally a racer, what's your excuse?{}"
-				}
-			},
-			j_toga_jokersrb2kart_lite = {
-				name = 'Karting Joker',
-				text = {
-					"Gains {X:mult,C:white}X#2#{} Mult when",
-					"{C:attention}entering{} or {C:attention}leaving shop{}",
-					"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive}){}",
-					"{C:inactive,s:0.7}I am literally a racer, what's your excuse?{}"
+					"{C:inactive,s:0.7}I am literally a racer,{}",
+					"{C:inactive,s:0.7}what's your excuse?{}"
 				}
 			},
 			j_toga_whatisthis = {
@@ -481,7 +491,7 @@ return {
 					"{C:chips}+#2#{} Chips per",
 					"any {C:dark_edition}Consumable{}",
 					"used this run",
-					"{C:inactive}(Currently {}{C:chips}+#1#{}{C:inactive}){}",
+					"{C:inactive}(Currently {}{C:chips}#1#{}{C:inactive} Chips){}",
 					'{C:inactive,s:0.8}"the internet is{}',
 					'{C:inactive,s:0.8}gaming right now"'
 				}
@@ -525,7 +535,7 @@ return {
 				name = 'Space Cadet',
 				text = {
 					"After the played cards are {C:attention}scored{},",
-					"{C:green}#3# in 3{} chance to perform {C:attention}additional scoring{}",
+					"{C:green}#3# in #4#{} chance to perform {C:attention}additional scoring{}",
 					"of a {C:attention}random{} card in the scoring hand.",
 					"{s:0.9}For every {C:money,s:0.9}$20{s:0.9} held, try {C:attention,s:0.9}once{s:0.9} more.",
 					"{C:inactive,s:0.8}Currently #2# attempts.{}"
@@ -665,10 +675,10 @@ return {
 			j_toga_virtualpc = {
 				name = 'Virtual PC',
 				text = {
-					"At end of {C:attention}shop{}, gain {C:red}+#2#{} Mult",
+					"At end of {C:attention}shop{}, gain {C:red}#2#{} Mult",
 					"per {C:money}$1{} of cost of {C:attention}leftover{}",
 					"{C:attention}items{} in {C:attention}shop{}",
-					"{C:inactive}(Currently {}{C:mult}+#1#{}{C:inactive} Mult){}"
+					"{C:inactive}(Currently {}{C:mult}#1#{}{C:inactive} Mult){}"
 				}
 			},
 			j_toga_ie = {
@@ -709,9 +719,13 @@ return {
 			j_toga_win7 = {
 				name = 'Windows 7',
 				text = {
-					"{C:attention}Held in hand{} {C:attention}7s{} give",
-					"{X:mult,C:white}X#1#{} Mult per {C:attention}unique{}",
-					"Consumable {C:attention}type{} held",
+					-- "{C:attention}Held in hand{} {C:attention}7s{} give",
+					-- "{X:mult,C:white}X#1#{} Mult per {C:attention}unique{}",
+					-- "Consumable {C:attention}type{} held",
+					"Increase {C:attention}scaling{} of other Jokers",
+					"by {X:attention,C:white}X#1#{} per {C:attention}7{} in {C:attention}full deck{}",
+					"{C:inactive}(Currently {X:attention,C:white}X#2#{}{C:inactive}){}",
+					
 				}
 			},
 			j_toga_win8 = {
@@ -902,9 +916,9 @@ return {
 			j_toga_diskcleanup = {
 				name = 'Disk Cleanup',
 				text = {
-					"Gain {C:money}$#1#{} per {C:red}destroyed{}",
-					"{C:attention}#2#{} card",
-					"{C:inactive,s:0.8}Suit changes every round.{}",
+					"Gain {C:money}#1#{} per",
+					"{C:red}destroyed{}",
+					"{C:attention}playing card",
 				},
 			},
 			j_toga_regedit = {
@@ -928,7 +942,7 @@ return {
 					"This Joker gains {X:mult,C:white}X#2#{} Mult",
 					"when played hand triggers",
 					"the {C:attention}Boss Blind{} ability",
-					"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive}){}"
+					"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive} Mult){}"
 				},
 			},
 			j_toga_fontsfolder = {
@@ -993,9 +1007,9 @@ return {
 			j_toga_cpu = {
 				name = 'CPU',
 				text = {
-					"{C:red}+#1#{} Mult per {C:dark_edition}logical{} processor",
+					"{C:red}#1#{} Mult per {C:dark_edition}logical{} processor",
 					"on current device",
-					"{C:inactive}(Currently #2#, {C:red}+#3#{C:inactive} Mult)",
+					"{C:inactive}(Currently #2#, {C:red}#3#{C:inactive} Mult)",
 					"{C:inactive,s:0.8}P2W Joker?{}"
 				}
 			},
@@ -1151,7 +1165,7 @@ return {
 				text = {
 					"This Joker gives {C:blue}Chips{} equal to the {C:attention}size{}",
 					"of last file {C:attention}dropped{} into the game",
-					"{C:inactive,s:0.9}(Currently {C:blue,s:0.9}+#1#{C:inactive,s:0.9}/#2# MB, caps at {C:blue,s:0.9}+#3#{C:inactive,s:0.9})",
+					"{C:inactive,s:0.9}(Currently {C:blue,s:0.9}#1#{C:inactive,s:0.9}/#2# MB, caps at {C:blue,s:0.9}+#3#{C:inactive,s:0.9})",
 					"{C:inactive,s:0.8}(Cap increases by {C:blue,s:0.8}+#4#{C:inactive,s:0.8} for every ante past 0.)"
 				}
 			},
@@ -1251,10 +1265,9 @@ return {
 			j_toga_rloctane = {
 				name = 'Octane',
 				text = {
-                    "This Joker gains {C:red}+#2#{} Mult",
+                    "This Joker gains {C:red}#2#{} Mult",
                     "at end of round",
-                    "{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult)",
-                    "{C:red,s:0.85}self-destructs if debuffed",
+                    "{C:inactive}(Currently {C:red}#1#{C:inactive} Mult)",
 				}
 			},
 			j_toga_wscript = {
@@ -1306,10 +1319,10 @@ return {
 			j_toga_skifree_skier = {
 				name = 'Skier ({C:blue}Ski{C:gold}Free{})',
 				text = {
-					"This Joker gains {C:red}+#2#{} Mult",
-					"when a card {C:attention}scores{}",
-					"{C:inactive}(Currently {C:red}+#1#{C:inactive} Mult){}",
-					"{C:inactive,s:0.9}(Resets at end of round.)",
+					"This Joker gains {C:mult}#2#{} Mult",
+					"when a card is {C:attention}played{}",
+					"{C:inactive}(Currently {C:mult}#1#{C:inactive} Mult){}",
+					"{C:inactive,s:0.9}(Resets at end of Ante.)",
 				},
 			},
 			j_toga_skifree_yeti = {
@@ -1459,6 +1472,7 @@ return {
 				text = {
 					"{C:green}#1# in #2#{} chance to {C:attention}retrigger{}",
 					"used {C:tarot}Tarot{} cards if possible",
+					"{C:inactive,s:0.8}(Some Tarots may misbehave and crash)",
 				}
 			},
 			j_toga_victor = {
@@ -1466,13 +1480,14 @@ return {
 				text = {
 					"{C:green}#1# in #2#{} chance to {C:attention}retrigger{}",
 					"used {C:planet}Planet{} cards if possible",
+					"{C:inactive,s:0.8}(Some Planets may misbehave and crash)",
 				}
 			},
 			j_toga_kauru = {
 				name = 'Kauru',
 				text = {
-					"{C:attention}#1#{} to {C:attention}Booster Pack{} selection",
-					"and contents",
+					"{C:attention}#1#{} Booster Pack",
+					"size and selection"
 				}
 			},
 			j_toga_softram = {
@@ -1485,8 +1500,109 @@ return {
 			j_toga_achemoth = {
 				name = 'Achemon Sphinx',
 				text = {
-					"{C:attention}#1#s{} count as",
-					"{C:attention}#2#s",
+					"{C:attention}#1#s{} contain a",
+					"{C:attention}#2#",
+				}
+			},
+			j_toga_littleplanet = {
+				name = 'Little Planet',
+				text = {
+					{
+						"Poker hand {C:planet}level{} changes",
+						"are {C:red}half{} as effective",
+					},
+					{
+						"This Joker gains {C:chips}#2#{} Chips when",
+						"trying to {C:attention}change{} poker hand {C:planet}level",
+						"{C:inactive}(Currently {}{C:chips}#1#{}{C:inactive} Chips){}",
+					}
+				}
+			},
+			j_toga_littleplanet_stj = {
+				name = 'Little Planet',
+				text = {
+					"Poker hand {C:planet}level{} changes",
+					"are {C:red}half{} as effective",
+					"This Joker gains {C:chips}#2#{} Chips when",
+					"trying to {C:attention}change{} poker hand {C:planet}level",
+					"{C:inactive}(Currently {}{C:chips}#1#{}{C:inactive} Chips){}",
+				}
+			},
+			j_toga_heatdeath = {
+				name = 'Heat Death',
+				text = {
+					{
+						"Poker hands {C:red}cannot{} change {C:planet}levels",
+					},
+					{
+						"This Joker gains {X:mult,C:white}X#2#{} Mult when",
+						"trying to {C:attention}change{} poker hand {C:planet}level",
+						"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive} Mult){}",
+					}
+				}
+			},
+			j_toga_heatdeath_stj = {
+				name = 'Heat Death',
+				text = {
+					"Poker hands {C:red}cannot{} change {C:planet}levels",
+					"This Joker gains {X:mult,C:white}X#2#{} Mult when",
+					"trying to {C:attention}change{} poker hand {C:planet}level",
+					"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive} Mult){}",
+				}
+			},
+			j_toga_bigbang = {
+				name = 'Big Bang',
+				text = {
+					"This Joker gives {C:attention}average{} of",
+					"poker hand {C:planet}levels{} as {X:mult,C:white}XMult{}",
+					"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive} Mult){}",
+				}
+			},
+			j_toga_winamp = {
+				name = { 'WinAMP', "{s:0.75}#3# Skin" },
+				text = {
+					"{X:mult,C:white}X#1#{} Mult if {C:attention}clipboard",
+					"contains the {C:attention}name{} of",
+					"WinAMP's {C:attention}mascot",
+					"{V:1}#2#",
+				}
+			},
+			j_toga_winamp_alt = {
+				name = { 'WinAMP', "{s:0.75}#3# Skin" },
+				text = {
+					"{X:mult,C:white}X#1#{} Mult if it really",
+					"{C:attention}whips{} the llama's {E:1,C:tarot}ass{}!",
+					"{V:1}#2#",
+				}
+			},
+			j_toga_winrar = {
+				name = 'WinRAR',
+				text = {
+					"This Joker gains {X:mult,C:white}X#2#{} Mult",
+					"when opening {C:attention}Booster Packs{}",
+					"{C:inactive}(Currently {X:mult,C:white}X#1#{C:inactive} Mult){}"
+				}
+			},
+			j_toga_hyperterminal = {
+				name = 'HyperTerminal',
+				text = {
+					"{C:attention}#1#s{} contain a",
+					"{C:attention}#2#",
+				}
+			},
+			j_toga_winzip = {
+				name = 'WinZIP',
+				text = {
+					"Earn {C:gold}#1#{} when opening",
+					"{C:attention}Booster Packs{}",
+				}
+			},
+			j_toga_melons = {
+				name = 'Watermelons',
+				text = {
+					"If played hand contains a {C:attention}#2#{}, {C:green}#3# in #4#{} chance to",
+					"{X:chips,C:white}=80{} base {C:chips}Chips{} and {X:mult,C:white}=0.85{} base {C:mult}Mult{},",
+					"then earn {C:gold}#1#{} afterwards",
 				}
 			},
 		},
@@ -1618,7 +1734,7 @@ return {
 			m_toga_chocolate = {
 				name = "Chocolate Card",
 				text = {
-					"{X:chips,C:white}X#1#{} Chips",
+					"{C:chips}#1#{} Chips",
 					"{C:green}#2# in #3#{} chance",
 					"to {C:red}destroy{} card",
 					"No rank or suit",
@@ -1667,6 +1783,20 @@ return {
 					"{C:planet,E:1}Otherworldly{}",
 				},
 			},
+			m_toga_conductivealloy = {
+				name = "Conductive Alloy Card",
+				text = {
+					"Returns to {C:attention}deck{}",
+					"when played"
+				},
+			},
+			m_toga_energeticalloy = {
+				name = "Energetic Alloy Card",
+				text = {
+					"Hands containing this card",
+					"{C:attention}always{} score"
+				},
+			},
 		},
 		Tarot = {
 			c_toga_furnace = {
@@ -1674,9 +1804,7 @@ return {
 				text = {
 					"Processes specific recipes",
 					"depending on cards selected",
-					"Cost per use: {C:money}$#2#{}",
-					"{C:inactive,s:0.8}If you can pay for another{}",
-					"{C:inactive,s:0.8}use, keep on use.{}",
+					"Earn {C:money}$#1#{} on use",
 					"{C:inactive,s:0.8}(To see recipes, hold Left Shift{}",
 					"{C:inactive,s:0.8}before hovering over this card.){}",
 				}
@@ -1686,12 +1814,9 @@ return {
 				text = {
 					"Processes specific recipes",
 					"depending on cards selected",
-					"Current recipe found:",
-					"{C:attention,s:0.9}#1#{}",
-					" ",
-					"Cost per use: {C:money}$#2#{}",
-					"{C:inactive,s:0.8}If you can pay for another{}",
-					"{C:inactive,s:0.8}use, keep on use.{}"
+					"Earn {C:money}$#1#{} on use",
+					"Current selection contains",
+					"a {C:attention}valid{} recipe!",
 				}
 			},
 			c_toga_furnace_novalidrecipe = {
@@ -1699,9 +1824,7 @@ return {
 				text = {
 					"Processes specific recipes",
 					"depending on cards selected",
-					"{C:inactive,s:0.9}#1#{}",
-					"{C:inactive,s:0.8}If you can pay for another{}",
-					"{C:inactive,s:0.8}use, keep on use.{}",
+					"{C:inactive,s:0.9}No recipe found...{}",
 					"{C:inactive,s:0.8}(To see recipes, hold Left Shift{}",
 					"{C:inactive,s:0.8}before hovering over this card.){}",
 				}
@@ -2121,41 +2244,41 @@ return {
 					"name, yes.",
 				},
 			},
-			toga_kartjokerlist = {
-				name = "Eligible Actions:",
-				text = {
-					"{C:attention}Buying{}, {C:money}selling{}, {C:attention}using{},",
-					"{C:attention}adding{} cards to deck;",
-					"{C:attention}opening{} booster packs;",
-					"{C:attention}rerolling{} shop; ({X:mult,C:white}X#1#{})",
-					"{C:attention}leaving{} shop. ({X:mult,C:white}X#2#{})",
-				},
-			},
-			toga_kartjokerengine = {
-				name = "Engine Whirring:",
-				text = {
-					"{C:green}#2# in #3#{} chance to {C:attention}lose{} {C:red}#1#%{}",
-					"of current {X:mult,C:white}XMult{} after",
-					"playing any hand"
-				},
-			},
-			toga_kartjokershortcut = {
-				name = "Shortcut:",
-				text = {
-					"Skipping {C:attention}blinds{} or {C:attention}booster packs{}",
-					"has a {C:green}#1# in #2#{} chance to gain",
-					"{X:mult,C:white}X#3#{} instead of {C:attention}losing{} {C:red}#4#%{}",
-					"of current {X:mult,C:white}XMult{}",
-				},
-			},
-			toga_kartjokershortcutspecial = {
-				name = "Cutting ahead:",
-				text = {
-					"Gain {X:mult,C:white}X#1#{} when skipping",
-					"{C:attention}blinds{} or {C:attention}booster packs{}",
-					"{E:1,C:inactive,s:0.8}Careful to not hit that tree!",
-				},
-			},
+			-- toga_kartjokerlist = {
+				-- name = "Eligible Actions:",
+				-- text = {
+					-- "{C:attention}Buying{}, {C:money}selling{}, {C:attention}using{},",
+					-- "{C:attention}adding{} cards to deck;",
+					-- "{C:attention}opening{} booster packs;",
+					-- "{C:attention}rerolling{} shop; ({X:mult,C:white}X#1#{})",
+					-- "{C:attention}leaving{} shop. ({X:mult,C:white}X#2#{})",
+				-- },
+			-- },
+			-- toga_kartjokerengine = {
+				-- name = "Engine Whirring:",
+				-- text = {
+					-- "{C:green}#2# in #3#{} chance to {C:attention}lose{} {C:red}#1#%{}",
+					-- "of current {X:mult,C:white}XMult{} after",
+					-- "playing any hand"
+				-- },
+			-- },
+			-- toga_kartjokershortcut = {
+				-- name = "Shortcut:",
+				-- text = {
+					-- "Skipping {C:attention}blinds{} or {C:attention}booster packs{}",
+					-- "has a {C:green}#1# in #2#{} chance to gain",
+					-- "{X:mult,C:white}X#3#{} instead of {C:attention}losing{} {C:red}#4#%{}",
+					-- "of current {X:mult,C:white}XMult{}",
+				-- },
+			-- },
+			-- toga_kartjokershortcutspecial = {
+				-- name = "Cutting ahead:",
+				-- text = {
+					-- "Gain {X:mult,C:white}X#1#{} when skipping",
+					-- "{C:attention}blinds{} or {C:attention}booster packs{}",
+					-- "{E:1,C:inactive,s:0.8}Careful to not hit that tree!",
+				-- },
+			-- },
 			toga_useraccountsinfo = {
 				name = "Formula",
 				text = {
@@ -2283,6 +2406,22 @@ return {
 					"3x Lead + 1x Platinum",
 					"+ 1x any Spectral held (consumed)",
 					"= 4x Lumium",
+				},
+			},
+			toga_alloyconductivealloy = {
+				name = "Conductive Alloy Card Recipe",
+				text = {
+					"1x Iron + 1x Copper (consumed)",
+					"= 1x Lumium",
+				},
+			},
+			toga_alloyenergeticalloy = {
+				name = "Energetic Alloy Card Recipe",
+				text = {
+					"1x Redstone (consumed)",
+					"+ 1x Glowstone (consumed)",
+					"+ 1x Conductive Alloy",
+					"= 1x Energetic Alloy",
 				},
 			},
 			toga_togateal_sticker={
@@ -2475,16 +2614,18 @@ return {
 			toga_furnaceprocess = "Smelted...",
 			toga_novalidrecipe = "No recipes match selected cards.",
 			toga_unknownvalidrecipe = "Unknown valid recipe.",
-			toga_steelrecipe = "1x Iron + 1x Coal Coke (consumed) = 1x Steel",
+			toga_steelrecipe = "1x Iron + 1x Coal Coke (!) = 1x Steel",
 			toga_electrumrecipe = "1x Gold + 1x Silver = 2x Electrum",
 			toga_bronzerecipe = "3x Copper + 1x Tin = 4x Bronze",
-			toga_signalumrecipe = "3x Copper + 1x Silver + 1x Redstone (consumed) = 4x Signalum",
+			toga_signalumrecipe = "3x Copper + 1x Silver + 1x Redstone (!) = 4x Signalum",
 			toga_invarrecipe = "2x Iron + 1x Nickel = 3x Invar",
-			toga_lumiumrecipe = "3x Tin + 1x Silver + 1x Glowstone (consumed) = 4x Lumium",
-			toga_refglowstonerecipe = "1x Osmium + 1x Glowstone (consumed) = 1x Refined Glowstone",
+			toga_lumiumrecipe = "3x Tin + 1x Silver + 1x Glowstone (!) = 4x Lumium",
+			toga_refglowstonerecipe = "1x Osmium + 1x Glowstone (!) = 1x Refined Glowstone",
 			toga_constantanrecipe = "1x Copper + 1x Nickel = 2x Constantan",
 			toga_brassrecipe = "1x Copper + 1x Zinc = 2x Brass",
-			toga_enderiumrecipe = "3x Lead + 1x Platinum + 1x held Spectral (consumed) = 4x Enderium",
+			toga_enderiumrecipe = "3x Lead + 1x Platinum + 1x held Spectral (!) = 4x Enderium",
+			toga_conductivealloyrecipe = "1x Iron + 1x Copper (!) = 1x Conductive Alloy",
+			toga_energeticalloyrecipe = "1x Redstone (!) + 1x Glowstone (!) + 1x Conductive Alloy = 1x Energetic Alloy",
 			toga_alloy = "Alloy",
 			toga_crafttarot = "Crafting Tarot",
 			toga_minetarot = "Mining Tarot",
@@ -2529,6 +2670,8 @@ return {
 			toga_bonziinvert = "Inverted",
 			toga_hammersmash = "Smash!",
 			toga_bummer = "Bummer.",
+			toga_halved = "Halved!",
+			toga_nullified = "0!",
 			toga_firetech = "Fire Technique",
 			toga_icetech = "Ice Technique",
 			toga_skillhunter = "Skill (Hunter)",
@@ -2648,12 +2791,14 @@ return {
 			ach_toga_hypersonic_hidden = 'Lock-on Technology',
 			ach_toga_titlexp = 'Out Of Box Experience',
 			ach_toga_titlexp_hidden = 'Sound Card Drivers',
+			ach_toga_soniccd = 'Sonic CD',
+			ach_toga_soniccd_hidden = 'Dual OST Game',
 		},
 		achievement_descriptions = {
 			ach_toga_win9x = 'Have Windows 95, 98 and ME together',
 			ach_toga_win10k = 'Have 5 copies of Windows 2000',
 			ach_toga_winmecrash = 'Get Windows ME debuffed',
-			ach_toga_teapots = 'Have 3 or more GLTeapots',
+			ach_toga_teapots = 'Have more than 1 GLTeapot',
 			ach_toga_sfrock = 'Play a '..(sfit or 'Straight Flush')..' with only Stone Cards',
 			ach_toga_altloadscrn = 'Activate a different loading screen',
 			ach_toga_altloadscrn_hidden = 'Rumors speak of "ALT" + "D" held together',
@@ -2663,6 +2808,7 @@ return {
 			ach_toga_supersonic = 'Have Sonic transform into Super Sonic',
 			ach_toga_hypersonic = 'Have Super Sonic transform into Hyper Sonic',
 			ach_toga_titlexp = 'Trigger the Windows XP OOBE music on main menu',
+			ach_toga_soniccd = 'Have both Sonic and Little Planet',
 		},
 		collab_palettes = {
 			toga_oldschool_Spades = { "Original", "Low Contrast (Recoloured)", "High Contrast (Recoloured)", },

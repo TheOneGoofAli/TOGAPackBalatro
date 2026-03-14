@@ -998,17 +998,20 @@ function togabalatro.bmpnote()
 end
 
 function togabalatro.stjnotice()
-	G.SETTINGS.paused = true
-	G.FUNCS.overlay_menu({
-		definition = togabalatro.stjnoteui(),
-		config = {
-			align = "cm",
-			offset = {x = 0, y = 0},
-			bond = 'Weak',
-			no_esc = true,
-			no_back = true,
-		}
-	})
+	if not togabalatro.config.stjnoticed then
+		togabalatro.config.stjnoticed = true
+		G.SETTINGS.paused = true
+		G.FUNCS.overlay_menu({
+			definition = togabalatro.stjnoteui(),
+			config = {
+				align = "cm",
+				offset = {x = 0, y = 0},
+				bond = 'Weak',
+				no_esc = true,
+				no_back = true,
+			}
+		})
+	end
 end
 
 function togabalatro.qualatronotice()

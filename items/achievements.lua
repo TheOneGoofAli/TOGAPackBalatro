@@ -117,7 +117,7 @@ SMODS.Achievement {
 	hidden_text = true,
 	unlock_condition = function(self, args)
 		local teapot = SMODS.find_card('c_toga_glteapot')
-		return next(teapot) and #teapot >= 3
+		return next(teapot) and #teapot >= 1
 	end,
 }
 
@@ -129,5 +129,15 @@ SMODS.Achievement {
 		if args and args.type and args.type == 'mmm_toga' and not togabalatro.checksiiva() and G.STAGE == G.STAGES.MAIN_MENU and togabalatro.config.UseCustomMMMusic and togabalatro.mmm and togabalatro.mmm == 'titlexp' then
 			return true
 		end
+	end,
+}
+
+SMODS.Achievement {
+	key = 'soniccd',
+	bypass_all_unlocked = true,
+	hidden_text = true,
+	unlock_condition = function(self, args)
+		local s, cd = next(SMODS.find_card('j_toga_sonicthehedgehog')), next(SMODS.find_card('j_toga_littleplanet'))
+		return s and cd
 	end,
 }

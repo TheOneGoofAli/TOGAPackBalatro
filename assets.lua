@@ -119,6 +119,7 @@ SMODS.Sound({key = "sonictally", path = "sonictally.ogg"}) -- Score tally comple
 SMODS.Sound({key = "awwcrap", path = "awwcrap.ogg"}) -- *boom* Awww, crap!
 SMODS.Sound({key = "sonicspecialmessage", path = "s3k68.ogg"}) -- "Player can now be super" message, Sonic 3 & Knuckles
 SMODS.Sound({key = "bonk", path = "bonk.ogg"}) -- bonk
+SMODS.Sound({key = "80085", path = "boobs.ogg"}) -- yes
 
 -- I command you to execute.
 SMODS.Sound({key = "win95pluscmd1", path = "plus95/Dangerous Creatures menu command.ogg"})

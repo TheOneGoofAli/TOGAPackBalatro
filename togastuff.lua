@@ -62,7 +62,7 @@ togabalatro.calculate = function(self, context)
 	if context.initial_scoring_step and context.scoring_name then
 		local hasplanet = false
 		for i, v in ipairs((G.consumeables or {}).cards) do
-			if v.ability.set == 'Planet' and v.ability.consumeable.hand_type == context.scoring_name then hasplanet = true; break end
+			if Object.is(v, Card) and v.ability.set == 'Planet' and v.ability.consumeable.hand_type == context.scoring_name then hasplanet = true; break end
 		end
 		if hasplanet then
 			local shifta = SMODS.find_card('j_toga_pso2shifta')
@@ -74,7 +74,7 @@ togabalatro.calculate = function(self, context)
 	
 	if context.after then
 		for _, c in ipairs(context.full_hand) do
-			if c and SMODS.has_enhancement(c, 'm_toga_platinum') and SMODS.pseudorandom_probability(c, 'toga_platinum', 1, c.ability.owodds or 5) then
+			if Object.is(c, Card) and SMODS.has_enhancement(c, 'm_toga_platinum') and SMODS.pseudorandom_probability(c, 'toga_platinum', 1, c.ability.owodds or 5) then
 				local names = {}
 				for k, v in ipairs(G.handlist) do
 					if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then names[#names+1] = v end
@@ -89,12 +89,20 @@ togabalatro.calculate = function(self, context)
 	
 	if context.remove_playing_cards and context.removed and next(context.removed) then
 		for k, v in pairs(context.removed) do
-			if SMODS.has_enhancement(v, 'm_toga_zinc') then
+			if Object.is(v, Card) and SMODS.has_enhancement(v, 'm_toga_zinc') then
 				local m = v.ability.toga_gmult or 1
 				SMODS.calculate_effect({ message = localize('k_upgrade_ex') }, G.deck.cards[1] or G.deck)
 				for _, c in pairs(G.playing_cards or {}) do
 					c.ability.perma_mult = (c.ability.perma_mult or 0) + m
 				end
+			end
+		end
+	end
+	
+	if context.debuff_hand and context.full_hand and next(context.full_hand) then
+		for k, v in ipairs(context.full_hand) do
+			if Object.is(v, Card) and SMODS.has_enhancement(v, 'm_toga_energeticalloy') then
+				return { prevent_debuff = true }
 			end
 		end
 	end
@@ -797,7 +805,7 @@ togabalatro.extrascoring = function(context, scoring_hand)
 					local notyetscored = true
 					if eval2.card and not (eval2.retrigger_flag or eval2.retrigger_card) then -- prevent unintended extra execution when retriggering.
 						for i = 1, math.floor(to_number(tonumber(eval2.spacecadet)) or eval2.card and to_number(eval2.card.ability.extra.alltrig) or 1) do
-							if (SMODS.pseudorandom_probability(card, "toga_spacecadetpinball", 1, 3, 'spacecadetpinball') or eval2.card.ability.cry_rigged) and scoring_hand then
+							if (SMODS.pseudorandom_probability(card, "toga_spacecadetpinball", 1, (card.ability.extra.odds or 6), 'spacecadetpinball') or eval2.card.ability.cry_rigged) and scoring_hand then
 								if notyetscored then notyetscored = false; card_eval_status_text(eval2.card, 'extra', nil, nil, nil, {message = localize('toga_pinballing'), sound = not silent and togabalatro.config.SFXWhenTriggered and togabalatro.spacecadetrndsfx()}) end
 								SMODS.score_card(pseudorandom_element(context.scoring_hand, pseudoseed('spacecadet')), context)
 							end
@@ -1032,6 +1040,20 @@ togabalatro.getconscount = function()
 	return count
 end
 
+togabalatro.getlevelaverage = function()
+	if not (G and G.GAME and type(G.GAME.hands) == 'table') then return 1 end
+	
+	local hands, levels = 0, 0
+	for k, v in ipairs(G.handlist) do
+		if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then
+			hands = hands + 1
+			levels = levels + G.GAME.hands[v].level
+		end
+	end
+	local average = hands >= 1 and levels/hands or 1
+	return average
+end
+
 local overflowcheck, incantationcheck, saturncheck = next(SMODS.find_mod('Overflow')) and Overflow, next(SMODS.find_mod('Incantation')) and Incantation, next(SMODS.find_mod('Saturn')) and Saturn
 -- Check for Overflow or Incantation... or Saturn?
 togabalatro.stackingcompat = function(consumable)
@@ -1082,3 +1104,5 @@ end
 -- Load other UI stuff.
 sendDebugMessage("Executing miscui.lua", "TOGAPack")
 assert(SMODS.load_file("miscui.lua"))()
+
+sendInfoMessage("Ready!", "TOGAPack")

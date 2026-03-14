@@ -174,6 +174,7 @@ if SMODS.Mods['MoreFluff'].config['Colour Cards'] then
 		end,
 		loc_vars = function(self, info_queue, card)
 			local val, max = progressbar(card.ability.partial_rounds, card.ability.upgrade_rounds)
+			info_queue[#info_queue + 1] = G.P_TAGS.tag_toga_togajokerziparchive
 			return { vars = {card.ability.val, val, max, card.ability.upgrade_rounds} }
 		end,
 		set_badges = function(self, card, badges)
@@ -217,6 +218,7 @@ if SMODS.Mods['MoreFluff'].config['Colour Cards'] then
 		end,
 		loc_vars = function(self, info_queue, card)
 			local val, max = progressbar(card.ability.partial_rounds, card.ability.upgrade_rounds)
+			info_queue[#info_queue + 1] = G.P_TAGS.tag_toga_togarararchive
 			return { vars = {card.ability.val, val, max, card.ability.upgrade_rounds} }
 		end,
 		set_badges = function(self, card, badges)
@@ -260,6 +262,7 @@ if SMODS.Mods['MoreFluff'].config['Colour Cards'] then
 		end,
 		loc_vars = function(self, info_queue, card)
 			local val, max = progressbar(card.ability.partial_rounds, card.ability.upgrade_rounds)
+			info_queue[#info_queue + 1] = G.P_TAGS.tag_toga_togacardcabarchive
 			return { vars = {card.ability.val, val, max, card.ability.upgrade_rounds} }
 		end,
 		set_badges = function(self, card, badges)
@@ -303,6 +306,7 @@ if SMODS.Mods['MoreFluff'].config['Colour Cards'] then
 		end,
 		loc_vars = function(self, info_queue, card)
 			local val, max = progressbar(card.ability.partial_rounds, card.ability.upgrade_rounds)
+			info_queue[#info_queue + 1] = G.P_TAGS.tag_toga_togaxcopydnaarchive
 			return { vars = {card.ability.val, val, max, card.ability.upgrade_rounds} }
 		end,
 		set_badges = function(self, card, badges)

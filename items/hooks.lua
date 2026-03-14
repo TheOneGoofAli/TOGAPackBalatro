@@ -399,23 +399,37 @@ function Card:change_suit(new_suit)
 end
 
 -- Hooking for influencing hand level changes.
-sendInfoMessage("Hooking level_up_hand...", "TOGAPack")
-local lvluphandref = level_up_hand
-function level_up_hand(card, hand, instant, amount)
-	amount = amount or 1
-	if to_big(amount) > to_big(0) then
-		local xpcalc = {}
-		SMODS.calculate_context({ toga_xplvlup = true }, xpcalc)
-		for _, eval in pairs(xpcalc) do
+-- level_up_hand hook replacement.
+sendInfoMessage("Hooking SMODS.upgrade_poker_hands...", "TOGAPack")
+local uphref = SMODS.upgrade_poker_hands
+function SMODS.upgrade_poker_hands(args)
+	-- if we got a function...
+	if type(args.func) == 'function' then
+		local lvlcalc = {}
+		SMODS.calculate_context({ toga_levelup = true, lvltype = { card = card, hand = hand, amount = args.level_up } }, lvlcalc)
+		for _, eval in pairs(lvlcalc) do
 			for key, eval2 in pairs(eval) do
-				if eval2.card and SMODS.pseudorandom_probability(eval2.card, "experiencethebest", 1, eval2.odds or eval2.card.ability.extra.odds or 4, 'yesyoucan') then
-					amount = amount * 2
-					SMODS.calculate_effect({message = localize('k_upgrade_ex')}, eval2.card)
+				if eval2.card then
+					if eval2.xplvlup then
+						args.level_up = args.level_up * 2
+						SMODS.calculate_effect({message = localize('k_upgrade_ex'), juice_card = args.from}, eval2.card)
+					end
+					
+					if eval2.lplvl then
+						args.level_up = args.level_up * 0.5
+						SMODS.calculate_effect({message = localize('toga_halved'), juice_card = args.from}, eval2.card)
+					end
+					
+					if eval2.no_level then
+						args.level_up = args.level_up * 0
+						SMODS.calculate_effect({message = localize('toga_nullified'), juice_card = args.from}, eval2.card)
+					end
 				end
 			end
 		end
+		if to_big(args.level_up) == to_big(0) then return end
 	end
-	lvluphandref(card, hand, instant, amount)
+	uphref(args)
 end
 
 -- Idea from MyDreamJournal to allow values to be displayed correctly.
@@ -860,6 +874,14 @@ function get_straight(hand, min_length, skip, wrap)
 	return {}
 end
 
+sendInfoMessage("Hooking SMODS.four_fingers...", "TOGAPack")
+local ffref = SMODS.four_fingers
+function SMODS.four_fingers(hand_type)
+    local val = ffref(hand_type)
+	if G.GAME.selected_back.effect.center.key == 'b_toga_srb2kartdeck' and hand_type == 'straight' then val = val - 1 end
+	return val
+end
+
 sendInfoMessage("Hooking SMODS.wrap_around_straight...", "TOGAPack")
 local wasref = SMODS.wrap_around_straight
 function SMODS.wrap_around_straight()
@@ -1014,6 +1036,14 @@ local fullhouseeval = SMODS.PokerHands['Full House'].evaluate
 function fullhouse.evaluate(parts)
 	if next(SMODS.find_card('j_toga_achemoth')) then return not (#parts._2 < 2) and parts._all_pairs end
 	return fullhouseeval(parts)
+end
+
+sendInfoMessage("Hooking Straight evaluation...", "TOGAPack")
+local straightph = SMODS.PokerHands['Straight']
+local straightpheval = SMODS.PokerHands['Straight'].evaluate
+function straightph.evaluate(parts)
+	if next(SMODS.find_card('j_toga_hyperterminal')) then return not (#parts._2 < 2) and parts._all_pairs end
+	return straightpheval(parts)
 end
 
 sendInfoMessage("Hooking Card:set_edition...", "TOGAPack")

@@ -42,11 +42,13 @@ togabalatro.oredict.zinc = {'m_toga_zinc'}
 togabalatro.oredict.brass = {'m_toga_brass'}
 togabalatro.oredict.enderium = {'m_toga_enderium'}
 togabalatro.oredict.platinum = {'m_toga_platinum'}
+togabalatro.oredict.conductivealloy = {'m_toga_conductivealloy'}
+togabalatro.oredict.energeticalloy = {'m_toga_energeticalloy'}
 
 -- Set up a global pool of 'minerals' in our OreDictionary.
 togabalatro.oredict.minerals = {'m_gold', 'm_toga_coalcoke', 'm_toga_iron', 'm_toga_copper', 'm_toga_tin', 'm_toga_silver', 'm_toga_osmium', 'm_toga_redstone', 'm_toga_nickel', 'm_toga_glowstone', 'm_toga_lead', 'm_toga_zinc', "m_toga_platinum"}
 -- ...and one for alloys.
-togabalatro.oredict.alloys = {'m_toga_electrum', 'm_toga_bronze', 'm_toga_signalum', 'm_toga_invar', 'm_toga_lumium', 'm_toga_refinedglowstone', 'm_toga_constantan', 'm_toga_brass', 'm_toga_enderium'}
+togabalatro.oredict.alloys = {'m_toga_electrum', 'm_toga_bronze', 'm_toga_signalum', 'm_toga_invar', 'm_toga_lumium', 'm_toga_refinedglowstone', 'm_toga_constantan', 'm_toga_brass', 'm_toga_enderium', 'm_toga_conductivealloy', 'm_toga_energeticalloy'}
 
 togabalatro.is_mineral = function(card)
 	if not card then return false end
@@ -107,181 +109,9 @@ togabalatro.oredictcheck = function(card, pool)
 	end
 end
 
--- Add recipe checks as functions.
--- Iron + Coal Coke (consumed) to vanilla Steel
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	selcards = selcards or {}
-	local coalcoke, iron = nil, nil
-	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.coalcoke) then coalcoke = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.iron) then iron = v end
-	end
-	return iron and coalcoke and iron ~= coalcoke, { cards = { iron }, destroycard = { coalcoke }, allcards = { iron, coalcoke } }, 'm_steel', localize('toga_steelrecipe')
-end
-
--- Gold + Silver to Electrum
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	selcards = selcards or {}
-	local gold, silver = nil, nil
-	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.gold) then gold = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.silver) then silver = v end
-	end
-	return gold and silver and gold ~= silver, { cards = { gold, silver } }, 'm_toga_electrum', localize('toga_electrumrecipe')
-end
-
--- 3x Copper + 1x Tin = 4x Bronze
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	selcards = selcards or {}
-	local copper1, copper2, copper3, tin = nil, nil, nil, nil
-	local copper1ok, copper2ok, copper3ok, tinok = false, false, false, false
-	local iter, iterlimit = 0, 100
-	for i, v in ipairs(selcards) do
-		repeat -- scary jank, but works.
-			iter = iter + 1
-			if not copper1ok and togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper1 = v; copper1ok = true; break end
-			if not copper2ok and togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper2 = v; copper2ok = true; break end
-			if not copper3ok and togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper3 = v; copper3ok = true; break end
-			if not tinok and togabalatro.oredictcheck(v, togabalatro.oredict.tin) then tin = v; break end
-		until (copper1ok and copper2ok and copper3ok and tinok) or iter > iterlimit
-	end
-	return copper1 and copper2 and copper3 and tin and copper1 ~= tin and copper1 ~= copper2 and copper2 ~= copper3 and copper1 ~= copper3, { cards = { copper1, copper2, copper3, tin } }, 'm_toga_bronze', localize('toga_bronzerecipe')
-end
-
--- 3x Copper + 1x Silver + 1 Redstone (consumed) = 4x Signalum
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	selcards = selcards or {}
-	local copper1, copper2, copper3, silver, redstone = nil, nil, nil, nil, nil
-	local copper1ok, copper2ok, copper3ok, silverok, redstoneok = false, false, false, false, false
-	local iter, iterlimit = 0, 100
-	for i, v in ipairs(selcards) do
-		repeat -- scary jank, but works.
-			iter = iter + 1
-			if not copper1ok and togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper1 = v; copper1ok = true; break end
-			if not copper2ok and togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper2 = v; copper2ok = true; break end
-			if not copper3ok and togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper3 = v; copper3ok = true; break end
-			if not silverok and togabalatro.oredictcheck(v, togabalatro.oredict.silver) then silver = v; break end
-			if not redstoneok and togabalatro.oredictcheck(v, togabalatro.oredict.redstone) then redstone = v; break end
-		until (copper1ok and copper2ok and copper3ok and silverok and redstoneok) or iter > iterlimit
-	end
-	return copper1 and copper2 and copper3 and silver and redstone and copper1 ~= silver and copper1 ~= redstone and copper1 ~= copper2 and copper2 ~= copper3 and copper1 ~= copper3,
-		 { cards = { copper1, copper2, copper3, silver }, destroycard = { redstone }, allcards = { copper1, copper2, copper3, silver, redstone } }, 'm_toga_signalum', localize('toga_signalumrecipe')
-end
-
--- 2x Iron + 1x Nickel = 3x Invar
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	selcards = selcards or {}
-	local iron1, iron2, nickel = nil, nil, nil
-	local iron1ok, iron2ok, nickelok = false, false, false
-	local iter, iterlimit = 0, 100
-	for i, v in ipairs(selcards) do
-		repeat -- scary jank, but works.
-			iter = iter + 1
-			if not iron1ok and togabalatro.oredictcheck(v, togabalatro.oredict.iron) then iron1 = v; iron1ok = true; break end
-			if not iron2ok and togabalatro.oredictcheck(v, togabalatro.oredict.iron) then iron2 = v; iron2ok = true; break end
-			if not nickelok and togabalatro.oredictcheck(v, togabalatro.oredict.nickel) then nickel = v; break end
-		until (iron1ok and iron2ok and nickelok) or iter > iterlimit
-	end
-	return iron1 and iron2 and nickel and iron1 ~= nickel and iron1 ~= iron2, { cards = { iron1, iron2, nickel } }, 'm_toga_invar', localize('toga_invarrecipe')
-end
-
--- 3x Tin + 1x Silver + 1x Glowstone = 4x Lumium
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	selcards = selcards or {}
-	local tin1, tin2, tin3, silver, glowstone = nil, nil, nil, nil, nil
-	local tin1ok, tin2ok, tin3ok, silverok, glowstoneok = false, false, false, false, false
-	local iter, iterlimit = 0, 100
-	for i, v in ipairs(selcards) do
-		repeat -- scary jank, but works.
-			iter = iter + 1
-			if not tin1ok and togabalatro.oredictcheck(v, togabalatro.oredict.tin) then tin1 = v; tin1ok = true; break end
-			if not tin2ok and togabalatro.oredictcheck(v, togabalatro.oredict.tin) then tin2 = v; tin2ok = true; break end
-			if not tin3ok and togabalatro.oredictcheck(v, togabalatro.oredict.tin) then tin3 = v; tin3ok = true; break end
-			if not silverok and togabalatro.oredictcheck(v, togabalatro.oredict.silver) then silver = v; break end
-			if not glowstoneok and togabalatro.oredictcheck(v, togabalatro.oredict.glowstone) then glowstone = v; break end
-		until (tin1ok and tin2ok and tin3ok and silverok and glowstoneok) or iter > iterlimit
-	end
-	return tin1 and tin2 and tin3 and silver and glowstone and tin1 ~= silver and tin1 ~= glowstone and tin1 ~= tin2 and tin2 ~= tin3 and tin1 ~= tin3,
-		 { cards = { tin1, tin2, tin3, silver }, destroycard = { glowstone }, allcards = { tin1, tin2, tin3, silver, glowstone } }, 'm_toga_signalum', localize('toga_signalumrecipe')
-end
-
--- 1x Osmium + 1 Glowstone (consumed) = 1x Refined Glowstone
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	selcards = selcards or {}
-	local glowstone, osmium = nil, nil
-	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.glowstone) then glowstone = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.osmium) then osmium = v end
-	end
-	return osmium and glowstone and osmium ~= glowstone, { cards = { osmium }, destroycard = { glowstone }, allcards = { osmium, glowstone } }, 'm_toga_refinedglowstone', localize('toga_refglowstonerecipe')
-end
-
--- 1x Copper + 1x Nickel = 2x Constantan
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	selcards = selcards or {}
-	local copper, nickel = nil, nil
-	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.nickel) then nickel = v end
-	end
-	return copper and nickel and copper ~= nickel, { cards = { copper, nickel } }, 'm_toga_constantan', localize('toga_constantanrecipe')
-end
-
--- 1x Copper + 1x Zinc = 2x Brass
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	selcards = selcards or {}
-	local copper, zinc = nil, nil
-	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.zinc) then zinc = v end
-	end
-	return copper and zinc and copper ~= zinc, { cards = { copper, zinc } }, 'm_toga_brass', localize('toga_brassrecipe')
-end
-
--- 3x Lead + 1x Platinum = 4x Enderium (must also hold a Spectral card in Consumeables)
-togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
-	local spectral
-	for k, v in ipairs((G.consumeables or {}).cards) do
-		if v.ability.set == 'Spectral' then spectral = v; break end
-	end
-	if not spectral then return end
-	
-	selcards = selcards or {}
-	local lead1, lead2, lead3, platinum = nil, nil, nil, nil
-	local lead1ok, lead2ok, lead3ok, platinumok = false, false, false, false
-	local iter, iterlimit = 0, 100
-	for i, v in ipairs(selcards) do
-		repeat -- scary jank, but works.
-			iter = iter + 1
-			if not lead1ok and togabalatro.oredictcheck(v, togabalatro.oredict.lead) then lead1 = v; lead1ok = true; break end
-			if not lead2ok and togabalatro.oredictcheck(v, togabalatro.oredict.lead) then lead2 = v; lead2ok = true; break end
-			if not lead3ok and togabalatro.oredictcheck(v, togabalatro.oredict.lead) then lead3 = v; lead3ok = true; break end
-			if not platinumok and togabalatro.oredictcheck(v, togabalatro.oredict.platinum) then platinum = v; break end
-		until (lead1ok and lead2ok and lead3ok and platinumok) or iter > iterlimit
-	end
-	
-	return lead1 and lead2 and lead3 and platinum and spectral and lead1 ~= platinum and lead1 ~= spectral and lead1 ~= lead2 and lead2 ~= lead3 and lead1 ~= lead3,
-		 { cards = { lead1, lead2, lead3, platinum }, destroycard = { spectral }, allcards = { lead1, lead2, lead3, platinum, spectral } }, 'm_toga_enderium', localize('toga_enderiumrecipe')
-end
-
--- Check recipe.
-togabalatro.checkvalidrecipe = function()
-	local text, recipetxt, userecipetxt = localize('toga_novalidrecipe'), localize('toga_unknownvalidrecipe'), false
-	local cando, cardtable, enhancement, found = false, {}, "", false
-	if G.hand and G.hand.highlighted then
-		for i = 1, #togabalatro.validsmeltrecipes do
-			if found then break end
-			
-			cando, cardtable, enhancement, recipetxt = togabalatro.validsmeltrecipes[i](G.hand.highlighted)
-			if cando and cardtable and enhancement and G.P_CENTERS[enhancement] then found = true; userecipetxt = true end
-		end
-		if not recipetxt then recipetxt = localize('toga_unknownvalidrecipe') end
-	end
-	return cando, found and userecipetxt and recipetxt or text
-end
-
--- Valid recipe text stuff.
-togabalatro.currentrecipetxt = {"toga_alloysteel", "toga_alloyelectrum", "toga_alloybronze", "toga_alloysignalum", "toga_alloyinvar", "toga_alloylumium", "toga_alloyrefglowstone", "toga_alloyconstantan", "toga_alloybrass", "toga_alloyenderium"}
+-- Add recipe checks as functions. Moved to its' own file.
+sendDebugMessage("Executing items/misc/alloy.lua...", "TOGAPack")
+assert(SMODS.load_file("items/misc/alloy.lua"))()
 
 -- Feel the heat of the Smeltery.
 SMODS.Consumable{
@@ -290,7 +120,7 @@ SMODS.Consumable{
 	atlas = "TOGAConsumables",
 	pos = {x = 3, y = 0},
 	cost = 1,
-	config = { extra = { usecost = 4 } },
+	config = { extra = { moneygain = 4 } },
 	loc_vars = function(self, info_queue, card)
 		local cando, txt = togabalatro.checkvalidrecipe()
 		if love.keyboard.isDown("lshift") then
@@ -299,8 +129,10 @@ SMODS.Consumable{
 					info_queue[#info_queue + 1] = {key = togabalatro.currentrecipetxt[i], set = 'Other'}
 				end
 			end
+		elseif cando and txt then
+			info_queue[#info_queue + 1] = {key = txt, set = 'Other'}
 		end
-		return { key = cando and self.key..'_ready' or G.hand and G.hand.highlighted and #G.hand.highlighted > 0 and self.key.."_novalidrecipe" or self.key, vars = { txt, (card.ability.extra or self.config.extra).usecost } }
+		return { key = cando and self.key..'_ready' or G.hand and G.hand.highlighted and #G.hand.highlighted > 0 and self.key.."_novalidrecipe" or self.key, vars = { card.ability.extra.moneygain } }
 	end,
 	in_pool = function()
 		return togabalatro.config.ShowPower and togabalatro.has_mineral() -- Should only spawn if mineral cards.
@@ -337,11 +169,9 @@ SMODS.Consumable{
 		
 		if cardtable.destroycard and #cardtable.destroycard > 0 then
 			local destroyed_cards = {}
-			--for k, dcard in ipairs(G.hand.cards) do
-				for i, v in ipairs(cardtable.destroycard) do
-					destroyed_cards[#destroyed_cards+1] = v
-				end
-			--end
+			for i, v in ipairs(cardtable.destroycard) do
+				destroyed_cards[#destroyed_cards+1] = v
+			end
 			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
 				play_sound('tarot1')
 				card:juice_up(0.3, 0.5)
@@ -349,17 +179,15 @@ SMODS.Consumable{
 			
 			SMODS.destroy_cards(destroyed_cards)
 		end
-		local payment = to_big(card.ability.extra.usecost)
-		if to_big(G.GAME.dollars) - payment < to_big(0) then payment = payment + (to_big(G.GAME.dollars) - to_big(card.ability.extra.usecost)) end
 		G.E_MANAGER:add_event(Event({trigger = "after", delay = 0.2, func = function()
 			G.hand:unhighlight_all()
 			G.hand:parse_highlighted()
-			ease_dollars(-payment)
+			SMODS.calculate_effect({ dollars = card.ability.extra.moneygain }, card)
 			return true
 		end,}))
 	end,
 	keep_on_use = function(self, card)
-		if to_big(G.GAME.dollars) - to_big(card.ability.extra.usecost) >= to_big(G.GAME.bankrupt_at) then return true end
+		return true
 	end,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_crafttarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 0.9)

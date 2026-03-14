@@ -105,24 +105,10 @@ togabalatro.jd_def["j_toga_taskmgr"] = {
 
 togabalatro.jd_def["j_toga_useraccounts"] = {
 	text = {
-		{
-			border_nodes = {
-				{ text = "X" },
-				{ ref_table = "card.ability.extra", ref_value = "totalXmult", retrigger_type = "exp" },
-			}
-		}
+		{ text = "+" },
+		{ ref_table = "card.ability.extra", ref_value = "chips", retrigger_type = "mult" },
 	},
-	extra = {
-		{
-			{ text = "(" },
-			{ ref_table = "card.joker_display_values", ref_value = "odds" },
-			{ text = ")" },
-		}
-	},
-	extra_config = { colour = G.C.GREEN, scale = 0.3 },
-	calc_function = function(card)
-		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds), card.ability.extra.odds } }
-	end,
+	text_config = { colour = G.C.CHIPS },
 }
 
 togabalatro.jd_def["j_toga_virtualmemory"] = {
@@ -179,7 +165,7 @@ togabalatro.jd_def["j_toga_systemrestore"] = {
 	extra = {
 		{
 			{ text = "(" },
-			{ ref_table = "card.joker_display_values", ref_value = "odds", retrigger_type = "exp" },
+			{ ref_table = "card.joker_display_values", ref_value = "odds" },
 			{ text = ")" },
 		}
 	},
@@ -468,7 +454,7 @@ togabalatro.jd_def["j_toga_wscript"] = {
 	extra = {
 		{
 			{ text = "(" },
-			{ ref_table = "card.joker_display_values", ref_value = "odds", retrigger_type = "exp" },
+			{ ref_table = "card.joker_display_values", ref_value = "odds" },
 			{ text = ")" },
 		}
 	},
@@ -638,52 +624,6 @@ togabalatro.jd_def["j_toga_winvista"] = {
 	end
 }
 
-togabalatro.jd_def["j_toga_win7"] = {
-	text = {
-		{
-			border_nodes = {
-				{ text = "X" },
-				{ ref_table = "card.joker_display_values", ref_value = "hxmult", retrigger_type = "exp" },
-			}
-		}
-	},
-	reminder_text = {
-		{
-			border_nodes = {
-				{ text = "X", colour = G.C.UI.TEXT_LIGHT },
-				{ ref_table = "card.ability.extra", ref_value = "x_mult", colour = G.C.UI.TEXT_LIGHT },
-			}
-		},
-		{ text = "x", colour = G.C.UI.TEXT_LIGHT},
-		{ ref_table = "card.joker_display_values", ref_value = "constypes", colour = G.C.FILTER},
-	},
-	calc_function = function(card)
-		local constypecount = 0
-		local houseofcommons = {}
-		if G.consumeables and #G.consumeables.cards > 0 then
-			for i = 1, #G.consumeables.cards do
-				if G.consumeables.cards[i].ability.consumeable and not houseofcommons[G.consumeables.cards[i].ability.set] then houseofcommons[G.consumeables.cards[i].ability.set] = true end
-			end
-		end
-		if next(houseofcommons) then
-			for _, _ in pairs(houseofcommons) do
-				constypecount = constypecount + 1
-			end
-		end
-		card.joker_display_values.constypes = constypecount
-		local playing_hand = next(G.play.cards)
-		local count = 0
-		for _, playing_card in ipairs(G.hand.cards) do
-			if playing_hand or not playing_card.highlighted then
-				if not (playing_card.facing == 'back') and not playing_card.debuff and playing_card:get_id() and playing_card:get_id() == 7 then
-					count = count + JokerDisplay.calculate_card_triggers(playing_card, nil, true)
-				end
-			end
-		end
-		card.joker_display_values.hxmult = (card.ability.extra.x_mult^constypecount)^count
-	end,
-}
-
 togabalatro.jd_def["j_toga_mac_os_9"] = {
 	text = {
 		{
@@ -836,10 +776,26 @@ togabalatro.jd_def["j_toga_jokersrb2kart"] = {
 		{
 			border_nodes = {
 				{ text = "X" },
-				{ ref_table = "card.ability.extra", ref_value = "Xmult_current", retrigger_type = "exp" },
+				{ ref_table = "card.ability.extra", ref_value = "curxmult", retrigger_type = "exp" },
 			}
 		}
 	},
+	reminder_text = {
+		{ text = "(" },
+		{ text = localize('Straight', "poker_hands") },
+		{ text = ")" }
+	},
+	calc_function = function(card)
+		local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+		card.joker_display_values.active = type(poker_hands) == 'table' and poker_hands['Straight'] and next(poker_hands['Straight']) and true or false
+	end,
+	style_function = function(card, text, reminder_text, extra)
+		if reminder_text and reminder_text.children[2] and card.joker_display_values then
+			reminder_text.children[2].config.colour = card.joker_display_values.active and G.C.FILTER or G.C.UI.TEXT_INACTIVE
+			return true
+		end
+		return false
+	end
 }
 
 togabalatro.jd_def["j_toga_asterism"] = {
@@ -1016,7 +972,7 @@ togabalatro.jd_def["j_toga_quacksoft"] = {
 togabalatro.jd_def["j_toga_rloctane"] = {
 	text = {
 		{ text = "+",	colour = G.C.MULT },
-		{ ref_table = "card.ability.extra", ref_value = "mult", colour = G.C.MULT, retrigger_type = "add" }
+		{ ref_table = "card.ability.extra", ref_value = "mult", colour = G.C.MULT, retrigger_type = "mult" }
 	},
 }
 
@@ -1279,25 +1235,8 @@ togabalatro.jd_def["j_toga_chipchallenge"] = {
 togabalatro.jd_def["j_toga_skifree_skier"] = {
 	text = {
 		{ text = "+", colour = G.C.MULT },
-		{ ref_table = "card.ability.extra", ref_value = "cmult", colour = G.C.MULT, retrigger_type = "mult" },
+		{ ref_table = "card.ability.extra", ref_value = "m", colour = G.C.MULT, retrigger_type = "mult" },
 	},
-	reminder_text = {
-		{ text = "(" },
-		{ text = "+", colour = G.C.MULT },
-		{ ref_table = "card.joker_display_values", ref_value = "bmult", colour = G.C.MULT },
-		{ text = ")" },
-	},
-	calc_function = function(card)
-		local text, _, scoring_hand = JokerDisplay.evaluate_hand()
-		local gainmult = 0
-		if text ~= "Unknown" then
-			for _, scoring_card in pairs(scoring_hand) do
-				local retriggers = JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand)
-				gainmult = gainmult + card.ability.extra.bmult * retriggers
-			end
-		end
-		card.joker_display_values.bmult = gainmult
-	end,
 }
 
 togabalatro.jd_def["j_toga_skifree_yeti"] = {
@@ -1525,6 +1464,106 @@ togabalatro.jd_def["j_toga_victor"] = {
 	calc_function = function(card)
 		local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'msagent_victor')
 		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { numerator, denominator } }
+	end
+}
+
+togabalatro.jd_def["j_toga_bigbang"] = {
+	text = {
+		{
+			border_nodes = {
+				{ text = "X" },
+				{ ref_table = "card.joker_display_values", ref_value = "phxm", retrigger_type = "exp" },
+			},
+		},
+	},
+	calc_function = function(card)
+		card.joker_display_values.phxm = togabalatro.getlevelaverage()
+	end,
+}
+
+togabalatro.jd_def["j_toga_littleplanet"] = {
+	text = {
+		{ text = "+" },
+		{ ref_table = "card.ability.extra", ref_value = "c", retrigger_type = "mult" },
+	},
+	text_config = { colour = G.C.CHIPS },
+}
+
+togabalatro.jd_def["j_toga_heatdeath"] = {
+	text = {
+		{
+			border_nodes = {
+				{ text = "X" },
+				{ ref_table = "card.joker_display_values", ref_value = "xm", retrigger_type = "exp" },
+			},
+		},
+	},
+	extra_config = { colour = G.C.UI.TEXT_INACTIVE, scale = 0.3 },
+	calc_function = function(card)
+		card.joker_display_values.xm = 1+card.ability.extra.xm
+	end,
+}
+
+togabalatro.jd_def["j_toga_winamp"] = {
+	text = {
+		{
+			border_nodes = {
+				{ text = "X" },
+				{ ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" },
+			},
+		},
+		{ text = " ", colour = G.C.UI.TEXT_INACTIVE },
+		{ text = "(", colour = G.C.UI.TEXT_INACTIVE },
+		{ ref_table = "card.joker_display_values", ref_value = "txt", colour = G.C.UI.TEXT_INACTIVE },
+		{ text = ")", colour = G.C.UI.TEXT_INACTIVE },
+	},
+	calc_function = function(card)
+		local llama = string.find(string.lower(love.system.getClipboardText() or ""), "mike")
+		card.joker_display_values.xmult = llama and card.ability.extra.xmult or 1
+		card.joker_display_values.active = llama and true or false
+		card.joker_display_values.txt = llama and "!" or "?"
+	end,
+	style_function = function(card, text, reminder_text, extra)
+		if text and text.children[1] and text.children[4] and card.joker_display_values then
+			text.children[4].config.colour = card.joker_display_values.active and G.C.FILTER or G.C.UI.TEXT_INACTIVE
+		end
+		return false
+	end
+}
+
+togabalatro.jd_def["j_toga_winrar"] = {
+	text = {
+		{
+			border_nodes = {
+				{ text = "X" },
+				{ ref_table = "card.joker_display_values", ref_value = "xmult", retrigger_type = "exp" },
+			},
+		},
+	},
+	calc_function = function(card)
+		card.joker_display_values.xmult = 1+card.ability.extra.xm
+	end,
+}
+
+togabalatro.jd_def["j_toga_melons"] = {
+	reminder_text = {
+		{ text = "(", scale = 0.35 },
+		{ text = localize('Pair', "poker_hands"), scale = 0.35 },
+		{ text = ")", scale = 0.35 },
+		{ text = " (", colour = G.C.GREEN },
+		{ ref_table = "card.joker_display_values", ref_value = "odds", colour = G.C.GREEN },
+		{ text = ")", colour = G.C.GREEN },
+	},
+	calc_function = function(card)
+		local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+		card.joker_display_values.pair = poker_hands["Pair"] and next(poker_hands["Pair"]) and true or false
+		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "5318008") } }
+	end,
+	style_function = function(card, text, reminder_text, extra)
+		if reminder_text and reminder_text.children[1] and reminder_text.children[2] and card.joker_display_values then
+			reminder_text.children[2].config.colour = card.joker_display_values.pair and G.C.FILTER or G.C.UI.TEXT_INACTIVE
+		end
+		return false
 	end
 }
 

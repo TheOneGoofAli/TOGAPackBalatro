@@ -11,7 +11,7 @@ SMODS.Voucher{
 	loc_vars = function(self, info_queue, card)
 		return {vars = {card.ability.extra.h_size_scale*100}}
 	end,
-	requires = {'v_paint_brush'},
+	requires = {'v_palette'},
 	redeem = function(self, card)
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Increased hand size by "..math.ceil(G.hand.config.card_limit*(card and card.ability.extra or self.config.extra).h_size_scale)..".", "TOGAPack") end
 		G.hand:change_size(math.ceil(G.hand.config.card_limit*(card and card.ability.extra or self.config.extra).h_size_scale))

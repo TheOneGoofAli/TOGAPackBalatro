@@ -36,20 +36,9 @@ if not togabalatro.checkbmp() then
 		pos = { x = 2, y = 0 },
 		atlas = "TOGADeckBack",
 		unlocked = true,
-		config = {spectral_rate = 1},
+		config = {hand_size = -1},
 		loc_vars = function(self, info_queue, center)
-			return { vars = { self.config.ante_scaling or 1 } }
-		end,
-		apply = function(self, back)
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					if G.jokers then
-						local j = SMODS.add_card({ key = "j_toga_jokersrb2kart" })
-						j.ability.extra.Xmult_current = 1.25
-						return true
-					end
-				end,
-			}))
+			return { vars = { localize('Straight', "poker_hands"), self.config.hand_size } }
 		end,
 		quip_filter = function(quip, type)
 			if (quip.mod and quip.mod.id == 'TOGAPack' and togabalatro.config.SpecialDeckMusic) or not togabalatro.config.SpecialDeckMusic then return true else return false end
@@ -93,12 +82,7 @@ SMODS.Back{
 	apply = function(self, back)
 		G.E_MANAGER:add_event(Event({
 			func = function()
-				for _, v in ipairs(G.handlist) do
-					level_up_hand(G.deck.cards[1] or G.deck, v, true)
-					if v ~= "High Card" and v ~= "Pair" and v ~= "Three of a Kind" then
-						G.GAME.hands[v].visible = false
-					end
-				end
+				SMODS.upgrade_poker_hands({ from = G.deck.cards[1] or G.deck, instant = true })
 				G.GAME.win_ante = G.GAME.win_ante + self.config.extraante
 				if G.hand then
 					togabalatro.handlimitchange(self.config.reducehandsel)
@@ -107,15 +91,6 @@ SMODS.Back{
 			end,
 		}))
 	end,
-	calculate = function(self, back, context)
-		local iter, iterlimit = 0, 65535 -- Just so we don't freeze the game.
-		while G.GAME.round_resets.blind_choices.Boss == 'bl_psychic' do
-			G.GAME.round_resets.blind_choices.Boss = get_new_boss()
-			iter = iter + 1
-			if togabalatro.config.DoMoreLogging then sendInfoMessage("Iteration "..iter.." of "..iterlimit.." rolling for non-Psychic boss blinds.", "TOGAPack") end
-			if iter >= iterlimit then break end
-		end
-	end
 }
 
 SMODS.Back{
@@ -346,7 +321,6 @@ if togabalatro.config.KingCDIDeck then
 				func = function()
 					if G.jokers then
 						local leg = SMODS.add_card({ set = 'Joker', legendary = true, stickers = { "eternal" }, force_stickers = true })
-						if leg.config.center.key == 'j_toga_michaelrosen' then leg.ability.extra.odds = 15 end
 						return true
 					end
 				end,

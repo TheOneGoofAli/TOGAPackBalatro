@@ -26,9 +26,9 @@ SMODS.Enhancement{
 	key = 'chocolate',
 	atlas = "TOGAEnhancements",
 	pos = { x = 7, y = 1 },
-	config = { x_chips = 1.25, extra = { chodds = 4 } },
+	config = { bonus = 50, extra = { chodds = 4 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.x_chips, SMODS.get_probability_vars(card, 1, (card.ability or self.config).extra.chodds) } }
+		return { vars = { SMODS.signed(card.ability.bonus), SMODS.get_probability_vars(card, 1, (card.ability or self.config).extra.chodds) } }
 	end,
 	replace_base_card = true,
 	no_rank = true,
@@ -317,7 +317,7 @@ SMODS.Enhancement{
 	key = 'enderium',
 	atlas = "TOGAEnhancements",
 	pos = { x = 2, y = 2 },
-	config = { toga_txcm = 2 },
+	config = { toga_txcm = 1.75 },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.toga_txcm } }
 	end,
@@ -331,5 +331,36 @@ SMODS.Enhancement{
 	calculate = function(self, card, context)
 		if context.final_scoring_step and (context.cardarea == G.play or context.cardarea == "unscored") then return { xchips = card.ability.toga_txcm, xmult = card.ability.toga_txcm } end
 	end,
+	poweritem = true
+}
+
+SMODS.Enhancement{
+	key = 'conductivealloy',
+	atlas = "TOGAEnhancements",
+	pos = { x = 4, y = 2 },
+	in_pool = function(self, args)
+		return false
+	end,
+	alloy = true,
+	set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('884D4E'), G.C.WHITE, 1)
+    end,
+	calculate = function(self, card, context)
+		if context.stay_flipped and context.from_area == G.play and G.deck then return { modify = { to_area = G.deck } } end
+	end,
+	poweritem = true
+}
+
+SMODS.Enhancement{
+	key = 'energeticalloy',
+	atlas = "TOGAEnhancements",
+	pos = { x = 5, y = 2 },
+	in_pool = function(self, args)
+		return false
+	end,
+	alloy = true,
+	set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('C5723C'), G.C.WHITE, 1)
+    end,
 	poweritem = true
 }

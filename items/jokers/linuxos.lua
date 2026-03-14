@@ -4,9 +4,9 @@ local lj = {}
 
 table.insert(lj, {
 	key = 'linux_ubuntu',
-	config = { extra = { percentage = 0.1 } },
+	config = { extra = { percentage = 0.05 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { 100*card.ability.extra.percentage, 1/card.ability.extra.percentage } }
+		return { vars = { 100*card.ability.extra.percentage } }
 	end,
 	unlocked = true,
 	rarity = 2,

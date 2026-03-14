@@ -6,6 +6,7 @@ local basecrossmod = {
 	next(SMODS.find_mod('partner')) and Partner_API and 'partners.lua',
 	next(SMODS.find_mod('reverse_tarot')) and 'reversetarot.lua',
 	next(SMODS.find_mod('RevosVault')) and 'revosvault.lua',
+	next(SMODS.find_mod('jammbo')) and 'jambatro.lua',
 	next(SMODS.find_mod('pta_saka')) and 'pta.lua',
 	next(SMODS.find_mod('sdm0sstuff')) and 'sdm0.lua',
 	next(SMODS.find_mod('Yahimod')) and 'yahi.lua',

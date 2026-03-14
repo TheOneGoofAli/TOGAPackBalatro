@@ -4,9 +4,8 @@ local winj = {}
 
 table.insert(winj, {
 	key = 'win95',
-	config = { extra = { hands = 1, discards = 1, xhd = 2, slots = 3 } },
+	config = { extra = { hands = 1, discards = 1 } },
 	loc_vars = function(self, info_queue, card)
-		card.ability.extra.xhd = math.max(card.ability.extra.xhd, 2)
 		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { card.ability.extra.hands, card.ability.extra.discards } }
 	end,
 	unlocked = true,
@@ -197,7 +196,7 @@ table.insert(winj, {
 
 table.insert(winj, {
 	key = 'winxp',
-	config = { extra = { odds = 8 } },
+	config = { extra = { odds = 6 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds) } }
 	end,
@@ -208,7 +207,9 @@ table.insert(winj, {
 	cost = 8,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.toga_xplvlup then return { card = context.blueprint_card or card, odds = card.ability.extra.odds } end
+		if context.toga_levelup and SMODS.pseudorandom_probability(card, "experiencethebest", 1, card.ability.extra.odds, 'yesyoucan') then
+			return { xplvlup = true, card = context.blueprint_card or card }
+		end
 	end,
 	add_to_deck = function(self, card, from_debuff)
 		if not from_debuff and togabalatro.config.SFXWhenAdding and G.STAGE == G.STAGES.RUN and not G.screenwipe then
@@ -231,7 +232,13 @@ table.insert(winj, {
 	end,
 	unlocked = true,
 	in_pool = function()
-		return togabalatro.config.ShowPower
+		if togabalatro.config.ShowPower then
+			local s = 0
+			for k, v in ipairs(G.playing_cards or {}) do
+				if v and not SMODS.has_no_rank(v) and v:get_id() == 6 then return true end
+			end
+		end
+		return false
 	end,
 	rarity = 3,
 	atlas = 'TOGAJokersWindows',
@@ -288,38 +295,29 @@ table.insert(winj, {
 
 table.insert(winj, {
 	key = 'win7',
-	config = { extra = { x_mult = 1.25 } },
+	config = { extra = { xscale = 0.04 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.x_mult } }
+		local s = 0
+		for k, v in ipairs(G.playing_cards or {}) do
+			if v and not SMODS.has_no_rank(v) and v:get_id() == 7 then s = s + 1 end
+		end
+		return { vars = { card.ability.extra.xscale, 1+s*card.ability.extra.xscale } }
 	end,
 	unlocked = true,
 	in_pool = function()
-		return togabalatro.config.ShowPower
+		if togabalatro.config.ShowPower then
+			local s = 0
+			for k, v in ipairs(G.playing_cards or {}) do
+				if v and not SMODS.has_no_rank(v) and v:get_id() == 7 then return true end
+			end
+		end
+		return false
 	end,
 	rarity = 3,
 	atlas = 'TOGAJokersWindows',
 	pos = { x = 1, y = 2 },
 	cost = 8,
-	blueprint_compat = true,
-	calculate = function(self, card, context)
-		if context.cardarea == G.hand and context.other_card and context.other_card:get_id() == 7 and not context.end_of_round and not context.repetition and not context.repetition_only and not context.other_card.debuff then
-			local houseofcommons = {}
-			if G.consumeables and #G.consumeables.cards > 0 then
-				for i = 1, #G.consumeables.cards do
-					if G.consumeables.cards[i].ability.consumeable and not houseofcommons[G.consumeables.cards[i].ability.set] then houseofcommons[G.consumeables.cards[i].ability.set] = G.consumeables.cards[i] end
-				end
-			end
-			if next(houseofcommons) then
-				local result = {}
-				for k, v in pairs(houseofcommons) do
-					if next(v) then
-						result = SMODS.merge_effects({ result, { x_mult = card.ability.extra.x_mult, message_card = context.other_card, card = context.blueprint_card or card, juice_card = v }})
-					end
-				end
-				return result
-			end
-		end
-	end,
+	blueprint_compat = false,
 	add_to_deck = function(self, card, from_debuff)
 		if not from_debuff and togabalatro.config.SFXWhenAdding and G.STAGE == G.STAGES.RUN and not G.screenwipe then
 			play_sound("toga_winvista78logon")
@@ -329,6 +327,23 @@ table.insert(winj, {
 		if togabalatro.config.SFXWhenRemoving and G.STAGE == G.STAGES.RUN and not G.screenwipe then
 			if not from_debuff then play_sound("toga_winvista78logoff")
 			else play_sound("toga_winvista7critstop") end
+		end
+	end,
+	calc_scaling = function(self, card, other_card, initial_value, scalar_value, args)
+		if card == other_card then return end
+		if scalar_value > 0 then
+			local s = 0
+			for k, v in ipairs(G.playing_cards or {}) do
+				if v and not SMODS.has_no_rank(v) and v:get_id() == 7 then s = s + 1 end
+			end
+			if s > 0 then
+				return {
+					message = '!',
+					override_scalar_value = {
+						value = scalar_value * (1+s*card.ability.extra.xscale)
+					}
+				}
+			end
 		end
 	end,
 	poweritem = true
@@ -342,7 +357,13 @@ table.insert(winj, {
 	end,
 	unlocked = true,
 	in_pool = function()
-		return togabalatro.config.ShowPower
+		if togabalatro.config.ShowPower then
+			local s = 0
+			for k, v in ipairs(G.playing_cards or {}) do
+				if v and not SMODS.has_no_rank(v) and v:get_id() == 8 then return true end
+			end
+		end
+		return false
 	end,
 	rarity = 3,
 	atlas = 'TOGAJokersWindows',
