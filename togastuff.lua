@@ -391,7 +391,10 @@ SMODS.ObjectType{
 		["j_toga_skifree_skier"] = true, ["j_toga_skifree_yeti"] = true, ["j_toga_mmc"] = true,
 		["j_toga_chipchallenge"] = true, ["j_toga_franziska"] = true, ["j_toga_sonicthehedgehog"] = true,
 		["j_toga_genie"] = true, ["j_toga_kauru"] = true, ["j_toga_victor"] = true,
-		["j_toga_softram"] = true, ["j_toga_achemoth"] = true, 
+		["j_toga_softram"] = true, ["j_toga_achemoth"] = true, ["j_toga_littleplanet"] = true,
+		["j_toga_heatdeath"] = true, ["j_toga_bigbang"] = true, ["j_toga_winamp"] = true,
+		["j_toga_winrar"] = true, ["j_toga_winzip"] = true, ["j_toga_hyperterminal"] = true,
+		["j_toga_melons"] = true,
 	}
 }
 
