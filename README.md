@@ -15,10 +15,7 @@ https://balatromods.miraheze.org/wiki/TOGA%27s_Stuff
 Uses Steamodded 1.0.0-BETA and a bit of Lovely patching.
 https://github.com/Steamodded/smods
 
-Talisman 2.4.0+ is an optional dependency for a bit of extra content.
-https://github.com/MathIsFun0/Talisman
+[Amulet](https://github.com/frostice482/amulet) (recommended) / [Talisman](https://github.com/MathIsFun0/Talisman) is an optional dependency for a bit of extra content.
 
-If Incantation is to be used alongside, please obtain the [forked version](https://github.com/TheOneGoofAli/JensBalatroCollection/tree/main/Incantation) to prevent unintended behaviour by some of the Consumeables of this mod.
+If Incantation is to be used alongside, it is recommended to obtain the [forked version](https://github.com/TheOneGoofAli/JensBalatroCollection/tree/main/Incantation) to prevent unintended behaviour by some of the Consumeables of this mod.
 Alternatively, why not check out [Overflow](https://github.com/lord-ruby/Overflow) as a modern replacement?
-
-_Please use the source code download options for grabbing the mod._ That way, I don't have to remake the 7z archive every single time.
