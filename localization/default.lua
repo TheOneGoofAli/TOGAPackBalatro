@@ -261,8 +261,8 @@ return {
 				name = 'Control Panel',
 				text = {
 					"For every {C:attention}Joker{} and {C:attention}Consumable{}",
-					"slots, earn {C:money}$#1#{} at end of round.",
-					"{C:inactive,s:0.8}(Currently {}{C:money,s:0.8}$#3#{}{C:inactive,s:0.8}){}",
+					"slots, earn {C:money}#1#{} at end of round.",
+					"{C:inactive,s:0.8}(Currently {}{C:money,s:0.8}#2#{}{C:inactive,s:0.8}){}",
 					"{C:inactive,s:0.8}Look at all them settings!{}"
 				}
 			},

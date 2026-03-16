@@ -53,7 +53,7 @@ table.insert(jokers, {
 		if G.jokers then jokerslotbonus = card.ability.extra.money*G.jokers.config.card_limit end
 		if G.consumeables then consslotbonus = card.ability.extra.money*G.consumeables.config.card_limit end
 		card.ability.extra.totalmoney = jokerslotbonus+consslotbonus
-		return { vars = { card.ability.extra.money, card.ability.extra.increase, math.ceil(card.ability.extra.totalmoney) } }
+		return { vars = { SMODS.signed_dollars(card.ability.extra.money), SMODS.signed_dollars(math.ceil(card.ability.extra.totalmoney)) } }
 	end,
 	unlocked = true,
 	rarity = 2,
@@ -62,7 +62,7 @@ table.insert(jokers, {
 	cost = 7,
 	blueprint_compat = false,
 	calc_dollar_bonus = function(self, card)
-		if card.ability.extra.money > 0 then
+		if to_big(card.ability.extra.money) > to_big(0) then
 			local jokerslotbonus, consslotbonus = 0, 0
 			if G.jokers then jokerslotbonus = card.ability.extra.money*G.jokers.config.card_limit end
 			if G.consumeables then consslotbonus = card.ability.extra.money*G.consumeables.config.card_limit end
@@ -1619,6 +1619,7 @@ table.insert(jokers, {
 		if context.after then
 			return {
 				message = '!',
+				delay = 0.35,
 				func = function()
 					G.E_MANAGER:add_event(Event({func = function()
 						togabalatro.chipchallenge_handchoice(card)

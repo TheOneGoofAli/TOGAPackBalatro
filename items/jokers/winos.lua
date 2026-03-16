@@ -331,7 +331,7 @@ table.insert(winj, {
 	end,
 	calc_scaling = function(self, card, other_card, initial_value, scalar_value, args)
 		if card == other_card then return end
-		if scalar_value > 0 then
+		if scalar_value > to_big(0) then
 			local s = 0
 			for k, v in ipairs(G.playing_cards or {}) do
 				if v and not SMODS.has_no_rank(v) and v:get_id() == 7 then s = s + 1 end
@@ -339,6 +339,7 @@ table.insert(winj, {
 			if s > 0 then
 				return {
 					message = '!',
+					delay = 0.2,
 					override_scalar_value = {
 						value = scalar_value * (1+s*card.ability.extra.xscale)
 					}

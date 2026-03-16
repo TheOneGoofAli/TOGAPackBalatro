@@ -83,12 +83,15 @@ togabalatro.jd_def["j_toga_y2kbug"] = {
 
 togabalatro.jd_def["j_toga_controlpanel"] = {
 	text = {
-		{ text = "+$" },
 		{ ref_table = "card.joker_display_values", ref_value = "totalmoney" },
 	},
 	text_config = { colour = G.C.GOLD },
+	reminder_text = {
+		{ ref_table = "card.joker_display_values", ref_value = "localized_text" },
+	},
 	calc_function = function(card)
-		card.joker_display_values.totalmoney = math.ceil(card.ability.extra.totalmoney)
+		card.joker_display_values.totalmoney = SMODS.signed_dollars(to_big(card.ability.extra.totalmoney) > to_big(0) and math.ceil(card.ability.extra.totalmoney) or 0)
+		card.joker_display_values.localized_text = "(" .. localize("k_round") .. ")"
 	end,
 }
 

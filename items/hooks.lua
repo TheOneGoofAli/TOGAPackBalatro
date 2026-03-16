@@ -1053,3 +1053,27 @@ function Card:set_edition(...)
 	if self.edition and self.edition.negative then check_for_unlock({ type = 'negativecheck_toga', card = self }) end
 	return ret
 end
+
+local signedref = SMODS.signed
+function SMODS.signed(val)
+	if next(SMODS.find_mod('Amulet')) then return signedref(val) end
+	
+	if next(SMODS.find_mod('Talisman')) and Talisman then
+		local sign = val and (to_number(val) > 0 and '+' or to_number(val) < 0 and '-' or '') or nil
+		return sign and sign .. number_format(val) or '0'
+	end
+	
+	return signedref(val)
+end
+
+local signeddollarsref = SMODS.signed_dollars
+function SMODS.signed_dollars(val)
+	if next(SMODS.find_mod('Amulet')) then return signeddollarsref(val) end
+	
+	if next(SMODS.find_mod('Talisman')) and Talisman then
+		local sign = val and (to_number(val) < 0 and '-$' or '$') or nil
+		return sign and sign .. number_format(to_number(val) < 0 and -val or val) or '0'
+	end
+	
+	return signeddollarsref(val)
+end
