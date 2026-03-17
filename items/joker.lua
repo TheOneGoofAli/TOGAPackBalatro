@@ -1078,14 +1078,13 @@ table.insert(jokers, {
 	blueprint_compat = true,
 	calculate = function(self, card, context)
 		if context.joker_main then return { xmult = math.max(1+card.ability.extra.bonusxmult, 1) } end
-		if context.debuffed_ups and context.card and not context.card.debuff and not context.blueprint then
+		if context.debuffed_ups and context.card and not context.blueprint then
 			SMODS.scale_card(card, {
 				ref_table = card.ability.extra,
 				ref_value = "bonusxmult",
 				scalar_value = "debuffxmult",
-				scaling_message = { message = localize('k_upgrade_ex'), delay = 0.25 }
+				scaling_message = { message = localize('k_upgrade_ex'), delay = 0.1 }
 			})
-			return nil, true
 		end
 	end,
 })
