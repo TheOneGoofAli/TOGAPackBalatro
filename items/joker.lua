@@ -1436,7 +1436,7 @@ table.insert(jokers, {
 	cost = 6,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.joker_main then return { xmult = 1+card.ability.extra.xmult } end
+		if context.joker_main then return { xmult = 1+card.ability.extra.xm } end
 		
 		if context.blueprint then return end
 		
