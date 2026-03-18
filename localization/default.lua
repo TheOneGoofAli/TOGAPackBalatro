@@ -2405,14 +2405,14 @@ return {
 				text = {
 					"3x Lead + 1x Platinum",
 					"+ 1x any Spectral held (consumed)",
-					"= 4x Lumium",
+					"= 4x Enderium",
 				},
 			},
 			toga_alloyconductivealloy = {
 				name = "Conductive Alloy Card Recipe",
 				text = {
 					"1x Iron + 1x Copper (consumed)",
-					"= 1x Lumium",
+					"= 1x Conductive Alloy",
 				},
 			},
 			toga_alloyenergeticalloy = {
