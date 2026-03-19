@@ -402,34 +402,41 @@ end
 -- level_up_hand hook replacement.
 sendInfoMessage("Hooking SMODS.upgrade_poker_hands...", "TOGAPack")
 local uphref = SMODS.upgrade_poker_hands
+local norepeat = false
 function SMODS.upgrade_poker_hands(args)
 	-- if we got a function...
 	if type(args.func) == 'function' then
-		local lvlcalc = {}
-		SMODS.calculate_context({ toga_levelup = true, lvltype = { card = card, hand = hand, amount = args.level_up } }, lvlcalc)
-		for _, eval in pairs(lvlcalc) do
-			for key, eval2 in pairs(eval) do
-				if eval2.card then
-					if eval2.xplvlup then
-						args.level_up = args.level_up * 2
-						SMODS.calculate_effect({message = localize('k_upgrade_ex'), juice_card = args.from}, eval2.card)
-					end
-					
-					if eval2.lplvl then
-						args.level_up = args.level_up * 0.5
-						SMODS.calculate_effect({message = localize('toga_halved'), juice_card = args.from}, eval2.card)
-					end
-					
-					if eval2.no_level then
-						args.level_up = args.level_up * 0
-						SMODS.calculate_effect({message = localize('toga_nullified'), juice_card = args.from}, eval2.card)
+		if not norepeat then
+			local lvlcalc = {}
+			SMODS.calculate_context({ toga_levelup = true, lvltype = { card = card, hand = hand, amount = args.level_up } }, lvlcalc)
+			for _, eval in pairs(lvlcalc) do
+				for key, eval2 in pairs(eval) do
+					if eval2.card then
+						if eval2.xplvlup then
+							args.level_up = args.level_up * 2
+							SMODS.calculate_effect({message = localize('k_upgrade_ex'), juice_card = args.from}, eval2.card)
+						end
+						
+						if eval2.lplvl then
+							args.level_up = args.level_up * 0.5
+							SMODS.calculate_effect({message = localize('toga_halved'), juice_card = args.from}, eval2.card)
+						end
+						
+						if eval2.no_level then
+							args.level_up = args.level_up * 0
+							SMODS.calculate_effect({message = localize('toga_nullified'), juice_card = args.from}, eval2.card)
+						end
 					end
 				end
 			end
+			
+			args.func = nil
+			norepeat = true
 		end
-		if to_big(args.level_up) == to_big(0) then return end
+		if to_big(args.level_up) == to_big(0) then norepeat = false; return end
 	end
 	uphref(args)
+	norepeat = false
 end
 
 -- Idea from MyDreamJournal to allow values to be displayed correctly.
