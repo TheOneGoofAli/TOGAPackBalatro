@@ -6,11 +6,8 @@ return {
 			TOGAPack = {
 				name = "TOGA's Stuff",
 				text = {
-					"Personal timewaster project",
-					"with a few {C:dark_edition}references{}",
-					"here and there.",
-					" ",
-					"{C:inactive,s:0.8,E:1}Another what-if that became an actual thing...{}"
+					"Personal timewaster project with a few {C:dark_edition}references{} here and there.",
+					"{C:inactive,s:0.9,E:1}Another what-if that became an actual thing...{}"
 				}
 			}
 		},
@@ -1654,6 +1651,14 @@ return {
 					"when scored"
 				},
 			},
+			m_toga_electrum_recipe = {
+				name = "Electrum Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"1x Gold + 1x Silver",
+					"= 2x Electrum",
+				},
+			},
 			m_toga_copper = {
 				name = "Copper Card",
 				text = {
@@ -1674,6 +1679,14 @@ return {
 					"{X:chips,C:white}X#1#{} Chips",
 					"while this card",
 					"stays in hand",
+				},
+			},
+			m_toga_bronze_recipe = {
+				name = "Bronze Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"3x Copper + 1x Tin",
+					"= 4x Bronze",
 				},
 			},
 			m_toga_osmium = {
@@ -1703,10 +1716,27 @@ return {
 					"stays in hand",
 				},
 			},
+			m_toga_invar_recipe = {
+				name = "Invar Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"2x Iron + 1x Nickel",
+					"= 3x Invar",
+				},
+			},
 			m_toga_signalum = {
 				name = "Signalum Card",
 				text = {
 					"{X:mult,C:white}X#1#{} Mult",
+				},
+			},
+			m_toga_signalum_recipe = {
+				name = "Signalum Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"3x Copper + 1x Silver",
+					"+ 1x Redstone (consumed)",
+					"= 4x Signalum",
 				},
 			},
 			m_toga_glowstone = {
@@ -1724,11 +1754,28 @@ return {
 					"stays in hand",
 				},
 			},
+			m_toga_lumium_recipe = {
+				name = "Lumium Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"3x Tin + 1x Silver",
+					"+ 1x Glowstone (consumed)",
+					"= 4x Lumium",
+				},
+			},
 			m_toga_refinedglowstone = {
 				name = "Refined Glowstone Card",
 				text = {
 					"{X:chips,C:white}X#1#{} Chips",
 					"{X:mult,C:white}X#2#{} Mult",
+				},
+			},
+			m_toga_refinedglowstone_recipe = {
+				name = "Refined Glowstone Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"1x Osmium + 1x Glowstone (consumed)",
+					"= 1x Refined Glowstone",
 				},
 			},
 			m_toga_chocolate = {
@@ -1745,6 +1792,14 @@ return {
 				text = {
 					"Retrigger this card",
 					"{C:attention}#1#{} times",
+				},
+			},
+			m_toga_constantan_recipe = {
+				name = "Constantan Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"1x Copper + 1x Nickel",
+					"= 2x Constantan",
 				},
 			},
 			m_toga_lead = {
@@ -1770,11 +1825,28 @@ return {
 					"when held",
 				},
 			},
+			m_toga_brass_recipe = {
+				name = "Brass Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"1x Copper + 1x Zinc",
+					"= 2x Brass",
+				},
+			},
 			m_toga_enderium = {
 				name = "Enderium Card",
 				text = {
 					"{X:purple,C:white,s:0.9}X#1#{} {C:attention,s:0.9}total {C:chips,s:0.9}Chips{s:0.9} and {C:mult,s:0.9}Mult",
 					"{s:0.9}when played"
+				},
+			},
+			m_toga_enderium_recipe = {
+				name = "Enderium Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"3x Lead + 1x Platinum",
+					"+ 1x any Spectral held (consumed)",
+					"= 4x Enderium",
 				},
 			},
 			m_toga_platinum = {
@@ -1790,11 +1862,29 @@ return {
 					"when played"
 				},
 			},
+			m_toga_conductivealloy_recipe = {
+				name = "Conductive Alloy Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"1x Iron + 1x Copper (consumed)",
+					"= 1x Conductive Alloy",
+				},
+			},
 			m_toga_energeticalloy = {
 				name = "Energetic Alloy Card",
 				text = {
 					"Hands containing this card",
 					"{C:attention}always{} score"
+				},
+			},
+			m_toga_energeticalloy_recipe = {
+				name = "Energetic Alloy Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"1x Redstone (consumed)",
+					"+ 1x Glowstone (consumed)",
+					"+ 1x Conductive Alloy",
+					"= 1x Energetic Alloy",
 				},
 			},
 		},
@@ -1806,7 +1896,7 @@ return {
 					"depending on cards selected",
 					"Earn {C:money}$#1#{} on use",
 					"{C:inactive,s:0.8}(To see recipes, hold Left Shift{}",
-					"{C:inactive,s:0.8}before hovering over this card.){}",
+					"{C:inactive,s:0.8}and click on this card.){}",
 				}
 			},
 			c_toga_furnace_ready = {
@@ -1826,7 +1916,7 @@ return {
 					"depending on cards selected",
 					"{C:inactive,s:0.9}No recipe found...{}",
 					"{C:inactive,s:0.8}(To see recipes, hold Left Shift{}",
-					"{C:inactive,s:0.8}before hovering over this card.){}",
+					"{C:inactive,s:0.8}and click on this card.){}",
 				}
 			},
 			c_toga_miningprospect = {
@@ -1835,8 +1925,8 @@ return {
 					"Destroys {T:m_stone,C:attention}Stone Cards{} in the {C:attention}full deck{}.",
 					"{C:green}#1# in #2#{} chance for a {T:m_stone,C:attention}Stone Card{} to",
 					"convert into a {C:attention}Mineral{} card instead.",
-					"{C:inactive,s:0.8}Hold Left SHIFT before hovering over{}",
-					"{C:inactive,s:0.8}this card to show the Mineral pool.{}"
+					"{C:inactive,s:0.8}Hold Left SHIFT and click on this card{}",
+					"{C:inactive,s:0.8}to show the Mineral pool.{}"
 				}
 			},
 			c_toga_miningprospect_showminerals = {
@@ -1913,7 +2003,7 @@ return {
 				text = {
 					"{C:green}#2# in #3#{} chance to enhance",
 					"{C:attention}#1#{} card to an {C:attention}Alloy{} card.",
-					"{C:inactive,s:0.8}Hold Left SHIFT before hovering over{}",
+					"{C:inactive,s:0.8}Hold Left SHIFT and click on{}",
 					"{C:inactive,s:0.8}this card to show the Alloy pool.{}"
 				}
 			},
@@ -2741,6 +2831,18 @@ return {
 			toga_desc_windowsfx2 = "(Uses sounds from Plus! 95)",
 			toga_desc_titlescreen1 = "The card also acts as shortcut",
 			toga_desc_titlescreen2 = "to this mods' config",
+			ml_toga_alloyrecipe_explanation = {
+                "Hover over the Alloy Enhancement",
+                "to see its' recipe",
+            },
+			ml_toga_alloy_explanation = {
+                "Alloy Enhancements are Enhancements that",
+                "usually are created from existing ones",
+            },
+			ml_toga_mineral_explanation = {
+                "Mineral Enhancements usually appear",
+                "when creating new Playing Cards",
+            },
 		},
 		labels = {
 			toga_sealseal_seal = "Seal^2",

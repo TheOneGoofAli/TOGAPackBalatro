@@ -1,3 +1,51 @@
+togabalatro.custom_ui = function(modNodes)
+	local lv = togabalatro.description_loc_vars() or {}
+	G.toga_card_area = CardArea(
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2, G.ROOM.T.h, 6 * G.CARD_W, 0.95 * G.CARD_H,
+		{ card_limit = 5, type = 'title', highlight_limit = 0, collection = true }
+	)
+	
+	for i, key in ipairs({ 'j_toga_win95', 'j_toga_tomscott', 'j_toga_franziska', 'j_toga_bonusducks', 'c_toga_furnace', 'c_toga_miningprospect' }) do
+		local c = Card(G.toga_card_area.T.x + G.toga_card_area.T.w / 2, G.toga_card_area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[key])
+		c.no_ui = true
+		if G.P_CENTERS[key].discovered then
+			if key == 'c_toga_furnace' then c.click = G.FUNCS.toga_alloyrecipes end
+			if key == 'c_toga_miningprospect' then c.click = G.FUNCS.toga_showminerals end
+			if key == 'j_toga_bonusducks' then c.click = G.FUNCS.toga_quack end
+		end
+		G.toga_card_area:emplace(c)
+	end
+	
+	modNodes[#modNodes+1] = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.35, no_fill = true },
+		nodes = {
+			{ n = G.UIT.O, config = { object = G.toga_card_area } }
+		}
+	}
+	
+	for k, v in pairs(G.toga_card_area.cards or {}) do
+		v.states.drag.can = false
+		v.states.release_on.can = false
+	end
+	
+	if math.random(1, 10) == 5 then
+		table.insert(modNodes, #modNodes+1, {n = G.UIT.R, config = {r = 0.1, align = "cm", padding = 0.1}, nodes = {
+			{n = G.UIT.C, config = { align = "cm", padding = 0.05 }, nodes = {
+				{n = G.UIT.O, config = { w = 1, h = 1, object = AnimatedSprite(0, 0, 1, 1, G.ANIMATION_ATLAS['toga_TOGAFunny'], { x = 0, y = 0 }) } },
+			}},
+		}})
+	end
+end
+
+togabalatro.description_loc_vars = function(self)
+	return {
+		scale = 1.25,
+		text_colour = HEX('FFFFFF'),
+		background_colour = HEX('2B2B2B')
+	}
+end
+
 togabalatro.config_tab = function()
 	return {n = G.UIT.ROOT, config = {align = "cl", outline = 1, outline_colour = HEX('C3C3C3'), padding = 0.025, colour = G.C.UI.BACKGROUND_INACTIVE, minw = 7, minh = 2}, nodes = {
 		{n = G.UIT.R, config = {align = "cl", colour = HEX('000082')}, nodes = {

@@ -15,24 +15,6 @@ togabalatro = SMODS.current_mod
 
 assert(SMODS.load_file("tabs.lua"))()
 
-togabalatro.custom_ui = function(modNodes)
-	if math.random(1, 10) == 5 then
-		table.insert(modNodes, #modNodes+1, {n = G.UIT.R, config = {r = 0.1, align = "cm", padding = 0.1}, nodes = {
-			{n = G.UIT.C, config = { align = "cm", padding = 0.05 }, nodes = {
-				{n = G.UIT.O, config = { w = 1, h = 1, object = AnimatedSprite(0, 0, 1, 1, G.ANIMATION_ATLAS['toga_TOGAFunny'], { x = 0, y = 0 }) } },
-			}},
-		}})
-	end
-end
-
-togabalatro.description_loc_vars = function(self)
-	return {
-		scale = 1.25,
-		text_colour = HEX('FFFFFF'),
-		background_colour = HEX('2B2B2B')
-	}
-end
-
 togabalatro.debug_info = {
 	QEDeck = togabalatro.config.EnableQE,
 	JokeItems = togabalatro.config.JokeJokersActive,
@@ -405,6 +387,11 @@ SMODS.ConsumableType{
 	no_collection = true,
 }
 
+G.FUNCS.toga_quack = function(card)
+	local chance, isn = math.random(1, 50) == 42, card and card.edition and card.edition.negative
+	if not silent and togabalatro.config.SFXWhenTriggered then play_sound((chance or isn) and 'toga_kcud' or 'toga_duck') end
+	if card and chance then card:set_edition(not isn and "e_negative" or nil, true) end
+end
 G.FUNCS.togabalatro_startupsfx = function(args)
 	if not args or args.to_key == nil then return end
 	togabalatro.verifysfxconfig()

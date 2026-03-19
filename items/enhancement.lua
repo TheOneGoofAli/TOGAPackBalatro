@@ -172,7 +172,7 @@ SMODS.Enhancement{
 	pos = { x = 4, y = 0 },
 	config = { p_dollars = 1, x_mult = 1.75 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.p_dollars, card.ability.x_mult } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.p_dollars, card.ability.x_mult } }
 	end,
 	in_pool = function(self, args)
 		return false
@@ -190,7 +190,7 @@ SMODS.Enhancement{
 	pos = { x = 7, y = 0 },
 	config = { h_x_chips = 2.5 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.h_x_chips } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.h_x_chips } }
 	end,
 	in_pool = function(self, args)
 		return false
@@ -208,7 +208,7 @@ SMODS.Enhancement{
 	pos = { x = 1, y = 1 },
 	config = { x_mult = 2 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.x_mult } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.x_mult } }
 	end,
 	in_pool = function(self, args)
 		return false
@@ -226,7 +226,7 @@ SMODS.Enhancement{
 	pos = { x = 3, y = 1 },
 	config = { h_x_mult = 1.75 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.h_x_mult } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.h_x_mult } }
 	end,
 	in_pool = function(self, args)
 		return false
@@ -244,7 +244,7 @@ SMODS.Enhancement{
 	pos = { x = 5, y = 1 },
 	config = { h_x_mult = 2 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.h_x_mult } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.h_x_mult } }
 	end,
 	in_pool = function(self, args)
 		return false
@@ -262,7 +262,7 @@ SMODS.Enhancement{
 	pos = { x = 6, y = 1 },
 	config = { x_mult = 1.25, x_chips = 1.5 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.x_chips, card.ability.x_mult } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.x_chips, card.ability.x_mult } }
 	end,
 	in_pool = function(self, args)
 		return false
@@ -280,7 +280,7 @@ SMODS.Enhancement{
 	pos = { x = 8, y = 1 },
 	config = { toga_retriggers = 2 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.toga_retriggers } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.toga_retriggers } }
 	end,
 	in_pool = function(self, args)
 		return false
@@ -301,7 +301,7 @@ SMODS.Enhancement{
 	pos = { x = 1, y = 2 },
 	config = { card_limit = 1 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.card_limit } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.card_limit } }
 	end,
 	in_pool = function(self, args)
 		return false
@@ -319,7 +319,7 @@ SMODS.Enhancement{
 	pos = { x = 2, y = 2 },
 	config = { toga_txcm = 1.75 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.toga_txcm } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.toga_txcm } }
 	end,
 	in_pool = function(self, args)
 		return false
@@ -338,6 +338,9 @@ SMODS.Enhancement{
 	key = 'conductivealloy',
 	atlas = "TOGAEnhancements",
 	pos = { x = 4, y = 2 },
+	loc_vars = function(self, info_queue, card)
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key }
+	end,
 	in_pool = function(self, args)
 		return false
 	end,
@@ -355,6 +358,9 @@ SMODS.Enhancement{
 	key = 'energeticalloy',
 	atlas = "TOGAEnhancements",
 	pos = { x = 5, y = 2 },
+	loc_vars = function(self, info_queue, card)
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key }
+	end,
 	in_pool = function(self, args)
 		return false
 	end,

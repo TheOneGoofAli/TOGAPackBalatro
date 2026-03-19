@@ -1061,6 +1061,7 @@ function Card:set_edition(...)
 	return ret
 end
 
+sendInfoMessage("Hooking SMODS.signed...", "TOGAPack")
 local signedref = SMODS.signed
 function SMODS.signed(val)
 	if next(SMODS.find_mod('Amulet')) then return signedref(val) end
@@ -1073,6 +1074,7 @@ function SMODS.signed(val)
 	return signedref(val)
 end
 
+sendInfoMessage("Hooking SMODS.signed_dollars...", "TOGAPack")
 local signeddollarsref = SMODS.signed_dollars
 function SMODS.signed_dollars(val)
 	if next(SMODS.find_mod('Amulet')) then return signeddollarsref(val) end
@@ -1083,4 +1085,13 @@ function SMODS.signed_dollars(val)
 	end
 	
 	return signeddollarsref(val)
+end
+
+sendInfoMessage("Hooking Card:click...", "TOGAPack")
+local cardclickref = Card.click
+function Card:click()
+	if self and self.config and self.config.center and self.config.center.shiftinfoclick and love.keyboard.isDown("lshift") and type(self.config.center.shiftinfoclick) == 'string' and G.FUNCS[self.config.center.shiftinfoclick] then
+		return G.FUNCS[self.config.center.shiftinfoclick]()
+	end
+	return cardclickref(self)
 end

@@ -1105,3 +1105,73 @@ function togabalatro.incantationnotice()
 		})
 	end
 end
+
+-- Alloy stuffs.
+function G.FUNCS.toga_alloyrecipes()
+	local alloys = {}
+	
+	for k, v in ipairs(togabalatro.oredict and togabalatro.oredict.alloys or {}) do
+		for i, c in ipairs(G.P_CENTER_POOLS.Enhanced) do
+			if c.key == v then table.insert(alloys, c) end
+		end
+	end
+	
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = SMODS.card_collection_UIBox(alloys, {6,6}, {
+			back_func = "toga_closeprompt",
+			no_materialize = true,
+			snap_back = true,
+			h_mod = 0.95,
+			infotip = localize('ml_toga_alloyrecipe_explanation'),
+			modify_card = function(card, center, i, j) 
+				if card then card.showrecipe = true end
+			end,
+			hide_single_page = true,
+		}),
+	})
+end
+
+function G.FUNCS.toga_showalloys()
+	local alloys = {}
+	
+	for k, v in ipairs(togabalatro.oredict and togabalatro.oredict.alloys or {}) do
+		for i, c in ipairs(G.P_CENTER_POOLS.Enhanced) do
+			if c.key == v then table.insert(alloys, c) end
+		end
+	end
+	
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = SMODS.card_collection_UIBox(alloys, {6,6}, {
+			back_func = "toga_closeprompt",
+			no_materialize = true,
+			snap_back = true,
+			h_mod = 0.95,
+			infotip = localize('ml_toga_alloy_explanation'),
+			hide_single_page = true,
+		}),
+	})
+end
+
+function G.FUNCS.toga_showminerals()
+	local minerals = {}
+	
+	for k, v in ipairs(togabalatro.oredict and togabalatro.oredict.minerals or {}) do
+		for i, c in ipairs(G.P_CENTER_POOLS.Enhanced) do
+			if c.key == v then table.insert(minerals, c) end
+		end
+	end
+	
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = SMODS.card_collection_UIBox(minerals, {6,6}, {
+			back_func = "toga_closeprompt",
+			no_materialize = true,
+			snap_back = true,
+			h_mod = 0.95,
+			infotip = localize('ml_toga_mineral_explanation'),
+			hide_single_page = true,
+		}),
+	})
+end

@@ -123,13 +123,7 @@ SMODS.Consumable{
 	config = { extra = { moneygain = 4 } },
 	loc_vars = function(self, info_queue, card)
 		local cando, txt = togabalatro.checkvalidrecipe()
-		if love.keyboard.isDown("lshift") then
-			if togabalatro.currentrecipetxt and #togabalatro.currentrecipetxt > 0 then
-				for i = 1, #togabalatro.currentrecipetxt do
-					info_queue[#info_queue + 1] = {key = togabalatro.currentrecipetxt[i], set = 'Other'}
-				end
-			end
-		elseif cando and txt then
+		if cando and txt then
 			info_queue[#info_queue + 1] = {key = txt, set = 'Other'}
 		end
 		return { key = cando and self.key..'_ready' or G.hand and G.hand.highlighted and #G.hand.highlighted > 0 and self.key.."_novalidrecipe" or self.key, vars = { card.ability.extra.moneygain } }
@@ -192,6 +186,7 @@ SMODS.Consumable{
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_crafttarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 0.9)
     end,
+	shiftinfoclick = "toga_alloyrecipes",
 	pixel_size = { w = 71, h = 77 },
 	perishable_compat = false,
 	eternal_compat = false,
@@ -210,13 +205,7 @@ SMODS.Consumable {
 	cost = 5,
 	config = { extra = { odds = 3 } },
 	loc_vars = function(self, info_queue, card)
-		local minpool = togabalatro.oredict.minerals
-		if minpool and #minpool > 0 and love.keyboard.isDown("lshift") then
-			for k, v in pairs(minpool) do
-				info_queue[#info_queue + 1] = G.P_CENTERS[v]
-			end
-		end
-		return {key = love.keyboard.isDown("lshift") and self.key.."_showminerals" or self.key, vars = { SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) }}
+		return { vars = { SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) }}
 	end,
 	in_pool = function()
 		if G.playing_cards then
@@ -261,6 +250,7 @@ SMODS.Consumable {
         badges[#badges+1] = create_badge(localize('toga_minetarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 0.9)
     end,
 	pixel_size = { w = 71, h = 77 },
+	shiftinfoclick = "toga_showminerals",
 	perishable_compat = false,
 	eternal_compat = false,
 	can_stack = false,
@@ -552,13 +542,7 @@ SMODS.Consumable {
 	cost = 5,
 	config = { extra = { max_highlighted = 1, odds = 4 } },
 	loc_vars = function(self, info_queue, card)
-		local alloypool = togabalatro.oredict.alloys
-		if not card.fake_card and alloypool and #alloypool > 0 and love.keyboard.isDown("lshift") then
-			for k, v in pairs(alloypool) do
-				info_queue[#info_queue + 1] = G.P_CENTERS[v]
-			end
-		end
-		return {key = card.fake_card and self.key.."_desconly" or love.keyboard.isDown("lshift") and self.key.."_showalloys" or self.key, vars = { (card.ability.extra or self.config.extra).max_highlighted, SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) } }
+		return {key = card.fake_card and self.key.."_desconly" or self.key, vars = { (card.ability.extra or self.config.extra).max_highlighted, SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) } }
 	end,
 	in_pool = function()
 		return togabalatro.config.ShowPower
@@ -606,6 +590,7 @@ SMODS.Consumable {
 		end
 	end,
 	pixel_size = { w = 71, h = 77 },
+	shiftinfoclick = "toga_showalloys",
 	poweritem = true,
 	can_stack = false,
 	no_bulkuse = true,
