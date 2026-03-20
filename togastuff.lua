@@ -539,22 +539,6 @@ end
 to_big = to_big or function(a) return a end
 to_number = to_number or function(a) return a end
 
--- Choose suit for Disk Cleanup Joker.
-togabalatro.reset_diskcleanup = function(run_start)
-	if run_start then G.GAME.current_round.togabalatro.diskcleanup = {}; G.GAME.current_round.togabalatro.diskcleanup.suit = 'Hearts' end
-	local dc_suits = {}
-	for k, v in ipairs(G.playing_cards) do
-		if v.ability.effect ~= 'Stone Card' then
-			if not SMODS.has_no_suit(v) and not dc_suits[v.base.suit] and SMODS.Suits[v.base.suit] then
-				dc_suits[v.base.suit] = true
-			end
-		end
-	end
-	local valid_dc_suits = {}
-	for k, v in pairs(dc_suits) do valid_dc_suits[#valid_dc_suits+1] = k end
-	if next(valid_dc_suits) then G.GAME.current_round.togabalatro.diskcleanup.suit = pseudorandom_element(valid_dc_suits, pseudoseed('diskcleanup'..G.GAME.round_resets.ante)) end
-end
-
 -- Choose overriding suit for Registry Editor Joker.
 togabalatro.reset_regedit = function(run_start)
 	if run_start then G.GAME.current_round.togabalatro.regedit = {}; G.GAME.current_round.togabalatro.regedit.suit = 'Hearts' end
@@ -583,7 +567,6 @@ end
 togabalatro.reset_game_globals = function(run_start)
 	if run_start then G.GAME.current_round.togabalatro = {} end
 	
-	togabalatro.reset_diskcleanup(run_start)
 	togabalatro.reset_regedit(run_start)
 	togabalatro.reset_certificateserver(run_start)
 	

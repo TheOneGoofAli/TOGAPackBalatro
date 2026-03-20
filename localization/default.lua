@@ -166,6 +166,15 @@ return {
 					"on poker hands",
 				}
 			},
+			b_toga_milleniumdeck = {
+				name = "Millenium Edition Deck",
+				text = {
+					"{C:attention}Scoring{} of playing cards",
+					"is {C:attention}redirected{} to a",
+					"random card in {C:attention}full deck",
+					"when playing a hand",
+				}
+			},
 		},
 		Blind = {
 			bl_toga_dialupmodem = {
@@ -293,8 +302,8 @@ return {
 			j_toga_taskmgr = {
 				name = 'Task Manager',
 				text = {
-					"On {C:attention}last discard{}, {C:red}destroy{}",
-					"{C:attention}all{} discarded cards",
+					"{C:attention}Discarding{} with {C:attention}1{} discard remaining",
+					"{C:red}destroys{} {C:attention}all{} discarded cards",
 					"{C:inactive,s:0.8}I want to speak to your Manager!{}"
 				}
 			},
@@ -1600,6 +1609,14 @@ return {
 					"If played hand contains a {C:attention}#2#{}, {C:green}#3# in #4#{} chance to",
 					"{X:chips,C:white}=80{} base {C:chips}Chips{} and {X:mult,C:white}=0.85{} base {C:mult}Mult{},",
 					"then earn {C:gold}#1#{} afterwards",
+				}
+			},
+			j_toga_aim = {
+				name = '{C:attention}AOL Instant Messenger',
+				text = {
+					"Create a random {C:attention}Consumable{}",
+					"at the end of the shop",
+					"{C:inactive}(Must have room){}"
 				}
 			},
 		},

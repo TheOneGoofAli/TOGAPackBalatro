@@ -309,6 +309,18 @@ SMODS.Back{
 	end,
 }
 
+SMODS.Back{
+	key = "milleniumdeck",
+	pos = { x = 4, y = 2 },
+	atlas = "TOGADeckBack",
+	unlocked = true,
+	calculate = function(self, back, context)
+		if context.before then G.GAME.toga_rndsccard = pseudorandom_element(G.playing_cards, pseudoseed('medeck')) end
+		
+		if context.after then G.GAME.toga_rndsccard = nil end
+	end,
+}
+
 if togabalatro.config.KingCDIDeck then
 	SMODS.Back{
 		key = "kingharkinian",

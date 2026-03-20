@@ -133,7 +133,7 @@ togabalatro.jd_def["j_toga_recyclebin"] = {
 		{
 			border_nodes = {
 				{ text = "X" },
-				{ ref_table = "card.ability.extra", ref_value = "xchip_mod", retrigger_type = "exp" },
+				{ ref_table = "card.ability.extra", ref_value = "xchips", retrigger_type = "exp" },
 			},
 			border_colour = G.C.CHIPS
 		}

@@ -177,10 +177,9 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'recyclebin',
-	config = { extra = { xchip_increase = 0.05, xchip_mod = 1 } },
+	config = { extra = { xchip_increase = 0.05, xchips = 1 } },
 	loc_vars = function(self, info_queue, card)
-		if to_number(card.ability.extra.xchip_mod) < 1 then card.ability.extra.xchip_mod = 1 end
-		return { vars = { card.ability.extra.xchip_increase, card.ability.extra.xchip_mod, card.ability.extra.xchip_increase*3 } }
+		return { vars = { card.ability.extra.xchip_increase, card.ability.extra.xchips, card.ability.extra.xchip_increase*3 } }
 	end,
 	unlocked = true,
 	rarity = 3,
@@ -189,10 +188,8 @@ table.insert(jokers, {
 	cost = 8,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-			if context.other_card == context.scoring_hand[#context.scoring_hand] then
-				return { x_chips = card.ability.extra.xchip_mod }
-			end
+		if context.individual and context.cardarea == G.play and context.other_card == context.scoring_hand[#context.scoring_hand] then
+			return { x_chips = card.ability.extra.xchips }
 		end
 	
 		if context.remove_playing_cards then
@@ -203,7 +200,7 @@ table.insert(jokers, {
 						-- Add 3x0.05.
 						SMODS.scale_card(card, {
 							ref_table = card.ability.extra,
-							ref_value = "xchip_mod",
+							ref_value = "xchips",
 							scalar_value = "xchip_increase",
 							no_message = true,
 							operation = function(ref_table, ref_value, initial, change)
@@ -215,7 +212,7 @@ table.insert(jokers, {
 						-- Add 0.05.
 						SMODS.scale_card(card, {
 							ref_table = card.ability.extra,
-							ref_value = "xchip_mod",
+							ref_value = "xchips",
 							scalar_value = "xchip_increase",
 							no_message = true,
 						})
@@ -336,7 +333,6 @@ table.insert(jokers, {
 						ref_table[ref_value] = initial + change*gain
 					end,
 				})
-				return nil, true
 			end
 		end
 		
@@ -624,7 +620,6 @@ table.insert(jokers, {
 				ref_value = "curxmult",
 				scalar_value = "txmult",
 			})
-			return nil, true
 		end
 		
 		if context.joker_main then return { xmult = 1+card.ability.extra.curxmult } end
@@ -797,7 +792,6 @@ table.insert(jokers, {
 					colour = G.C.RED
 				}
 			})
-			return nil, true
 		end
 		
 		if context.joker_main then return { xmult = card.ability.extra.curxmult } end
@@ -924,7 +918,6 @@ table.insert(jokers, {
 				ref_value = "curxmult",
 				scalar_value = "trigxmult",
 			})
-			return nil, true
 		end
 		
 		if context.joker_main then
@@ -1122,7 +1115,6 @@ table.insert(jokers, {
 				ref_value = "curxmult",
 				scalar_value = "tagxmult",
 			})
-			return nil, true
 		end
 		
 		if context.joker_main then return { xmult = 1+card.ability.extra.curxmult } end
@@ -1430,7 +1422,7 @@ table.insert(jokers, {
 		return { vars = { 1+card.ability.extra.xm, card.ability.extra.xmg } }
 	end,
 	unlocked = true,
-	rarity = 2,
+	rarity = 1,
 	atlas = 'TOGAJokersMain',
 	pos = { x = 1, y = 10 },
 	cost = 6,
@@ -1478,6 +1470,41 @@ table.insert(jokers, {
 	pos = { x = 2, y = 10 },
 	cost = 6,
 	blueprint_compat = false,
+})
+
+table.insert(jokers, {
+	key = 'aim',
+	unlocked = true,
+	in_pool = function()
+		return togabalatro.config.ShowPower
+	end,
+	rarity = 2,
+	atlas = 'TOGAJokersMain',
+	pos = { x = 4, y = 10 },
+	cost = 6,
+	blueprint_compat = true,
+	calculate = function(self, card, context)
+		if context.ending_shop then
+			local ccard = context.retrigger_joker or context.blueprint_card or card
+			G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+			return { func = function()
+				G.E_MANAGER:add_event(Event({func = function()
+					if #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
+						G.E_MANAGER:add_event(Event({func = function()
+							play_sound('timpani')
+							SMODS.add_card({ set = 'Consumeables' })
+							ccard:juice_up()
+							return true
+						end}))
+						delay(0.6)
+					end
+					G.GAME.consumeable_buffer = math.max(G.GAME.consumeable_buffer - 1, 0)
+					return true
+				end}))
+			end }
+		end
+	end,
+	poweritem = true
 })
 
 table.insert(jokers, {
@@ -1654,7 +1681,7 @@ table.insert(jokers, {
 	cost = 4,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.joker_main then return { chips = card.ability.extra.c } end
+		if context.joker_main then return { mult = card.ability.extra.m } end
 		
 		if context.blueprint then return end
 		

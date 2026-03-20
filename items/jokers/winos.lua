@@ -165,13 +165,11 @@ table.insert(winj, {
 	eternal_compat = false,
 	demicolon_compat = true,
 	calculate = function(self, card, context)
-		if (context.end_of_round or context.forcetrigger) and not (context.individual or context.repetition) then
+		if (context.end_of_round or context.forcetrigger) and context.main_eval then
 			return { func = function()
 				G.E_MANAGER:add_event(Event({
 					func = (function()
-						local gettag = get_next_tag_key()
-						if gettag == 'tag_orbital' then gettag = 'tag_negative' end
-						add_tag(Tag(gettag))
+						add_tag({ key = get_next_tag_key() })
 						card:juice_up(0.3, 0.4)
 						play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
 						play_sound('holo1', 1.2 + math.random()*0.1, 0.4)

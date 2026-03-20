@@ -1041,16 +1041,14 @@ sendInfoMessage("Hooking Full House evaluation...", "TOGAPack")
 local fullhouse = SMODS.PokerHands['Full House']
 local fullhouseeval = SMODS.PokerHands['Full House'].evaluate
 function fullhouse.evaluate(parts)
-	if next(SMODS.find_card('j_toga_achemoth')) then return not (#parts._2 < 2) and parts._all_pairs end
-	return fullhouseeval(parts)
+	return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and parts._all_pairs or fullhouseeval(parts)
 end
 
 sendInfoMessage("Hooking Straight evaluation...", "TOGAPack")
 local straightph = SMODS.PokerHands['Straight']
 local straightpheval = SMODS.PokerHands['Straight'].evaluate
 function straightph.evaluate(parts)
-	if next(SMODS.find_card('j_toga_hyperterminal')) then return not (#parts._2 < 2) and parts._all_pairs end
-	return straightpheval(parts)
+	return next(SMODS.find_card('j_toga_hyperterminal')) and #parts._2 >= 2 and parts._all_pairs or straightpheval(parts)
 end
 
 sendInfoMessage("Hooking Card:set_edition...", "TOGAPack")
@@ -1094,4 +1092,11 @@ function Card:click()
 		return G.FUNCS[self.config.center.shiftinfoclick]()
 	end
 	return cardclickref(self)
+end
+
+sendInfoMessage("Hooking SMODS.score_card...", "TOGAPack")
+local scref = SMODS.score_card
+function SMODS.score_card(card, context)
+	card = Object.is(G.GAME.toga_rndsccard, Card) and G.GAME.toga_rndsccard or card
+	return scref(card, context)
 end
