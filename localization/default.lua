@@ -2717,6 +2717,7 @@ return {
 			toga_suspartner = "amogus.",
 			toga_rlwas = "What a save!",
 			toga_rlsry = "Sorry!",
+			toga_gotmail = "Got Mail!",
 			--
 			toga_furnaceprocess = "Smelted...",
 			toga_novalidrecipe = "No recipes match selected cards.",

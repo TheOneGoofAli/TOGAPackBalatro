@@ -1485,15 +1485,16 @@ table.insert(jokers, {
 	blueprint_compat = true,
 	calculate = function(self, card, context)
 		if context.ending_shop then
-			local ccard = context.retrigger_joker or context.blueprint_card or card
+			local ctx = context
+			local ccard = ctx.retrigger_joker or ctx.blueprint_card or card
 			G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
 			return { func = function()
 				G.E_MANAGER:add_event(Event({func = function()
 					if #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
+						SMODS.calculate_effect({ message = localize('toga_gotmail'), sound = not silent and togabalatro.config.SFXWhenTriggered and 'toga_aimgotmail', pitch = 1, volume = 0.6 }, ccard)
 						G.E_MANAGER:add_event(Event({func = function()
 							play_sound('timpani')
 							SMODS.add_card({ set = 'Consumeables' })
-							ccard:juice_up()
 							return true
 						end}))
 						delay(0.6)
@@ -1502,6 +1503,16 @@ table.insert(jokers, {
 					return true
 				end}))
 			end }
+		end
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		if not from_debuff and togabalatro.config.SFXWhenAdding and G.STAGE == G.STAGES.RUN and not G.screenwipe then
+			play_sound("toga_aimwelcome", 1, 0.5)
+		end
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		if not from_debuff and togabalatro.config.SFXWhenRemoving and G.STAGE == G.STAGES.RUN and not G.screenwipe then
+			play_sound("toga_aimgoodbye", 1, 0.5)
 		end
 	end,
 	poweritem = true
