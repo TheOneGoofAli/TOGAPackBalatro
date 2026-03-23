@@ -17,5 +17,4 @@ https://github.com/Steamodded/smods
 
 [Amulet](https://github.com/frostice482/amulet) (recommended) / [Talisman](https://github.com/MathIsFun0/Talisman) is an optional dependency for a bit of extra content.
 
-If Incantation is to be used alongside, it is recommended to obtain the [forked version](https://github.com/TheOneGoofAli/JensBalatroCollection/tree/main/Incantation) to prevent unintended behaviour by some of the Consumeables of this mod.
-Alternatively, why not check out [Overflow](https://github.com/lord-ruby/Overflow) as a modern replacement?
+For stacking consumables, [Overflow](https://github.com/lord-ruby/Overflow) is recommended over [Incantation](https://github.com/TheOneGoofAli/JensBalatroCollection/tree/main/Incantation) or Saturn.
