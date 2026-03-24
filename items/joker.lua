@@ -2243,15 +2243,6 @@ table.insert(jokers, {
 table.insert(jokers, {
 	key = 'miningjkr',
 	config = { extra = { } },
-	loc_vars = function(self, info_queue, card)
-		local minpool = togabalatro.oredict.minerals
-		if minpool and #minpool > 0 and love.keyboard.isDown("lshift") then
-			for k, v in pairs(minpool) do
-				info_queue[#info_queue + 1] = G.P_CENTERS[v]
-			end
-		end
-		return { key = love.keyboard.isDown("lshift") and self.key.."_showminerals" or self.key }
-	end,
 	unlocked = true,
 	in_pool = function()
 		return togabalatro.config.ShowPower
@@ -2280,6 +2271,7 @@ table.insert(jokers, {
 			card.ability.extra.used = true
 		end
 	end,
+	shiftinfoclick = "toga_showminerals",
 	poweritem = true
 })
 

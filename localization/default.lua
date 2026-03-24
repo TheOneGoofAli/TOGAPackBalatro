@@ -1118,18 +1118,18 @@ return {
 					"{C:attention}Unenhanced{} cards played on the",
 					"{C:attention}first hand{} of round are {C:attention}converted{}",
 					"to {C:attention}Mineral{} cards afterwards.",
-					"{C:inactive,s:0.8}Hold Left SHIFT before hovering over{}",
-					"{C:inactive,s:0.8}this card to show the Mineral pool.{}"
+					"{C:inactive,s:0.8}Hold Left SHIFT and click on this card{}",
+					"{C:inactive,s:0.8}to show the Mineral pool.{}"
 				}
 			},
-			j_toga_miningjkr_showminerals = {
-				name = 'Mining Joker',
-				text = {
-					"{C:attention}Unenhanced{} cards played on the",
-					"{C:attention}first hand{} of round are {C:attention}converted{}",
-					"to {C:attention}Mineral{} cards afterwards.",
-				}
-			},
+			-- j_toga_miningjkr_showminerals = {
+				-- name = 'Mining Joker',
+				-- text = {
+					-- "{C:attention}Unenhanced{} cards played on the",
+					-- "{C:attention}first hand{} of round are {C:attention}converted{}",
+					-- "to {C:attention}Mineral{} cards afterwards.",
+				-- }
+			-- },
 			j_toga_tuneupwizard = {
 				name = 'Tune-up Wizard',
 				text = {
@@ -1420,7 +1420,7 @@ return {
 				name = "{C:gold}Super Sonic{}",
 				text = {
 					{
-						"Retrigger {C:attention}all{} cards once",
+						"Retrigger {C:attention}all{} playing cards once",
 					},
 					{
 						"Played {C:attention}non-Gold{} cards have a",
@@ -1428,7 +1428,7 @@ return {
 					},
 					{
 						"{C:attention,E:1}Resists debuffs",
-						"Fixed {C:green}#1# in #2#{} chance to",
+						"{C:green}#1# in #2#{} chance to",
 						"become {C:attention}Hyper Sonic{} after",
 						"scoring {C:attention}#6# Gold{} cards",
 						"{C:inactive}(Currently #5#/#6#)",
@@ -1438,11 +1438,11 @@ return {
 			j_toga_supersonicthehedgehog_stj = {
 				name = "{C:gold}Super Sonic{}",
 				text = {
-					"Retrigger {C:attention}all{} cards once",
+					"Retrigger {C:attention}all{} playing cards once",
 					"Played {C:attention}non-Gold{} cards have a",
 					"{C:green}#3# in #4#{} chance to be destroyed",
 					"{C:attention,E:1}Resists debuffs",
-					"Fixed {C:green}#1# in #2#{} chance to",
+					"{C:green}#1# in #2#{} chance to",
 					"become {C:attention}Hyper Sonic{}",
 					"when {C:attention}#6# Gold{} cards",
 					"have been scored",
@@ -1453,7 +1453,7 @@ return {
 				name = "{C:edition}Hyper Sonic{}",
 				text = {
 					{
-						"Retrigger {C:attention}all{} cards twice",
+						"Retrigger {C:attention}all{} playing cards twice",
 					},
 					{
 						"Played cards have a {C:green}#1# in #2#{}",
@@ -1467,7 +1467,7 @@ return {
 			j_toga_hypersonicthehedgehog_stj = {
 				name = "{C:edition}Hyper Sonic{}",
 				text = {
-					"Retrigger {C:attention}all{} cards twice",
+					"Retrigger {C:attention}all{} playing cards twice",
 					"Played {C:attention}non-Gold{} cards have a",
 					"{C:green}#1# in #2#{} chance to be destroyed",
 					"{C:attention,E:1}Jokers cannot be debuffed",

@@ -32,59 +32,56 @@ table.insert(sj, {
 		
 		if (context.blueprint or context.retrigger_joker) then return end
 		
-		if context.after then
-			if not card.ability.cantransform then
-				if (tonumber(card.ability.extra.rings) or 0) >= 50 then
-					card.ability.cantransform = true
-					SMODS.calculate_effect({ message = "!", sound = togabalatro.config.SFXWhenTriggered and 'toga_soniccheckpoint', pitch = 1}, card)
-					G.E_MANAGER:add_event(Event({func = function()
-						local eval = function() return (card.ability.extra.rings >= 50 and card.ability.cantransform and not card.ability.istransforming) end
-						juice_card_until(card, eval, true)
-					return true end }))
-				end
-			else
-				if card.ability.cantransform then
-					if SMODS.pseudorandom_probability(card, 'toga_7chaosemeralds', 1, card.ability.extra.odds, 'toga_7chaosemeralds') then
-						card.ability.istransforming = true
-						G.E_MANAGER:add_event(Event({delay = 2, func = function()
-							card:flip()
-						return true end }))
-						delay(1)
-						G.E_MANAGER:add_event(Event({delay = 2, func = function()
-							card:juice_up()
-						return true end }))
-						delay(1)
-						G.E_MANAGER:add_event(Event({delay = 2, func = function()
-							card:juice_up()
-						return true end }))
-						delay(1)
-						G.E_MANAGER:add_event(Event({delay = 5, func = function()
-							play_sound('toga_sonictransform')
-							card.ability.cantransform = false
-							card.ability.istransforming = false
-							card:set_ability('j_toga_supersonicthehedgehog')
-							check_for_unlock({ type = 'supersoniccheck_toga', card = card })
-						return true end }))
-						G.E_MANAGER:add_event(Event({delay = 2, func = function()
-							card:flip()
-						return true end }))
-						delay(1)
-					end
-				end
-			end
-		end
-		
 		if context.before and context.full_hand and next(context.full_hand) then
 			for k, v in ipairs(context.full_hand or {}) do
 				if SMODS.has_enhancement(v, 'm_gold') then
 					if (tonumber(card.ability.extra.rings) or 0) < 50 then
 						card.ability.extra.rings = math.min((card.ability.extra.rings or 0) + 1, 50)
 						if card.ability.extra.rings >= 50 then
-							SMODS.calculate_effect({ message = "+", message_card = v, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonictally', pitch = 1}, card)
+							SMODS.calculate_effect({ message = "!", message_card = v, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonictally', pitch = 1}, card)
 						else
 							SMODS.calculate_effect({ message = "+", message_card = v, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonicring', pitch = 1}, card)
 						end
 					end
+				end
+			end
+		end
+		
+		if context.after then
+			if (tonumber(card.ability.extra.rings) or 0) >= 50 then
+				card.ability.cantransform = true
+				SMODS.calculate_effect({ message = "!", sound = togabalatro.config.SFXWhenTriggered and 'toga_soniccheckpoint', pitch = 1}, card)
+			end
+			
+			if card.ability.cantransform then
+				if SMODS.pseudorandom_probability(card, 'toga_7chaosemeralds', 1, card.ability.extra.odds, 'toga_7chaosemeralds') then
+					card.ability.istransforming = true
+					local rings = card.ability.extra.rings
+					G.E_MANAGER:add_event(Event({delay = 2, func = function()
+						card:flip()
+					return true end }))
+					delay(1)
+					G.E_MANAGER:add_event(Event({delay = 2, func = function()
+						card:juice_up()
+					return true end }))
+					delay(1)
+					G.E_MANAGER:add_event(Event({delay = 2, func = function()
+						card:juice_up()
+					return true end }))
+					delay(1)
+					G.E_MANAGER:add_event(Event({delay = 5, func = function()
+						play_sound('toga_sonictransform')
+						card.ability.cantransform = false
+						card.ability.istransforming = false
+						card:set_ability('j_toga_supersonicthehedgehog')
+						card.ability.extra = type(card.ability.extra) == 'table' and card.ability.extra or {}
+						card.ability.extra.rings = rings
+						check_for_unlock({ type = 'supersoniccheck_toga', card = card })
+					return true end }))
+					G.E_MANAGER:add_event(Event({delay = 2, func = function()
+						card:flip()
+					return true end }))
+					delay(1)
 				end
 			end
 		end
@@ -102,9 +99,9 @@ table.insert(sj, {
 
 table.insert(sj, {
 	key = 'supersonicthehedgehog',
-	config = { extra = { odds = 14, nodds = 8 } },
+	config = { extra = { odds = 7, nodds = 8 } },
 	loc_vars = function(self, info_queue, card)
-		local num, den = SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds, 'toga_7superemeralds', nil, true)
+		local num, den = SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds, 'toga_7superemeralds')
 		local num1, den1 = SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.nodds, 'toga_supersonicdestroy')
 		local scoredgold, maxgold = card.ability.extra.rings or 0, 150
 		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { num, den, num1, den1, scoredgold, maxgold } }
@@ -136,7 +133,7 @@ table.insert(sj, {
 			if (tonumber(card.ability.extra.rings) or 0) < 150 then
 				card.ability.extra.rings = math.min((card.ability.extra.rings or 0) + 1, 150)
 				if card.ability.extra.rings >= 150 then
-					SMODS.calculate_effect({ message = "+", message_card = context.other_card, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonictally', pitch = 1}, card)
+					SMODS.calculate_effect({ message = "!", message_card = context.other_card, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonictally', pitch = 1}, card)
 				else
 					SMODS.calculate_effect({ message = "+", message_card = context.other_card, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonicring', pitch = 1}, card)
 				end
@@ -149,43 +146,41 @@ table.insert(sj, {
 		end
 		
 		if context.after then
-			if not card.ability.cantransform then
-				if (tonumber(card.ability.extra.rings) or 0) >= 150 then
-					card.ability.cantransform = true
-					SMODS.calculate_effect({ message = "!", sound = togabalatro.config.SFXWhenTriggered and 'toga_soniccheckpoint', pitch = 1}, card)
-					G.E_MANAGER:add_event(Event({func = function()
-						local eval = function() return (card.ability.extra.rings >= 150 and card.ability.cantransform and not card.ability.istransforming) end
-						juice_card_until(card, eval, true)
+			if (tonumber(card.ability.extra.rings) or 0) >= 150 then
+				card.ability.cantransform = true
+				SMODS.calculate_effect({ message = "!", sound = togabalatro.config.SFXWhenTriggered and 'toga_soniccheckpoint', pitch = 1}, card)
+				G.E_MANAGER:add_event(Event({func = function()
+					local eval = function() return (card.ability.extra.rings >= 150 and card.ability.cantransform and not card.ability.istransforming) end
+					juice_card_until(card, eval, true)
+				return true end }))
+			end
+			
+			if card.ability.cantransform then
+				if SMODS.pseudorandom_probability(card, 'toga_7superemeralds', 1, card.ability.extra.odds, 'toga_7superemeralds') then
+					card.ability.istransforming = true
+					G.E_MANAGER:add_event(Event({delay = 2, func = function()
+						card:flip()
 					return true end }))
-				end
-			else
-				if card.ability.cantransform then
-					if SMODS.pseudorandom_probability(card, 'toga_7superemeralds', 1, card.ability.extra.odds, 'toga_7superemeralds', true) then
-						card.ability.istransforming = true
-						G.E_MANAGER:add_event(Event({delay = 2, func = function()
-							card:flip()
-						return true end }))
-						delay(1)
-						G.E_MANAGER:add_event(Event({delay = 2, func = function()
-							card:juice_up()
-						return true end }))
-						delay(1)
-						G.E_MANAGER:add_event(Event({delay = 2, func = function()
-							card:juice_up()
-						return true end }))
-						delay(1)
-						G.E_MANAGER:add_event(Event({delay = 5, func = function()
-							play_sound('toga_sonictransform')
-							card.ability.cantransform = false
-							card.ability.istransforming = false
-							card:set_ability('j_toga_hypersonicthehedgehog')
-							check_for_unlock({ type = 'hypersoniccheck_toga', card = card })
-						return true end }))
-						G.E_MANAGER:add_event(Event({delay = 2, func = function()
-							card:flip()
-						return true end }))
-						delay(1)
-					end
+					delay(1)
+					G.E_MANAGER:add_event(Event({delay = 2, func = function()
+						card:juice_up()
+					return true end }))
+					delay(1)
+					G.E_MANAGER:add_event(Event({delay = 2, func = function()
+						card:juice_up()
+					return true end }))
+					delay(1)
+					G.E_MANAGER:add_event(Event({delay = 5, func = function()
+						play_sound('toga_sonictransform')
+						card.ability.cantransform = false
+						card.ability.istransforming = false
+						card:set_ability('j_toga_hypersonicthehedgehog')
+						check_for_unlock({ type = 'hypersoniccheck_toga', card = card })
+					return true end }))
+					G.E_MANAGER:add_event(Event({delay = 2, func = function()
+						card:flip()
+					return true end }))
+					delay(1)
 				end
 			end
 		end

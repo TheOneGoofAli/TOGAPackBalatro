@@ -230,7 +230,6 @@ SMODS.Consumable {
 		end
 		for k, v in ipairs(cards) do
 			if SMODS.has_enhancement(v, 'm_stone') then
-				--if pseudorandom("toga_minediamonds") < G.GAME.probabilities.normal/card.ability.extra.odds then
 				if SMODS.pseudorandom_probability(card, "toga_minediamonds", 1, card.ability.extra.odds, 'miningprospect') then
 					local enhancement = SMODS.poll_enhancement({ guaranteed = true, options = togabalatro.oredict.minerals, type_key = 'modmineral' })
 					G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()

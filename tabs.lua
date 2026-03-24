@@ -6,13 +6,11 @@ togabalatro.custom_ui = function(modNodes)
 	)
 	
 	for i, key in ipairs({ 'j_toga_win95', 'j_toga_tomscott', 'j_toga_franziska', 'j_toga_bonusducks', 'c_toga_furnace', 'c_toga_miningprospect' }) do
-		local c = Card(G.toga_card_area.T.x + G.toga_card_area.T.w / 2, G.toga_card_area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[key])
+		local c = Card(G.toga_card_area.T.x + G.toga_card_area.T.w / 2, G.toga_card_area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
 		c.no_ui = true
-		if G.P_CENTERS[key].discovered then
-			if key == 'c_toga_furnace' then c.click = G.FUNCS.toga_alloyrecipes end
-			if key == 'c_toga_miningprospect' then c.click = G.FUNCS.toga_showminerals end
-			if key == 'j_toga_bonusducks' then c.click = G.FUNCS.toga_quack end
-		end
+		if key == 'c_toga_furnace' then c.click = G.FUNCS.toga_alloyrecipes end
+		if key == 'c_toga_miningprospect' then c.click = G.FUNCS.toga_showminerals end
+		if key == 'j_toga_bonusducks' then c.click = G.FUNCS.toga_quack end
 		G.toga_card_area:emplace(c)
 	end
 	

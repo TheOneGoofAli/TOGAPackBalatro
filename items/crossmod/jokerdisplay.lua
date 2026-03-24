@@ -1415,8 +1415,8 @@ togabalatro.jd_def["j_toga_supersonicthehedgehog"] = {
 			end
 		end
 		card.joker_display_values.rings = math.min((card.ability.extra.rings or 0) + golds, 150)
-		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'toga_7superemeralds', nil, true) } }
-		card.joker_display_values.nodds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.nodds, 'toga_supersonicdestroy', nil) } }
+		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'toga_7superemeralds') } }
+		card.joker_display_values.nodds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.nodds, 'toga_supersonicdestroy') } }
 	end,
 	retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
 		return JokerDisplay.calculate_joker_triggers(joker_card) or 0
