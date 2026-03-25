@@ -1513,25 +1513,8 @@ return {
 			j_toga_littleplanet = {
 				name = 'Little Planet',
 				text = {
-					{
-						"Poker hand {C:planet}level{} changes",
-						"are {C:red}half{} as effective",
-					},
-					{
-						"This Joker gains {C:chips}#2#{} Chips when",
-						"trying to {C:attention}change{} poker hand {C:planet}level",
-						"{C:inactive}(Currently {}{C:chips}#1#{}{C:inactive} Chips){}",
-					}
-				}
-			},
-			j_toga_littleplanet_stj = {
-				name = 'Little Planet',
-				text = {
-					"Poker hand {C:planet}level{} changes",
-					"are {C:red}half{} as effective",
-					"This Joker gains {C:chips}#2#{} Chips when",
-					"trying to {C:attention}change{} poker hand {C:planet}level",
-					"{C:inactive}(Currently {}{C:chips}#1#{}{C:inactive} Chips){}",
+					"{C:planet}Planet{} cards can be {C:attention}taken{}",
+					"from {C:attention}Booster Packs{} instead",
 				}
 			},
 			j_toga_heatdeath = {

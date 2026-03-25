@@ -417,10 +417,10 @@ function SMODS.upgrade_poker_hands(args)
 							SMODS.calculate_effect({message = localize('k_upgrade_ex'), juice_card = args.from}, eval2.card)
 						end
 						
-						if eval2.lplvl then
-							args.level_up = args.level_up * 0.5
-							SMODS.calculate_effect({message = localize('toga_halved'), juice_card = args.from}, eval2.card)
-						end
+						-- if eval2.lplvl then
+							-- args.level_up = args.level_up * 0.5
+							-- SMODS.calculate_effect({message = localize('toga_halved'), juice_card = args.from}, eval2.card)
+						-- end
 						
 						if eval2.no_level then
 							args.level_up = args.level_up * 0
@@ -1099,4 +1099,12 @@ local scref = SMODS.score_card
 function SMODS.score_card(card, context)
 	card = Object.is(G.GAME.toga_rndsccard, Card) and G.GAME.toga_rndsccard or card
 	return scref(card, context)
+end
+
+sendInfoMessage("Hooking SMODS.card_select_area...", "TOGAPack")
+local cardselarearef = SMODS.card_select_area
+function SMODS.card_select_area(card, pack)
+    local select_area = cardselarearef(card, pack)
+	if card and card.ability and card.ability.set and card.ability.set == 'Planet' and next(SMODS.find_card('j_toga_littleplanet')) then select_area = "consumeables" end
+    return select_area
 end

@@ -2562,29 +2562,12 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'littleplanet',
-	config = { extra = { c = 0, cg = 5 } },
-	loc_vars = function(self, info_queue, card)
-		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { SMODS.signed(card.ability.extra.c), SMODS.signed(card.ability.extra.cg) } }
-	end,
 	unlocked = true,
 	rarity = 1,
 	atlas = 'TOGAJokersOther',
 	pos = { x = 0, y = 3 },
 	cost = 5,
-	blueprint_compat = true,
-	calculate = function(self, card, context)
-		if context.toga_levelup and not (context.blueprint or context.retrigger_joker) then
-			SMODS.scale_card(card, {
-				ref_table = card.ability.extra,
-				ref_value = "c",
-				scalar_value = "cg",
-				no_message = true,
-			})
-			return { lplvl = true, card = card }
-		end
-		
-		if context.joker_main then return { chips = card.ability.extra.c } end
-	end,
+	blueprint_compat = false,
 })
 
 table.insert(jokers, {
