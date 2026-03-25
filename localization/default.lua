@@ -1919,6 +1919,13 @@ return {
 					"{C:inactive,s:0.8}and click on this card.){}",
 				}
 			},
+			c_toga_furnace_modinfo = {
+				name = "Alloy Recipes",
+				text = {
+					"Click on this card",
+					"to view {C:attention}Alloy{} recipes",
+				}
+			},
 			c_toga_miningprospect = {
 				name = "Prospect",
 				text = {
@@ -1929,12 +1936,11 @@ return {
 					"{C:inactive,s:0.8}to show the Mineral pool.{}"
 				}
 			},
-			c_toga_miningprospect_showminerals = {
-				name = "Prospect",
+			c_toga_miningprospect_modinfo = {
+				name = "Mineral Pool",
 				text = {
-					"Destroys {T:m_stone,C:attention}Stone Cards{} in the {C:attention}full deck{}.",
-					"{C:green}#1# in #2#{} chance for a {T:m_stone,C:attention}Stone Card{} to",
-					"convert into a {C:attention}Mineral{} card instead.",
+					"Click on this card",
+					"to view {C:attention}Mineral{} pool",
 				}
 			},
 			c_toga_inbox = {
@@ -2005,6 +2011,13 @@ return {
 					"{C:attention}#1#{} card to an {C:attention}Alloy{} card.",
 					"{C:inactive,s:0.8}Hold Left SHIFT and click on{}",
 					"{C:inactive,s:0.8}this card to show the Alloy pool.{}"
+				}
+			},
+			c_toga_alloyer_modinfo = {
+				name = "Alloy Pool",
+				text = {
+					"Click on this card",
+					"to view {C:attention}Alloy{} pool",
 				}
 			},
 			c_toga_alloyer_showalloys = {
@@ -2720,6 +2733,7 @@ return {
 			toga_alloy = "Alloy",
 			toga_crafttarot = "Crafting Tarot",
 			toga_minetarot = "Mining Tarot",
+			toga_alloyspectral = "Alloying Spectral",
 			toga_stonenothing = "Nothing...",
 			toga_stonefound = "!",
 			--

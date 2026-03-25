@@ -126,7 +126,7 @@ SMODS.Consumable{
 		if cando and txt then
 			info_queue[#info_queue + 1] = {key = txt, set = 'Other'}
 		end
-		return { key = cando and self.key..'_ready' or G.hand and G.hand.highlighted and #G.hand.highlighted > 0 and self.key.."_novalidrecipe" or self.key, vars = { card.ability.extra.moneygain } }
+		return { key = card.togamodarea and self.key..'_modinfo' or cando and self.key..'_ready' or G.hand and G.hand.highlighted and #G.hand.highlighted > 0 and self.key.."_novalidrecipe" or self.key, vars = { card.ability.extra.moneygain } }
 	end,
 	in_pool = function()
 		return togabalatro.config.ShowPower and togabalatro.has_mineral() -- Should only spawn if mineral cards.
@@ -183,9 +183,9 @@ SMODS.Consumable{
 	keep_on_use = function(self, card)
 		return true
 	end,
-	set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('toga_crafttarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 0.9)
-    end,
+	set_card_type_badge = function(self, card, badges)
+		if not (card and card.togamodarea) then badges[#badges+1] = create_badge(localize('toga_crafttarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1.2) end
+	end,
 	shiftinfoclick = "toga_alloyrecipes",
 	pixel_size = { w = 71, h = 77 },
 	perishable_compat = false,
@@ -205,7 +205,7 @@ SMODS.Consumable {
 	cost = 5,
 	config = { extra = { odds = 3 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) }}
+		return { key = card.togamodarea and self.key..'_modinfo' or self.key, vars = { SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) }}
 	end,
 	in_pool = function()
 		if G.playing_cards then
@@ -245,9 +245,9 @@ SMODS.Consumable {
 			end
 		end
 	end,
-	set_badges = function(self, card, badges)
-        badges[#badges+1] = create_badge(localize('toga_minetarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 0.9)
-    end,
+	set_card_type_badge = function(self, card, badges)
+		if not (card and card.togamodarea) then badges[#badges+1] = create_badge(localize('toga_minetarot'), G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1.2) end
+	end,
 	pixel_size = { w = 71, h = 77 },
 	shiftinfoclick = "toga_showminerals",
 	perishable_compat = false,
@@ -541,7 +541,7 @@ SMODS.Consumable {
 	cost = 5,
 	config = { extra = { max_highlighted = 1, odds = 4 } },
 	loc_vars = function(self, info_queue, card)
-		return {key = card.fake_card and self.key.."_desconly" or self.key, vars = { (card.ability.extra or self.config.extra).max_highlighted, SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) } }
+		return { key = card.togamodarea and self.key..'_modinfo' or card.fake_card and self.key.."_desconly" or self.key, vars = { (card.ability.extra or self.config.extra).max_highlighted, SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) } }
 	end,
 	in_pool = function()
 		return togabalatro.config.ShowPower
@@ -587,6 +587,9 @@ SMODS.Consumable {
 			return true end }))
 			delay(0.2)
 		end
+	end,
+	set_card_type_badge = function(self, card, badges)
+		if not (card and card.togamodarea) then badges[#badges+1] = create_badge(localize('toga_alloyspectral'), G.C.SECONDARY_SET.Spectral, G.C.WHITE, 1.2) end
 	end,
 	pixel_size = { w = 71, h = 77 },
 	shiftinfoclick = "toga_showalloys",

@@ -1,15 +1,17 @@
 togabalatro.custom_ui = function(modNodes)
 	local lv = togabalatro.description_loc_vars() or {}
 	G.toga_card_area = CardArea(
-		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2, G.ROOM.T.h, 6 * G.CARD_W, 0.95 * G.CARD_H,
-		{ card_limit = 5, type = 'title', highlight_limit = 0, collection = true }
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2, G.ROOM.T.h, 6.9 * G.CARD_W, 0.95 * G.CARD_H,
+		{ card_limit = 7, type = 'title', highlight_limit = 0, collection = true }
 	)
 	
-	for i, key in ipairs({ 'j_toga_win95', 'j_toga_tomscott', 'j_toga_franziska', 'j_toga_bonusducks', 'c_toga_furnace', 'c_toga_miningprospect' }) do
+	for i, key in ipairs({ 'j_toga_win95', 'j_toga_tomscott', 'j_toga_franziska', 'j_toga_bonusducks', 'c_toga_miningprospect', 'c_toga_furnace', 'c_toga_alloyer' }) do
 		local c = Card(G.toga_card_area.T.x + G.toga_card_area.T.w / 2, G.toga_card_area.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS[key], {bypass_discovery_center = true, bypass_discovery_ui = true})
+		c.togamodarea = true
 		c.no_ui = true
-		if key == 'c_toga_furnace' then c.click = G.FUNCS.toga_alloyrecipes end
-		if key == 'c_toga_miningprospect' then c.click = G.FUNCS.toga_showminerals end
+		if key == 'c_toga_furnace' then c.click = G.FUNCS.toga_alloyrecipes; c.no_ui = nil end
+		if key == 'c_toga_miningprospect' then c.click = G.FUNCS.toga_showminerals; c.no_ui = nil end
+		if key == 'c_toga_alloyer' then c.click = G.FUNCS.toga_showalloys; c.no_ui = nil end
 		if key == 'j_toga_bonusducks' then c.click = G.FUNCS.toga_quack end
 		G.toga_card_area:emplace(c)
 	end
