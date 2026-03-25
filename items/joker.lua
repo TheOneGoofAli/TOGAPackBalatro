@@ -2325,31 +2325,30 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'melons',
-	config = { extra = { money = 2, odds = 2 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { SMODS.signed_dollars(card.ability.extra.money), localize('Pair', "poker_hands"), SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds, "5318008") } }
+		return { vars = { localize('Pair', "poker_hands"), localize('Queen', "ranks") } }
 	end,
 	unlocked = true,
 	in_pool = function()
 		return togabalatro.config.JokeJokersActive -- Should only spawn if allowed to via config!
 	end,
-	rarity = 1,
+	rarity = 3,
 	atlas = 'TOGAJokersOtherDiffSize',
 	pos = { x = 0, y = 1 },
-	cost = 4,
+	cost = 8,
 	blueprint_compat = true,
 	pixel_size = { w = 69, h = 46 },
 	calculate = function(self, card, context)
-		if context.after and card.ability.extra.trig then return { dollars = card.ability.extra.money } end
-		
-		if context.blueprint or context.retrigger_joker then return end
-		
-		if context.before then card.ability.extra.trig = nil end
-		
-		if context.modify_hand and context.poker_hands and next(context.poker_hands['Pair']) and SMODS.pseudorandom_probability(card, "5318008", 1, card.ability.extra.odds) then
-			card.ability.extra.trig = true
-			hand_chips, mult = mod_chips(to_big(80)), mod_mult(0.85)
-			return { message = "80085", sound = not silent and togabalatro.config.SFXWhenTriggered and 'toga_80085', pitch = 1 }
+		if context.initial_scoring_step and context.poker_hands and next(context.poker_hands) and next(context.poker_hands['Pair']) then
+			local qc, hc = 0, false
+			for _, t in ipairs(context.poker_hands['Pair'] or {}) do
+				if not hc then qc = 0 end
+				for k, v in ipairs(t) do
+					if v:get_id() == 12 then qc = qc + 1 end
+					if qc >= 2 then hc = true; break end
+				end
+			end
+			if hc then return { balance = true, balance_message = { message = "80085", sound = not silent and togabalatro.config.SFXWhenTriggered and 'toga_80085', pitch = 1 } } end
 		end
 	end,
 	set_badges = function(self, card, badges)

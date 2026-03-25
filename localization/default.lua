@@ -1589,9 +1589,9 @@ return {
 			j_toga_melons = {
 				name = 'Watermelons',
 				text = {
-					"If played hand contains a {C:attention}#2#{}, {C:green}#3# in #4#{} chance to",
-					"{X:chips,C:white}=80{} base {C:chips}Chips{} and {X:mult,C:white}=0.85{} base {C:mult}Mult{},",
-					"then earn {C:gold}#1#{} afterwards",
+					"{C:purple}Balance{} {C:attention}base{} {C:chips}Chips{} and {C:mult}Mult{}",
+					"if played hand contains",
+					"a {C:attention}#1#{} of {C:attention}#2#s{}",
 				}
 			},
 			j_toga_aim = {

@@ -1484,14 +1484,6 @@ togabalatro.jd_def["j_toga_bigbang"] = {
 	end,
 }
 
-togabalatro.jd_def["j_toga_littleplanet"] = {
-	text = {
-		{ text = "+" },
-		{ ref_table = "card.ability.extra", ref_value = "c", retrigger_type = "mult" },
-	},
-	text_config = { colour = G.C.CHIPS },
-}
-
 togabalatro.jd_def["j_toga_heatdeath"] = {
 	text = {
 		{
@@ -1552,19 +1544,27 @@ togabalatro.jd_def["j_toga_melons"] = {
 	reminder_text = {
 		{ text = "(", scale = 0.35 },
 		{ text = localize('Pair', "poker_hands"), scale = 0.35 },
+		{ text = ", ", scale = 0.35 },
+		{ text = localize('Queen', "ranks"), scale = 0.35 },
 		{ text = ")", scale = 0.35 },
-		{ text = " (", colour = G.C.GREEN },
-		{ ref_table = "card.joker_display_values", ref_value = "odds", colour = G.C.GREEN },
-		{ text = ")", colour = G.C.GREEN },
 	},
 	calc_function = function(card)
+		local qc, hc = 0, false
 		local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+		for _, t in ipairs(poker_hands['Pair'] or {}) do
+			if not hc then qc = 0 end
+			for k, v in ipairs(t) do
+				if v:get_id() == 12 then qc = qc + 1 end
+				if qc >= 2 then hc = true; break end
+			end
+		end
 		card.joker_display_values.pair = poker_hands["Pair"] and next(poker_hands["Pair"]) and true or false
-		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "5318008") } }
+		card.joker_display_values.queens = hc or false
 	end,
 	style_function = function(card, text, reminder_text, extra)
-		if reminder_text and reminder_text.children[1] and reminder_text.children[2] and card.joker_display_values then
+		if reminder_text and reminder_text.children[1] and reminder_text.children[2] and reminder_text.children[4] and card.joker_display_values then
 			reminder_text.children[2].config.colour = card.joker_display_values.pair and G.C.FILTER or G.C.UI.TEXT_INACTIVE
+			reminder_text.children[4].config.colour = card.joker_display_values.queens and G.C.FILTER or G.C.UI.TEXT_INACTIVE
 		end
 		return false
 	end
