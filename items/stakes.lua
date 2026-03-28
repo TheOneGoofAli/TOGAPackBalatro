@@ -18,7 +18,7 @@ SMODS.Stake {
 	},
 	calculate = function(self, context)
 		if context.toga_affectchipmult and context.opamount and not context.retrigger_joker then
-			return { amount = context.opamount*0.9 }
+			return { amtmult = 0.9, stake = self }
 		end
 	end
 }
