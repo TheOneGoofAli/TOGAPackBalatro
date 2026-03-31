@@ -1281,9 +1281,9 @@ return {
 			j_toga_rloctane = {
 				name = 'Octane',
 				text = {
-                    "This Joker gains {C:attention}half{} of {C:chips}Chips{}",
-                    "from {C:attention}destroyed{} playing cards",
-                    "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
+					"This Joker gains {C:attention}half{} of {C:chips}Chips{}",
+					"from {C:attention}destroyed{} playing cards",
+					"{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
 				}
 			},
 			j_toga_wscript = {
