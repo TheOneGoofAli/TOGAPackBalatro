@@ -85,6 +85,7 @@ SMODS.Enhancement{
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.h_x_chips } }
 	end,
+	weight = 8
 }
 
 SMODS.Enhancement{
@@ -109,14 +110,13 @@ SMODS.Enhancement{
 	key = 'redstone',
 	atlas = "TOGAEnhancements",
 	pos = { x = 0, y = 1 },
-	weight = 4,
+	weight = 3
 }
 
 SMODS.Enhancement{
 	key = 'nickel',
 	atlas = "TOGAEnhancements",
 	pos = { x = 2, y = 1 },
-	weight = 12,
 }
 
 SMODS.Enhancement{
@@ -125,7 +125,8 @@ SMODS.Enhancement{
 	pos = { x = 4, y = 1 },
 	no_rank = true,
 	replace_base_card = false,
-	shatters = true
+	shatters = true,
+	weight = 3
 }
 
 SMODS.Enhancement{

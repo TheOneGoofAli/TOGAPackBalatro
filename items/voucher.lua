@@ -128,16 +128,19 @@ SMODS.Voucher{
 		G.consumeables.config.card_limit = cardlimitavrg
 		G.hand.config.card_limit = cardlimitavrg
 		togabalatro.handlimitchange(cardlimitavrg, true)
-		-- poker hand levels.
+		-- poker hand values.
 		local totallevel = 0
 		for _, v in ipairs(G.handlist) do
 			totallevel = to_big(totallevel) + to_big(G.GAME.hands[v].level)
 		end
 		local averagelevel = math.ceil(to_big(totallevel) / #G.handlist)
 		for _, v in ipairs(G.handlist) do
+			local cmavg = (G.GAME.hands[v].mult or 1 + G.GAME.hands[v].chips or 1)/2
 			G.GAME.hands[v].level = math.max(to_big(0), to_big(averagelevel))
-			G.GAME.hands[v].mult = math.max(to_big(G.GAME.hands[v].s_mult) + to_big(G.GAME.hands[v].l_mult)*(to_big(G.GAME.hands[v].level) - to_big(1)), to_big(1))
-			G.GAME.hands[v].chips = math.max(to_big(G.GAME.hands[v].s_chips) + to_big(G.GAME.hands[v].l_chips)*(to_big(G.GAME.hands[v].level) - to_big(1)), to_big(0))
+			if G.GAME.hands[v].mult and G.GAME.hands[v].chips then
+				G.GAME.hands[v].mult = math.max(cmavg, to_big(1))
+				G.GAME.hands[v].chips = math.max(cmavg, to_big(0))
+			end
 		end
 		-- hands and discards
 		local dishand = math.floor((G.GAME.round_resets.discards + G.GAME.round_resets.hands)/2)
@@ -241,7 +244,7 @@ SMODS.Voucher{
 	unlocked = true,
 	cost = 20,
 	rarity = 4,
-	config = { rarity = 4, extra = { xmult = 1.75 } },
+	config = { rarity = 4, extra = { xmult = 2.5 } },
 	loc_vars = function(self, info_queue, card)
 		if self.discovered then info_queue[#info_queue + 1] = G.P_CENTERS.j_egg end
 		return { vars = { card.ability.extra.xmult } }

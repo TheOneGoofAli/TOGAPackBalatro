@@ -41,15 +41,24 @@ togabalatro.set_debuff = function(card)
 end
 
 togabalatro.calculate = function(self, context)
-	if context.initial_scoring_step and context.scoring_name then
-		local hasplanet = false
-		for i, v in ipairs((G.consumeables or {}).cards) do
-			if Object.is(v, Card) and v.ability.set == 'Planet' and v.ability.consumeable.hand_type == context.scoring_name then hasplanet = true; break end
-		end
-		if hasplanet then
+	if context.before then
+		local cxt = context
+		check_for_unlock({type = 'sfrock', context = cxt })
+	end
+	
+	if context.modify_hand then
+		if context.scoring_name then
 			local shifta = SMODS.find_card('j_toga_pso2shifta')
+			
 			if shifta[1] then
-				return { xchips = 1.97, xmult = 1.97, message_card = shifta[1] }
+				local hasplanet = false
+				for i, v in ipairs((G.consumeables or {}).cards) do
+					if Object.is(v, Card) and v.ability.set == 'Planet' and v.ability.consumeable.hand_type == context.scoring_name then hasplanet = true; break end
+				end
+				if hasplanet then
+					hand_chips, mult = hand_chips * 1.97, mult * 1.97
+				end
+				SMODS.calculate_effect({ message = '!', delay = 0.25, sound = 'tarot2', pitch = 0.76 }, shifta[1])
 			end
 		end
 	end
@@ -70,10 +79,11 @@ togabalatro.calculate = function(self, context)
 	end
 	
 	if context.remove_playing_cards and context.removed and next(context.removed) then
+		local hasproc = false
 		for k, v in pairs(context.removed) do
 			if Object.is(v, Card) and SMODS.has_enhancement(v, 'm_toga_zinc') then
 				local m = v.ability.toga_gmult or 1
-				SMODS.calculate_effect({ message = localize('k_upgrade_ex') }, G.deck.cards[1] or G.deck)
+				if not hasproc then hasproc = true; SMODS.calculate_effect({ message = localize('k_upgrade_ex') }, G.deck.cards[1] or G.deck) end
 				for _, c in pairs(G.playing_cards or {}) do
 					c.ability.perma_mult = (c.ability.perma_mult or 0) + m
 				end

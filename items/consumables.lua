@@ -126,7 +126,7 @@ SMODS.Consumable{
 		if cando and txt then
 			info_queue[#info_queue + 1] = {key = txt, set = 'Other'}
 		end
-		return { key = card.togamodarea and self.key..'_modinfo' or cando and self.key..'_ready' or G.hand and G.hand.highlighted and #G.hand.highlighted > 0 and self.key.."_novalidrecipe" or self.key, vars = { card.ability.extra.moneygain } }
+		return { key = card.togamodarea and self.key..'_modinfo' or card.fake_card and self.key..'_fakecard' or cando and self.key..'_ready' or G.hand and G.hand.highlighted and #G.hand.highlighted > 0 and self.key.."_novalidrecipe" or self.key, vars = { card.ability.extra.moneygain } }
 	end,
 	in_pool = function()
 		return togabalatro.config.ShowPower and togabalatro.has_mineral() -- Should only spawn if mineral cards.

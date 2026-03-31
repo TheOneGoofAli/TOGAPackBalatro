@@ -321,6 +321,38 @@ SMODS.Back{
 	end,
 }
 
+SMODS.Back{
+	key = "crafterdeck",
+	pos = { x = 5, y = 2 },
+	atlas = "TOGADeckBack",
+	unlocked = true,
+	config = {ante_scaling = 2, joker_slot = -3, hand_size = 1},
+	loc_vars = function(self, info_queue, center)
+		return { vars = { self.config.ante_scaling, self.config.joker_slot, self.config.hand_size } }
+	end,
+	apply = function(self, back)
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if G.playing_cards then
+					for k, v in pairs(G.playing_cards or {}) do
+						local e = SMODS.poll_enhancement({ guaranteed = true, options = togabalatro.oredict.minerals, type_key = 'modmineral' })
+						v:set_ability(G.P_CENTERS[e])
+					end
+					return true
+				end
+			end,
+		}))
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if G.consumeables then
+					SMODS.add_card({ key = 'c_toga_furnace', edition = "e_negative" })
+					return true
+				end
+			end,
+		}))
+	end,
+}
+
 if togabalatro.config.KingCDIDeck then
 	SMODS.Back{
 		key = "kingharkinian",

@@ -175,6 +175,16 @@ return {
 					"when playing a hand",
 				}
 			},
+			b_toga_crafterdeck = {
+				name = "Crafters' Deck",
+				text = {
+					"Starting deck consists",
+					"of {C:attention,button:toga_showminerals,E:1}Mineral cards{}",
+					"Start with a {C:attention,T:c_toga_furnace}Smeltery{}",
+					"{C:attention}+#3#{} hand size, {C:red}#2#{} {C:attention}Joker{} slots",
+					"{C:red}X#1#{} base Blind size",
+				}
+			},
 		},
 		Blind = {
 			bl_toga_dialupmodem = {
@@ -1271,9 +1281,9 @@ return {
 			j_toga_rloctane = {
 				name = 'Octane',
 				text = {
-                    "This Joker gains {C:red}#2#{} Mult",
-                    "at end of round",
-                    "{C:inactive}(Currently {C:red}#1#{C:inactive} Mult)",
+                    "This Joker gains {C:attention}half{} of {C:chips}Chips{}",
+                    "from {C:attention}destroyed{} playing cards",
+                    "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
 				}
 			},
 			j_toga_wscript = {
@@ -1919,6 +1929,14 @@ return {
 					"{C:inactive,s:0.8}and click on this card.){}",
 				}
 			},
+			c_toga_furnace_fakecard = {
+				name = "Smeltery",
+				text = {
+					"Processes specific recipes",
+					"depending on cards selected",
+					"Earn {C:money}$#1#{} on use",
+				}
+			},
 			c_toga_furnace_modinfo = {
 				name = "Alloy Recipes",
 				text = {
@@ -2427,7 +2445,7 @@ return {
 			toga_scales2 = {
 				name = "Averages:",
 				text = {
-					"{C:attention}Poker hand{} {C:planet}levels{}.",
+					"{C:attention}Poker hand{} {C:planet}values{}.",
 				},
 			},
 			toga_scales3 = {

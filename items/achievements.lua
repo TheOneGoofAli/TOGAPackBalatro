@@ -21,12 +21,15 @@ SMODS.Achievement {
 	key = 'sfrock',
 	bypass_all_unlocked = true,
 	unlock_condition = function(self, args)
-		if args and args.type and args.type == 'hand' and args.scoring_hand and args.handname and args.handname == 'Straight Flush' then
-			local allstones = true
-			for k, v in ipairs(args.scoring_hand or {}) do
-				if not SMODS.has_enhancement(v, 'm_stone') then allstones = false; break end
+		if args and args.type and args.type == 'sfrock' and args.context and next(args.context) then
+			local context = args.context
+			if context.poker_hands and context.poker_hands['Straight Flush'] and next(context.poker_hands['Straight Flush']) then
+				local allstones = true
+				for k, v in ipairs(context.scoring_hand or {}) do
+					if not SMODS.has_enhancement(v, 'm_stone') then allstones = false; break end
+				end
+				return allstones
 			end
-			return allstones
 		end
 	end,
 }

@@ -2638,9 +2638,9 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'rloctane',
-	config = { extra = { mult = 0, mgain = 2 } },
+	config = { extra = { chips = 0 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { SMODS.signed(card.ability.extra.mult), SMODS.signed(card.ability.extra.mgain) } }
+		return { vars = { SMODS.signed(card.ability.extra.chips) } }
 	end,
 	unlocked = true,
 	rarity = 1,
@@ -2650,18 +2650,22 @@ table.insert(jokers, {
 	blueprint_compat = true,
 	pixel_size = { w = 69, h = 74 },
 	calculate = function(self, card, context)
-		if context.joker_main then return { mult = card.ability.extra.mult } end
+		if context.joker_main then return { chips = card.ability.extra.chips } end
 		
 		if context.blueprint or context.retrigger_joker then return end
 		
-		if context.end_of_round and context.main_eval then
-			SMODS.scale_card(card, {
-				ref_table = card.ability.extra,
-				ref_value = "mult",
-				scalar_value = "mgain",
-			})
-			if context.beat_boss then return { message = localize('toga_rlwas') } end
+		if context.remove_playing_cards and context.removed and next(context.removed) then
+			local amt = 0
+			for k, v in pairs(context.removed) do
+				amt = amt + (v:get_chip_bonus() or 0)/2
+			end
+			if amt > 0 then
+				card.ability.extra.chips = card.ability.extra.chips + amt
+				card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+			end
 		end
+		
+		if context.end_of_round and context.main_eval and context.beat_boss then return { message = localize('toga_rlwas') } end
 		
 		if context.blind_disabled then return { message = localize('toga_rlsry') } end
 	end,

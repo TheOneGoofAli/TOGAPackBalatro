@@ -974,8 +974,8 @@ togabalatro.jd_def["j_toga_quacksoft"] = {
 
 togabalatro.jd_def["j_toga_rloctane"] = {
 	text = {
-		{ text = "+",	colour = G.C.MULT },
-		{ ref_table = "card.ability.extra", ref_value = "mult", colour = G.C.MULT, retrigger_type = "mult" }
+		{ text = "+",	colour = G.C.CHIPS },
+		{ ref_table = "card.ability.extra", ref_value = "chips", colour = G.C.CHIPS, retrigger_type = "add" }
 	},
 }
 
