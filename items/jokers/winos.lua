@@ -34,6 +34,7 @@ table.insert(winj, {
 			else play_sound("toga_chordold") end
 		end
 	end,
+	attributes = { 'discard', 'hands' }
 })
 
 togabalatro.gettotaljokervalue = function()
@@ -80,7 +81,8 @@ table.insert(winj, {
 			if not from_debuff then play_sound("toga_win98tada")
 			else play_sound("toga_chord") end
 		end
-	end
+	end,
+	attributes = { 'joker', 'consumeable', 'mult', 'sell_value' }
 })
 
 local function toga_vouchcount()
@@ -118,6 +120,7 @@ table.insert(winj, {
 			else play_sound("toga_chord"); check_for_unlock({ type = 'winmedebuff' }) end
 		end
 	end,
+	attributes = { 'joker', 'consumeable', 'voucher', 'chips' }
 })
 
 table.insert(winj, {
@@ -150,7 +153,8 @@ table.insert(winj, {
 			if not from_debuff then play_sound("toga_winnt4shutdown")
 			else play_sound("toga_chordold") end
 		end
-	end
+	end,
+	attributes = { 'retrigger', 'non_face' }
 })
 
 table.insert(winj, {
@@ -189,7 +193,8 @@ table.insert(winj, {
 			if not from_debuff then play_sound("toga_winme2000shutdown")
 			else play_sound("toga_chord") end
 		end
-	end
+	end,
+	attributes = { 'tag', 'generation' }
 })
 
 table.insert(winj, {
@@ -219,7 +224,8 @@ table.insert(winj, {
 			if not from_debuff then play_sound("toga_winxplogoff")
 			else play_sound("toga_winxpcritstop") end
 		end
-	end
+	end,
+	attributes = { 'chance', 'level_up' }
 })
 
 table.insert(winj, {
@@ -288,7 +294,8 @@ table.insert(winj, {
 			else play_sound("toga_winvista7critstop") end
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'rank', 'six', 'modify_joker' }
 })
 
 table.insert(winj, {
@@ -345,7 +352,8 @@ table.insert(winj, {
 			end
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'rank', 'seven', 'scaling' }
 })
 
 table.insert(winj, {
@@ -399,7 +407,8 @@ table.insert(winj, {
 		end
 	end,
 	pixel_size = { w = 70, h = 84 },
-	poweritem = true
+	poweritem = true,
+	attributes = { 'rank', 'eight', 'hands', 'scaling' }
 })
 
 return winj

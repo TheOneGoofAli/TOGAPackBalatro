@@ -185,6 +185,14 @@ return {
 					"{C:red}X#1#{} base Blind size",
 				}
 			},
+			b_toga_dragdeck = {
+				name = "Drag Deck?",
+				text = {
+					"Temporarily drag {C:attention}more{} stuff",
+					"than you should?",
+					"{C:inactive,s:0.9}(Be careful.){}",
+				}
+			},
 		},
 		Blind = {
 			bl_toga_dialupmodem = {
@@ -238,7 +246,7 @@ return {
 				name = "The Bag",
 				text = {
 					"Lose $1 per",
-                    "held in hand card"
+					"held in hand card"
 				}
 			},
 			bl_toga_filmreel = {
@@ -321,9 +329,9 @@ return {
 				name = 'User Accounts',
 				text = {
 					"This Joker gains {C:chips}#2#{} Chips",
-                    "if played hand has a {C:attention}3",
-                    "or exactly {C:attention}3{} cards",
-                    "{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
+					"if played hand has a {C:attention}3",
+					"or exactly {C:attention}3{} cards",
+					"{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips)",
 				}
 			},
 			j_toga_jimbo95 = {
@@ -940,9 +948,9 @@ return {
 			j_toga_regedit = {
 				name = 'Registry Editor',
 				text = {
-					"{C:attention}Overrides{} suit change to {C:attention}#1#{}.",
+					"{C:attention}Overrides{} suit change to {C:attention}#1#{}",
 					"Suit changes every round.",
-					"{C:inactive,s:0.9}Does not affect card copying.{}"
+					"{C:inactive,s:0.9}Does not affect card copying{}",
 				},
 			},
 			j_toga_msagent = {
@@ -1015,9 +1023,9 @@ return {
 			j_toga_certserver = {
 				name = 'Certificate Server',
 				text = {
-					"{C:attention}Overrides{} rank change to {C:attention}#1#s{}.",
+					"{C:attention}Overrides{} rank change to {C:attention}#1#s{}",
 					"Rank changes every round.",
-					"{C:inactive,s:0.9}Does not affect card copying.{}",
+					"{C:inactive,s:0.9}Does not affect card copying{}",
 				}
 			},
 			j_toga_cpu = {
@@ -1486,9 +1494,8 @@ return {
 			j_toga_genie = {
 				name = 'Genie',
 				text = {
-					"{C:green}#1# in #2#{} chance to {C:attention}retrigger{}",
-					"used {C:tarot}Tarot{} cards if possible",
-					"{C:inactive,s:0.8}(Some Tarots may misbehave and crash)",
+					"{C:tarot}Tarot{} cards can be {C:attention}taken{}",
+					"from {C:attention}Booster Packs{} instead",
 				}
 			},
 			j_toga_victor = {
@@ -1610,6 +1617,13 @@ return {
 					"Create a random {C:attention}Consumable{}",
 					"at the end of the shop",
 					"{C:inactive}(Must have room){}"
+				}
+			},
+			j_toga_delphi = {
+				name = 'Borland Delphi',
+				text = {
+					"Playing cards give",
+					"{X:attention,C:white}X#1#{} base {C:chips}Chips",
 				}
 			},
 		},
@@ -2304,14 +2318,10 @@ return {
 				},
 			},
 			toga_albavirusinfo = {
-				name = "Heads up!",
+				name = "Hint:",
 				text = {
-					"Selling or destroying this card",
-					"without selling or destroying",
-					"a different one will actually",
-					"lose the run. If this tooltip",
-					"does not appear, it is",
-					"safe to remove."
+					"Try destroying a card",
+					"during {C:attention}Boss Blinds{}",
 				},
 			},
 			toga_chipmultmodinfo = {
@@ -2363,48 +2373,6 @@ return {
 				text = {
 					"That's his {C:attention}original{}",
 					"name, yes.",
-				},
-			},
-			-- toga_kartjokerlist = {
-				-- name = "Eligible Actions:",
-				-- text = {
-					-- "{C:attention}Buying{}, {C:money}selling{}, {C:attention}using{},",
-					-- "{C:attention}adding{} cards to deck;",
-					-- "{C:attention}opening{} booster packs;",
-					-- "{C:attention}rerolling{} shop; ({X:mult,C:white}X#1#{})",
-					-- "{C:attention}leaving{} shop. ({X:mult,C:white}X#2#{})",
-				-- },
-			-- },
-			-- toga_kartjokerengine = {
-				-- name = "Engine Whirring:",
-				-- text = {
-					-- "{C:green}#2# in #3#{} chance to {C:attention}lose{} {C:red}#1#%{}",
-					-- "of current {X:mult,C:white}XMult{} after",
-					-- "playing any hand"
-				-- },
-			-- },
-			-- toga_kartjokershortcut = {
-				-- name = "Shortcut:",
-				-- text = {
-					-- "Skipping {C:attention}blinds{} or {C:attention}booster packs{}",
-					-- "has a {C:green}#1# in #2#{} chance to gain",
-					-- "{X:mult,C:white}X#3#{} instead of {C:attention}losing{} {C:red}#4#%{}",
-					-- "of current {X:mult,C:white}XMult{}",
-				-- },
-			-- },
-			-- toga_kartjokershortcutspecial = {
-				-- name = "Cutting ahead:",
-				-- text = {
-					-- "Gain {X:mult,C:white}X#1#{} when skipping",
-					-- "{C:attention}blinds{} or {C:attention}booster packs{}",
-					-- "{E:1,C:inactive,s:0.8}Careful to not hit that tree!",
-				-- },
-			-- },
-			toga_useraccountsinfo = {
-				name = "Formula",
-				text = {
-					"({C:attention}Joker slots{} + {C:attention}Consumable{} slots",
-					"+ {C:blue}hands{} left + {C:red}discards{} left) / 8",
 				},
 			},
 			toga_roseneffects = {
@@ -2546,13 +2514,13 @@ return {
 				},
 			},
 			toga_togateal_sticker={
-                name = "Teal (TOGA) Sticker",
-                text = {
-                    "Used this Joker",
-                    "to win on {C:attention}Teal (TOGA)",
-                    "{C:attention}Stake{} difficulty",
-                },
-            },
+				name = "Teal (TOGA) Sticker",
+				text = {
+					"Used this Joker",
+					"to win on {C:attention}Teal (TOGA)",
+					"{C:attention}Stake{} difficulty",
+				},
+			},
 			toga_heavycard = {
 				name = "Heavy Card (Passive)",
 				text = {
@@ -2690,7 +2658,7 @@ return {
 					"end of round",
 				},
 			}
-		}
+		},
 	},
 	misc = {
 		suits_singular = {
@@ -2865,17 +2833,17 @@ return {
 			toga_desc_titlescreen1 = "The card also acts as shortcut",
 			toga_desc_titlescreen2 = "to this mods' config",
 			ml_toga_alloyrecipe_explanation = {
-                "Hover over the Alloy Enhancement",
-                "to see its' recipe",
-            },
+				"Hover over the Alloy Enhancement",
+				"to see its' recipe",
+			},
 			ml_toga_alloy_explanation = {
-                "Alloy Enhancements are Enhancements that",
-                "usually are created from existing ones",
-            },
+				"Alloy Enhancements are Enhancements that",
+				"usually are created from existing ones",
+			},
 			ml_toga_mineral_explanation = {
-                "Mineral Enhancements usually appear",
-                "when creating new Playing Cards",
-            },
+				"Mineral Enhancements usually appear",
+				"when creating new Playing Cards",
+			},
 		},
 		labels = {
 			toga_sealseal_seal = "Seal^2",
@@ -2909,7 +2877,7 @@ return {
 			ach_toga_winmecrash = 'Windows Mistake Edition',
 			ach_toga_winmecrash_hidden = 'The Unstable Millenium',
 			ach_toga_teapots = 'Utah Teapots',
-			ach_toga_teapots_hidden = 'Triple Tea Time',
+			ach_toga_teapots_hidden = "It's Tea Time",
 			ach_toga_sfrock = 'Straight Flushing It',
 			ach_toga_sfrock_hidden = 'Wishing upon a Toilet Rock',
 			ach_toga_altloadscrn = 'Balatro For Workgroups',
@@ -2994,9 +2962,6 @@ return {
 			},
 			toga_resetcfgerror = {
 				"ERROR", "An unknown error has occured whilst writing to config file.", "Exit Balatro and delete the TOGAPack.jkr file manually."
-			},
-			toga_albavirusnote = {
-				"WARNING", "You just obtained Albanian Virus for the first time!", "You are recommended to read the Joker description carefully."
 			},
 			toga_bmpnormal = {
 				"Balatro Multiplayer detected", "Because TOGA's Stuff has not been tested with Balatro Multiplayer,", "you may experience unexpected crashes with specific items.",

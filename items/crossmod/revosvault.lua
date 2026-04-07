@@ -33,4 +33,5 @@ SMODS.Joker{
 			SMODS.create_mod_badges({ mod = SMODS.find_mod('RevosVault')[1] }, badges)
 		end
 	end,
+	attributes = { 'xmult', 'printer', 'chance' }
 }

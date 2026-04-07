@@ -58,4 +58,5 @@ SMODS.Joker{
 			SMODS.create_mod_badges({ mod = SMODS.find_mod('kino')[1] }, badges)
 		end
 	end,
+	attributes = { 'xmult', 'scaling', 'joker', 'kino', 'genre' }
 }

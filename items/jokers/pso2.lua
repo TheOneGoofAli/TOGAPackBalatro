@@ -18,6 +18,7 @@ table.insert(pso2j, {
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge(localize('toga_firetech'), G.C.RED, G.C.WHITE, 1)
 	end,
+	attributes = { 'passive', 'hand_type', 'planet' }
 })
 
 table.insert(pso2j, {
@@ -32,6 +33,7 @@ table.insert(pso2j, {
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge(localize('toga_icetech'), G.C.BLUE, G.C.WHITE, 1)
 	end,
+	attributes = { 'passive', 'blind_requirement' }
 })
 
 table.insert(pso2j, {
@@ -70,6 +72,7 @@ table.insert(pso2j, {
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge(localize('toga_skillhunter'), G.C.SECONDARY_SET.Enhanced, G.C.WHITE, 1)
 	end,
+	attributes = { 'prevents_death', 'economy' }
 })
 
 return pso2j

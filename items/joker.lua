@@ -43,6 +43,7 @@ table.insert(jokers, {
 			end
 		end
 	end,
+	attributes = { 'chips', 'mult', 'two', 'king', 'rank' }
 })
 
 table.insert(jokers, {
@@ -69,7 +70,8 @@ table.insert(jokers, {
 			card.ability.extra.totalmoney = jokerslotbonus+consslotbonus
 			return math.ceil(card.ability.extra.totalmoney)
 		end
-	end
+	end,
+	attributes = { 'joker_slot', 'consumeable_slot' }
 })
 
 table.insert(jokers, {
@@ -105,7 +107,8 @@ table.insert(jokers, {
 		if not from_debuff and togabalatro.config.SFXWhenRemoving and G.STAGE == G.STAGES.RUN and not G.screenwipe then
 			play_sound("toga_infraredend")
 		end
-	end
+	end,
+	attributes = { 'discard', 'destroy_card' }
 })
 
 table.insert(jokers, {
@@ -145,6 +148,7 @@ table.insert(jokers, {
 		
 		if context.joker_main then return { chips = card.ability.extra.chips } end
 	end,
+	attributes = { 'chips', 'three', 'rank', 'hand_type', 'scaling' }
 })
 
 table.insert(jokers, {
@@ -173,6 +177,7 @@ table.insert(jokers, {
 			end
 		end
 	end,
+	attributes = { 'chance', 'swap' }
 })
 
 table.insert(jokers, {
@@ -233,6 +238,7 @@ table.insert(jokers, {
 			play_sound("toga_plus98emptybin")
 		end
 	end,
+	attributes = { 'scaling', 'xchips' }
 })
 
 table.insert(jokers, {
@@ -259,6 +265,7 @@ table.insert(jokers, {
 			return { chips = card.ability.extra.curchips }
 		end
 	end,
+	attributes = { 'scaling', 'chips', 'consumeable' }
 })
 
 table.insert(jokers, {
@@ -306,7 +313,8 @@ table.insert(jokers, {
 			end
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'joker', 'on_sell' }
 })
 
 table.insert(jokers, {
@@ -337,7 +345,8 @@ table.insert(jokers, {
 		end
 		
 		if context.joker_main then return { mult = card.ability.extra.mult } end
-	end
+	end,
+	attributes = { 'mult', 'scaling' }
 })
 
 table.insert(jokers, {
@@ -372,7 +381,8 @@ table.insert(jokers, {
 				end
 			}
 		end
-	end
+	end,
+	attributes = { 'hand_type' }
 })
 
 table.insert(jokers, {
@@ -412,7 +422,8 @@ table.insert(jokers, {
 			return { message = localize('toga_systemrestore1') }
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'generation' }
 })
 
 table.insert(jokers, {
@@ -457,7 +468,8 @@ table.insert(jokers, {
 			return { xmult = math.max(1, card.ability.extra.permodxmult*modcount) }
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'xmult', 'joker', 'consumeable'}
 })
 
 local msncount = false
@@ -508,7 +520,8 @@ table.insert(jokers, {
 			return { xmult = math.max(1, card.ability.extra.perenhxmult^enhcount) }
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'xmult', 'full_deck', 'enhancements' }
 })
 
 -- Random SFX.
@@ -534,26 +547,8 @@ table.insert(jokers, {
 		if card.ability.extra.reduce > 1 then card.ability.extra.reduce = 0.97 end -- catch.
 		
 		if context.cardarea == G.play then
-			if context.other_card and not context.before and not context.after and not context.repetition and not context.repetition_only and to_big(G.GAME.blind.chips) > to_big(0) then
-				if Talisman and Talisman.config_file.disable_anims then
-					G.GAME.blind.chips = math.floor(G.GAME.blind.chips*card.ability.extra.reduce)
-					G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-					G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
-					G.HUD_blind:recalculate()
-					return nil, true
-				else
-					G.E_MANAGER:add_event(Event({delay = 0, func = function()
-						G.GAME.blind.chips = math.floor(G.GAME.blind.chips*card.ability.extra.reduce)
-						G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-						G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
-						G.HUD_blind:recalculate()
-						G.hand_text_area.blind_chips:juice_up()
-						card:juice_up()
-						
-						if not silent and togabalatro.config.SFXWhenTriggered then play_sound(togabalatro.plus95rndsfx()) end
-					return true end }))
-					return nil, true
-				end
+			if context.other_card and not context.before and not context.after and not context.repetition and not context.repetition_only then
+				return { x_blind_size = card.ability.extra.reduce, sound = not silent and togabalatro.config.SFXWhenTriggered and togabalatro.plus95rndsfx(), pitch = 1 }
 			end
 		end
 	end,
@@ -561,6 +556,7 @@ table.insert(jokers, {
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
+	attributes = { 'blind_size' }
 })
 
 table.insert(jokers, {
@@ -586,6 +582,7 @@ table.insert(jokers, {
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
 	jokeitem = true,
+	attributes = { 'xmult' }
 })
 
 table.insert(jokers, {
@@ -599,6 +596,7 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.bonzi_modify_rank and not context.blueprint and not context.retrigger_joker then return { amount = -1, card = card } end
 	end,
+	attributes = { 'passive' }
 })
 
 table.insert(jokers, {
@@ -624,29 +622,18 @@ table.insert(jokers, {
 		
 		if context.joker_main then return { xmult = 1+card.ability.extra.curxmult } end
 	end,
+	attributes = { 'xmult', 'scaling', 'tarot' }
 })
 
 table.insert(jokers, {
 	key = 'genie',
-	config = { extra = { odds = 4 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds, "msagent_genie") } }
-	end,
 	unlocked = true,
-	rarity = 2,
+	rarity = 1,
 	atlas = 'TOGAJokersMain',
 	pos = { x = 1, y = 9 },
-	cost = 7,
-	blueprint_compat = true,
-	calculate = function(self, card, context)
-		if context.toga_reuse_consumeable and context.toga_reuse_consumeable.ability.set == 'Tarot' and SMODS.pseudorandom_probability(card, "msagent_genie", 1, card.ability.extra.odds) then
-			return { amount = 1, card = context.retrigger_joker or context.blueprint_card or card }
-		end
-	end,
-	poweritem = true,
-	in_pool = function()
-		return togabalatro.config.ShowPower
-	end,
+	cost = 5,
+	blueprint_compat = false,
+	attributes = { 'passive', 'tarot', 'booster' }
 })
 
 table.insert(jokers, {
@@ -673,6 +660,7 @@ table.insert(jokers, {
 			G.GAME.modifiers.booster_size_mod = (G.GAME.modifiers.booster_size_mod or 0) - card.ability.extra.boosteritem
 		end
 	end,
+	attributes = { 'passive' }
 })
 
 table.insert(jokers, {
@@ -696,6 +684,7 @@ table.insert(jokers, {
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
+	attributes = { 'chance', 'planet' }
 })
 
 table.insert(jokers, {
@@ -727,6 +716,7 @@ table.insert(jokers, {
 		end
 	end,
 	poweritem = true,
+	attributes = { 'retrigger' }
 })
 
 table.insert(jokers, {
@@ -750,6 +740,7 @@ table.insert(jokers, {
 			if dmoney > 0 then return { dollars = dmoney } end
 		end
 	end,
+	attributes = { 'economy' }
 })
 
 table.insert(jokers, {
@@ -797,7 +788,8 @@ table.insert(jokers, {
 		if context.joker_main then return { xmult = card.ability.extra.curxmult } end
 	end,
 	display_size = { w = 71 * 1.27, h = 95 },
-	pixel_size = { w = 71, h = 95 }
+	pixel_size = { w = 71, h = 95 },
+	attributes = { 'xmult', 'hand_type', 'scaling' }
 })
 
 table.insert(jokers, {
@@ -817,6 +809,7 @@ table.insert(jokers, {
 			return { message = localize('k_reset') }
 		end
 	end,
+	attributes = { 'passive', 'suit' }
 })
 
 table.insert(jokers, {
@@ -836,6 +829,7 @@ table.insert(jokers, {
 			return { message = localize('k_reset') }
 		end
 	end,
+	attributes = { 'passive', 'rank' }
 })
 
 table.insert(jokers, {
@@ -896,6 +890,7 @@ table.insert(jokers, {
 			delay(0.6)
 		end
 	end,
+	attributes = { 'hands' }
 })
 
 table.insert(jokers, {
@@ -931,6 +926,7 @@ table.insert(jokers, {
 			return { xmult = 1+card.ability.extra.curxmult }
 		end
 	end,
+	attributes = { 'hands', 'hand_type', 'xmult', 'scaling' }
 })
 
 table.insert(jokers, {
@@ -960,7 +956,8 @@ table.insert(jokers, {
 		end
 	end,
 	poweritem = true,
-	remainhidden = true
+	remainhidden = true,
+	attributes = { 'xmult' }
 })
 
 table.insert(jokers, {
@@ -987,6 +984,7 @@ table.insert(jokers, {
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
 	jokeitem = true,
+	attributes = { 'xmult', 'passive' }
 })
 
 table.insert(jokers, {
@@ -1015,6 +1013,7 @@ table.insert(jokers, {
 	remove_from_deck = function(self, card, from_debuff)
 		G.hand:change_size(-(card.ability.extra.hsize or -1))
 	end,
+	attributes = { 'hand_size' }
 })
 
 table.insert(jokers, {
@@ -1032,6 +1031,7 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.vs_modify_rank and not context.retrigger_joker then return { amount = math.floor(card.ability.extra.mrank), card = context.blueprint_card or card } end
 	end,
+	attributes = { 'passive' }
 })
 
 table.insert(jokers, {
@@ -1054,7 +1054,8 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.joker_main or context.force_trigger then return { mult = (togabalatro.curcpucount or 1)*card.ability.extra.coremult } end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'mult', 'meta' }
 })
 
 table.insert(jokers, {
@@ -1080,6 +1081,7 @@ table.insert(jokers, {
 			})
 		end
 	end,
+	attributes = { 'xmult', 'scaling', 'on_debuff' }
 })
 
 table.insert(jokers, {
@@ -1093,6 +1095,7 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.tuneupwizard then return { flip = true, card = context.blueprint_card or card } end
 	end,
+	attributes = { 'passive' }
 })
 
 table.insert(jokers, {
@@ -1119,6 +1122,7 @@ table.insert(jokers, {
 		
 		if context.joker_main then return { xmult = 1+card.ability.extra.curxmult } end
 	end,
+	attributes = { 'xmult', 'scaling', 'tag' }
 })
 
 table.insert(jokers, {
@@ -1140,7 +1144,8 @@ table.insert(jokers, {
 	end,
 	remove_from_deck = function(self, card, from_debuff)
 		G.GAME.shop.joker_max = G.GAME.shop.joker_max - 1
-	end
+	end,
+	attributes = { 'shop' }
 })
 
 table.insert(jokers, {
@@ -1173,6 +1178,7 @@ table.insert(jokers, {
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
 	jokeitem = true,
+	attributes = { 'meta', 'xmult', 'economy' }
 })
 
 table.insert(jokers, {
@@ -1203,6 +1209,7 @@ table.insert(jokers, {
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
 	jokeitem = true,
+	attributes = { 'meta', 'chips' }
 })
 
 table.insert(jokers, {
@@ -1232,6 +1239,7 @@ table.insert(jokers, {
 		
 		if context.joker_main then return { xmult = 1+card.ability.extra.curxmult } end
 	end,
+	attributes = { 'xmult', 'scaling', 'economy' }
 })
 
 table.insert(jokers, {
@@ -1259,6 +1267,7 @@ table.insert(jokers, {
 			return { chips = card.ability.extra.curhchips }
 		end
 	end,
+	attributes = { 'chips', 'scaling' }
 })
 
 table.insert(jokers, {
@@ -1297,6 +1306,7 @@ table.insert(jokers, {
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
 	jokeitem = true,
+	attributes = { 'xmult', 'consumeable' }
 })
 
 table.insert(jokers, {
@@ -1317,7 +1327,8 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.joker_main then return { xmult = G.GAME and G.GAME.modifiers.scaling and 2*G.GAME.modifiers.scaling or 2 } end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'xmult' }
 })
 
 table.insert(jokers, {
@@ -1333,6 +1344,7 @@ table.insert(jokers, {
 	cost = 20,
 	blueprint_compat = false,
 	perishable_compat = false,
+	attributes = { 'passive' }
 })
 
 table.insert(jokers, {
@@ -1359,6 +1371,7 @@ table.insert(jokers, {
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
 	jokeitem = true,
+	attributes = { 'passive', 'mod_chance' }
 })
 
 
@@ -1370,6 +1383,7 @@ table.insert(jokers, {
 	pos = { x = 0, y = 9 },
 	cost = 4,
 	blueprint_compat = false,
+	attributes = { 'passive', 'rarity' }
 })
 
 table.insert(jokers, {
@@ -1392,27 +1406,12 @@ table.insert(jokers, {
 		if context.setting_blind and SMODS.pseudorandom_probability(card, 'toga_wscript', 1, card.ability.extra.odds, 'wscript') and not context.blueprint and not context.retrigger_joker then
 			card.ability.extra.blindred = math.min(card.ability.extra.blindred, 1)
 			if to_number(card.ability.extra.blindred) < 1 then
-				if Talisman and Talisman.config_file.disable_anims then
-					G.GAME.blind.chips = math.floor(G.GAME.blind.chips*card.ability.extra.blindred)
-					G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-					G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
-					G.HUD_blind:recalculate()
-					return nil, true
-				else
-					G.E_MANAGER:add_event(Event({func = function()
-						G.GAME.blind.chips = math.floor(G.GAME.blind.chips*card.ability.extra.blindred)
-						G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-						G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
-						G.HUD_blind:recalculate()
-						G.hand_text_area.blind_chips:juice_up()
-						SMODS.calculate_effect({message = '!'}, card)
-					return true end }))
-					return nil, true
-				end
+				return { x_blind_size = card.ability.extra.blindred }
 			end
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'chance', 'blind_size' }
 })
 
 table.insert(jokers, {
@@ -1440,6 +1439,7 @@ table.insert(jokers, {
 			})
 		end
 	end,
+	attributes = { 'xmult', 'scaling', 'booster' }
 })
 
 table.insert(jokers, {
@@ -1457,6 +1457,7 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.open_booster then return { dollars = card.ability.extra.money } end
 	end,
+	attributes = { 'economy', 'booster' }
 })
 
 table.insert(jokers, {
@@ -1470,6 +1471,7 @@ table.insert(jokers, {
 	pos = { x = 2, y = 10 },
 	cost = 6,
 	blueprint_compat = false,
+	attributes = { 'passive', 'hand_type' }
 })
 
 table.insert(jokers, {
@@ -1515,7 +1517,23 @@ table.insert(jokers, {
 			play_sound("toga_aimgoodbye", 1, 0.5)
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'shop', 'generation' }
+})
+
+table.insert(jokers, {
+	key = 'delphi',
+	config = { extra = { cmult = 1.5 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.cmult } }
+	end,
+	unlocked = true,
+	rarity = 1,
+	atlas = 'TOGAJokersMain',
+	pos = { x = 5, y = 10 },
+	cost = 5,
+	blueprint_compat = false,
+	attributes = { 'passive' }
 })
 
 table.insert(jokers, {
@@ -1547,6 +1565,7 @@ table.insert(jokers, {
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
 	jokeitem = true,
+	attributes = { 'meta', 'xmult' }
 })
 
 table.insert(jokers, {
@@ -1568,6 +1587,7 @@ table.insert(jokers, {
 			return gc > 0 and { xmult = card.ability.extra.xmult*gc }
 		end
 	end,
+	attributes = { 'meta', 'xmult' }
 })
 
 table.insert(jokers, {
@@ -1592,7 +1612,8 @@ table.insert(jokers, {
 			if next(commons) then return SMODS.merge_effects(commons) end
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'joker', 'mult' }
 })
 
 table.insert(jokers, {
@@ -1609,7 +1630,8 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.hammerscore and not context.retrigger_joker then return { card = context.blueprint_card or card } end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'chance', 'enhancements' }
 })
 
 table.insert(jokers, {
@@ -1675,7 +1697,8 @@ table.insert(jokers, {
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
 		togabalatro.chipchallenge_handchoice(card)
-	end
+	end,
+	attributes = { 'chips', 'scaling', 'hand_type', 'reset', 'skip' }
 })
 
 table.insert(jokers, {
@@ -1712,6 +1735,7 @@ table.insert(jokers, {
 			return { message = localize('k_reset') }
 		end
 	end,
+	attributes = { 'mult', 'scaling', 'reset', 'hands' }
 })
 
 table.insert(jokers, {
@@ -1749,6 +1773,7 @@ table.insert(jokers, {
 			end
 		end
 	end,
+	attributes = { 'xmult', 'scaling', 'destroy_card' }
 })
 
 table.insert(jokers, {
@@ -1766,6 +1791,7 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.using_consumeable then return { dollars = card.ability.extra.money } end
 	end,
+	attributes = { 'consumeable', 'economy' }
 })
 
 table.insert(jokers, {
@@ -1790,6 +1816,7 @@ table.insert(jokers, {
 			end
 		end
 	end,
+	attributes = { 'rank', 'two', 'hands' }
 })
 
 function togabalatro.randomruntext()
@@ -1842,7 +1869,8 @@ table.insert(jokers, {
 				}
 			end
 		end
-	end
+	end,
+	attributes = { 'retrigger', 'xchips', 'xmult' }
 })
 
 -- Windows OS Jokers moved to separate file...
@@ -1894,6 +1922,7 @@ table.insert(jokers, {
 		end
 	end,
 	pixel_size = { w = 65, h = 95 },
+	attributes = { 'shop', 'generation' }
 })
 
 table.insert(jokers, {
@@ -1928,6 +1957,7 @@ table.insert(jokers, {
 			play_sound("toga_o97glide")
 		end
 	end,
+	attributes = { 'custom_score_card' }
 })
 
 table.insert(jokers, {
@@ -1985,7 +2015,8 @@ table.insert(jokers, {
 			card.ability.extra.curstate = "fallback"
 			card.children.floating_sprite:set_sprite_pos({x = 1, y = 0})
 		end
-	end
+	end,
+	attributes = { 'custom_score_card', 'chance' }
 })
 
 table.insert(jokers, {
@@ -1999,6 +2030,7 @@ table.insert(jokers, {
 	pos = { x = 0, y = 0 },
 	cost = 6,
 	blueprint_compat = false,
+	attributes = { 'passive', 'hand_type' }
 })
 
 table.insert(jokers, {
@@ -2025,6 +2057,7 @@ table.insert(jokers, {
 		
 		if context.joker_main then return { xmult = card.ability.extra.curxmult } end
 	end,
+	attributes = { 'xmult', 'scaling', 'hand_type' }
 })
 
 table.insert(jokers, {
@@ -2051,7 +2084,8 @@ table.insert(jokers, {
 		
 		if context.joker_main and card.ability.extra.curmult > 0 then return { mult = card.ability.extra.curmult } end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'mult', 'planet' }
 })
 
 table.insert(jokers, {
@@ -2103,6 +2137,7 @@ table.insert(jokers, {
 			play_sound("toga_kcud")
 		end
 	end,
+	attributes = { 'modify_card', 'enhancements' }
 })
 
 table.insert(jokers, {
@@ -2139,7 +2174,8 @@ table.insert(jokers, {
 				end
 			end
 		end
-	end
+	end,
+	attributes = { 'modify_card', 'enhancements' }
 })
 
 -- Get repeats, up to 65536. Will use Talisman functions if present.
@@ -2176,7 +2212,8 @@ table.insert(jokers, {
 		if not from_debuff and togabalatro.config.SFXWhenRemoving and G.STAGE == G.STAGES.RUN and not G.screenwipe then
 			play_sound("toga_pinballloseball")
 		end
-	end
+	end,
+	attributes = { 'custom_score_card', 'economy' }
 })
 
 table.insert(jokers, {
@@ -2187,7 +2224,8 @@ table.insert(jokers, {
 	pos = { x = 0, y = 0 },
 	cost = 6,
 	blueprint_compat = false,
-	pixel_size = { w = 69, h = 74 }
+	pixel_size = { w = 69, h = 74 },
+	attributes = { 'passive', 'suit' }
 })
 
 table.insert(jokers, {
@@ -2197,7 +2235,8 @@ table.insert(jokers, {
 	atlas = 'TOGAJokersOther',
 	pos = { x = 2, y = 1 },
 	cost = 6,
-	blueprint_compat = false
+	blueprint_compat = false,
+	attributes = { 'rank', 'ten', 'two' }
 })
 
 table.insert(jokers, {
@@ -2207,7 +2246,8 @@ table.insert(jokers, {
 	atlas = 'TOGAJokersOther',
 	pos = { x = 3, y = 1 },
 	cost = 6,
-	blueprint_compat = false
+	blueprint_compat = false,
+	attributes = { 'rank', 'ace', 'ten' }
 })
 
 table.insert(jokers, {
@@ -2237,7 +2277,8 @@ table.insert(jokers, {
 				end
 			end
 		end
-	end
+	end,
+	attributes = { 'modify_card', 'enhancements' }
 })
 
 table.insert(jokers, {
@@ -2272,7 +2313,8 @@ table.insert(jokers, {
 		end
 	end,
 	shiftinfoclick = "toga_showminerals",
-	poweritem = true
+	poweritem = true,
+	attributes = { 'modify_card', 'enhancements' }
 })
 
 table.insert(jokers, {
@@ -2283,7 +2325,8 @@ table.insert(jokers, {
 	pos = { x = 2, y = 0 },
 	cost = 4,
 	blueprint_compat = false,
-	pixel_size = { w = 69, h = 38 }
+	pixel_size = { w = 69, h = 38 },
+	attributes = { 'rank', 'two', 'face' }
 })
 
 table.insert(jokers, {
@@ -2300,27 +2343,10 @@ table.insert(jokers, {
 	blueprint_compat = true,
 	calculate = function(self, card, context)
 		if context.before then
-			togabalatro.loremipsum = true
-			card.ability.extra.chips = card.ability.extra.chips or G.GAME.chips
-			SMODS.calculate_effect({message = localize('toga_leech')}, context.blueprint_card or card)
-			G.E_MANAGER:add_event(Event({
-				trigger = 'ease',
-				blockable = true,
-				ref_table = G.GAME,
-				ref_value = 'chips',
-				ease_to = G.GAME.chips + math.floor(G.GAME.blind.chips*card.ability.extra.leech),
-				delay = 0.8,
-				func = (function(t) return math.floor(t) end)
-			}))
-			G.GAME.chips = G.GAME.chips + math.floor(G.GAME.blind.chips*card.ability.extra.leech)
+			return { score = G.GAME.blind.chips*card.ability.extra.leech }
 		end
-		if context.after and togabalatro.loremipsum then
-			G.GAME.chips = card.ability.extra.chips
-			card.ability.extra.chips = nil
-			togabalatro.loremipsum = nil
-		end
-		if context.end_of_round then card.ability.extra.chips = nil end
-	end
+	end,
+	attributes = { 'score' }
 })
 
 table.insert(jokers, {
@@ -2354,7 +2380,8 @@ table.insert(jokers, {
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
-	jokeitem = true
+	jokeitem = true,
+	attributes = { 'hand_type', 'balance' }
 })
 
 -- exec pso2.
@@ -2407,6 +2434,7 @@ table.insert(jokers, {
 			end
 		end
 	end,
+	attributes = { 'discard', 'generation' }
 })
 
 table.insert(jokers, {
@@ -2450,6 +2478,7 @@ table.insert(jokers, {
 			if removed > 0 then card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')}) end
 		end
 	end,
+	attributes = { 'xchips', 'on_destroy' }
 })
 
 table.insert(jokers, {
@@ -2464,7 +2493,8 @@ table.insert(jokers, {
 	pos = { x = 1, y = 2 },
 	cost = 6,
 	blueprint_compat = false,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'passive', 'hand_type', 'enhancements' }
 })
 
 table.insert(jokers, {
@@ -2479,7 +2509,8 @@ table.insert(jokers, {
 	pos = { x = 2, y = 2 },
 	cost = 6,
 	blueprint_compat = false,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'passive', 'hand_type', 'enhancements' }
 })
 
 table.insert(jokers, {
@@ -2500,7 +2531,8 @@ table.insert(jokers, {
 		and not context.end_of_round and SMODS.pseudorandom_probability(card, "parkingonroad", 1, card.ability.extra.odds, "stoneroad") then
 			return { dollars = card.ability.extra.hm }
 		end
-	end
+	end,
+	attributes = { 'economy', 'enhancements' }
 })
 
 togabalatro.gethowmuch = function(div, inputxmult)
@@ -2529,6 +2561,7 @@ table.insert(jokers, {
 			return { xmult = to_big(1)+to_big(total) > to_big(1) and to_big(1)+to_big(total) or 1 }
 		end
 	end,
+	attributes = { 'economy', 'xmult' }
 })
 
 table.insert(jokers, {
@@ -2539,6 +2572,7 @@ table.insert(jokers, {
 	pos = { x = 5, y = 1 },
 	cost = 6,
 	blueprint_compat = false,
+	attributes = { 'rank', 'eight', 'king', 'passive' }
 })
 
 table.insert(jokers, {
@@ -2557,6 +2591,7 @@ table.insert(jokers, {
 			return { xmult = togabalatro.getlevelaverage() }
 		end
 	end,
+	attributes = { 'xmult', 'hand_type', 'space' }
 })
 
 table.insert(jokers, {
@@ -2567,6 +2602,7 @@ table.insert(jokers, {
 	pos = { x = 0, y = 3 },
 	cost = 5,
 	blueprint_compat = false,
+	attributes = { 'planet', 'space', 'passive', 'booster' }
 })
 
 table.insert(jokers, {
@@ -2594,6 +2630,7 @@ table.insert(jokers, {
 		
 		if context.joker_main then return { xmult = 1+card.ability.extra.xm } end
 	end,
+	attributes = { 'xmult', 'scaling', 'space', 'passive' }
 })
 
 table.insert(jokers, {
@@ -2615,7 +2652,8 @@ table.insert(jokers, {
 	perishable_compat = false,
 	eternal_compat = false,
 	pixel_size = { w = 69, h = 73 },
-	poweritem = true
+	poweritem = true,
+	attributes = { 'passive', 'chipoperatormod', 'multoperatormod', 'chance' }
 })
 
 table.insert(jokers, {
@@ -2634,6 +2672,7 @@ table.insert(jokers, {
 		if context.blueprint or context.retrigger_joker then return end
 		if (context.selling_self or context.selling_card) and context.card == card then card.ability.sold = true elseif context.forcetrigger then togabalatro.goldenwrench(card) end
 	end,
+	attributes = { 'on_destroy', 'enhancements' }
 })
 
 table.insert(jokers, {
@@ -2669,6 +2708,7 @@ table.insert(jokers, {
 		
 		if context.blind_disabled then return { message = localize('toga_rlsry') } end
 	end,
+	attributes = { 'chips', 'on_destroy', 'scaling' }
 })
 
 table.insert(jokers, {
@@ -2699,7 +2739,8 @@ table.insert(jokers, {
 			return nil, true
 		end
 	end,
-	pixel_size = { w = 69, h = 69 }
+	pixel_size = { w = 69, h = 69 },
+	attributes = { 'generation' }
 })
 
 table.insert(jokers, {
@@ -2713,7 +2754,8 @@ table.insert(jokers, {
 	pos = { x = 0, y = 0 },
 	cost = 6,
 	display_size = { w = 71 * 1.63, h = 95 },
-	pixel_size = { w = 71, h = 95 }
+	pixel_size = { w = 71, h = 95 },
+	attributes = { 'passive', 'hand_type' }
 })
 
 table.insert(jokers, {
@@ -2755,7 +2797,8 @@ table.insert(jokers, {
 	end,
 	pixel_size = { w = 69, h = 69 },
 	poweritem = true,
-	jokeitem = true
+	jokeitem = true,
+	attributes = { 'meta', 'xmult' }
 })
 
 table.insert(jokers, {
@@ -2797,7 +2840,8 @@ table.insert(jokers, {
 	end,
 	pixel_size = { w = 69, h = 67 },
 	poweritem = true,
-	jokeitem = true
+	jokeitem = true,
+	attributes = { 'meta', 'xchips' }
 })
 
 --local winupdateframes = {0, 1, 2, 3, 4, 5, 5, 4, 3, 2, 1}
@@ -2822,6 +2866,7 @@ table.insert(jokers, {
 			return nil, true
 		end
 	end,
+	attributes = { 'shop', 'generation' }
 })
 
 togabalatro.calccopiesofself = function(jkey)
@@ -2855,7 +2900,8 @@ table.insert(jokers, {
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
-	jokeitem = true
+	jokeitem = true,
+	attributes = { 'xmult', 'passive' }
 })
 
 -- The plumtastic man himself. Joke Joker.
@@ -2919,7 +2965,8 @@ table.insert(jokers, {
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
 	jokeitem = true,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'economy', 'chips', 'mult', 'xchips', 'xmult', 'echips', 'emult', Talisman and 'eechips' or nil, Talisman and 'eemult' or nil, Talisman and 'eeechips' or nil, Talisman and 'eeemult' or nil, 'joke' }
 })
 
 table.insert(jokers, {
@@ -2943,7 +2990,7 @@ table.insert(jokers, {
 			juice_card_until(card, eval, true)
 		end
 		
-		if G.GAME.blind.boss and (context.remove_playing_cards and context.removed and next(context.removed)) or ((context.joker_type_destroyed or context.selling_card) and context.card) then
+		if G.GAME.blind.boss and G.GAME.blind.in_blind and ((context.remove_playing_cards and context.removed and next(context.removed)) or ((context.joker_type_destroyed or context.selling_card) and context.card)) then
 			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
 				update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
 				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
@@ -2988,7 +3035,8 @@ table.insert(jokers, {
 		card:set_eternal(true)
 	end,
 	jokeitem = true,
-	remainhidden = true
+	remainhidden = true,
+	attributes = { 'destroy_card', 'on_sell', 'hand_type' }
 })
 
 -- Joke Joker. Originally had 'whatthefuck' as key.
@@ -3050,7 +3098,8 @@ if Talisman then
 			badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 		end,
 		jokeitem = true,
-		poweritem = true
+		poweritem = true,
+		attributes = { 'consumeable', 'emult' }
 	})
 end
 
@@ -3102,7 +3151,8 @@ if Talisman then
 			badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 		end,
 		jokeitem = true,
-		poweritem = true
+		poweritem = true,
+		attributes = { 'hands', 'echips' }
 	})
 end
 

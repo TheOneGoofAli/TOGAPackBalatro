@@ -22,7 +22,8 @@ table.insert(macj, {
 			return { xmult = card.ability.extra.hxmult > 1 and card.ability.extra.hxmult or 1 }
 		end
 	end,
-	pixel_size = { w = 71, h = 84 }
+	pixel_size = { w = 71, h = 84 },
+	attributes = { 'suit', 'clubs', 'xmult' }
 })
 
 table.insert(macj, {
@@ -45,7 +46,8 @@ table.insert(macj, {
 			return { xchips = card.ability.extra.hxchips > 1 and card.ability.extra.hxchips or 1 }
 		end
 	end,
-	pixel_size = { w = 71, h = 84 }
+	pixel_size = { w = 71, h = 84 },
+	attributes = { 'rank', 'ten', 'xchips' }
 })
 
 return macj

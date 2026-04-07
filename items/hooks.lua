@@ -429,8 +429,6 @@ function SMODS.upgrade_poker_hands(args)
 					end
 				end
 			end
-			
-			args.func = nil
 			norepeat = true
 		end
 		if to_big(args.level_up) == to_big(0) then norepeat = false; return end
@@ -1002,6 +1000,7 @@ end
 
 local ofburef = Overflow and Overflow.bulk_use
 if Overflow and ofburef then
+	sendInfoMessage("Hooking Overflow.bulk_use...", "TOGAPack")
 	function Overflow.bulk_use(card, area, amount)
 		local ret = ofburef(card, area, amount)
 		local consusecalc = {}
@@ -1020,6 +1019,7 @@ if Overflow and ofburef then
 	end
 end
 
+sendInfoMessage("Hooking Card:use_consumeable...", "TOGAPack")
 function Card:use_consumeable(area, copier)
 	local ret = carduseconsref(self, area, copier)
 	-- Consumeable reuse/retrigger context.
@@ -1105,6 +1105,32 @@ sendInfoMessage("Hooking SMODS.card_select_area...", "TOGAPack")
 local cardselarearef = SMODS.card_select_area
 function SMODS.card_select_area(card, pack)
     local select_area = cardselarearef(card, pack)
-	if card and card.ability and card.ability.set and card.ability.set == 'Planet' and next(SMODS.find_card('j_toga_littleplanet')) then select_area = "consumeables" end
+	if card and card.ability and card.ability.set and not select_area then
+		if card.ability.set == 'Planet' and next(SMODS.find_card('j_toga_littleplanet')) or card.ability.set == 'Tarot' and next(SMODS.find_card('j_toga_genie')) then select_area = "consumeables" end
+	end
     return select_area
+end
+
+sendInfoMessage("Hooking Game.start_run...", "TOGAPack")
+local gsrref = Game.start_run
+function Game:start_run(args)
+    gsrref(self, args)
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            if G.GAME.toga_cardareatomfoolery then
+				for _, t in pairs(G.I) do for k, v in pairs(t) do if next(v.states) then for _, s in pairs(v.states) do if type(s) == 'table' then s.can = true end end end end end
+			end
+            return true
+        end
+    }))
+end
+
+sendInfoMessage("Hooking Card:get_chip_bonus...", "TOGAPack")
+local cgcbref = Card.get_chip_bonus
+function Card:get_chip_bonus()
+	local bonus, delphi = cgcbref(self), SMODS.find_card('j_toga_delphi')
+	for k, v in ipairs(delphi) do
+		bonus = bonus*(v and v.ability and v.ability.extra and v.ability.extra.cmult or 1)
+	end
+    return bonus
 end

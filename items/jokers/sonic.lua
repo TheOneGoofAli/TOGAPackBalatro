@@ -95,6 +95,7 @@ table.insert(sj, {
 			SMODS.calculate_effect({ message = localize('toga_kartouch'), colour = G.C.RED, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonicringloss', pitch = 1}, card)
 		end
 	end,
+	attributes = { 'retrigger', 'enhancements', 'chance' }
 })
 
 table.insert(sj, {
@@ -188,7 +189,8 @@ table.insert(sj, {
 	poweritem = true,
 	remainhidden = true,
 	display_size = { w = 71 * 1.056, h = 95 },
-	pixel_size = { w = 71, h = 95 }
+	pixel_size = { w = 71, h = 95 },
+	attributes = { 'retrigger', 'enhancements', 'prevent_debuff', 'destroy_card', 'chance' }
 })
 
 table.insert(sj, {
@@ -229,7 +231,8 @@ table.insert(sj, {
 	poweritem = true,
 	remainhidden = true,
 	display_size = { w = 71 * 1.056, h = 95 },
-	pixel_size = { w = 71, h = 95 }
+	pixel_size = { w = 71, h = 95 },
+	attributes = { 'retrigger', 'prevent_debuff', 'destroy_card', 'chance' }
 })
 
 return sj

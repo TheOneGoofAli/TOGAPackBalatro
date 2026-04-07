@@ -51,6 +51,7 @@ if SDM_0s_Stuff_Config and SDM_0s_Stuff_Config.sdm_bakery then
 		set_badges = function(self, card, badges)
 			if self.discovered then SMODS.create_mod_badges({ mod = SMODS.find_mod('sdm0sstuff')[1] }, badges) end
 		end,
-		pixel_size = { w = 69, h = 74 }
+		pixel_size = { w = 69, h = 74 },
+		attributes = { 'retrigger', 'bakery', 'consumeable' }
 	}
 end

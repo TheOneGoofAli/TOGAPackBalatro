@@ -42,10 +42,8 @@ SMODS.Joker{
 		end
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
-	update = function(self, card, context)
-		if card.ability.cry_rigged then card.ability.cry_rigged = nil end
-	end,
-	pixel_size = { w = 50, h = 95 }
+	pixel_size = { w = 50, h = 95 },
+	attributes = { 'horse', 'xmult', 'economy', Talisman and 'eeemult' }
 }
 
 local catxchips, cateeechips = 1.35, 1.04
@@ -85,10 +83,8 @@ SMODS.Joker{
 		end
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
-	update = function(self, card, context)
-		if card.ability.cry_rigged then card.ability.cry_rigged = nil end
-	end,
-	pixel_size = { w = 69, h = 74 }
+	pixel_size = { w = 69, h = 74 },
+	attributes = { 'cat', 'xchips', Talisman and 'eeechips' }
 }
 
 SMODS.Consumable {

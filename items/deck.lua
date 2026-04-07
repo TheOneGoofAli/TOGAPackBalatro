@@ -353,6 +353,16 @@ SMODS.Back{
 	end,
 }
 
+SMODS.Back{
+	key = "dragdeck",
+	pos = { x = 6, y = 2 },
+	atlas = "TOGADeckBack",
+	unlocked = true,
+	apply = function(self, back)
+		G.GAME.toga_cardareatomfoolery = true
+	end,
+}
+
 if togabalatro.config.KingCDIDeck then
 	SMODS.Back{
 		key = "kingharkinian",

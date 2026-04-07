@@ -22,6 +22,7 @@ table.insert(lj, {
 		end
 	end,
 	pixel_size = { w = 69, h = 69 },
+	attributes = { 'joker', 'consumeable', 'sell_value', 'xmult' }
 })
 
 table.insert(lj, {
@@ -38,7 +39,8 @@ table.insert(lj, {
 			return { numerator = context.numerator / 2 }
 		end
 	end,
-	pixel_size = { w = 69, h = 94 }
+	pixel_size = { w = 69, h = 94 },
+	attributes = { 'passive', 'mod_chance' }
 })
 
 table.insert(lj, {
@@ -63,6 +65,7 @@ table.insert(lj, {
 		end
 	end,
 	pixel_size = { w = 69, h = 62 },
+	attributes = { 'hands', 'suit', 'xmult' }
 })
 
 table.insert(lj, {
@@ -105,7 +108,8 @@ table.insert(lj, {
 		
 		if context.joker_main or context.forcetrigger then return { xmult = 1+math.max(card.ability.extra.xmbonus, 0) } end
 	end,
-	pixel_size = { w = 69, h = 84 }
+	pixel_size = { w = 69, h = 84 },
+	attributes = { 'hand_type', 'xmult', 'scaling' }
 })
 
 return lj

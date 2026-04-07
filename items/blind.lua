@@ -13,7 +13,7 @@ SMODS.Blind{
 		return { vars = { -self.vars.reducedhandsel } }
 	end,
 	collection_loc_vars = function(self)
-		return { vars = { -self.vars.reducedhandsel  } }
+		return { vars = { -self.vars.reducedhandsel } }
 	end,
 	set_blind = function(self)
 		self.vars.activated = true

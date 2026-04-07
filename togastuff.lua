@@ -386,7 +386,7 @@ SMODS.ObjectType{
 		["j_toga_softram"] = true, ["j_toga_achemoth"] = true, ["j_toga_littleplanet"] = true,
 		["j_toga_heatdeath"] = true, ["j_toga_bigbang"] = true, ["j_toga_winamp"] = true,
 		["j_toga_winrar"] = true, ["j_toga_winzip"] = true, ["j_toga_hyperterminal"] = true,
-		["j_toga_melons"] = true,
+		["j_toga_melons"] = true, ["j_toga_delphi"] = true
 	}
 }
 
@@ -1079,7 +1079,10 @@ end
 
 -- I've not done such loading since making Windows for SRB2, but as the content is split off from this main file, gotta do it!
 -- This loads the actual content...
-for _, file in ipairs{"hooks.lua", "joker.lua", "deck.lua", "quips.lua", "voucher.lua", "enhancement.lua", "consumables.lua", "seal.lua", "booster.lua", "tag.lua", "deckskin.lua", "blind.lua", "challenges.lua", "stakes.lua", "achievements.lua", "crossmod.lua"} do
+for _, file in ipairs({
+	"attributes.lua", "hooks.lua", "joker.lua", "deck.lua", "quips.lua", "voucher.lua", "enhancement.lua", "consumables.lua", "seal.lua",
+	"booster.lua", "tag.lua", "deckskin.lua", "blind.lua", "challenges.lua", "stakes.lua", "achievements.lua", "crossmod.lua"
+}) do
 	sendDebugMessage("Executing items/"..file, "TOGAPack")
 	assert(SMODS.load_file("items/"..file))()
 end

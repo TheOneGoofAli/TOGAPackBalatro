@@ -74,7 +74,8 @@ if SMODS.Mods['MoreFluff'].config['Colour Cards'] then
 		end,
 		set_badges = function(self, card, badges)
 			if self.discovered then SMODS.create_mod_badges({ mod = SMODS.find_mod('MoreFluff')[1] }, badges) end
-		end
+		end,
+		attributes = { 'economy', 'colour', 'consumeable' }
 	}
 	SMODS.Joker{
 		key = 'displayproperties',
@@ -91,7 +92,8 @@ if SMODS.Mods['MoreFluff'].config['Colour Cards'] then
 		end,
 		set_badges = function(self, card, badges)
 			if self.discovered then SMODS.create_mod_badges({ mod = SMODS.find_mod('MoreFluff')[1] }, badges) end
-		end
+		end,
+		attributes = { 'colour', 'consumeable' }
 	}
 	SMODS.Joker{
 		key = 'colourfulprinter',
@@ -135,7 +137,8 @@ if SMODS.Mods['MoreFluff'].config['Colour Cards'] then
 				SMODS.create_mod_badges({ mod = SMODS.find_mod('RevosVault')[1] }, badges)
 			end
 		end,
-		dependencies = 'RevosVault'
+		dependencies = 'RevosVault',
+		attributes = { 'colour', 'consumeable', 'printer' }
 	}
 	SMODS.Consumable({
 		object_type = "Consumable",
