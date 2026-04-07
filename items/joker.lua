@@ -556,7 +556,7 @@ table.insert(jokers, {
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
-	attributes = { 'blind_size' }
+	attributes = { 'xblindsize' }
 })
 
 table.insert(jokers, {
@@ -1411,7 +1411,7 @@ table.insert(jokers, {
 		end
 	end,
 	poweritem = true,
-	attributes = { 'chance', 'blind_size' }
+	attributes = { 'chance', 'xblindsize' }
 })
 
 table.insert(jokers, {
