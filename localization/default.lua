@@ -1716,6 +1716,7 @@ return {
 				name = "Osmium Card",
 				text = {
 					"{X:chips,C:white}X#1#{} Chips",
+					"when scored",
 				},
 			},
 			m_toga_redstone = {
@@ -1790,8 +1791,8 @@ return {
 			m_toga_refinedglowstone = {
 				name = "Refined Glowstone Card",
 				text = {
-					"{X:chips,C:white}X#1#{} Chips",
-					"{X:mult,C:white}X#2#{} Mult",
+					"{X:chips,C:white}X#1#{} Chips and {X:mult,C:white}X#2#{} Mult",
+					"when scored",
 				},
 			},
 			m_toga_refinedglowstone_recipe = {
