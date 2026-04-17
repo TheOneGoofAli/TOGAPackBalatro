@@ -1416,12 +1416,12 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'winrar',
-	config = { extra = { xm = 0, xmg = 0.1 } },
+	config = { extra = { xm = 0, xmg = 0.08 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { 1+card.ability.extra.xm, card.ability.extra.xmg } }
 	end,
 	unlocked = true,
-	rarity = 1,
+	rarity = 2,
 	atlas = 'TOGAJokersMain',
 	pos = { x = 1, y = 10 },
 	cost = 6,
@@ -1614,6 +1614,28 @@ table.insert(jokers, {
 	end,
 	poweritem = true,
 	attributes = { 'joker', 'mult' }
+})
+
+table.insert(jokers, {
+	key = 'smssender',
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_toga_sms
+	end,
+	unlocked = true,
+	in_pool = function()
+		if togabalatro.config.ShowPower and G.playing_cards then
+			for k, v in pairs(G.playing_cards or {}) do
+				if SMODS.has_enhancement(v, 'm_toga_sms') then return true end
+			end
+		end
+	end,
+	rarity = 2,
+	atlas = 'TOGAJokersMain',
+	pos = { x = 0, y = 11 },
+	cost = 6,
+	blueprint_compat = false,
+	poweritem = true,
+	attributes = { 'enhancements', 'hands' }
 })
 
 table.insert(jokers, {
@@ -2149,6 +2171,13 @@ table.insert(jokers, {
 		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { card.ability.extra.ixmult } }
 	end,
 	unlocked = true,
+	in_pool = function()
+		if G.playing_cards then
+			for k, v in pairs(G.playing_cards or {}) do
+				if SMODS.has_enhancement(v, 'm_steel') or SMODS.has_enhancement(v, 'm_toga_iron') then return true end
+			end
+		end
+	end,
 	rarity = 3,
 	atlas = 'TOGAJokersOther',
 	pos = { x = 5, y = 0 },
@@ -2581,10 +2610,10 @@ table.insert(jokers, {
 		return { vars = { togabalatro.getlevelaverage() } }
 	end,
 	unlocked = true,
-	rarity = 2,
+	rarity = 3,
 	atlas = 'TOGAJokersOther',
 	pos = { x = 6, y = 2 },
-	cost = 6,
+	cost = 8,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
 		if context.joker_main then

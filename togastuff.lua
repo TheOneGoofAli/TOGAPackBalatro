@@ -65,14 +65,16 @@ togabalatro.calculate = function(self, context)
 	
 	if context.after then
 		for _, c in ipairs(context.full_hand) do
-			if Object.is(c, Card) and SMODS.has_enhancement(c, 'm_toga_platinum') and SMODS.pseudorandom_probability(c, 'toga_platinum', 1, c.ability.owodds or 5) then
-				local names = {}
-				for k, v in ipairs(G.handlist) do
-					if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then names[#names+1] = v end
-				end
-				if next(names) then
-					local hand = pseudorandom_element(names, pseudoseed('otherworldly'))
-					SMODS.calculate_effect({ level_up = true, level_up_hand = hand or G.GAME.last_hand_played }, c)
+			if Object.is(c, Card) then
+				if SMODS.has_enhancement(c, 'm_toga_platinum') and SMODS.pseudorandom_probability(c, 'toga_platinum', 1, c.ability.owodds or 5) then
+					local names = {}
+					for k, v in ipairs(G.handlist) do
+						if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then names[#names+1] = v end
+					end
+					if next(names) then
+						local hand = pseudorandom_element(names, pseudoseed('otherworldly'))
+						SMODS.calculate_effect({ level_up = true, level_up_hand = hand or G.GAME.last_hand_played }, c)
+					end
 				end
 			end
 		end
@@ -95,6 +97,16 @@ togabalatro.calculate = function(self, context)
 		for k, v in ipairs(context.full_hand) do
 			if Object.is(v, Card) and SMODS.has_enhancement(v, 'm_toga_energeticalloy') then
 				return { prevent_debuff = true }
+			end
+		end
+	end
+	
+	if (context.joker_type_destroyed or context.selling_card) and Object.is(context.card, Card) then
+		if not context.card.debuff and context.card.config and context.card.config.center and context.card.config.center.key and context.card.config.center.key == 'c_toga_selfpropelledbomb' and context.card.ability then
+			if SMODS.pseudorandom_probability(context.card, "toga_selfpropelledbomb", 1, context.card.ability.extra.odds or 4, 'theselfpropelledbomb') then
+				togabalatro.spbdeckwreck(context.card, true)
+			else
+				card_eval_status_text(G.deck.cards and G.deck.cards[1] or G.deck, 'extra', nil, nil, nil, {message = localize('k_safe_ex'), sound = togabalatro.config.SFXWhenRemoving and 'toga_thundershield'})
 			end
 		end
 	end
@@ -386,7 +398,7 @@ SMODS.ObjectType{
 		["j_toga_softram"] = true, ["j_toga_achemoth"] = true, ["j_toga_littleplanet"] = true,
 		["j_toga_heatdeath"] = true, ["j_toga_bigbang"] = true, ["j_toga_winamp"] = true,
 		["j_toga_winrar"] = true, ["j_toga_winzip"] = true, ["j_toga_hyperterminal"] = true,
-		["j_toga_melons"] = true, ["j_toga_delphi"] = true
+		["j_toga_melons"] = true, ["j_toga_delphi"] = true, ["j_toga_smssender"] = true
 	}
 }
 
@@ -982,23 +994,26 @@ end
 -- Additional stuff when playing a hand.
 togabalatro.playextracards = function()
 	-- SMS enhancement.
-	local sms_deck = {}
-	if G.deck and G.deck.cards and #G.deck.cards > 0 then
-		for i = 1, #G.deck.cards do
-			if SMODS.has_enhancement(G.deck.cards[i], 'm_toga_sms') then
-				sms_deck[#sms_deck+1] = G.deck.cards[i]
+	local smssend = SMODS.find_card('j_toga_smssender')
+	if next(smssend) and to_number(G.GAME.current_round.hands_left) <= 1 or not next(smssend) then
+		local sms_deck = {}
+		if G.deck and G.deck.cards and #G.deck.cards > 0 then
+			for i = 1, #G.deck.cards do
+				if SMODS.has_enhancement(G.deck.cards[i], 'm_toga_sms') then
+					sms_deck[#sms_deck+1] = G.deck.cards[i]
+				end
 			end
 		end
-	end
-	if #sms_deck > 0 then
-		for i = 1, #G.deck.cards do
-			for v = 1, #sms_deck do
-				if SMODS.has_enhancement(G.deck.cards[i], 'm_toga_sms') and sms_deck[v] == G.deck.cards[i] then
-					if G.deck.cards[i]:is_face() then inc_career_stat('c_face_cards_played', 1) end
-					G.deck.cards[i].base.times_played = G.deck.cards[i].base.times_played + 1
-					G.deck.cards[i].ability.played_this_ante = true
-					G.GAME.round_scores.cards_played.amt = G.GAME.round_scores.cards_played.amt + 1
-					draw_card(G.deck, G.play, i*100/#sms_deck, 'up', nil, G.deck.cards[i])
+		if #sms_deck > 0 then
+			for i = 1, #G.deck.cards do
+				for v = 1, #sms_deck do
+					if SMODS.has_enhancement(G.deck.cards[i], 'm_toga_sms') and sms_deck[v] == G.deck.cards[i] then
+						if G.deck.cards[i]:is_face() then inc_career_stat('c_face_cards_played', 1) end
+						G.deck.cards[i].base.times_played = G.deck.cards[i].base.times_played + 1
+						G.deck.cards[i].ability.played_this_ante = true
+						G.GAME.round_scores.cards_played.amt = G.GAME.round_scores.cards_played.amt + 1
+						draw_card(G.deck, G.play, i*100/#sms_deck, 'up', nil, G.deck.cards[i])
+					end
 				end
 			end
 		end

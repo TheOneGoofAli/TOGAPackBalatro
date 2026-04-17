@@ -27,7 +27,7 @@ return {
 				name = 'Spaceman Deck',
 				text = {
 					"Start the run with a",
-					"{C:planet,T:j_space}Space Joker{}",
+					"{C:attention}special{} {C:planet,T:j_space}Space Joker{},",
 					"{C:planet,T:v_planet_merchant}Planet Merchant{},",
 					"{C:planet,T:v_planet_tycoon}Planet Tycoon{}",
 					"{C:spectral,s:0.8}Spectral{s:0.8} cards",
@@ -1140,14 +1140,6 @@ return {
 					"{C:inactive,s:0.8}to show the Mineral pool.{}"
 				}
 			},
-			-- j_toga_miningjkr_showminerals = {
-				-- name = 'Mining Joker',
-				-- text = {
-					-- "{C:attention}Unenhanced{} cards played on the",
-					-- "{C:attention}first hand{} of round are {C:attention}converted{}",
-					-- "to {C:attention}Mineral{} cards afterwards.",
-				-- }
-			-- },
 			j_toga_tuneupwizard = {
 				name = 'Tune-up Wizard',
 				text = {
@@ -1494,8 +1486,8 @@ return {
 			j_toga_genie = {
 				name = 'Genie',
 				text = {
-					"{C:tarot}Tarot{} cards can be {C:attention}taken{}",
-					"from {C:attention}Booster Packs{} instead",
+					"{C:tarot}Tarot{} cards can be {C:attention}saved{}",
+					"from {C:attention}Booster Packs{}",
 				}
 			},
 			j_toga_victor = {
@@ -1530,8 +1522,8 @@ return {
 			j_toga_littleplanet = {
 				name = 'Little Planet',
 				text = {
-					"{C:planet}Planet{} cards can be {C:attention}taken{}",
-					"from {C:attention}Booster Packs{} instead",
+					"{C:planet}Planet{} cards can be {C:attention}saved{}",
+					"from {C:attention}Booster Packs{}",
 				}
 			},
 			j_toga_heatdeath = {
@@ -1626,6 +1618,13 @@ return {
 					"{X:attention,C:white}X#1#{} base {C:chips}Chips",
 				}
 			},
+			j_toga_smssender = {
+				name = 'SMS Sender',
+				text = {
+					"Effect of {C:attention}SMS Cards{} is delayed",
+					"until {C:attention}final hand{} of round",
+				}
+			},
 		},
 		Enhanced = {
 			m_toga_notification = {
@@ -1656,15 +1655,15 @@ return {
 			m_toga_iron = {
 				name = "Iron Card",
 				text = {
-					"{X:mult,C:white}X#1#{} Mult",
-					"while this card",
-					"stays in hand",
+					"Retrigger this card",
+					"{C:attention}#1#{} time",
 				},
 			},
 			m_toga_silver = {
 				name = "Silver Card",
 				text = {
 					"{X:mult,C:white}X#1#{} Mult",
+					"when scored",
 				},
 			},
 			m_toga_electrum = {
@@ -1752,6 +1751,7 @@ return {
 				name = "Signalum Card",
 				text = {
 					"{X:mult,C:white}X#1#{} Mult",
+					"when scored",
 				},
 			},
 			m_toga_signalum_recipe = {
@@ -1911,6 +1911,14 @@ return {
 					"= 1x Energetic Alloy",
 				},
 			},
+			m_steel_recipe = {
+				name = "Steel Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"1x Iron + 1x Coal Coke (consumed)",
+					"= 1x Steel",
+				},
+			},
 		},
 		Tarot = {
 			c_toga_furnace = {
@@ -2018,14 +2026,14 @@ return {
 				name = "File Source",
 				text = {
 					"Enhances {C:attention}#1#{} selected cards",
-					"to {C:attention}Notification{} cards",
+					"to {C:attention}Notification Cards{}",
 				}
 			},
 			c_toga_mobilephone = {
 				name = "Phone",
 				text = {
 					"Enhances {C:attention}#1#{} selected cards",
-					"to {C:attention}SMS{} cards",
+					"to {C:attention}SMS Cards{}",
 				}
 			},
 			c_toga_hyperlink = {

@@ -1,6 +1,7 @@
 sendInfoMessage("Loading Alloy recipes...", "TOGAPack")
 
--- Iron + Coal Coke (consumed) to vanilla Steel
+-- 1x Iron + 1x Coal Coke (consumed) = 1x Steel (vanilla)
+-- ...why would you go this route for Steel?
 togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
 	selcards = selcards or {}
 	local coalcoke, iron = nil, nil
@@ -11,7 +12,7 @@ togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selca
 	return iron and coalcoke and iron ~= coalcoke, { cards = { iron }, destroycard = { coalcoke }, allcards = { iron, coalcoke } }, 'm_steel', "toga_alloysteel"
 end
 
--- Gold + Silver to Electrum
+-- 1x Gold + 1x Silver = 2x Electrum
 togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
 	selcards = selcards or {}
 	local gold, silver = nil, nil

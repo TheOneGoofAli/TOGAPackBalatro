@@ -60,11 +60,13 @@ SMODS.Enhancement{
 	key = 'iron',
 	atlas = "TOGAEnhancements",
 	pos = { x = 2, y = 0 },
-	config = { h_x_mult = 1.25 },
+	config = { toga_retriggers = 1 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.h_x_mult } }
+		return { vars = { card.ability.toga_retriggers } }
 	end,
-	weight = 8
+	calculate = function(self, card, context)
+		if context.repetition then return { repetitions = card.ability.toga_retriggers } end
+	end,
 }
 
 SMODS.Enhancement{
@@ -147,11 +149,10 @@ SMODS.Enhancement{
 	key = 'zinc',
 	atlas = "TOGAEnhancements",
 	pos = { x = 0, y = 2 },
-	config = { toga_gmult = 1 },
+	config = { toga_gmult = 4 },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { SMODS.signed(card.ability.toga_gmult) } }
 	end,
-	weight = 6
 }
 
 SMODS.Enhancement{

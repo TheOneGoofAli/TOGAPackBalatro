@@ -307,9 +307,13 @@ SMODS.Consumable {
 	can_mass_use = false,
 }
 
+local spbdeckpart, spbcardmin = 0.75, 20
+
 -- SPB function.
-local function toga_spbdeckwreck(card, failedchance)
+function togabalatro.spbdeckwreck(card, failedchance)
 	if not (G.deck and G.deck.cards and #G.deck.cards > 0) then return end
+	if not card then return end
+	card.ability.extra.cardlimit = math.max(G.deck and G.deck.cards and math.floor(#G.deck.cards*spbdeckpart) or 0, spbcardmin)
 	if failedchance then card_eval_status_text(G.deck.cards[1], 'extra', nil, nil, nil, {message = localize('toga_spbavoidfail'), colour = G.C.RED}) end
 	local temp_hand, destroyed_cards = {}, {}
 	for k, v in ipairs(G.deck.cards) do temp_hand[#temp_hand+1] = v end
@@ -317,15 +321,10 @@ local function toga_spbdeckwreck(card, failedchance)
 	pseudoshuffle(temp_hand, pseudoseed('spb'))
 	
 	for i = 1, math.floor(card.ability.extra.cardlimit) do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end
-	
-	G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-		play_sound('tarot1')
-		card:juice_up(0.3, 0.5)
-		SMODS.destroy_cards(destroyed_cards, nil, true)
-	return true end }))
+	play_sound('tarot1')
+	card:juice_up(0.3, 0.5)
+	SMODS.destroy_cards(destroyed_cards, nil, true)
 end
-
-local spbdeckpart, spbcardmin = 0.75, 20
 
 SMODS.Consumable{
 	key = 'selfpropelledbomb',
@@ -343,23 +342,22 @@ SMODS.Consumable{
 		return G.deck and G.deck.cards and #G.deck.cards > 0
 	end,
 	use = function(self, card)
-		card.ability.extra.cardlimit = math.max(G.deck and G.deck.cards and math.floor(#G.deck.cards*spbdeckpart) or 0, spbcardmin)
 		card.ability.extra.activated = true
-		toga_spbdeckwreck(card)
+		togabalatro.spbdeckwreck(card)
 	end,
 	add_to_deck = function(self, card, from_debuff)
 		if not from_debuff and togabalatro.config.SFXWhenAdding and G.STAGE == G.STAGES.RUN and not G.screenwipe then
 			play_sound('toga_spb')
 		end
 	end,
-	remove_from_deck = function(self, card, from_debuff)
-		if card.ability.extra.activated then return end
-		if SMODS.pseudorandom_probability(card, "toga_selfpropelledbomb", 1, card.ability.extra.odds, 'theselfpropelledbomb') then
-			toga_spbdeckwreck(card, true)
-		else
-			card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_safe_ex'), sound = togabalatro.config.SFXWhenRemoving and 'toga_thundershield'})
-		end
-	end,
+	-- remove_from_deck = function(self, card, from_debuff)
+		-- if card.ability.extra.activated then return end
+		-- if SMODS.pseudorandom_probability(card, "toga_selfpropelledbomb", 1, card.ability.extra.odds, 'theselfpropelledbomb') then
+			-- toga_spbdeckwreck(card, true)
+		-- else
+			-- card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_safe_ex'), sound = togabalatro.config.SFXWhenRemoving and 'toga_thundershield'})
+		-- end
+	-- end,
 	perishable_compat = false,
 	eternal_compat = false,
 	can_stack = false,

@@ -22,29 +22,28 @@ SMODS.Back{
 		G.E_MANAGER:add_event(Event({
 			func = function()
 				if G.jokers then
-					SMODS.add_card({ key = "j_space" })
+					local space = SMODS.add_card({ key = "j_space" })
+					space.ability.extra = 3
 					return true
 				end
 			end,
 		}))
-	end
+	end,
 }
 
-if not togabalatro.checkbmp() then
-	SMODS.Back{
-		key = "srb2kartdeck",
-		pos = { x = 2, y = 0 },
-		atlas = "TOGADeckBack",
-		unlocked = true,
-		config = {hand_size = -1},
-		loc_vars = function(self, info_queue, center)
-			return { vars = { localize('Straight', "poker_hands"), self.config.hand_size } }
-		end,
-		quip_filter = function(quip, type)
-			if (quip.mod and quip.mod.id == 'TOGAPack' and togabalatro.config.SpecialDeckMusic) or not togabalatro.config.SpecialDeckMusic then return true else return false end
-		end
-	}
-end
+SMODS.Back{
+	key = "srb2kartdeck",
+	pos = { x = 2, y = 0 },
+	atlas = "TOGADeckBack",
+	unlocked = true,
+	config = {hand_size = -1},
+	loc_vars = function(self, info_queue, center)
+		return { vars = { localize('Straight', "poker_hands"), self.config.hand_size } }
+	end,
+	quip_filter = function(quip, type)
+		if (quip.mod and quip.mod.id == 'TOGAPack' and togabalatro.config.SpecialDeckMusic) or not togabalatro.config.SpecialDeckMusic then return true else return false end
+	end
+}
 
 SMODS.Back{
 	key = "againdeck",
