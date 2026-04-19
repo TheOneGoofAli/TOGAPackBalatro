@@ -308,15 +308,15 @@ SMODS.Voucher{
 	unlocked = true,
 	cost = 20,
 	rarity = 4,
-	config = { rarity = 4, extra = { odds = 500 } },
+	config = { rarity = 4, extra = { odds = 50 } },
 	requires = {'v_omen_globe'},
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.p_toga_togaziparchivepack
 		info_queue[#info_queue + 1] = G.P_CENTERS.p_toga_togararpack
-		return {vars = { SMODS.get_probability_vars(card or self, 1, card.ability.extra.odds or 500) } }
+		return {vars = { SMODS.get_probability_vars(card or self, 1, card.ability.extra.odds or 100) } }
 	end,
 	redeem = function(self, card)
-		G.GAME.spectralzipper_chance = (card and card.ability.extra or self.config.extra).odds or 500
+		G.GAME.spectralzipper_chance = (card and card.ability.extra or self.config.extra).odds or 100
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Spectral Zipper chance set to "..G.GAME.spectralzipper_chance..".", "TOGAPack") end
 	end,
 }

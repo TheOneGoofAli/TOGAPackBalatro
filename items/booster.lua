@@ -39,17 +39,17 @@ SMODS.Booster{
 	config = {extra = 10, choose = 2, name = "Joker.ZIP"},
 	discovered = false,
 	loc_vars = function(self, info_queue, card)
-		if G.GAME and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance then
-			info_queue[#info_queue + 1] = {key = "toga_jokerzipupgrade", set = 'Other', vars = { SMODS.get_probability_vars(card or self, 1, G.GAME.spectralzipper_chance or 500) } }
+		if G.GAME and G.GAME.used_vouchers and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance then
+			info_queue[#info_queue + 1] = {key = "toga_jokerzipupgrade", set = 'Other', vars = { SMODS.get_probability_vars(card or self, 1, G.GAME.spectralzipper_chance or 100) } }
 		end
 		return { vars = {card.ability.choose, card.ability.extra } }
 	end,
 	ease_background_colour = function(self)
 		ease_background_colour({ new_colour = HEX("515966"), special_colour = HEX("121417"), contrast = 1.25 }) -- Longhorn, anyone?
 	end,
-	create_card = function(self, card)
-		local leg = G.GAME and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance and SMODS.pseudorandom_probability(card or self, "toga_leg", 1, G.GAME.spectralzipper_chance, 'togaziparchivepack') or nil
-		return SMODS.create_card({ set = 'Joker', area = G.pack_cards, legendary = leg, skip_materialize = true, soulable = true, key_append = 'toga'})
+	create_card = function(self, card, i)
+		local leg = i == 1 and G.GAME.used_vouchers and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance and SMODS.pseudorandom_probability(card or self, "toga_legzip", 1, G.GAME.spectralzipper_chance or 100, 'togaziparchive') or nil
+		return SMODS.create_card({ set = 'Joker', area = G.pack_cards, legendary = leg, skip_materialize = true, soulable = true, key_append = "toga" })
 	end,
 	kind = 'TOGABoostPack',
 	in_pool = function()
@@ -70,17 +70,17 @@ SMODS.Booster{
 	draw_hand = true,
 	discovered = false,
 	loc_vars = function(self, info_queue, card)
-		if G.GAME and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance then
-			info_queue[#info_queue + 1] = {key = "toga_consumabrarupgrade", set = 'Other', vars = { SMODS.get_probability_vars(card or self, 1, G.GAME.spectralzipper_chance or 500) } }
+		if G.GAME and G.GAME.used_vouchers and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance then
+			info_queue[#info_queue + 1] = {key = "toga_consumabrarupgrade", set = 'Other', vars = { SMODS.get_probability_vars(card or self, 1, G.GAME.spectralzipper_chance or 100) } }
 		end
 		return { vars = {card.ability.choose, card.ability.extra} }
 	end,
 	ease_background_colour = function(self)
 		ease_background_colour({ new_colour = HEX("bb1b36"), special_colour = HEX("177c2f"), contrast = 1.25 })
 	end,
-	create_card = function(self, card)
-		local leg = G.GAME and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and SMODS.pseudorandom_probability(card or self, "toga_leg", 1, G.GAME.spectralzipper_chance, 'togararpack') or nil
-		return SMODS.create_card({ set = 'Consumables', area = G.pack_cards, legendary = leg, skip_materialize = true, soulable = true, key = leg and 'c_soul' or togabalatro.getrandcons('rar'), key_append = 'toga'})
+	create_card = function(self, card, i)
+		local leg = i == 1 and G.GAME.used_vouchers and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance and SMODS.pseudorandom_probability(card or self, "toga_legrar", 1, G.GAME.spectralzipper_chance or 100, 'togararpack') or nil
+		return SMODS.create_card({ set = 'Consumeables', area = G.pack_cards, skip_materialize = true, key = leg and 'c_soul' or nil, soulable = true, key_append = "toga" })
 	end,
 	kind = 'TOGABoostPack',
 	in_pool = function()

@@ -2252,7 +2252,7 @@ return {
 				text = {
 					"{C:attention}Joker.ZIP{} and {C:attention}CONSUMAB.RAR{}",
 					"have a {C:green}#1# in #2#{} chance to",
-					"contain {C:dark_edition}Legendary{} items."
+					"contain a {C:dark_edition}Legendary{} item"
 				},
 			},
 			v_toga_auroramatter = {
@@ -2402,14 +2402,14 @@ return {
 				name = "Spectral Zipper",
 				text = {
 					"{C:green}#1# in #2#{} chance to have a",
-					"{C:dark_edition}Legendary{} {C:attention}Joker{}.",
+					"{C:dark_edition}Legendary{} {C:attention}Joker{}",
 				},
 			},
 			toga_consumabrarupgrade = {
 				name = "Spectral Zipper",
 				text = {
 					"{C:green}#1# in #2#{} chance",
-					"to contain {C:dark_edition}The Soul{}.",
+					"to contain {C:dark_edition}The Soul{}",
 				},
 			},
 			toga_scales1 = {
