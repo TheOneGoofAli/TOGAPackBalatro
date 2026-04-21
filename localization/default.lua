@@ -354,7 +354,7 @@ return {
 			j_toga_drivespace = {
 				name = 'DriveSpace',
 				text = {
-					"{X:attention,C:white}X#1#{} Blind requirements",
+					"{X:blind,C:white}X#1#{} Blind requirements",
 					"when a card {C:attention}scores{}.",
 					"{C:inactive,s:0.8}Back when hard drives were{}",
 					"{C:inactive,s:0.8}smaller than CDs...{}"
@@ -1289,7 +1289,7 @@ return {
 			j_toga_wscript = {
 				name = 'Windows Based Script Host',
 				text = {
-					"{C:green}#2# in #3#{} chance to {X:attention,C:white}X#1#{} {C:attention}Blind requirements{}",
+					"{C:green}#2# in #3#{} chance to {X:blind,C:white}X#1#{} {C:attention}Blind requirements{}",
 					"when {C:attention}Blind{} is selected",
 				}
 			},
@@ -1328,7 +1328,7 @@ return {
 			j_toga_pso2deband = {
 				name = '{C:blue}Deband{}',
 				text = {
-					"{X:attention,C:white}X0.8{} Blind requirements",
+					"{X:blind,C:white}X0.8{} Blind requirements",
 					"{C:inactive,s:0.8}(Does not stack with copies.)"
 				}
 			},
@@ -2533,7 +2533,7 @@ return {
 			toga_heavycard = {
 				name = "Heavy Card (Passive)",
 				text = {
-					"{X:attention,C:white}X#1#{} Blind requirement",
+					"{X:blind,C:white}X#1#{} Blind requirement",
 					"{C:inactive,s:0.8}(Stacks with other {C:attention,s:0.8}Lead{C:inactive,s:0.8} cards)"
 				},
 			},
@@ -2550,7 +2550,7 @@ return {
 			pnr_toga_startupdisk={
 				name = "Startup Diskette",
 				text = {
-					"Reduces {C:attention}Blind requirements{} by {C:attention}#2#%{}",
+					"Reduces {C:blind}Blind requirements{} by {C:blind}#2#%{}",
 					"when {C:attention}Blind{} is selected.",
 				},
 				unlock={
@@ -2562,10 +2562,10 @@ return {
 			pnr_toga_startupdisk_buff={
 				name = "Startup Diskette",
 				text = {
-					"Reduces {C:attention}Blind requirements{} by {C:attention}#2#%{}",
-					"when {C:attention}Blind{} is selected, with additional {C:attention}#3#%{}",
+					"Reduces {C:blind}Blind requirements{} by {C:blind}#2#%{}",
+					"when {C:attention}Blind{} is selected, with additional {C:blind}#3#%{}",
 					"provided by currently held {C:attention}Windows OS Jokers{}.",
-					"{C:inactive}(Currently {C:attention}#1#%{C:inactive})"
+					"{C:inactive}(Currently {C:blind}#1#%{C:inactive})"
 				},
 				unlock={
 					"Used a {C:attention}Windows OS{} Joker",
