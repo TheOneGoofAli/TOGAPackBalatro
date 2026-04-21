@@ -1010,7 +1010,7 @@ togabalatro.playextracards = function()
 					if SMODS.has_enhancement(G.deck.cards[i], 'm_toga_sms') and sms_deck[v] == G.deck.cards[i] then
 						if G.deck.cards[i]:is_face() then inc_career_stat('c_face_cards_played', 1) end
 						G.deck.cards[i].base.times_played = G.deck.cards[i].base.times_played + 1
-						G.deck.cards[i].ability.played_this_ante = true
+						-- removed to match SMODS.
 						G.GAME.round_scores.cards_played.amt = G.GAME.round_scores.cards_played.amt + 1
 						draw_card(G.deck, G.play, i*100/#sms_deck, 'up', nil, G.deck.cards[i])
 					end

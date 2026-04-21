@@ -116,28 +116,27 @@ match_indent = true
 target = "functions/state_events.lua"
 pattern = '''
 G.E_MANAGER:add_event(Event({
-        trigger = 'before',
-        delay = 0.4,
-        func = function()
-            if #SMODS.drawn_cards > 0 then
-                SMODS.calculate_context({first_hand_drawn = not G.GAME.current_round.any_hand_drawn and G.GAME.facing_blind,
-                                        hand_drawn = G.GAME.facing_blind and SMODS.drawn_cards,
-                                        other_drawn = not G.GAME.facing_blind and SMODS.drawn_cards})
-                SMODS.drawn_cards = {}
-                if G.GAME.facing_blind then G.GAME.current_round.any_hand_drawn = true end
-            end
-            return true
-        end
-    }))
+	trigger = 'immediate',
+	func = function()
+		if #SMODS.drawn_cards > 0 then
+			SMODS.calculate_context({first_hand_drawn = not G.GAME.current_round.any_hand_drawn and G.GAME.facing_blind,
+									hand_drawn = G.GAME.facing_blind and SMODS.drawn_cards,
+									other_drawn = not G.GAME.facing_blind and SMODS.drawn_cards})
+			SMODS.drawn_cards = {}
+			if G.GAME.facing_blind then G.GAME.current_round.any_hand_drawn = true end
+		end
+		return true
+	end
+}))
 '''
 position = "after"
 payload = '''
 G.E_MANAGER:add_event(Event({
-		func = function()
-			togabalatro.drawextracards()
-			return true
-		end
-	}))
+	func = function()
+		togabalatro.drawextracards()
+		return true
+	end
+}))
 '''
 match_indent = true
 
