@@ -616,9 +616,9 @@ return {
 			j_toga_jimboplus = {
 				name = 'JimboPlus!',
 				text = {
-					"When playing a hand, {C:attention}leech{} {X:attention,C:white}X#1#{}",
-					"of {C:attention}Blind requirements{} to",
-					"currently scored chips."
+					"When playing a hand, {C:purple}leech{} {X:purple,C:white}X#1#{}",
+					"of {C:attention}current{} {C:blind}Blind requirements{}",
+					"to {C:purple}current score{}",
 				}
 			},
 			j_toga_speedsneakers = {
