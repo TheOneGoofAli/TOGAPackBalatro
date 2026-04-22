@@ -2228,7 +2228,7 @@ table.insert(jokers, {
 	cost = 10,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.before then card.ability.extra.alltrig = 1+togabalatro.cashpointmulitple(card.ability.extra.cashpoint) end
+		if context.before then card.ability.extra.alltrig = 1+math.max(togabalatro.cashpointmulitple(card.ability.extra.cashpoint), 0) end
 		if context.spacecadetscore then return { spacecadet = card.ability.extra.alltrig, card = context.blueprint_card or card } end
 		if context.after then card.ability.pinballscore = nil end
 	end,

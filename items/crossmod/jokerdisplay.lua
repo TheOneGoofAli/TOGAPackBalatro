@@ -835,7 +835,7 @@ togabalatro.jd_def["j_toga_spacecadetpinball"] = {
 	},
 	calc_function = function(card)
 		card.joker_display_values.threshold = card.ability.extra.cashpoint
-		card.joker_display_values.rescores = togabalatro.cashpointmulitple(card.ability.extra.cashpoint)
+		card.joker_display_values.rescores = math.max(togabalatro.cashpointmulitple(card.ability.extra.cashpoint), 0)
 		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds) } }
 	end,
 	style_function = function(card, text, reminder_text, extra)
