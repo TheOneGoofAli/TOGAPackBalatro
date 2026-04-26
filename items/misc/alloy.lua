@@ -5,9 +5,14 @@ sendInfoMessage("Loading Alloy recipes...", "TOGAPack")
 togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
 	selcards = selcards or {}
 	local coalcoke, iron = nil, nil
+	local coalcokeok, ironok = false, false
+	local iter, iterlimit = 0, 100
 	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.coalcoke) then coalcoke = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.iron) then iron = v end
+		repeat
+			iter = iter + 1
+			if not coalcokeok and togabalatro.oredictcheck(v, togabalatro.oredict.coalcoke) then coalcokeok = true; coalcoke = v; break end
+			if not ironok and togabalatro.oredictcheck(v, togabalatro.oredict.iron) then ironok = true; iron = v; break end
+		until (coalcokeok and ironok) or iter > iterlimit
 	end
 	return iron and coalcoke and iron ~= coalcoke, { cards = { iron }, destroycard = { coalcoke }, allcards = { iron, coalcoke } }, 'm_steel', "toga_alloysteel"
 end
@@ -16,9 +21,14 @@ end
 togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
 	selcards = selcards or {}
 	local gold, silver = nil, nil
+	local goldok, silverok = false, false
+	local iter, iterlimit = 0, 100
 	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.gold) then gold = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.silver) then silver = v end
+		repeat
+			iter = iter + 1
+			if not goldok and togabalatro.oredictcheck(v, togabalatro.oredict.gold) then goldok = true; gold = v; break end
+			if not silverok and togabalatro.oredictcheck(v, togabalatro.oredict.silver) then silverok = true; silver = v; break end
+		until (goldok and silverok) or iter > iterlimit
 	end
 	return gold and silver and gold ~= silver, { cards = { gold, silver } }, 'm_toga_electrum', "toga_alloyelectrum"
 end
@@ -102,9 +112,14 @@ end
 togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
 	selcards = selcards or {}
 	local glowstone, osmium = nil, nil
+	local glowstoneok, osmiumok = false, false
+	local iter, iterlimit = 0, 100
 	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.glowstone) then glowstone = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.osmium) then osmium = v end
+		repeat
+			iter = iter + 1
+			if not glowstoneok and togabalatro.oredictcheck(v, togabalatro.oredict.glowstone) then glowstoneok = true; glowstone = v end
+			if not osmiumok and togabalatro.oredictcheck(v, togabalatro.oredict.osmium) then osmiumok = true; osmium = v end
+		until (glowstoneok and osmiumok) or iter > iterlimit
 	end
 	return osmium and glowstone and osmium ~= glowstone, { cards = { osmium }, destroycard = { glowstone }, allcards = { osmium, glowstone } }, 'm_toga_refinedglowstone', "toga_alloyrefglowstone"
 end
@@ -113,9 +128,14 @@ end
 togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
 	selcards = selcards or {}
 	local copper, nickel = nil, nil
+	local copperok, nickelok = false, false
+	local iter, iterlimit = 0, 100
 	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.nickel) then nickel = v end
+		repeat
+			iter = iter + 1
+			if not copperok and togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copperok = true; copper = v end
+			if not nickelok and togabalatro.oredictcheck(v, togabalatro.oredict.nickel) then nickelok = true; nickel = v end
+		until (copperok and nickelok) or iter > iterlimit
 	end
 	return copper and nickel and copper ~= nickel, { cards = { copper, nickel } }, 'm_toga_constantan', "toga_alloyconstantan"
 end
@@ -124,9 +144,14 @@ end
 togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
 	selcards = selcards or {}
 	local copper, zinc = nil, nil
+	local copperok, zincok = false, false
+	local iter, iterlimit = 0, 100
 	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.zinc) then zinc = v end
+		repeat
+			iter = iter + 1
+			if not copperok and togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copperok = true; copper = v end
+			if not zincok and togabalatro.oredictcheck(v, togabalatro.oredict.zinc) then zincok = true; zinc = v end
+		until (copperok and zincok) or iter > iterlimit
 	end
 	return copper and zinc and copper ~= zinc, { cards = { copper, zinc } }, 'm_toga_brass', "toga_alloybrass"
 end
@@ -161,9 +186,14 @@ end
 togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
 	selcards = selcards or {}
 	local copper, iron = nil, nil
+	local copperok, ironok = false, false
+	local iter, iterlimit = 0, 100
 	for i, v in ipairs(selcards) do
-		if togabalatro.oredictcheck(v, togabalatro.oredict.iron) then iron = v end
-		if togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copper = v end
+		repeat
+			iter = iter + 1
+			if not ironok and togabalatro.oredictcheck(v, togabalatro.oredict.iron) then ironok = true; iron = v end
+			if not copperok and togabalatro.oredictcheck(v, togabalatro.oredict.copper) then copperok = true; copper = v end
+		until (ironok and copperok) or iter > iterlimit
 	end
 	return iron and copper and iron ~= copper, { cards = { iron }, destroycard = { copper }, allcards = { iron, copper } }, 'm_toga_conductivealloy', "toga_alloyconductivealloy"
 end

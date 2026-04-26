@@ -48,7 +48,7 @@ table.insert(sj, {
 		end
 		
 		if context.after then
-			if (tonumber(card.ability.extra.rings) or 0) >= 50 then
+			if (tonumber(card.ability.extra.rings) or 0) >= 50 and not card.ability.cantransform then
 				card.ability.cantransform = true
 				SMODS.calculate_effect({ message = "!", sound = togabalatro.config.SFXWhenTriggered and 'toga_soniccheckpoint', pitch = 1}, card)
 			end
@@ -147,13 +147,9 @@ table.insert(sj, {
 		end
 		
 		if context.after then
-			if (tonumber(card.ability.extra.rings) or 0) >= 150 then
+			if (tonumber(card.ability.extra.rings) or 0) >= 150 and not card.ability.cantransform then
 				card.ability.cantransform = true
 				SMODS.calculate_effect({ message = "!", sound = togabalatro.config.SFXWhenTriggered and 'toga_soniccheckpoint', pitch = 1}, card)
-				G.E_MANAGER:add_event(Event({func = function()
-					local eval = function() return (card.ability.extra.rings >= 150 and card.ability.cantransform and not card.ability.istransforming) end
-					juice_card_until(card, eval, true)
-				return true end }))
 			end
 			
 			if card.ability.cantransform then

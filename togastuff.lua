@@ -84,7 +84,7 @@ togabalatro.calculate = function(self, context)
 		local hasproc = false
 		for k, v in pairs(context.removed) do
 			if Object.is(v, Card) and SMODS.has_enhancement(v, 'm_toga_zinc') then
-				local m = v.ability.toga_gmult or 1
+				local m = v.ability.toga_gmult or 4
 				if not hasproc then hasproc = true; SMODS.calculate_effect({ message = localize('k_upgrade_ex') }, G.deck.cards[1] or G.deck) end
 				for _, c in pairs(G.playing_cards or {}) do
 					c.ability.perma_mult = (c.ability.perma_mult or 0) + m
