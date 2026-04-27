@@ -526,7 +526,8 @@ return {
 					"When sold, adjacent",
 					"{C:attention}Jokers{} become {C:dark_edition}Eternal{}.",
 					"If {C:attention}already{} {C:dark_edition}Eternal{},",
-					"remove instead."
+					"remove instead",
+					"{C:inactive,s:0.8}(Computer Lock excluded)",
 				}
 			},
 			j_toga_bonusducks = {

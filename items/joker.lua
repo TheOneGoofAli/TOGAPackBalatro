@@ -1880,16 +1880,13 @@ table.insert(jokers, {
 				x_mult = card.ability.extra.x_mult > 1 and card.ability.extra.x_mult or nil
 			}
 		end
-		if context.retrigger_joker_check and not context.retrigger_joker then
-			local othcrd = context.other_card
-			if othcrd and othcrd ~= card and othcrd.config and othcrd.config.center and othcrd.config.center.key and othcrd.config.center.key ~= 'j_toga_jimbo95' then
-				if card.ability.extra.retriggers < 1 then card.ability.extra.retriggers = 1 end -- always at least once.
-				return {
-					message = togabalatro.randomruntext() or localize('k_again_ex'),
-					repetitions = math.floor(card.ability.extra.retriggers),
-					card = context.blueprint_card or card,
-				}
-			end
+		if context.retrigger_joker_check and not context.retrigger_joker and context.other_card and context.other_card ~= card then
+			if card.ability.extra.retriggers < 1 then card.ability.extra.retriggers = 1 end -- always at least once.
+			return {
+				message = togabalatro.randomruntext() or localize('k_again_ex'),
+				repetitions = math.floor(card.ability.extra.retriggers),
+				card = context.blueprint_card or card,
+			}
 		end
 	end,
 	attributes = { 'retrigger', 'xchips', 'xmult' }
@@ -2995,7 +2992,7 @@ table.insert(jokers, {
 	end,
 	jokeitem = true,
 	poweritem = true,
-	attributes = { 'economy', 'chips', 'mult', 'xchips', 'xmult', 'echips', 'emult', Talisman and 'eechips' or nil, Talisman and 'eemult' or nil, Talisman and 'eeechips' or nil, Talisman and 'eeemult' or nil, 'joke' }
+	attributes = { 'economy', 'xchips', 'xmult', 'joke', Talisman and 'echips' or nil, Talisman and 'emult' or nil, Talisman and 'eechips' or nil, Talisman and 'eemult' or nil, Talisman and 'eeechips' or nil, Talisman and 'eeemult' or nil }
 })
 
 table.insert(jokers, {
@@ -3040,7 +3037,7 @@ table.insert(jokers, {
 					return true end }))
 				update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+0.25'})
 				delay(1.3)
-				SMODS.upgrade_poker_hands({ from = card, instant = true, level_up = 0.25})
+				SMODS.upgrade_poker_hands({ from = card, instant = true, level_up = 2})
 				update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
 				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
 					SMODS.debuff_card(card, 'baljeet', 'baljeet')

@@ -524,7 +524,7 @@ togabalatro.jd_def["j_toga_jimbo95"] = {
 		card.joker_display_values.h_size = (to_number(card.ability.extra.h_size) > 0 and "+"..to_number(card.ability.extra.h_size) or to_number(card.ability.extra.h_size)).." "
 	end,
 	retrigger_joker_function = function(card, retrigger_joker)
-		return card.config.center.key ~= retrigger_joker.config.center.key and math.floor(retrigger_joker.ability.extra.retriggers)
+		return card ~= retrigger_joker and math.floor(retrigger_joker.ability.extra.retriggers)
 	end
 }
 

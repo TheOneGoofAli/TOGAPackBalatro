@@ -380,19 +380,32 @@ table.insert(winj, {
 	calculate = function(self, card, context)
 		if context.before and context.full_hand and #context.full_hand > 0 then
 			local hastriggered = false
+			local context = context
 			for i = 1, #context.full_hand do
 				local pcard = context.full_hand[i]
 				if pcard:get_id() == 8 then
-					if not hastriggered then hastriggered = true; SMODS.calculate_effect({message = '!'}, context.blueprint_card or card) end
-					SMODS.scale_card(pcard, {
-						ref_table = pcard.ability,
-						ref_value = "perma_h_x_mult",
-						scalar_table = card.ability.extra,
-						scalar_value = "xmult",
-					})
+					if not hastriggered then hastriggered = true end
+					pcard.ability.perma_h_x_mult = (pcard.ability.perma_h_x_mult or 0) + card.ability.extra.xmult
 				end
 			end
-			return nil, hastriggered
+			if hastriggered then
+				return {
+					func = function()
+						G.E_MANAGER:add_event(Event({
+							func = function()
+								for i = 1, #context.full_hand do
+									local pcard = context.full_hand[i]
+									if pcard:get_id() == 8 then
+										pcard:juice_up()
+									end
+								end
+								return true
+							end
+						}))
+					end,
+					extra = { message = localize('k_upgrade_ex') }
+				}
+			end
 		end
 	end,
 	add_to_deck = function(self, card, from_debuff)
