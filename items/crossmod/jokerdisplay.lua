@@ -1276,15 +1276,17 @@ togabalatro.jd_def["j_toga_joker203"] = {
 		{ text = ")", colour = G.C.UI.TEXT_INACTIVE, scale = 0.3 },
 	},
 	calc_function = function(card)
-		local text, _, scoring_hand = JokerDisplay.evaluate_hand()
 		local twopresent = false
+		if not card.ability.used203 then
+			local text, _, scoring_hand = JokerDisplay.evaluate_hand()
 
-		if text ~= "Unknown" then
-			for _, c in pairs(scoring_hand) do
-				if c:get_id() then
-					if c:get_id() == 2 then
-						twopresent = true
-						break
+			if text ~= "Unknown" then
+				for _, c in pairs(scoring_hand) do
+					if c:get_id() then
+						if c:get_id() == 2 then
+							twopresent = true
+							break
+						end
 					end
 				end
 			end
