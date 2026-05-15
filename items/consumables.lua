@@ -44,11 +44,21 @@ togabalatro.oredict.enderium = {'m_toga_enderium'}
 togabalatro.oredict.platinum = {'m_toga_platinum'}
 togabalatro.oredict.conductivealloy = {'m_toga_conductivealloy'}
 togabalatro.oredict.energeticalloy = {'m_toga_energeticalloy'}
+togabalatro.oredict.montus = {'m_toga_montus'}
+togabalatro.oredict.cobalt = {'m_toga_cobalt'}
+togabalatro.oredict.ardite = {'m_toga_ardite'}
+togabalatro.oredict.manyullyn = {'m_toga_manyullyn'}
 
 -- Set up a global pool of 'minerals' in our OreDictionary.
-togabalatro.oredict.minerals = {'m_gold', 'm_toga_coalcoke', 'm_toga_iron', 'm_toga_copper', 'm_toga_tin', 'm_toga_silver', 'm_toga_osmium', 'm_toga_redstone', 'm_toga_nickel', 'm_toga_glowstone', 'm_toga_lead', 'm_toga_zinc', "m_toga_platinum"}
+togabalatro.oredict.minerals = {
+	'm_gold', 'm_toga_coalcoke', 'm_toga_iron', 'm_toga_copper', 'm_toga_tin', 'm_toga_silver', 'm_toga_osmium', 'm_toga_redstone',
+	'm_toga_nickel', 'm_toga_glowstone', 'm_toga_lead', 'm_toga_zinc', 'm_toga_platinum', 'm_toga_cobalt'
+}
 -- ...and one for alloys.
-togabalatro.oredict.alloys = {'m_toga_electrum', 'm_toga_bronze', 'm_toga_signalum', 'm_toga_invar', 'm_toga_lumium', 'm_toga_refinedglowstone', 'm_toga_constantan', 'm_toga_brass', 'm_toga_enderium', 'm_toga_conductivealloy', 'm_toga_energeticalloy'}
+togabalatro.oredict.alloys = {
+	'm_toga_montus', 'm_toga_electrum', 'm_toga_bronze', 'm_toga_signalum', 'm_toga_invar', 'm_toga_lumium', 'm_toga_refinedglowstone',
+	'm_toga_constantan', 'm_toga_brass', 'm_toga_enderium', 'm_toga_conductivealloy', 'm_toga_energeticalloy', 'm_toga_manyullyn'
+}
 
 togabalatro.is_mineral = function(card)
 	if not card then return false end
@@ -205,6 +215,7 @@ SMODS.Consumable {
 	cost = 5,
 	config = { extra = { odds = 3 } },
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
 		return { key = card.togamodarea and self.key..'_modinfo' or self.key, vars = { SMODS.get_probability_vars(card or self, 1, (card.ability.extra or self.config.extra).odds) }}
 	end,
 	in_pool = function()
@@ -266,7 +277,7 @@ SMODS.Consumable {
 	cost = 5,
 	config = { extra = { max_cards = 2 } },
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS['m_toga_sms']
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_toga_sms
 		return { vars = { (card.ability or self.config).extra.max_cards } }
 	end,
 	in_pool = function()

@@ -95,10 +95,9 @@ return {
 				text = {
 					"{C:attention}Enhancements{} are {C:dark_edition}shared{}",
 					"between {C:attention}playing cards{}",
-					"{s:0.8}Start in the {C:attention,s:0.8}Shop",
-					"{C:red,s:0.8}X#5#{s:0.8} base Blind size",
-					"{C:red,s:0.8}#1# {s:0.8}hand, {C:red,s:0.8}#2# {s:0.8}discard, {C:attention,s:0.8}+#6#{s:0.8} Ante to win",
-					"{C:red,s:0.8}#3# {s:0.8}Joker slot, {C:red,s:0.8}#4# {s:0.8}Consumable slot",
+					"{X:blind,C:white,s:0.8}^#2#{s:0.8} Blind requirements {s:0.8}per {C:attention,s:0.8}unique{}",
+					"{s:0.8}enhancement in full deck",
+					"{C:red,s:0.8}#1# {s:0.8}Joker slots",
 					"{C:inactive,s:0.8}Warning: game may lag heavily.{}",
 				}
 			},
@@ -186,11 +185,10 @@ return {
 				}
 			},
 			b_toga_dragdeck = {
-				name = "Drag Deck?",
+				name = "Drag Deck",
 				text = {
-					"Temporarily drag {C:attention}more{} stuff",
-					"than you should?",
-					"{C:inactive,s:0.9}(Be careful.){}",
+					"Deck doesn't get {C:attention}shuffled{}",
+					"{C:red}X#1#{} base Blind size"
 				}
 			},
 		},
@@ -218,8 +216,9 @@ return {
 			bl_toga_joystick = {
 				name = "The Joystick",
 				text = {
-					"First hand drawn is",
-					"automatically played"
+					"{X:blind,C:white}X#1#{} Blind size",
+					"when playing a",
+					"#2#"
 				}
 			},
 			bl_toga_xpboss = {
@@ -231,14 +230,14 @@ return {
 			bl_toga_tasks = {
 				name = "The Tasks",
 				text = {
-					"X#1# Mult",
+					"{X:mult,C:white}X#1#{} Mult",
 					"operation amount"
 				}
 			},
 			bl_toga_accountant = {
 				name = "The Accountant",
 				text = {
-					"X#1# Chips",
+					"{X:chips,C:white}X#1#{} Chips",
 					"operation amount"
 				}
 			},
@@ -420,7 +419,7 @@ return {
 				text = {
 					"{C:green}#1# in #2#{} chance to {X:attention,C:white}X2{}",
 					"leveling amount before",
-					"{C:attention}upgrading{} a poker hand",
+					"{C:planet}upgrading{} a poker hand",
 					"{C:inactive}(1 level > 2 levels)"
 				}
 			},
@@ -1068,8 +1067,8 @@ return {
 			j_toga_joker203 = {
 				name = 'Joker 2.03',
 				text = {
-					"{C:attention}Upgrade{} first hand of round",
-					"if it contains a scoring {C:attention}2"
+					"Once per round, {C:planet}upgrade{} {C:attention}scoring{}",
+					"poker hand if it contains a {C:attention}2"
 				}
 			},
 			j_toga_activesync = {
@@ -1361,8 +1360,10 @@ return {
 				name = "{C:blue}Chip's Challenge{}",
 				text = {
 					{
-						"Gain {C:chips}+#2#{} Chips when playing a {C:attention}#3#",
-						"{C:inactive,s:0.8}(Hand changes after playing any hand)",
+						"Gain {C:chips}+#2#{} Chips",
+						"when playing a",
+						"{C:attention}#3#",
+						"{C:inactive,s:0.8}(Hand changes every round)",
 						"{C:inactive}(Currently {C:chips}+#1#{}{C:inactive} Chips)",
 					},
 					{
@@ -1376,7 +1377,7 @@ return {
 				text = {
 					"Gain {C:chips}+#2#{} Chips when playing a {C:attention}#3#",
 					"{C:green,s:0.8}#4# in #5#{s:0.8} chance to reset when {C:attention,s:0.8}skipping{s:0.8} Blinds",
-					"{C:inactive,s:0.8}(Hand changes after playing any hand)",
+					"{C:inactive,s:0.8}(Hand changes every round)",
 					"{C:inactive}(Currently {C:chips}+#1#{}{C:inactive} Chips)",
 				},
 			},
@@ -1487,16 +1488,17 @@ return {
 			j_toga_genie = {
 				name = 'Genie',
 				text = {
-					"{C:tarot}Tarot{} cards can be {C:attention}saved{}",
-					"from {C:attention}Booster Packs{}",
+					"{C:tarot}#1#{} and {C:planet}#2#{} cards",
+					"can be {C:attention}saved{} from",
+					"{C:attention}Booster Packs{}",
 				}
 			},
 			j_toga_victor = {
 				name = 'Victor',
 				text = {
-					"{C:green}#1# in #2#{} chance to {C:attention}retrigger{}",
-					"used {C:planet}Planet{} cards if possible",
-					"{C:inactive,s:0.8}(Some Planets may misbehave and crash)",
+					"Create a random {C:planet}#2#{} card",
+					"if {C:attention}#1#{} was in played hand",
+					"{C:inactive}(Must have room)",
 				}
 			},
 			j_toga_kauru = {
@@ -1523,8 +1525,8 @@ return {
 			j_toga_littleplanet = {
 				name = 'Little Planet',
 				text = {
-					"{C:planet}Planet{} cards can be {C:attention}saved{}",
-					"from {C:attention}Booster Packs{}",
+					"Add an {C:attention}extra {C:planet}Celestial Pack{}",
+					"when entering {C:money}Shop{}",
 				}
 			},
 			j_toga_heatdeath = {
@@ -1616,7 +1618,8 @@ return {
 				name = 'Borland Delphi',
 				text = {
 					"Playing cards give",
-					"{X:attention,C:white}X#1#{} base {C:chips}Chips",
+					"{X:attention,C:white}X#1#{} more {C:chips}Chips",
+					"{C:inactive,s:0.9}(Stacks with copies){}"
 				}
 			},
 			j_toga_smssender = {
@@ -1624,6 +1627,28 @@ return {
 				text = {
 					"Effect of {C:attention}SMS Cards{} is delayed",
 					"until {C:attention}final hand{} of round",
+				}
+			},
+			j_toga_kingharkinian_cdi = {
+				name = {'King Harkinian', '{s:0.8}Zelda: The Wand of Gamelon'},
+				text = {
+					"This Joker gains {X:mult,C:white}X#2#{} Mult",
+					"when {C:enhanced}enhancing{} {C:attention}Aces{} or {C:attention}Kings{}",
+					"{C:inactive}(Currently {}{X:mult,C:white}X#1#{}{C:inactive} Mult){}"
+				}
+			},
+			j_toga_morshu_cdi = {
+				name = {'Morshu', '{s:0.8}Link: The Faces of Evil'},
+				text = {
+					"{C:attention}#1#{} shop slots",
+					"No {C:green}paid{} shop rerolls",
+				}
+			},
+			j_toga_mario_cdi = {
+				name = {'Mario', '{s:0.8}Hotel Mario'},
+				text = {
+					"When any {C:toga_suitgradient}suit{}-specific",
+					"{C:attention}Jokers{} trigger, earn {C:money}#1#{}",
 				}
 			},
 		},
@@ -1862,8 +1887,9 @@ return {
 			m_toga_enderium = {
 				name = "Enderium Card",
 				text = {
-					"{X:purple,C:white,s:0.9}X#1#{} {C:attention,s:0.9}total {C:chips,s:0.9}Chips{s:0.9} and {C:mult,s:0.9}Mult",
-					"{s:0.9}when played"
+					"{X:purple,C:white}X#1#{} {C:purple}Score",
+					"while this card",
+					"stays in hand",
 				},
 			},
 			m_toga_enderium_recipe = {
@@ -1919,6 +1945,55 @@ return {
 					"{C:attention,s:1.35}Recipe:",
 					"1x Iron + 1x Coal Coke (consumed)",
 					"= 1x Steel",
+				},
+			},
+			m_toga_montus = {
+				name = "Montus Card",
+				text = {
+					"When scored, {C:purple}#1#{} Score and",
+					"{C:attention}increase{} {C:purple}amount{} by {C:purple}#1#{} for",
+					"every other {C:purple}Montus Card{}",
+					"scored this hand",
+					"{C:inactive,s:0.8}(Amount resets when hand is played){}",
+				},
+			},
+			m_toga_montus_recipe = {
+				name = "Electrum Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"1x Bonus + 1x Mult",
+					"= 2x Montus",
+				},
+			},
+			m_toga_cobalt = {
+				name = "Cobalt Card",
+				text = {
+					"{C:mult}#1#{} Mult per {C:attention}card{} to the",
+					"{C:attention}left{} of this card in hand",
+					"when held in hand",
+				},
+			},
+			m_toga_ardite = {
+				name = "Ardite Card",
+				text = {
+					"{C:chips}#1#{} Chips per {C:attention}Stone Card{}",
+					"in your {C:attention}full deck{}",
+					"when held in hand",
+					"{C:inactive,s:0.95}(Currently {C:chips,s:0.95}#2#{C:inactive,s:0.95} Chips)",
+				},
+			},
+			m_toga_manyullyn = {
+				name = "Manyullyn Card",
+				text = {
+					"{C:purple,E:1}Insatiable{}",
+				},
+			},
+			m_toga_manyullyn_recipe = {
+				name = "Manyullyn Card",
+				text = {
+					"{C:attention,s:1.35}Recipe:",
+					"1x Cobalt + 1x Ardite (consumed)",
+					"= 1x Manyullyn",
 				},
 			},
 		},
@@ -1983,6 +2058,7 @@ return {
 				text = {
 					"Click on this card",
 					"to view {C:attention}Mineral{} pool",
+					"of this mod",
 				}
 			},
 			c_toga_inbox = {
@@ -2119,6 +2195,7 @@ return {
 				text = {
 					"Gives a free",
 					"{C:spectral}Black Hole{}",
+					"{C:inactive,s:0.9}(Can overflow){}",
 				},
 			},
 			tag_toga_thenet_cryptid = {
@@ -2277,6 +2354,21 @@ return {
 					"{X:attention,C:white}X#1#{} {C:blue}Chips{}/{C:red}Mult{} operation amount"
 				},
 			},
+			v_toga_smoothstone = {
+				name = "Stone Mastery",
+				text = {
+					"{C:attention}Stone Cards{} count as",
+					"their own unique rank",
+					"{C:red}#1#{} hand size"
+				},
+			},
+			v_toga_deepslate = {
+				name = "Deep Dark Digger",
+				text = {
+					"{C:green}#1# in #2#{} chance for {C:attention}held in hand{} cards",
+					"to give {C:attention}1%{} of their {C:chips}Chips{} as {X:mult,C:white}XMult{}",
+				},
+			},
 		},
 		Stake = {
 			stake_toga_togateal = {
@@ -2330,11 +2422,27 @@ return {
 			toga_albavirusinfo = {
 				name = "Hint:",
 				text = {
-					"Try destroying a card",
+					"Try destroying or selling a card",
 					"during {C:attention}Boss Blinds{}",
 				},
 			},
 			toga_chipmultmodinfo = {
+				name = "Chip/Mult Operation Amount Info",
+				text = {
+					"This affects the {C:attention}amount{} of a given {C:attention}operation{}.",
+					"There can be {C:attention}multiple{} sources of such changes.",
+					"Each source can target {C:chips}Chips{}, {C:mult}Mult{} or both."
+				},
+			},
+			toga_chipmultmodexample = {
+				name = "Chip/Mult Operation Amount Example",
+				text = {
+					"Example: {X:attention,C:white}X1.1{} operation amount",
+					"{C:chips}+31{} Chips > {C:chips}+34.1{} Chips",
+					"{X:mult,C:white}X1.5{} Mult > {X:mult,C:white}X1.65{} Mult",
+				},
+			},
+			toga_chipmultmodwarn = {
 				name = "Chip/Mult Operation Amount Note",
 				text = {
 					"Some sources of {C:blue}Chips{} or {C:red}Mult{}",
@@ -2523,6 +2631,20 @@ return {
 					"= 1x Energetic Alloy",
 				},
 			},
+			toga_alloymontusalloy = {
+				name = "Montus Card Recipe",
+				text = {
+					"1x Bonus + 1x Mult",
+					"= 1x Montus",
+				},
+			},
+			toga_alloymanyullynalloy = {
+				name = "Manyullyn Card Recipe",
+				text = {
+					"1x Cobalt + 1x Ardite (consumed)",
+					"= 1x Manyullyn",
+				},
+			},
 			toga_togateal_sticker={
 				name = "Teal (TOGA) Sticker",
 				text = {
@@ -2544,6 +2666,16 @@ return {
 					"If played, {C:green}#1# in #2#{} chance to",
 					"{C:attention}upgrade{} a {C:attention}random{} poker hand",
 					"after hand is played",
+				},
+			},
+			toga_insatiablecard = {
+				name = "Insatiable Card",
+				text = {
+					"{X:mult,C:white}X#2#{} Mult when scored",
+					"Increases by {X:mult,C:white}X#1#{} each time",
+					"a {C:purple}Manyullyn Card{} was scored",
+					"this hand",
+					"{C:inactive,s:0.8}(Resets when hand is played){}",
 				},
 			},
 		},
@@ -2710,6 +2842,7 @@ return {
 			toga_rlwas = "What a save!",
 			toga_rlsry = "Sorry!",
 			toga_gotmail = "Got Mail!",
+			toga_targetsuitjkr = "Suit-specific Jokers",
 			--
 			toga_furnaceprocess = "Smelted...",
 			toga_novalidrecipe = "No recipes match selected cards.",
@@ -2727,6 +2860,7 @@ return {
 			toga_conductivealloyrecipe = "1x Iron + 1x Copper (!) = 1x Conductive Alloy",
 			toga_energeticalloyrecipe = "1x Redstone (!) + 1x Glowstone (!) + 1x Conductive Alloy = 1x Energetic Alloy",
 			toga_alloy = "Alloy",
+			toga_alloyunsure = "Alloy?",
 			toga_crafttarot = "Crafting Tarot",
 			toga_minetarot = "Mining Tarot",
 			toga_alloyspectral = "Alloying Spectral",
@@ -2998,7 +3132,10 @@ return {
 				"unexpected crashes and/or freezes with Cryptid.",
 			},
 			toga_talismanjoke = {
-				"Talisman detected", "Pray nothing compares numbers to tables."
+				"Talisman detected",
+				"Whilst this mod is made with Talisman compatibility in mind, there still",
+				"may be instances where a crash can occur anyway.",
+				"As such, Amulet is recommended as a drop-in replacement for Talisman.",
 			},
 			toga_pwx = {
 				"POLTERWORX detected",

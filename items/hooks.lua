@@ -102,6 +102,7 @@ function Card:get_id()
 	if not getiduse then
 		getiduse = true
 		local id = getidref(self) or self.base.id
+		if G.GAME.toga_stonehasrank and SMODS.has_enhancement(self, 'm_stone') then id = -0.420 end
 		if next(SMODS.find_card('j_toga_megasxlr')) and id == 8 then id = 13 end
 		if next(SMODS.find_card('j_toga_hexadecimaljkr')) and id == 14 then id = 10 end
 		if next(SMODS.find_card('j_toga_binaryjkr')) and id == 10 then id = 2 end
@@ -157,6 +158,7 @@ end
 sendInfoMessage("Hooking CardArea:shuffle...", "TOGAPack")
 local sonicshuffle = CardArea.shuffle
 function CardArea:shuffle(_seed)
+	if self and self == G.deck and G.GAME.toga_nodeckshuffle then return end
 	local r = sonicshuffle(self, _seed)
 	if self == G.deck then
 		local otherc, smsc = {}, {}
@@ -812,6 +814,11 @@ function Game:main_menu(ctx)
 			func = function() togabalatro.incantationnotice() return true end
 		}))
 	end
+	if Talisman then
+		G.E_MANAGER:add_event(Event({
+			func = function() togabalatro.talismannote() return true end
+		}))
+	end
 	return r
 end
 
@@ -908,6 +915,14 @@ sendInfoMessage("Hooking get_blind_amount...", "TOGAPack")
 local getblindamtref = get_blind_amount
 function get_blind_amount(ante)
 	local amt, deband = getblindamtref(ante), SMODS.find_card('j_toga_pso2deband')
+	if G.GAME.modifiers.toga_enh_blind_scale and tonumber(G.GAME.modifiers.toga_enh_blind_scale) then
+		local enh, enha = {}, 1
+		for k, v in pairs(G.playing_cards or {}) do
+			local enhc = v.ability.set == 'Enhanced' and v.config.center.key or nil
+			if enhc and not enh[enhc] then enh[enhc] = true; enha = enha + 1 end
+		end
+		if next(enh) then amt = amt^(G.GAME.modifiers.toga_enh_blind_scale^enha) end
+	end
 	if deband[1] then
 		amt = amt*0.8
 	end
@@ -988,54 +1003,55 @@ function UIElement:juice_up(amount, rot_amt)
     return uieju(self, amount, rot_amt)
 end
 
-sendInfoMessage("Hooking Card:use_consumeable...", "TOGAPack")
-local carduseconsref = Card.use_consumeable
-local function toga_reusecons(self, area, copier, reuser)
-	if self:can_use_consumeable(true, true) and not self.config.center.toga_donotreuse then
-		if reuser then SMODS.calculate_effect({message = localize('k_again_ex')}, reuser) end
-		carduseconsref(self, area, copier)
-		SMODS.calculate_context({using_consumeable = true, consumeable = self, area = self.from_area})
-	end
-end
+-- Commented out due to nothing using it for now.
+-- sendInfoMessage("Hooking Card:use_consumeable...", "TOGAPack")
+-- local carduseconsref = Card.use_consumeable
+-- local function toga_reusecons(self, area, copier, reuser)
+	-- if self:can_use_consumeable(true, true) and not self.config.center.toga_donotreuse then
+		-- if reuser then SMODS.calculate_effect({message = localize('k_again_ex')}, reuser) end
+		-- carduseconsref(self, area, copier)
+		-- SMODS.calculate_context({using_consumeable = true, consumeable = self, area = self.from_area})
+	-- end
+-- end
 
-local ofburef = Overflow and Overflow.bulk_use
-if Overflow and ofburef then
-	sendInfoMessage("Hooking Overflow.bulk_use...", "TOGAPack")
-	function Overflow.bulk_use(card, area, amount)
-		local ret = ofburef(card, area, amount)
-		local consusecalc = {}
-		SMODS.calculate_context({toga_reuse_consumeable = card, toga_overflow_bulkuse = true}, consusecalc)
-		for _, eval in pairs(consusecalc) do
-			for key, eval2 in pairs(eval) do
-				if eval2.card and tonumber(eval2.amount) and math.floor(eval2.amount) >= 1 then
-					for i = 1, eval2.amount do
-						SMODS.calculate_effect({message = localize('k_again_ex')}, eval2.card)
-						ofburef(card, area, amount)
-					end
-				end
-			end
-		end
-		return ret
-	end
-end
+-- local ofburef = Overflow and Overflow.bulk_use
+-- if Overflow and ofburef then
+	-- sendInfoMessage("Hooking Overflow.bulk_use...", "TOGAPack")
+	-- function Overflow.bulk_use(card, area, amount)
+		-- local ret = ofburef(card, area, amount)
+		-- local consusecalc = {}
+		-- SMODS.calculate_context({toga_reuse_consumeable = card, toga_overflow_bulkuse = true}, consusecalc)
+		-- for _, eval in pairs(consusecalc) do
+			-- for key, eval2 in pairs(eval) do
+				-- if eval2.card and tonumber(eval2.amount) and math.floor(eval2.amount) >= 1 then
+					-- for i = 1, eval2.amount do
+						-- SMODS.calculate_effect({message = localize('k_again_ex')}, eval2.card)
+						-- ofburef(card, area, amount)
+					-- end
+				-- end
+			-- end
+		-- end
+		-- return ret
+	-- end
+-- end
 
-sendInfoMessage("Hooking Card:use_consumeable...", "TOGAPack")
-function Card:use_consumeable(area, copier)
-	local ret = carduseconsref(self, area, copier)
-	-- Consumeable reuse/retrigger context.
-	local consusecalc = {}
-	SMODS.calculate_context({toga_reuse_consumeable = self}, consusecalc)
-	for _, eval in pairs(consusecalc) do
-		for key, eval2 in pairs(eval) do
-			if eval2.card and tonumber(eval2.amount) and math.floor(eval2.amount) >= 1 then
-				for i = 1, eval2.amount do
-					toga_reusecons(self, area, copier, eval2.card)
-				end
-			end
-		end
-	end
-	return ret
-end
+-- sendInfoMessage("Hooking Card:use_consumeable...", "TOGAPack")
+-- function Card:use_consumeable(area, copier)
+	-- local ret = carduseconsref(self, area, copier)
+	-- -- Consumeable reuse/retrigger context.
+	-- local consusecalc = {}
+	-- SMODS.calculate_context({toga_reuse_consumeable = self}, consusecalc)
+	-- for _, eval in pairs(consusecalc) do
+		-- for key, eval2 in pairs(eval) do
+			-- if eval2.card and tonumber(eval2.amount) and math.floor(eval2.amount) >= 1 then
+				-- for i = 1, eval2.amount do
+					-- toga_reusecons(self, area, copier, eval2.card)
+				-- end
+			-- end
+		-- end
+	-- end
+	-- return ret
+-- end
 
 sendInfoMessage("Hooking Full House evaluation...", "TOGAPack")
 local fullhouse = SMODS.PokerHands['Full House']
@@ -1106,23 +1122,9 @@ local cardselarearef = SMODS.card_select_area
 function SMODS.card_select_area(card, pack)
     local select_area = cardselarearef(card, pack)
 	if card and card.ability and card.ability.set and not select_area then
-		if card.ability.set == 'Planet' and next(SMODS.find_card('j_toga_littleplanet')) or card.ability.set == 'Tarot' and next(SMODS.find_card('j_toga_genie')) then select_area = "consumeables" end
+		if (card.ability.set == 'Planet' or card.ability.set == 'Tarot') and next(SMODS.find_card('j_toga_genie')) then select_area = "consumeables" end
 	end
     return select_area
-end
-
-sendInfoMessage("Hooking Game.start_run...", "TOGAPack")
-local gsrref = Game.start_run
-function Game:start_run(args)
-    gsrref(self, args)
-    G.E_MANAGER:add_event(Event({
-        func = function()
-            if G.GAME.toga_cardareatomfoolery then
-				for _, t in pairs(G.I) do for k, v in pairs(t) do if next(v.states) then for _, s in pairs(v.states) do if type(s) == 'table' then s.can = true end end end end end
-			end
-            return true
-        end
-    }))
 end
 
 sendInfoMessage("Hooking Card:get_chip_bonus...", "TOGAPack")
@@ -1133,4 +1135,39 @@ function Card:get_chip_bonus()
 		bonus = bonus*(v and v.ability and v.ability.extra and v.ability.extra.cmult or 1)
 	end
     return bonus
+end
+
+-- Hook to support conditional Stone rank.
+sendInfoMessage("Hooking get_X_same...", "TOGAPack")
+local getxsameref = get_X_same
+function get_X_same(num, hand, or_more)
+	local ret = getxsameref(num, hand, or_more)
+	if G.GAME.toga_stonehasrank then
+		local vals = {}
+		vals[-0.420] = {}
+		for i=#hand, 1, -1 do
+			local curr = {}
+			table.insert(curr, hand[i])
+			for j=1, #hand do
+				local hid, jid = hand[i]:get_id(), hand[j]:get_id()
+				if hid == jid and hid == -0.420 and i ~= j then
+					table.insert(curr, hand[j])
+				end
+			end
+			if or_more and (#curr >= num) or (#curr == num) then
+				vals[-0.420] = curr
+			end
+		end
+		if next(vals[-0.420]) then table.insert(ret, vals[-0.420]) end
+	end
+	return ret
+end
+
+local canrerollref = G.FUNCS.can_reroll
+function G.FUNCS.can_reroll(e)
+	canrerollref(e)
+	if next(SMODS.find_card('j_toga_morshu')) and G.GAME.current_round.reroll_cost ~= 0 then 
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	end
 end

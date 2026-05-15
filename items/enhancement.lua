@@ -19,7 +19,11 @@ SMODS.Enhancement{
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
-	poweritem = true
+	poweritem = true,
+	weight = 5,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
@@ -39,7 +43,11 @@ SMODS.Enhancement{
 			card.choccy_trigger = true
 			return { remove = true }
 		end
-	end
+	end,
+	weight = 5,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
@@ -53,7 +61,10 @@ SMODS.Enhancement{
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.h_chips } }
 	end,
-	weight = 7
+	weight = 4,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
@@ -67,6 +78,10 @@ SMODS.Enhancement{
 	calculate = function(self, card, context)
 		if context.repetition then return { repetitions = card.ability.toga_retriggers } end
 	end,
+	weight = 5,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
@@ -76,6 +91,10 @@ SMODS.Enhancement{
 	config = { x_mult = 1.25 },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.x_mult } }
+	end,
+	weight = 5,
+	get_weight = function(self)
+		return self.weight
 	end,
 }
 
@@ -87,7 +106,10 @@ SMODS.Enhancement{
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.h_x_chips } }
 	end,
-	weight = 8
+	weight = 8,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
@@ -95,7 +117,10 @@ SMODS.Enhancement{
 	atlas = "TOGAEnhancements",
 	pos = { x = 6, y = 0 },
 	always_scores = true,
-	weight = 8
+	weight = 8,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
@@ -106,19 +131,30 @@ SMODS.Enhancement{
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.x_chips } }
 	end,
+	weight = 5,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
 	key = 'redstone',
 	atlas = "TOGAEnhancements",
 	pos = { x = 0, y = 1 },
-	weight = 3
+	weight = 3,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
 	key = 'nickel',
 	atlas = "TOGAEnhancements",
 	pos = { x = 2, y = 1 },
+	weight = 5,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
@@ -128,7 +164,10 @@ SMODS.Enhancement{
 	no_rank = true,
 	replace_base_card = false,
 	shatters = true,
-	weight = 3
+	weight = 3,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
@@ -142,7 +181,10 @@ SMODS.Enhancement{
 		end
 	end,
 	never_scores = true,
-	weight = 4
+	weight = 4,
+	get_weight = function(self)
+		return self.weight
+	end,
 }
 
 SMODS.Enhancement{
@@ -152,6 +194,10 @@ SMODS.Enhancement{
 	config = { toga_gmult = 4 },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { SMODS.signed(card.ability.toga_gmult) } }
+	end,
+	weight = 5,
+	get_weight = function(self)
+		return self.weight
 	end,
 }
 
@@ -165,7 +211,89 @@ SMODS.Enhancement{
 			info_queue[#info_queue + 1] = {key = "toga_otherworldlycard", set = 'Other', vars = { SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).owodds) } }
 		end
 	end,
-	weight = 3
+	weight = 3,
+	get_weight = function(self)
+		return self.weight
+	end,
+}
+
+SMODS.Enhancement{
+	key = 'cobalt',
+	atlas = "TOGAEnhancements",
+	pos = { x = 7, y = 2 },
+	config = { toga_hmult = 3 },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { SMODS.signed(card.ability.toga_hmult) } }
+	end,
+	calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == G.hand and not context.end_of_round and not context.repetition and not context.repetition_only then
+			local cards = 0
+			for k, v in ipairs((G.hand or {}).cards) do
+				if v ~= card then cards = cards + 1 else break end
+			end
+			if cards > 0 then return { mult = card.ability.toga_hmult*cards } end
+		end
+	end,
+	weight = 3,
+	get_weight = function(self)
+		return self.weight
+	end,
+}
+
+SMODS.Enhancement{
+	key = 'ardite',
+	atlas = "TOGAEnhancements",
+	pos = { x = 8, y = 2 },
+	config = { toga_stonechips = 6 },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
+		local stones = 0
+		for k, v in pairs(G.playing_cards or {}) do
+			if v and SMODS.has_enhancement(v, 'm_stone') then stones = stones + 1 end
+		end
+		return { vars = { SMODS.signed(card.ability.toga_stonechips), SMODS.signed(card.ability.toga_stonechips*stones) } }
+	end,
+	calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == G.hand and not context.end_of_round and not context.repetition and not context.repetition_only then
+			local stones = 0
+			for k, v in pairs(G.playing_cards or {}) do
+				if v and SMODS.has_enhancement(v, 'm_stone') then stones = stones + 1 end
+			end
+			if stones > 0 then return { chips = card.ability.toga_stonechips*stones } end
+		end
+	end,
+	weight = 3,
+	get_weight = function(self)
+		return self.weight
+	end,
+}
+
+SMODS.Enhancement{
+	key = 'montus',
+	atlas = "TOGAEnhancements",
+	pos = { x = 6, y = 2 },
+	config = { toga_montus_score = 40 },
+	loc_vars = function(self, info_queue, card)
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { SMODS.signed(card.ability.toga_montus_score) } }
+	end,
+	in_pool = function(self, args)
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
+	end,
+	alloy = true,
+	set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('toga_alloyunsure'), HEX('917591'), G.C.WHITE, 1)
+    end,
+	calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == G.play and not context.end_of_round and not context.repetition and not context.repetition_only then
+			G.GAME.current_round.toga_montus = (G.GAME.current_round.toga_montus or 0) + 1
+			return { score = card.ability.toga_montus_score*G.GAME.current_round.toga_montus }
+		end
+	end,
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -177,13 +305,17 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.p_dollars, card.ability.x_mult } }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('e4d691'), G.C.WHITE, 1)
     end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -195,13 +327,17 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.h_x_chips } }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('a87544'), G.C.WHITE, 1)
     end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -213,13 +349,17 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.x_mult } }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('db4600'), G.C.WHITE, 1)
     end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -231,13 +371,17 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.h_x_mult } }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('6f7975'), G.C.WHITE, 1)
     end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -249,13 +393,17 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.h_x_mult } }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('cf8f42'), G.C.WHITE, 1)
     end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -267,13 +415,17 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.x_chips, card.ability.x_mult } }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('d4bc41'), G.C.WHITE, 1)
     end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -285,7 +437,7 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.toga_retriggers } }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
@@ -294,7 +446,11 @@ SMODS.Enhancement{
 	calculate = function(self, card, context)
 		if context.repetition then return { repetitions = card.ability.toga_retriggers } end
 	end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -306,34 +462,44 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.card_limit } }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('bf8e55'), G.C.WHITE, 1)
     end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
 	key = 'enderium',
 	atlas = "TOGAEnhancements",
 	pos = { x = 2, y = 2 },
-	config = { toga_txcm = 1.75 },
+	config = { toga_h_x_score = 1.5 },
 	loc_vars = function(self, info_queue, card)
-		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.toga_txcm } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.toga_h_x_score } }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('328181'), G.C.WHITE, 1)
     end,
 	calculate = function(self, card, context)
-		if context.final_scoring_step and (context.cardarea == G.play or context.cardarea == "unscored") then return { xchips = card.ability.toga_txcm, xmult = card.ability.toga_txcm } end
+		if context.main_scoring and context.cardarea == G.hand and not context.end_of_round and not context.repetition and not context.repetition_only then
+			return { x_score = card.ability.toga_h_x_score }
+		end
 	end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -344,7 +510,7 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
@@ -353,7 +519,11 @@ SMODS.Enhancement{
 	calculate = function(self, card, context)
 		if context.stay_flipped and context.from_area == G.play and G.deck then return { modify = { to_area = G.deck } } end
 	end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }
 
 SMODS.Enhancement{
@@ -364,11 +534,46 @@ SMODS.Enhancement{
 		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key }
 	end,
 	in_pool = function(self, args)
-		return false
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
 	end,
 	alloy = true,
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('C5723C'), G.C.WHITE, 1)
     end,
-	poweritem = true
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
+}
+
+SMODS.Enhancement{
+	key = 'manyullyn',
+	atlas = "TOGAEnhancements",
+	pos = { x = 9, y = 2 },
+	config = { toga_insatiablexmult = 0.04 },
+	loc_vars = function(self, info_queue, card)
+		if not (card.debuff or card.fake_card or card.showrecipe) then
+			info_queue[#info_queue + 1] = {key = "toga_insatiablecard", set = 'Other', vars = { card.ability.toga_insatiablexmult, 1+card.ability.toga_insatiablexmult } }
+		end
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key }
+	end,
+	in_pool = function(self, args)
+		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
+	end,
+	alloy = true,
+	set_badges = function(self, card, badges)
+        badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('9261CC'), G.C.WHITE, 1)
+    end,
+	calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == G.play and not context.end_of_round and not context.repetition and not context.repetition_only then
+			G.GAME.current_round.toga_manyullyn = (G.GAME.current_round.toga_manyullyn or 0) + 1
+			return { xmult = 1+(card.ability.toga_insatiablexmult*G.GAME.current_round.toga_manyullyn) }
+		end
+	end,
+	poweritem = true,
+	weight = 2,
+	get_weight = function(self)
+		return self.weight * (G.GAME.toga_alloyrate or 0)
+	end,
 }

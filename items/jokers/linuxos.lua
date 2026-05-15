@@ -70,7 +70,7 @@ table.insert(lj, {
 
 table.insert(lj, {
 	key = 'linux_redhat',
-	config = { extra = { phandscale = 0.08, xmbonus = 0} },
+	config = { extra = { phandscale = 0.05, xmbonus = 0} },
 	loc_vars = function(self, info_queue, card)
 		card.ability.extra.xmbonus = math.max(card.ability.extra.xmbonus, 0)
 		return { vars = { card.ability.extra.phandscale, 1+card.ability.extra.xmbonus } }
@@ -84,7 +84,7 @@ table.insert(lj, {
 	perishable_compat = false,
 	demicolon_compat = true,
 	calculate = function(self, card, context)
-		if context.before and context.poker_hands then
+		if context.before and context.poker_hands and not context.blueprint then
 			card.ability.extra.xmbonus = math.max(card.ability.extra.xmbonus, 0)
 			local phands = 0
 			for k, v in pairs(context.poker_hands) do

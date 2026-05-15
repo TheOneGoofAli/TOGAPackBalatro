@@ -30,6 +30,7 @@ togabalatro.debug_info = {
 togabalatro.optional_features = function()
 	return {
 		retrigger_joker = true,
+		post_trigger = true,
 		quantum_enhancements = togabalatro.config.EnableQE and true or nil
 	}
 end
@@ -44,6 +45,8 @@ togabalatro.calculate = function(self, context)
 	if context.before then
 		local cxt = context
 		check_for_unlock({type = 'sfrock', context = cxt })
+		G.GAME.current_round.toga_montus = 0
+		G.GAME.current_round.toga_manyullyn = 0
 	end
 	
 	if context.modify_hand then
@@ -64,6 +67,8 @@ togabalatro.calculate = function(self, context)
 	end
 	
 	if context.after then
+		G.GAME.current_round.toga_montus = 0
+		G.GAME.current_round.toga_manyullyn = 0
 		for _, c in ipairs(context.full_hand) do
 			if Object.is(c, Card) then
 				if SMODS.has_enhancement(c, 'm_toga_platinum') and SMODS.pseudorandom_probability(c, 'toga_platinum', 1, c.ability.owodds or 5) then
@@ -398,7 +403,8 @@ SMODS.ObjectType{
 		["j_toga_softram"] = true, ["j_toga_achemoth"] = true, ["j_toga_littleplanet"] = true,
 		["j_toga_heatdeath"] = true, ["j_toga_bigbang"] = true, ["j_toga_winamp"] = true,
 		["j_toga_winrar"] = true, ["j_toga_winzip"] = true, ["j_toga_hyperterminal"] = true,
-		["j_toga_melons"] = true, ["j_toga_delphi"] = true, ["j_toga_smssender"] = true
+		["j_toga_melons"] = true, ["j_toga_delphi"] = true, ["j_toga_smssender"] = true,
+		["j_toga_kingharkinian_cdi"] = true, ["j_toga_morshu_cdi"] = true, ["j_toga_mario_cdi"] = true
 	}
 }
 
@@ -655,6 +661,21 @@ togabalatro.checkownedmoditems = function()
 	return mods, modcount
 end
 
+togabalatro.shopareaitems = function()
+	local items
+	if G.shop then
+		items = {}
+		for k, v in pairs({G.shop_jokers, G.shop_booster, G.shop_vouchers}) do
+			if v and type(v.cards) == 'table' then
+				for _, c in pairs(v.cards) do
+					if c then table.insert(items, c) end
+				end
+			end
+		end
+	end
+	return items
+end
+
 -- Drawing of Notification cards...
 togabalatro.drawextracards = function()
 	local anycarddrawn = false
@@ -799,8 +820,8 @@ togabalatro.extrascoring = function(context, scoring_hand)
 				for key, eval2 in pairs(eval) do
 					local notyetscored = true
 					if eval2.card and not (eval2.retrigger_flag or eval2.retrigger_card) then -- prevent unintended extra execution when retriggering.
-						for i = 1, math.floor(to_number(tonumber(eval2.spacecadet)) or eval2.card and to_number(eval2.card.ability.extra.alltrig) or 1) do
-							if (SMODS.pseudorandom_probability(eval2.card, "toga_spacecadetpinball", 1, (eval2.card.ability.extra.odds or 6), 'spacecadetpinball')) and scoring_hand then
+						for i = 1, math.floor(to_number(tonumber(eval2.spacecadet)) or eval2.card and eval2.card.ability.extra and to_number(eval2.card.ability.extra.alltrig) or 1) do
+							if (SMODS.pseudorandom_probability(eval2.card, "toga_spacecadetpinball", 1, (eval2.card.ability.extra and eval2.card.ability.extra.odds or 6), 'spacecadetpinball')) and scoring_hand then
 								if notyetscored then notyetscored = false; card_eval_status_text(eval2.card, 'extra', nil, nil, nil, {message = localize('toga_pinballing'), sound = not silent and togabalatro.config.SFXWhenTriggered and togabalatro.spacecadetrndsfx()}) end
 								SMODS.score_card(pseudorandom_element(context.scoring_hand, pseudoseed('spacecadet')), context)
 							end
@@ -1095,7 +1116,7 @@ end
 -- I've not done such loading since making Windows for SRB2, but as the content is split off from this main file, gotta do it!
 -- This loads the actual content...
 for _, file in ipairs({
-	"attributes.lua", "hooks.lua", "joker.lua", "deck.lua", "quips.lua", "voucher.lua", "enhancement.lua", "consumables.lua", "seal.lua",
+	"attributes.lua", "gradient.lua", "hooks.lua", "joker.lua", "deck.lua", "quips.lua", "voucher.lua", "enhancement.lua", "consumables.lua", "seal.lua",
 	"booster.lua", "tag.lua", "deckskin.lua", "blind.lua", "challenges.lua", "stakes.lua", "achievements.lua", "crossmod.lua"
 }) do
 	sendDebugMessage("Executing items/"..file, "TOGAPack")

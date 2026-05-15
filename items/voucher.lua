@@ -171,6 +171,8 @@ SMODS.Voucher{
 	config = { rarity = 3, extra = { opamtincr = 1.1 } },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = {key = "toga_chipmultmodinfo", set = 'Other'}
+		info_queue[#info_queue + 1] = {key = "toga_chipmultmodexample", set = 'Other'}
+		info_queue[#info_queue + 1] = {key = "toga_chipmultmodwarn", set = 'Other'}
 		return { vars = { card.ability.extra.opamtincr } }
 	end,
 	in_pool = function()
@@ -298,6 +300,47 @@ SMODS.Voucher{
 	redeem = function(self, card)
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Negative edition chance multiplied by "..math.ceil((card and card.ability.extra or self.config.extra).negchance).."X.", "TOGAPack") end
 		G.GAME.toga_negchance = (G.GAME.toga_negchance or 1)*(card and card.ability.extra or self.config.extra).negchance
+	end,
+}
+
+SMODS.Voucher{
+	key = 'smoothstone',
+	pos = { x = 7, y = 1 },
+	atlas = 'TOGAConsumables',
+	unlocked = true,
+	cost = 10,
+	rarity = 3,
+	config = { rarity = 3, extra = { handsize = -1 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { SMODS.signed(card.ability.extra.handsize) } }
+	end,
+	redeem = function(self, card)
+		G.hand:change_size((card and card.ability.extra or self.config.extra).handsize)
+		G.GAME.toga_stonehasrank = true
+		if togabalatro.config.DoMoreLogging then sendInfoMessage("Stone Cards now have a unique rank for rest of run.", "TOGAPack") end
+	end,
+}
+
+SMODS.Voucher{
+	key = 'deepslate',
+	pos = { x = 7, y = 2 },
+	atlas = 'TOGAConsumables',
+	unlocked = true,
+	cost = 20,
+	rarity = 3,
+	config = { rarity = 3, extra = { odds = 4 } },
+	requires = {'v_toga_smoothstone'},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { SMODS.get_probability_vars(card or self, 1, card.ability.extra.odds or 4, "deepslate_xmult") } }
+	end,
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.hand and context.other_card and not context.end_of_round and not context.repetition and not context.repetition_only and not context.other_card.debuff
+		and not context.blueprint and not context.retrigger_joker and SMODS.pseudorandom_probability(card, "deepslate_xmult", 1, card.ability.extra.odds or 4, "deepslate_xmult") then
+			local bchips = context.other_card:get_chip_bonus()
+			if to_big(bchips) > 0 then
+				return { xmult = 1+bchips*0.01 }
+			end
+		end
 	end,
 }
 

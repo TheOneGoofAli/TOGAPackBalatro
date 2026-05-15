@@ -115,14 +115,14 @@ if SMODS.Mods['MoreFluff'].config['Colour Cards'] then
 						local createnegative = false
 						if G.GAME.used_vouchers["v_crv_printerup"] == true then createnegative = true end
 						if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or createnegative then
-							G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+							G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + createnegative and 1 or 0
 							G.E_MANAGER:add_event(Event({
 								func = function()
 									local colourcard = SMODS.create_card({ set = 'Colour', no_edition = createnegative and true or false }) -- egg.
 									if createnegative then colourcard:set_edition('e_negative', true, true) end
 									colourcard:add_to_deck()
 									G.consumeables:emplace(colourcard)
-									G.GAME.joker_buffer = math.max(G.GAME.joker_buffer - 1, 0)
+									G.GAME.consumeable_buffer = math.max(G.GAME.consumeable_buffer - createnegative and 1 or 0, 0)
 									return true
 								end
 							}))

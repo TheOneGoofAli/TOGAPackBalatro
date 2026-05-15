@@ -30,6 +30,7 @@ SMODS.Atlas{key = "TOGASonic", path = "togasonic.png", px = 75, py = 95}
 SMODS.Atlas{key = "TOGASuperSonic", path = "togasupersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 3, fps = 4}
 SMODS.Atlas{key = "TOGAHyperSonic", path = "togahypersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 12, fps = 4}
 SMODS.Atlas{key = "TOGAJokerMoth", path = "togajokersm.png", px = 116, py = 95}
+SMODS.Atlas{key = "TOGAJokerCDi", path = "togajokerscdi.png", px = 113, py = 95}
 SMODS.Atlas{key = "modicon", path = "togaicon.png", px = 34, py = 34, atlas_table = 'ANIMATION_ATLAS', frames = 6, fps = 3}
 
 -- Hear me scream.
@@ -123,6 +124,13 @@ SMODS.Sound({key = "80085", path = "boobs.ogg"}) -- yes
 SMODS.Sound({key = "aimgotmail", path = "aimgotmail.ogg"}) -- AOL Instant Messenger
 SMODS.Sound({key = "aimwelcome", path = "aimwelcome.ogg"}) -- AOL Instant Messenger
 SMODS.Sound({key = "aimgoodbye", path = "aimgoodbye.ogg"}) -- AOL Instant Messenger
+
+SMODS.Sound({key = "kinghark_dinner", path = "cdi/dinner.ogg"}) -- "Dinner." - King Harkinian, Zelda: The Wand of Gamelon
+SMODS.Sound({key = "kinghark_oah", path = "cdi/oah.ogg"}) -- "OAH!" - King Harkinian, Zelda: The Wand of Gamelon
+SMODS.Sound({key = "morshu_mm", path = "cdi/mmmm.ogg"}) -- "Mmmmm..." - Morshu, Link: The Faces of Evil
+SMODS.Sound({key = "morshu_mmr", path = "cdi/mmmmr.ogg"}) -- "Mmmmm..." (reversed) - Morshu, Link: The Faces of Evil
+SMODS.Sound({key = "hotelmario_haha", path = "cdi/haha.ogg"}) -- "Ha ha!" - Mario, Hotel Mario
+SMODS.Sound({key = "hotelmario_uhoh", path = "cdi/uhoh.ogg"}) -- "Uh oh..!" - Mario, Hotel Mario
 
 -- I command you to execute.
 SMODS.Sound({key = "win95pluscmd1", path = "plus95/Dangerous Creatures menu command.ogg"})

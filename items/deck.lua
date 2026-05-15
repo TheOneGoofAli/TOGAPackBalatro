@@ -97,7 +97,7 @@ SMODS.Back{
 	pos = { x = 5, y = 0 },
 	atlas = "TOGADeckBack",
 	unlocked = true,
-	config = {ante_scaling = 1.5},
+	config = {ante_scaling = 2},
 	loc_vars = function(self, info_queue, center)
 		return { vars = { self.config.ante_scaling } }
 	end,
@@ -143,22 +143,12 @@ if togabalatro.config.EnableQE then
 		key = "blissful",
 		atlas = "TOGADeckBack",
 		pos = { x = 1, y = 1 },
-		config = {ante_scaling = 2, hands = -1, discards = -1, joker_slot = -1, consumable_slot = -1, extraante = 2},
+		config = {joker_slot = -3, enh_blind_scale = 1.1},
 		loc_vars = function(self, info_queue, center)
-			return { vars = { self.config.hands, self.config.discards, self.config.joker_slot, self.config.consumable_slot, self.config.ante_scaling, self.config.extraante } }
+			return { vars = { self.config.joker_slot, self.config.enh_blind_scale } }
 		end,
 		apply = function(self, back)
-			G.STATE = G.STATES.SHOP
-			G.GAME.shop_free = nil
-			G.GAME.shop_d6ed = nil
-			G.E_MANAGER:add_event(Event({
-				func = function()
-					if G.GAME and G.GAME.win_ante then
-						G.GAME.win_ante = G.GAME.win_ante + self.config.extraante
-						return true
-					end
-				end,
-			}))
+			G.GAME.modifiers.toga_enh_blind_scale = self.config.enh_blind_scale
 		end,
 		calculate = function(self, back, context)
 			if (context.retrigger_joker_check or context.retrigger_joker or context.blueprint) then return end
@@ -357,8 +347,19 @@ SMODS.Back{
 	pos = { x = 6, y = 2 },
 	atlas = "TOGADeckBack",
 	unlocked = true,
+	config = {ante_scaling = 1.5},
+	loc_vars = function(self, info_queue, center)
+		return { vars = { self.config.ante_scaling } }
+	end,
 	apply = function(self, back)
-		G.GAME.toga_cardareatomfoolery = true
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if G.deck then
+					G.GAME.toga_nodeckshuffle = true
+					return true
+				end
+			end,
+		}))
 	end,
 }
 

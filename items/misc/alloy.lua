@@ -33,6 +33,22 @@ togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selca
 	return gold and silver and gold ~= silver, { cards = { gold, silver } }, 'm_toga_electrum', "toga_alloyelectrum"
 end
 
+-- 1x Bonus + 1x Mult = 2x Montus
+togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
+	selcards = selcards or {}
+	local bonus, mult = nil, nil
+	local bonusok, multok = false, false
+	local iter, iterlimit = 0, 100
+	for i, v in ipairs(selcards) do
+		repeat
+			iter = iter + 1
+			if not bonusok and togabalatro.oredictcheck(v, togabalatro.oredict.bonus) then bonusok = true; bonus = v; break end
+			if not multok and togabalatro.oredictcheck(v, togabalatro.oredict.mult) then multok = true; mult = v; break end
+		until (bonusok and multok) or iter > iterlimit
+	end
+	return bonus and mult and bonus ~= mult, { cards = { bonus, mult } }, 'm_toga_montus', "toga_alloymontusalloy"
+end
+
 -- 3x Copper + 1x Tin = 4x Bronze
 togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
 	selcards = selcards or {}
@@ -230,8 +246,24 @@ togabalatro.checkvalidrecipe = function()
 	return cando, found and userecipetxt and recipekey or nil
 end
 
+-- 1x Cobalt + 1x Ardite = 1x Manyullyn
+togabalatro.validsmeltrecipes[#togabalatro.validsmeltrecipes+1] = function(selcards)
+	selcards = selcards or {}
+	local ardite, cobalt = nil, nil
+	local arditeok, cobaltok = false, false
+	local iter, iterlimit = 0, 100
+	for i, v in ipairs(selcards) do
+		repeat
+			iter = iter + 1
+			if not arditeok and togabalatro.oredictcheck(v, togabalatro.oredict.ardite) then arditeok = true; ardite = v; break end
+			if not cobaltok and togabalatro.oredictcheck(v, togabalatro.oredict.cobalt) then cobaltok = true; cobalt = v; break end
+		until (arditeok and cobaltok) or iter > iterlimit
+	end
+	return cobalt and ardite and cobalt ~= ardite, { cards = { cobalt }, destroycard = { ardite }, allcards = { cobalt, ardite } }, 'm_toga_manyullyn', "toga_alloymanyullynalloy"
+end
+
 -- Valid recipe text stuff.
 togabalatro.currentrecipetxt = {
 	"toga_alloysteel", "toga_alloyelectrum", "toga_alloybronze", "toga_alloysignalum", "toga_alloyinvar", "toga_alloylumium", "toga_alloyrefglowstone", "toga_alloyconstantan", "toga_alloybrass", "toga_alloyenderium",
-	"toga_alloyconductivealloy", "toga_alloyenergeticalloy"
+	"toga_alloyconductivealloy", "toga_alloyenergeticalloy", "toga_alloymontusalloy", "toga_alloymanyullynalloy"
 }

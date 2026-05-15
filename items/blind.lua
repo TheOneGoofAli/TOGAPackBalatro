@@ -95,22 +95,26 @@ SMODS.Blind{
 	atlas = 'TOGAOtherBlind',
 	boss_colour = HEX('76992b'),
 	pos = { x = 0, y = 0 },
-	dollars = 8,
-	mult = 2.5,
-	boss = { min = 3 },
-	calculate = function(self, card, context)
-		if not G.GAME.blind.disabled then
-			if context.first_hand_drawn then
-				for i, v in ipairs(G.hand.cards) do
-					if not v.highlighted then
-						G.hand.highlighted[#G.hand.highlighted+1] = v
-						v:highlight(true)
-					end
-				end
-				G.FUNCS.play_cards_from_highlighted()
-			end
-		end
+	vars = { xblindcard = 1.5 },
+	loc_vars = function(self)
+		return { vars = { self.vars.xblindcard, localize(G.GAME.current_round.most_played_poker_hand, 'poker_hands') } }
 	end,
+	collection_loc_vars = function(self)
+		return { vars = { self.vars.xblindcard, localize('ph_most_played') } }
+	end,
+	dollars = 8,
+	mult = 2,
+	boss = { min = 3 },
+    calculate = function(self, blind, context)
+        if not blind.disabled then
+			if context.before and context.scoring_name == G.GAME.current_round.most_played_poker_hand then
+				blind.triggered = true
+				return { x_blind_size = blind.config.blind.vars.xblindcard }
+			end
+			
+			if context.after then blind.triggered = false end
+        end
+    end
 }
 
 SMODS.Blind{
@@ -128,10 +132,10 @@ SMODS.Blind{
 	collection_loc_vars = function(self)
 		return { vars = { self.vars.multamtred } }
 	end,
-	calculate = function(self, card, context)
+	calculate = function(self, blind, context)
 		if not G.GAME.blind.disabled then
 			if context.toga_affectchipmult and context.opamount and context.optarget and context.optarget == 'mult' and not context.retrigger_joker then
-				return { amtmult = self.vars.multamtred, card = card }
+				return { amtmult = self.vars.multamtred, card = blind }
 			end
 		end
 	end,
@@ -152,10 +156,10 @@ SMODS.Blind{
 	collection_loc_vars = function(self)
 		return { vars = { self.vars.chipamtred } }
 	end,
-	calculate = function(self, card, context)
-		if not G.GAME.blind.disabled then
+	calculate = function(self, blind, context)
+		if not blind.disabled then
 			if context.toga_affectchipmult and context.opamount and context.optarget and context.optarget == 'chips' and not context.retrigger_joker then
-				return { amtmult = self.vars.chipamtred, card = card }
+				return { amtmult = self.vars.chipamtred, card = blind }
 			end
 		end
 	end,

@@ -173,7 +173,7 @@ table.insert(winj, {
 			return { func = function()
 				G.E_MANAGER:add_event(Event({
 					func = (function()
-						add_tag({ key = get_next_tag_key() })
+						add_tag({ key = SMODS.poll_object({ type = 'Tag', seed = 'toga_win2000' }) })
 						card:juice_up(0.3, 0.4)
 						play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
 						play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
@@ -199,7 +199,7 @@ table.insert(winj, {
 
 table.insert(winj, {
 	key = 'winxp',
-	config = { extra = { odds = 6 } },
+	config = { extra = { odds = 5 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds) } }
 	end,
@@ -295,7 +295,7 @@ table.insert(winj, {
 		end
 	end,
 	poweritem = true,
-	attributes = { 'rank', 'six', 'modify_joker' }
+	attributes = { 'rank', 'six', 'modify_joker', 'editions' }
 })
 
 table.insert(winj, {
@@ -336,7 +336,7 @@ table.insert(winj, {
 	end,
 	calc_scaling = function(self, card, other_card, initial_value, scalar_value, args)
 		if card == other_card then return end
-		if scalar_value > to_big(0) then
+		if to_big(scalar_value) > to_big(0) then
 			local s = 0
 			for k, v in ipairs(G.playing_cards or {}) do
 				if v and not SMODS.has_no_rank(v) and v:get_id() == 7 then s = s + 1 end
@@ -358,7 +358,7 @@ table.insert(winj, {
 
 table.insert(winj, {
 	key = 'win8',
-	config = { extra = { xmult = 0.08 } },
+	config = { extra = { xmult = 0.1 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.xmult } }
 	end,

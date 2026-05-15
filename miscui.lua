@@ -647,6 +647,12 @@ function togabalatro.talismanjoke()
 						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
 							{n = G.UIT.T, config = { text = rtxt[2], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
 						}},
+						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
+							{n = G.UIT.T, config = { text = rtxt[3], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+						}},
+						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
+							{n = G.UIT.T, config = { text = rtxt[4], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+						}},
 					}},
 				}},
 			}},
@@ -1048,7 +1054,7 @@ function togabalatro.cryptidnotice()
 	end
 end
 
-function togabalatro.talismanfunny()
+function togabalatro.talismannote()
 	if next(SMODS.find_mod('Amulet')) then return end
 	if next(SMODS.find_mod('Talisman')) and not togabalatro.config.talismannotice then
 		togabalatro.config.talismannotice = true
@@ -1118,7 +1124,7 @@ function G.FUNCS.toga_alloyrecipes()
 	
 	G.SETTINGS.paused = true
 	G.FUNCS.overlay_menu({
-		definition = SMODS.card_collection_UIBox(alloys, {6,6}, {
+		definition = SMODS.card_collection_UIBox(alloys, {7,7}, {
 			back_func = "toga_closeprompt",
 			no_materialize = true,
 			snap_back = true,
@@ -1143,7 +1149,7 @@ function G.FUNCS.toga_showalloys()
 	
 	G.SETTINGS.paused = true
 	G.FUNCS.overlay_menu({
-		definition = SMODS.card_collection_UIBox(alloys, {6,6}, {
+		definition = SMODS.card_collection_UIBox(alloys, {7,7}, {
 			back_func = "toga_closeprompt",
 			no_materialize = true,
 			snap_back = true,
@@ -1158,14 +1164,14 @@ function G.FUNCS.toga_showminerals()
 	local minerals = {}
 	
 	for k, v in ipairs(togabalatro.oredict and togabalatro.oredict.minerals or {}) do
-		for i, c in ipairs(G.P_CENTER_POOLS.Enhanced) do
+		for i, c in pairs(G.P_CENTER_POOLS.Enhanced) do
 			if c.key == v then table.insert(minerals, c) end
 		end
 	end
 	
 	G.SETTINGS.paused = true
 	G.FUNCS.overlay_menu({
-		definition = SMODS.card_collection_UIBox(minerals, {6,6}, {
+		definition = SMODS.card_collection_UIBox(minerals, {8,8}, {
 			back_func = "toga_closeprompt",
 			no_materialize = true,
 			snap_back = true,

@@ -2,11 +2,13 @@
 sendInfoMessage("Initializing JokerDisplay compatibility...", "TOGAPack")
 togabalatro.jd_def = JokerDisplay.Definitions
 
+loc_colour()
+
 -- leaves in hot water be like:
 local jd_areasref = JokerDisplay.get_display_areas
 function JokerDisplay.get_display_areas()
 	local ret, teapots = jd_areasref(), SMODS.find_card('c_toga_glteapot')
-	if next(teapots) and teapots[1] and teapots[1].area == G.consumeables then ret[#ret+1] = G.consumeables end
+	if next(teapots) and teapots[1] and teapots[1].area == G.consumeables or next(SMODS.find_card('j_toga_linux_ubuntu')) then ret[#ret+1] = G.consumeables end
     return ret
 end
 
@@ -16,12 +18,16 @@ function JokerDisplay.copy_display(card, copied_joker, is_debuffed, bypass_debuf
 	jd_copy_displayref(card, copied_joker, is_debuffed, bypass_debuff, stop_func_copy)
 	if copied_joker and copied_joker.config and copied_joker.config.center
 	and (copied_joker.config.center.key == 'j_toga_sonicthehedgehog' or copied_joker.config.center.key == 'j_toga_supersonicthehedgehog' or copied_joker.config.center.key == 'j_toga_hypersonicthehedgehog') then
-		card.children.joker_display:remove_text()
-		card.children.joker_display:remove_reminder_text()
-		card.children.joker_display:remove_extra()
-		card.children.joker_display_small:remove_text()
-		card.children.joker_display_small:remove_reminder_text()
-		card.children.joker_display_small:remove_extra()
+		if card.children.joker_display then
+			card.children.joker_display:remove_text()
+			card.children.joker_display:remove_reminder_text()
+			card.children.joker_display:remove_extra()
+		end
+		if card.children.joker_display_small then
+			card.children.joker_display_small:remove_text()
+			card.children.joker_display_small:remove_reminder_text()
+			card.children.joker_display_small:remove_extra()
+		end
 	end
 end
 
@@ -676,7 +682,7 @@ togabalatro.jd_def["j_toga_mac_os_x"] = {
 
 togabalatro.jd_def["j_toga_linux_ubuntu"] = {
 	mod_function = function(card, mod_joker)
-		return { x_mult = card ~= mod_joker and 1+card.sell_cost*mod_joker.ability.extra.percentage or nil }
+		return { x_mult = card ~= mod_joker and (1+card.sell_cost*mod_joker.ability.extra.percentage)^JokerDisplay.calculate_joker_triggers(mod_joker) or nil }
 	end
 }
 
@@ -928,7 +934,7 @@ togabalatro.jd_def["j_toga_whatisthis"] = {
 		{
 			border_nodes = {
 				{ text = "^" },
-				{ ref_table = "card.ability.extra", ref_value = "part" },
+				{ ref_table = "card.joker_display_values", ref_value = "part" },
 			},
 			border_colour = G.C.MULT
 		},
@@ -937,6 +943,7 @@ togabalatro.jd_def["j_toga_whatisthis"] = {
 	},
 	calc_function = function(card)
 		local cons = 0
+		card.joker_display_values.part = card.ability.extra.part^JokerDisplay.calculate_joker_triggers(card)
 		if G.consumeables and G.consumeables.cards and G.consumeables.cards[1] then
 			for i = 1, #G.consumeables.cards do
 				if not G.consumeables.cards[i].edition then
@@ -964,8 +971,6 @@ togabalatro.jd_def["j_toga_quacksoft"] = {
 		},
 	},
 	calc_function = function(card)
-		-- local hand = G.hand and G.hand.highlighted
-		-- local played = G.play and G.play.cards
 		local c = JokerDisplay.current_hand
 		local amt = type(c) == 'table' and #c or 0
 		card.joker_display_values.totalechips = 1 + amt*card.ability.extra.cardechip
@@ -975,7 +980,7 @@ togabalatro.jd_def["j_toga_quacksoft"] = {
 togabalatro.jd_def["j_toga_rloctane"] = {
 	text = {
 		{ text = "+",	colour = G.C.CHIPS },
-		{ ref_table = "card.ability.extra", ref_value = "chips", colour = G.C.CHIPS, retrigger_type = "add" }
+		{ ref_table = "card.ability.extra", ref_value = "chips", colour = G.C.CHIPS, retrigger_type = "mult" }
 	},
 }
 
@@ -1441,17 +1446,20 @@ togabalatro.jd_def["j_toga_hypersonicthehedgehog"] = {
 }
 
 togabalatro.jd_def["j_toga_victor"] = {
-	extra = {
-		{
-			{ text = "(" },
-			{ ref_table = "card.joker_display_values", ref_value = "odds", retrigger_type = "exp" },
-			{ text = ")" },
-		}
+	reminder_text = {
+		{ text = "(", scale = 0.35 },
+		{ text = localize('Full House', "poker_hands"), scale = 0.35 },
+		{ text = ")", scale = 0.35 },
 	},
-	extra_config = { colour = G.C.GREEN, scale = 0.3 },
 	calc_function = function(card)
-		local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'msagent_victor')
-		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { numerator, denominator } }
+		local _, poker_hands, _ = JokerDisplay.evaluate_hand()
+		card.joker_display_values.fh = poker_hands["Full House"] and next(poker_hands["Full House"]) and true or false
+	end,
+	style_function = function(card, text, reminder_text, extra)
+		if reminder_text and reminder_text.children[1] and reminder_text.children[2] and card.joker_display_values then
+			reminder_text.children[2].config.colour = card.joker_display_values.fh and G.C.FILTER or G.C.UI.TEXT_INACTIVE
+		end
+		return false
 	end
 }
 
@@ -1572,6 +1580,35 @@ togabalatro.jd_def["j_toga_melons"] = {
 		end
 		return false
 	end
+}
+
+togabalatro.jd_def["j_toga_kingharkinian_cdi"] = {
+	text = {
+		{
+			border_nodes = {
+				{ text = "X" },
+				{ ref_table = "card.joker_display_values", ref_value = "curxmult", retrigger_type = "exp" },
+			},
+		},
+	},
+	calc_function = function(card)
+		card.joker_display_values.curxmult = 1+card.ability.extra.xm
+	end,
+}
+
+togabalatro.jd_def["j_toga_mario_cdi"] = {
+	text = {
+		{ ref_table = "card.joker_display_values", ref_value = "mtxt", colour = G.C.MONEY },
+	},
+	reminder_text = {
+		{ text = "(", scale = 0.3 },
+		{ ref_table = "card.joker_display_values", ref_value = "txt", colour = { ref_table = G.ARGS.LOC_COLOURS, ref_value = "toga_suitgradient" }, scale = 0.3 },
+		{ text = ")", scale = 0.3 },
+	},
+	calc_function = function(card)
+		card.joker_display_values.mtxt = card.joker_display_values.mtxt or SMODS.signed_dollars(card.ability.extra.money)
+		card.joker_display_values.txt = card.joker_display_values.txt or localize('toga_targetsuitjkr')
+	end,
 }
 
 -- CROSSMOD SECTION
