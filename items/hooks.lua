@@ -916,12 +916,11 @@ local getblindamtref = get_blind_amount
 function get_blind_amount(ante)
 	local amt, deband = getblindamtref(ante), SMODS.find_card('j_toga_pso2deband')
 	if G.GAME.modifiers.toga_enh_blind_scale and tonumber(G.GAME.modifiers.toga_enh_blind_scale) then
-		local enh, enha = {}, 1
+		local enh = {}
 		for k, v in pairs(G.playing_cards or {}) do
 			local enhc = v.ability.set == 'Enhanced' and v.config.center.key or nil
-			if enhc and not enh[enhc] then enh[enhc] = true; enha = enha + 1 end
+			if enhc and not enh[enhc] then enh[enhc] = true; amt = amt^G.GAME.modifiers.toga_enh_blind_scale end
 		end
-		if next(enh) then amt = amt^(G.GAME.modifiers.toga_enh_blind_scale^enha) end
 	end
 	if deband[1] then
 		amt = amt*0.8
