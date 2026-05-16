@@ -292,7 +292,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -314,7 +314,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -336,7 +336,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -358,7 +358,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -380,7 +380,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -402,7 +402,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -424,7 +424,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -449,7 +449,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -471,7 +471,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -498,7 +498,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -522,7 +522,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -543,7 +543,7 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
 
@@ -574,6 +574,6 @@ SMODS.Enhancement{
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
-		return self.weight * (G.GAME.toga_alloyrate or 0)
+		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
 }
