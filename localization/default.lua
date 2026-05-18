@@ -708,9 +708,18 @@ return {
 			j_toga_ie = {
 				name = 'Internet Explorer',
 				text = {
-					"When {C:attention}leaving{} shop, {C:attention}upgrade per-level{} {C:blue}Chips{} and {C:red}Mult{}",
-					"of a {C:attention}random{} poker hand by {C:blue}#1#%{} and {C:red}#2#%{} of {C:attention}base{}",
-					"{C:blue}Chips{} and {C:red}Mult{} of said poker hand respectively.",
+					"When {C:attention}leaving{} shop, if first {C:attention}Consumeable{} held is related",
+					"to a {C:planet}poker hand{}, {C:attention}upgrade per-level{} {C:blue}Chips{} and {C:red}Mult{}",
+					"of it by {C:blue}#1#%{} and {C:red}#2#%{} of its' {C:attention}base{} {C:blue}Chips{} and {C:red}Mult{}",
+				}
+			},
+			j_toga_ie_ph = {
+				name = 'Internet Explorer',
+				text = {
+					"When {C:attention}leaving{} shop, if first {C:attention}Consumeable{} held is related",
+					"to a {C:planet}poker hand{}, {C:attention}upgrade per-level{} {C:blue}Chips{} and {C:red}Mult{}",
+					"of it by {C:blue}#1#%{} and {C:red}#2#%{} of its' {C:attention}base{} {C:blue}Chips{} and {C:red}Mult{}",
+					"{C:inactive}(Currently {C:attention}#3#{}{C:inactive}){}"
 				}
 			},
 			j_toga_winvista = {
@@ -2359,7 +2368,6 @@ return {
 				text = {
 					"{C:attention}Stone Cards{} count as",
 					"their own unique rank",
-					"{C:red}#1#{} hand size"
 				},
 			},
 			v_toga_deepslate = {
@@ -2843,6 +2851,7 @@ return {
 			toga_rlsry = "Sorry!",
 			toga_gotmail = "Got Mail!",
 			toga_targetsuitjkr = "Suit-specific Jokers",
+			toga_multiplehands = "Multiple Hands",
 			--
 			toga_furnaceprocess = "Smelted...",
 			toga_novalidrecipe = "No recipes match selected cards.",

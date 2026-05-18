@@ -279,6 +279,7 @@ togabalatro.modifyhandchipsmult = function(card, hand, instant, context, bchips,
 	local cbase, clevel = (cbc or cbm) and true or false, (clc or clm) and true or false
 	if not (cbase or clevel or hand) then return end
 	local prevals
+	local trig = false
 	if SMODS.displaying_scoring and not (SMODS.displayed_hand == hand) then
 		prevals = copy_table(G.GAME.current_round.current_hand)
 		prevals.level = (G.GAME.hands[prevals.handname] or {}).level or ''
@@ -287,6 +288,7 @@ togabalatro.modifyhandchipsmult = function(card, hand, instant, context, bchips,
 	end
 	if not (instant or Talisman and Talisman.config_file.disable_anims) then
 		if cbase then
+			trig = true
 			update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('toga_basecm').." "..localize(hand, 'poker_hands'), chips = G.GAME.hands[hand].s_chips, mult = G.GAME.hands[hand].s_mult, level=''})
 			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
 				play_sound('tarot1')
@@ -313,6 +315,7 @@ togabalatro.modifyhandchipsmult = function(card, hand, instant, context, bchips,
 			delay(1.3)
 		end
 		if clevel then
+			trig = true
 			update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('toga_perlevel').." "..localize(hand, 'poker_hands'), chips = G.GAME.hands[hand].l_chips, mult = G.GAME.hands[hand].l_mult, level=''})
 			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
 				play_sound('tarot1')
@@ -338,10 +341,9 @@ togabalatro.modifyhandchipsmult = function(card, hand, instant, context, bchips,
 			return true end }))
 			delay(1.3)
 		end
-		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.5}, prevals or {mult = 0, chips = 0, handname = '', level = ''})
-	else
-		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.5}, prevals or {mult = 0, chips = 0, handname = '', level = ''})
 	end
+	
+	if trig then update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.5}, prevals or {mult = 0, chips = 0, handname = '', level = ''}) end
 	
 	if Talisman and Talisman.config_file.disable_anims then
 		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.1, func = function()
@@ -362,6 +364,27 @@ togabalatro.modifyhandchipsmult = function(card, hand, instant, context, bchips,
 		if (clm or cbm) then G.GAME.hands[hand].mult = to_big(G.GAME.hands[hand].s_mult) + to_big(G.GAME.hands[hand].l_mult)*(to_big(G.GAME.hands[hand].level) - to_big(1)) end
 		if (clc or cbc) then G.GAME.hands[hand].chips = to_big(G.GAME.hands[hand].s_chips) + to_big(G.GAME.hands[hand].l_chips)*(to_big(G.GAME.hands[hand].level) - to_big(1)) end
 	end
+end
+
+togabalatro.iecheckpokerhand = function(tcard)
+	if not tcard then return end
+	local ph = {}
+	local doah = false
+	
+	if tcard.ability and tcard.ability.set then
+		if tcard.ability.set == 'Planet' and tcard.ability.consumeable and type(tcard.ability.consumeable.hand_type) == 'string' then
+			table.insert(ph, tcard.ability.consumeable.hand_type)
+		end
+	end
+	
+	if tcard.config and tcard.config.center and tcard.config.center.key and tcard.config.center.key == 'c_black_hole' then
+		doah = true
+		for k, v in ipairs(G.handlist) do
+			if G.GAME.hands[v] then table.insert(ph, v) end
+		end
+	end
+	
+	return ph, doah
 end
 
 SMODS.ObjectType{

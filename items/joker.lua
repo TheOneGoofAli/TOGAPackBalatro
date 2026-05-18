@@ -353,7 +353,12 @@ table.insert(jokers, {
 	key = 'ie',
 	config = { extra = { phchips = 0.2, phmult = 0.25 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { 100*card.ability.extra.phchips, 100*card.ability.extra.phmult } }
+		local ph, doah, txt
+		if G.consumeables and G.consumeables.cards and G.consumeables.cards[1] and G.GAME.hands then
+			ph, doah = togabalatro.iecheckpokerhand(G.consumeables.cards[1])
+		end
+		txt = doah and localize('k_all_hands') or #ph > 2 and localize('toga_multiplehands') or ph[1] and localize(ph[1], 'poker_hands')
+		return { key = txt and self.key.."_ph" or self.key, vars = { 100*card.ability.extra.phchips, 100*card.ability.extra.phmult, txt } }
 	end,
 	unlocked = true,
 	rarity = 2,
@@ -366,20 +371,39 @@ table.insert(jokers, {
 		if context.ending_shop or context.forcetrigger then
 			local curcard = context.blueprint_card or card
 			local cxt = context
-			return {
-				func = function()
-					local names = {}
-					for k, v in ipairs(G.handlist) do
-						if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then names[#names+1] = v end
-					end
-					if next(names) then
-						local hand = pseudorandom_element(names, pseudoseed('ie'))
-						if hand and G.GAME.hands[hand] then
-							togabalatro.modifyhandchipsmult(curcard, hand, false, cxt, nil, nil, G.GAME.hands[hand].s_chips*card.ability.extra.phchips, G.GAME.hands[hand].s_mult*card.ability.extra.phmult )
+			local ph, doah = togabalatro.iecheckpokerhand(G.consumeables and G.consumeables.cards and G.consumeables.cards[1])
+			if ph then
+				return {
+					pre_func = doah and function()
+						if doah then
+							update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('toga_perlevel').." "..localize('k_all_hands'),chips = '...', mult = '...', level=''})
+							G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+								play_sound('tarot1')
+								curcard:juice_up(0.8, 0.5)
+								G.TAROT_INTERRUPT_PULSE = true
+								return true end }))
+							update_hand_text({delay = 0}, {mult = '+', StatusText = true})
+							G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+								play_sound('tarot1')
+								curcard:juice_up(0.8, 0.5)
+								return true end }))
+							update_hand_text({delay = 0}, {chips = '+', StatusText = true})
+							G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+								play_sound('tarot1')
+								curcard:juice_up(0.8, 0.5)
+								G.TAROT_INTERRUPT_PULSE = nil
+								return true end }))
+							delay(1.3)
 						end
-					end
-				end
-			}
+					end or nil,
+					func = function()
+						for _, hand in pairs(ph) do
+							togabalatro.modifyhandchipsmult(curcard, hand, doah, cxt, nil, nil, G.GAME.hands[hand].s_chips*card.ability.extra.phchips, G.GAME.hands[hand].s_mult*card.ability.extra.phmult )
+						end
+						if doah then delay(1.3); update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''}) end
+					end,
+				}
+			end
 		end
 	end,
 	attributes = { 'hand_type' }

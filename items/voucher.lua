@@ -310,12 +310,8 @@ SMODS.Voucher{
 	unlocked = true,
 	cost = 10,
 	rarity = 3,
-	config = { rarity = 3, extra = { handsize = -1 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { SMODS.signed(card.ability.extra.handsize) } }
-	end,
+	config = { rarity = 3 },
 	redeem = function(self, card)
-		G.hand:change_size((card and card.ability.extra or self.config.extra).handsize)
 		G.GAME.toga_stonehasrank = true
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Stone Cards now have a unique rank for rest of run.", "TOGAPack") end
 	end,

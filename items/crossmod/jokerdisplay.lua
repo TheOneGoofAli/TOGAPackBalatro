@@ -1339,6 +1339,27 @@ togabalatro.jd_def["j_toga_pso2shifta"] = {
 	end
 }
 
+togabalatro.jd_def["j_toga_ie"] = {
+	reminder_text = {
+		{ text = "(", scale = 0.35 },
+		{ ref_table = "card.joker_display_values", ref_value = "ph" },
+		{ text = ")", scale = 0.35 },
+	},
+	calc_function = function(card)
+		local ph, doah
+		if G.consumeables and G.consumeables.cards and G.consumeables.cards[1] and G.GAME.hands then
+			ph, doah = togabalatro.iecheckpokerhand(G.consumeables.cards[1])
+		end
+		card.joker_display_values.ph = doah and localize('k_all_hands') or #ph > 2 and localize('toga_multiplehands') or ph[1] and localize(ph[1], 'poker_hands') or '...'
+	end,
+	style_function = function(card, text, reminder_text, extra)
+		if reminder_text and reminder_text.children[1] and reminder_text.children[2] and card.joker_display_values then
+			reminder_text.children[2].config.colour = card.joker_display_values.ph and card.joker_display_values.ph ~= '...' and G.C.FILTER or G.C.UI.TEXT_INACTIVE
+		end
+		return false
+	end
+}
+
 togabalatro.jd_def["c_toga_glteapot"] = { -- Egg
 	text = {
 		{ text = "(", colour = G.C.UI.TEXT_INACTIVE },

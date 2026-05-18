@@ -1165,7 +1165,7 @@ end
 local canrerollref = G.FUNCS.can_reroll
 function G.FUNCS.can_reroll(e)
 	canrerollref(e)
-	if next(SMODS.find_card('j_toga_morshu')) and G.GAME.current_round.reroll_cost ~= 0 then 
+	if next(SMODS.find_card('j_toga_morshu_cdi')) and G.GAME.current_round.reroll_cost ~= 0 then 
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
 		e.config.button = nil
 	end
