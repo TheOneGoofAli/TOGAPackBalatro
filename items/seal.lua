@@ -25,14 +25,14 @@ SMODS.Seal{
 					local createnegative = false
 					if (SMODS.pseudorandom_probability(context.other_card or card or self, "sealseal", 1, card.ability.seal.odds, 'sealseal') and G.GAME.used_vouchers['v_toga_sealegg'] == true) then createnegative = true end
 					if #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit or createnegative then
-						G.GAME.joker_buffer = G.GAME.joker_buffer + 1
+						G.GAME.joker_buffer = G.GAME.joker_buffer + (createnegative and 1 or 0)
 						G.E_MANAGER:add_event(Event({
 							func = function()
 								local egg = SMODS.create_card({ set = 'Joker', key = 'j_egg', no_edition = createnegative and true or false }) -- egg.
 								if createnegative then egg:set_edition('e_negative', true, true) end
 								egg:add_to_deck()
 								G.jokers:emplace(egg)
-								G.GAME.joker_buffer = math.max(G.GAME.joker_buffer - 1, 0)
+								G.GAME.joker_buffer = math.max(G.GAME.joker_buffer - (createnegative and 1 or 0), 0)
 								return true
 							end
 						}))
