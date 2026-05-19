@@ -2931,11 +2931,11 @@ table.insert(jokers, {
 	cost = 6,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.post_trigger and context.other_card and context.other_card:has_attribute('suit') then return { dollars = card.ability.extra.money, message_card = context.blueprint_card or card } end
+		if context.post_trigger and context.other_card and context.other_card.has_attribute and context.other_card:has_attribute('suit') then return { dollars = card.ability.extra.money, message_card = context.blueprint_card or card } end
 	end,
 	calc_scaling = function(self, card, other_card, initial_value, scalar_value, args)
 		if card == other_card then return end
-		if to_big(scalar_value) ~= to_big(0) and other_card.ability.set and other_card.ability.set == 'Joker' and other_card:has_attribute('suit') then return { post = { dollars = card.ability.extra.money, message_card = card } } end
+		if to_big(scalar_value) ~= to_big(0) and other_card.ability.set and other_card.ability.set == 'Joker' and other_card.has_attribute and other_card:has_attribute('suit') then return { post = { dollars = card.ability.extra.money, message_card = card } } end
 	end,
 	add_to_deck = function(self, card, from_debuff)
 		if not from_debuff and togabalatro.config.SFXWhenAdding and G.STAGE == G.STAGES.RUN and not G.screenwipe then
