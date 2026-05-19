@@ -1874,12 +1874,12 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.end_of_round and context.main_eval then card.ability.used203 = nil end
 		if context.before and context.scoring_hand and next(context.scoring_hand) and not card.ability.used203 then
-			card.ability.used203 = true
 			local has2 = false
 			for k, v in pairs(context.scoring_hand) do
 				if v and v:get_id() == 2 then has2 = true; break end
 			end
 			if has2 then
+				card.ability.used203 = true
 				return { level_up = true }
 			end
 		end
