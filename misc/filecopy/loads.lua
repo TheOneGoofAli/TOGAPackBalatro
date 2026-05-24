@@ -16,7 +16,6 @@ local togab64frames = {
 
 local togab64timerthing, togab64curframe = 0, 1
 function toga_extraimgdraw(p)
-	if not b64 then return end
 	if type(togab64frames) ~= 'table' then return end
 	
 	togab64timerthing = togab64timerthing + 1
@@ -24,7 +23,7 @@ function toga_extraimgdraw(p)
 		if (togab64curframe + 1) > #togab64frames then togab64curframe = 1 else togab64curframe = togab64curframe + 1 end
 	end
 	
-	toga_loadimg = togab64frames[togab64curframe] and love.graphics.newImage(love.filesystem.newFileData(b64.decode(togab64frames[togab64curframe]), 'theloadings')) or toga_loadimg
+	toga_loadimg = togab64frames[togab64curframe] and love.graphics.newImage(love.data.decode("data", "base64", togab64frames[togab64curframe])) or toga_loadimg
 	
 	if not toga_loadimg then return end
     if toga_loadimg then

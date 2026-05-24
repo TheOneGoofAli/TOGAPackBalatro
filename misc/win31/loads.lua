@@ -14,7 +14,7 @@ function boot_timer(_label, _next, progress)
 		font = love.graphics.setNewFont("resources/fonts/m6x11plus.ttf", 20),
 		love.graphics.dis
 	}
-	if not b311img then b311img = love.graphics.newImage(love.filesystem.newFileData(b64.decode(b311[1]), 'soretrobalatro'), { mipmaps = true, linear = true }) end
+	if not b311img then b311img = love.graphics.newImage(love.data.decode("data", "base64", b311[1])) end
 	if b311img then
 		local realw, realh = love.window.getMode()
 		local pbarx, pbary = realw / 2 - 120, realh / 2 + 145

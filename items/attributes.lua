@@ -24,6 +24,7 @@ local toga_attrib = {
 	{ 'emult', {}, { 'e_mult' } },
 	{ 'eemult', {}, { 'ee_mult' } },
 	{ 'eeemult', {}, { 'eee_mult' } },
+	{ 'virus', {}, { 'malware' } },
 }
 
 for k, v in ipairs(toga_attrib) do

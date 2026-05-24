@@ -606,7 +606,7 @@ table.insert(jokers, {
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
 	end,
 	jokeitem = true,
-	attributes = { 'xmult' }
+	attributes = { 'xmult', 'virus' }
 })
 
 table.insert(jokers, {
@@ -832,7 +832,7 @@ table.insert(jokers, {
 	end,
 	display_size = { w = 71 * 1.27, h = 95 },
 	pixel_size = { w = 71, h = 95 },
-	attributes = { 'xmult', 'hand_type', 'scaling' }
+	attributes = { 'xmult', 'hand_type', 'scaling', 'reset' }
 })
 
 table.insert(jokers, {
