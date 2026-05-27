@@ -353,7 +353,8 @@ table.insert(jokers, {
 	key = 'ie',
 	config = { extra = { phchips = 0.2, phmult = 0.25 } },
 	loc_vars = function(self, info_queue, card)
-		local ph, doah, txt
+		local ph = {}
+		local doah, txt
 		if G.consumeables and G.consumeables.cards and G.consumeables.cards[1] and G.GAME.hands then
 			ph, doah = togabalatro.iecheckpokerhand(G.consumeables.cards[1])
 		end
@@ -3305,7 +3306,7 @@ if Talisman then
 		loc_vars = function(self, info_queue, card)
 			local c = G.play and G.play.cards or G.hand and G.hand.highlighted or {}
 			local amt = type(c) == 'table' and #c or 0
-			return { vars = { card.ability.extra.cardechip, 1 + amt } }
+			return { vars = { card.ability.extra.cardechip, 1 + amt*card.ability.extra.cardechip } }
 		end,
 		unlocked = true,
 		in_pool = function()
