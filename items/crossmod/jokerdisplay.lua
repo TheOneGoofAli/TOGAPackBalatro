@@ -1346,7 +1346,8 @@ togabalatro.jd_def["j_toga_ie"] = {
 		{ text = ")", scale = 0.35 },
 	},
 	calc_function = function(card)
-		local ph, doah
+		local ph = {}
+		local doah
 		if G.consumeables and G.consumeables.cards and G.consumeables.cards[1] and G.GAME.hands then
 			ph, doah = togabalatro.iecheckpokerhand(G.consumeables.cards[1])
 		end
