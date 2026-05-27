@@ -17,7 +17,7 @@ SMODS.Booster{
 	config = {extra = 3, choose = 1, name = "ZIP Package"},
 	discovered = false,
 	loc_vars = function(self, info_queue, card)
-		return { vars = {card.ability.choose, card.ability.extra} }
+		return { vars = {math.min(card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))} }
 	end,
 	ease_background_colour = function(self)
 		ease_background_colour(toga_bgcolorfunc[math.random(1, #toga_bgcolorfunc)])
@@ -42,7 +42,7 @@ SMODS.Booster{
 		if G.GAME and G.GAME.used_vouchers and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance then
 			info_queue[#info_queue + 1] = {key = "toga_jokerzipupgrade", set = 'Other', vars = { SMODS.get_probability_vars(card or self, 1, G.GAME.spectralzipper_chance or 100) } }
 		end
-		return { vars = {card.ability.choose, card.ability.extra } }
+		return { vars = {math.min(card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))} }
 	end,
 	ease_background_colour = function(self)
 		ease_background_colour({ new_colour = HEX("515966"), special_colour = HEX("121417"), contrast = 1.25 }) -- Longhorn, anyone?
@@ -73,7 +73,7 @@ SMODS.Booster{
 		if G.GAME and G.GAME.used_vouchers and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance then
 			info_queue[#info_queue + 1] = {key = "toga_consumabrarupgrade", set = 'Other', vars = { SMODS.get_probability_vars(card or self, 1, G.GAME.spectralzipper_chance or 100) } }
 		end
-		return { vars = {card.ability.choose, card.ability.extra} }
+		return { vars = {math.min(card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))} }
 	end,
 	ease_background_colour = function(self)
 		ease_background_colour({ new_colour = HEX("bb1b36"), special_colour = HEX("177c2f"), contrast = 1.25 })
@@ -100,7 +100,7 @@ SMODS.Booster{
 	config = {extra = 8, choose = 3, name = "PLAYCARD.CAB"},
 	discovered = false,
 	loc_vars = function(self, info_queue, card)
-		return { vars = {card.ability.choose, card.ability.extra} }
+		return { vars = {math.min(card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))} }
 	end,
 	ease_background_colour = function(self)
 		ease_background_colour({ new_colour = HEX("6BC0FD"), special_colour = HEX("00379D"), contrast = 1.2 })
@@ -128,7 +128,7 @@ SMODS.Booster{
 	config = {extra = 5, choose = 1, name = "XCOPY.DNA"},
 	discovered = false,
 	loc_vars = function(self, info_queue, card)
-		return { vars = {card.ability.choose, card.ability.extra} }
+		return { vars = {math.min(card.ability.choose + (G.GAME.modifiers.booster_choice_mod or 0), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))), math.max(1, card.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))} }
 	end,
 	ease_background_colour = function(self)
 		ease_background_colour({ new_colour = HEX("DD463C"), special_colour = HEX("008BE3"), contrast = 1.3 })
