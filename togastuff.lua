@@ -60,8 +60,8 @@ togabalatro.calculate = function(self, context)
 				end
 				if hasplanet then
 					hand_chips, mult = hand_chips * 1.97, mult * 1.97
+					SMODS.calculate_effect({ message = '!', delay = 0.25, sound = 'tarot2', pitch = 0.76 }, shifta[1])
 				end
-				SMODS.calculate_effect({ message = '!', delay = 0.25, sound = 'tarot2', pitch = 0.76 }, shifta[1])
 			end
 		end
 	end
