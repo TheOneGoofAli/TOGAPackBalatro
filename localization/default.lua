@@ -2430,7 +2430,8 @@ return {
 			toga_albavirusinfo = {
 				name = "Hint:",
 				text = {
-					"Try destroying or selling a card",
+					"Try {C:red}destroying{}",
+					"or {C:attention}selling{} a card",
 					"during {C:attention}Boss Blinds{}",
 				},
 			},

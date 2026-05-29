@@ -3167,7 +3167,7 @@ table.insert(jokers, {
 table.insert(jokers, {
 	key = 'albanianvirus',
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = {key = "toga_albavirusnote", set = 'Other'}
+		info_queue[#info_queue + 1] = {key = "toga_albavirusinfo", set = 'Other'}
 	end,
 	unlocked = true,
 	in_pool = function()
