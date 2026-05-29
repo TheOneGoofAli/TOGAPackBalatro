@@ -53,15 +53,10 @@ togabalatro.calculate = function(self, context)
 		if context.scoring_name then
 			local shifta = SMODS.find_card('j_toga_pso2shifta')
 			
-			if shifta[1] then
-				local hasplanet = false
-				for i, v in ipairs((G.consumeables or {}).cards) do
-					if Object.is(v, Card) and v.ability.set == 'Planet' and v.ability.consumeable.hand_type == context.scoring_name then hasplanet = true; break end
-				end
-				if hasplanet then
-					hand_chips, mult = hand_chips * 1.97, mult * 1.97
-					SMODS.calculate_effect({ message = '!', delay = 0.25, sound = 'tarot2', pitch = 0.76 }, shifta[1])
-				end
+			if shifta[1] and togabalatro.shiftacheck(context.scoring_name) then
+				hand_chips, mult = hand_chips * 1.97, mult * 1.97
+				SMODS.calculate_effect({ message = '!', delay = 0.01, sound = 'xchips', pitch = 0+math.random(-2, 2)/10, volume = 1, colour = G.C.CHIPS }, shifta[1])
+				SMODS.calculate_effect({ message = '!', delay = 0.01, sound = 'multhit2', pitch = 0+math.random(-2, 2)/10, volume = 1, colour = G.C.MULT }, shifta[1])
 			end
 		end
 	end
@@ -385,6 +380,22 @@ togabalatro.iecheckpokerhand = function(tcard)
 	end
 	
 	return ph, doah
+end
+
+togabalatro.shiftacheck = function(name)
+	local hasplanet = false
+	if G.consumeables and G.consumeables.cards and G.consumeables.cards[1] then
+		for k, v in ipairs(G.consumeables.cards) do
+			if v.config and v.config.center and v.config.center.key and v.config.center.key == 'c_black_hole' then hasplanet = true; break end
+			
+			if v.ability and v.ability.set then
+				if v.ability.set == 'Planet' and v.ability.consumeable and type(v.ability.consumeable.hand_type) == 'string' and type(name) == 'string' then
+					if v.ability.consumeable.hand_type == name then hasplanet = true; break end
+				end
+			end
+		end
+	end
+	return hasplanet
 end
 
 SMODS.ObjectType{

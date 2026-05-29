@@ -3166,6 +3166,9 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'albanianvirus',
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = {key = "toga_albavirusnote", set = 'Other'}
+	end,
 	unlocked = true,
 	in_pool = function()
 		return togabalatro.config.JokeJokersActive -- Should only spawn if allowed to via config!
@@ -3204,7 +3207,7 @@ table.insert(jokers, {
 					card:juice_up(0.8, 0.5)
 					G.TAROT_INTERRUPT_PULSE = nil
 					return true end }))
-				update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+0.25'})
+				update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+2'})
 				delay(1.3)
 				SMODS.upgrade_poker_hands({ from = card, instant = true, level_up = 2})
 				update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})

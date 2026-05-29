@@ -1316,11 +1316,8 @@ togabalatro.jd_def["j_toga_pso2shifta"] = {
 		{ text = ")", scale = 0.35 },
 	},
 	calc_function = function(card)
-		local hasplanet = false
 		local text, _, scoring_hand = JokerDisplay.evaluate_hand()
-		for i, v in ipairs((G.consumeables or {}).cards) do
-			if v.ability.set == 'Planet' and v.ability.consumeable.hand_type == text then hasplanet = true; break end
-		end
+		local hasplanet = togabalatro.shiftacheck(text)
 		card.joker_display_values.isready = nil
 		card.joker_display_values.isreadytxt = '...'
 		if hasplanet then
