@@ -533,6 +533,7 @@ end
 
 sendInfoMessage("Hooking SMODS.calculate_individual_effect...", "TOGAPack")
 local calcindiveffectref = SMODS.calculate_individual_effect
+local isAmulet = next(SMODS.find_mod('Amulet')) and true
 SMODS.calculate_individual_effect = function(effect, scored_card, key, amount, from_edition)
 	-- do stuff if only the table is actually a table and has not been mangled by external factors.
 	if type(togabalatro.chipmultopswap) == 'table' and togabalatro.chipmultopswap[key] then
@@ -588,13 +589,13 @@ SMODS.calculate_individual_effect = function(effect, scored_card, key, amount, f
 	-- text message go brr.
 	if not effect.remove_default_message then
 		-- No hyperchips/hypermult, that's out of scope here anyway.
-		if key == 'e_chips' or key == 'echips' then effect.echip_message = {message = localize{ type = "variable", key = "toga_Echip", vars = { amount } }, colour = G.C.DARK_EDITION, sound = "talisman_echip"} end
-		if key == 'ee_chips' or key == 'eechips' then effect.eechip_message = {message = localize{ type = "variable", key = "toga_EEchip", vars = { amount } }, colour = G.C.DARK_EDITION, sound = "talisman_eechip"} end
-		if key == 'eee_chips' or key == 'eeechips' then effect.eeechip_message = {message = localize{ type = "variable", key = "toga_EEEchip", vars = { amount } }, colour = G.C.DARK_EDITION, sound = "talisman_eeechip"} end
+		if key == 'e_chips' or key == 'echips' then effect.echip_message = {message = localize{ type = "variable", key = "toga_Echip", vars = { amount } }, colour = isAmulet and G.C.echips or G.C.DARK_EDITION, sound = "talisman_echip"} end
+		if key == 'ee_chips' or key == 'eechips' then effect.eechip_message = {message = localize{ type = "variable", key = "toga_EEchip", vars = { amount } }, colour = isAmulet and G.C.echips or G.C.DARK_EDITION, sound = "talisman_eechip"} end
+		if key == 'eee_chips' or key == 'eeechips' then effect.eeechip_message = {message = localize{ type = "variable", key = "toga_EEEchip", vars = { amount } }, colour = isAmulet and G.C.echips or G.C.DARK_EDITION, sound = "talisman_eeechip"} end
 		
-		if key == 'e_mult' or key == 'emult' then effect.emult_message = {message = localize{ type = "variable", key = "toga_Emult", vars = { amount } }, colour = G.C.DARK_EDITION, sound = "talisman_emult"} end
-		if key == 'ee_mult' or key == 'eemult' then effect.eemult_message = {message = localize{ type = "variable", key = "toga_EEmult", vars = { amount } }, colour = G.C.DARK_EDITION, sound = "talisman_eemult"} end
-		if key == 'eee_mult' or key == 'eeemult' then effect.eeemult_message = {message = localize{ type = "variable", key = "toga_EEEmult", vars = { amount } }, colour = G.C.DARK_EDITION, sound = "talisman_eeemult"} end
+		if key == 'e_mult' or key == 'emult' then effect.emult_message = {message = localize{ type = "variable", key = "toga_Emult", vars = { amount } }, colour = isAmulet and G.C.emult or G.C.DARK_EDITION, sound = "talisman_emult"} end
+		if key == 'ee_mult' or key == 'eemult' then effect.eemult_message = {message = localize{ type = "variable", key = "toga_EEmult", vars = { amount } }, colour = isAmulet and G.C.emult or G.C.DARK_EDITION, sound = "talisman_eemult"} end
+		if key == 'eee_mult' or key == 'eeemult' then effect.eeemult_message = {message = localize{ type = "variable", key = "toga_EEEmult", vars = { amount } }, colour = isAmulet and G.C.emult or G.C.DARK_EDITION, sound = "talisman_eeemult"} end
 	end
 	
 	local ret = calcindiveffectref(effect, scored_card, key, amount, from_edition)

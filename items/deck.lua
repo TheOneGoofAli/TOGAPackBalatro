@@ -369,7 +369,10 @@ if togabalatro.config.KingCDIDeck then
 		pos = { x = 5, y = 1 },
 		atlas = "TOGADeckBack",
 		unlocked = true,
-		config = { ante_scaling = 2 },
+		config = { ante_scaling = 1.5 },
+		loc_vars = function(self, info_queue, center)
+			return { vars = { self.config.ante_scaling } }
+		end,
 		apply = function(self, back)
 			G.E_MANAGER:add_event(Event({
 				func = function()

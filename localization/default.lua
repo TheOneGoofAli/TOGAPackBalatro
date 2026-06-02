@@ -133,6 +133,7 @@ return {
 				text = {
 					"Start with a {C:attention}random{}",
 					"{C:dark_edition}Eternal{} {C:legendary}Legendary{} Joker",
+					"{C:red}X#1#{} base Blind size"
 				}
 			},
 			b_toga_wtfdeck = {
