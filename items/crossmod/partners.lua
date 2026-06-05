@@ -14,7 +14,7 @@ Partner_API.Partner{
 				if togabalatro.iswindows(G.jokers.cards[i]) then winos = winos + 1 end
 			end
 		end
-		return { key = winos >= 1 and self.key.."_buff" or self.key, vars = {(100*card.ability.extra.basepercent)+(100*card.ability.extra.extrapercent*winos), 100*card.ability.extra.basepercent, 100*card.ability.extra.extrapercent*winos} }
+		return { key = winos >= 1 and self.key.."_buff" or self.key, vars = {math.min((100*card.ability.extra.basepercent)+(100*card.ability.extra.extrapercent*winos), 100), 100*card.ability.extra.basepercent, 100*card.ability.extra.extrapercent*winos} }
 	end,
 	calculate = function(self, card, context)
 		if context.setting_blind and not context.retrigger_joker then
@@ -24,15 +24,7 @@ Partner_API.Partner{
 					if togabalatro.iswindows(G.jokers.cards[i]) then winos = winos + 1 end
 				end
 			end
-			G.E_MANAGER:add_event(Event({func = function()
-				G.GAME.blind.chips = math.floor(G.GAME.blind.chips*(1-(card.ability.extra.basepercent+card.ability.extra.extrapercent*winos)))
-				G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-				G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-				G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
-				G.HUD_blind:recalculate()
-				G.hand_text_area.blind_chips:juice_up()
-				card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('toga_floppypartner'), sound = not silent and togabalatro.config.SFXWhenTriggered and 'toga_win95plusrestup12'})
-			return true end }))
+			return { x_blind_size = math.max(1-(card.ability.extra.basepercent+card.ability.extra.extrapercent*winos), 0), sound = not silent and togabalatro.config.SFXWhenTriggered and 'toga_win95plusrestup12' }
 		end
 	end,
 	check_for_unlock = function(self, args)
@@ -59,7 +51,6 @@ Partner_API.Partner{
 		return { vars = { num, dem, 100*card.ability.extra.mm } }
 	end,
 	calculate = function(self, card, context)
-		--if context.end_of_round and not context.repetition and not context.individual and pseudorandom("whenthemoneyissus") < G.GAME.probabilities.normal/card.ability.extra.odds then
 		if context.end_of_round and not context.repetition and not context.individual and SMODS.pseudorandom_probability(card, "whenthemoneyissus", 1, card.ability.extra.odds, 'amogusplushie') then
 			local money = math.floor(math.abs(to_number(G.GAME.dollars)*card.ability.extra.mm))
 			money = math.max(money, 10)

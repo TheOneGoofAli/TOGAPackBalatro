@@ -2698,8 +2698,7 @@ return {
 				},
 				unlock={
 					"Used a {C:attention}Windows OS{} Joker",
-					"to win on {C:attention}Gold",
-					"{C:attention}Stake{} difficulty",
+					"to win on any difficulty",
 				},
 			},
 			pnr_toga_startupdisk_buff={
@@ -2712,8 +2711,7 @@ return {
 				},
 				unlock={
 					"Used a {C:attention}Windows OS{} Joker",
-					"to win on {C:attention}Gold",
-					"{C:attention}Stake{} difficulty",
+					"to win on any difficulty",
 				},
 			},
 			pnr_toga_amongusplushie={

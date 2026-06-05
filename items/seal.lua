@@ -28,10 +28,12 @@ SMODS.Seal{
 						G.GAME.joker_buffer = G.GAME.joker_buffer + (createnegative and 1 or 0)
 						G.E_MANAGER:add_event(Event({
 							func = function()
-								local egg = SMODS.create_card({ set = 'Joker', key = 'j_egg', no_edition = createnegative and true or false }) -- egg.
-								if createnegative then egg:set_edition('e_negative', true, true) end
-								egg:add_to_deck()
-								G.jokers:emplace(egg)
+								if #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit or createnegative then
+									local egg = SMODS.create_card({ set = 'Joker', key = 'j_egg', no_edition = createnegative and true or false }) -- egg.
+									if createnegative then egg:set_edition('e_negative', true, true) end
+									egg:add_to_deck()
+									G.jokers:emplace(egg)
+								end
 								G.GAME.joker_buffer = math.max(G.GAME.joker_buffer - (createnegative and 1 or 0), 0)
 								return true
 							end
