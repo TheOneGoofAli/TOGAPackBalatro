@@ -97,34 +97,6 @@ togabalatro.config_tab = function()
 				{n = G.UIT.T, config = { text = localize('toga_titlescreencard'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT, tooltip = { title = localize('toga_description'), text = {localize('toga_desc_titlescreen1'), localize('toga_desc_titlescreen2')} } }},
 			}},
 		}},
-		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
-			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
-				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "PLCMRetroactive" },
-			}},
-			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
-				{n = G.UIT.T, config = { text = localize('toga_applyretroactiveplcm'), scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
-			}},
-		}},
-		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
-			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
-				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "EnableQE" },
-			}},
-			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
-				{n = G.UIT.T, config = { text = localize('toga_qestuff'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
-			}},
-			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
-				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "KingCDIDeck" },
-			}},
-			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
-				{n = G.UIT.T, config = { text = localize('toga_kingcdideck'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
-			}},
-			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
-				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "WTFDeck" },
-			}},
-			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
-				{n = G.UIT.T, config = { text = localize('toga_wtfdecktoggle'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
-			}},
-		}},
 		{n = G.UIT.R, config = {align = "cr", padding = 0}, nodes = {
 			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
 				UIBox_button({label = {localize('toga_showintroagain')}, button = "toga_showintroagain", minw = 4, minh = 0.7})
@@ -134,11 +106,6 @@ togabalatro.config_tab = function()
 			}},
 			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
 				UIBox_button({label = {localize('toga_mancrash')}, button = "toga_mancrash", minw = 2.3, minh = 0.7})
-			}},
-		}},
-		{n = G.UIT.R, config = {align = "cr", padding = 0}, nodes = {
-			{n = G.UIT.C, config = { align = "cr", padding = 0.2 }, nodes = {
-				{n = G.UIT.T, config = { text = localize('toga_restartrequire'), scale = 0.4, colour = G.C.UI.TEXT_LIGHT }},
 			}},
 		}},
 	}}
@@ -328,6 +295,33 @@ togabalatro.itemoptions_tab = function()
 				create_option_cycle({w = 1.8, colour = HEX('808080'), scale = 0.85, options = {localize('toga_itemon'), localize('toga_itemoff')}, opt_callback = 'togabalatro_poweritems', current_option = togabalatro.config.ShowPower and 1 or 2}),
 			}},
 		}},
+		{n = G.UIT.R, config = {align = "cl", padding = 0.15}, nodes = {
+			{n = G.UIT.C, config = { align = "cl", padding = 0 }, nodes = {
+				{n = G.UIT.T, config = { text = "Optional Content:", scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+			}},
+		}},
+		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
+				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "EnableQE" },
+			}},
+			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
+				{n = G.UIT.T, config = { text = localize('toga_qestuff'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+			}},
+		}},
+		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
+				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "KingCDIDeck" },
+			}},
+			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
+				{n = G.UIT.T, config = { text = localize('toga_kingcdideck'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+			}},
+			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
+				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "WTFDeck" },
+			}},
+			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
+				{n = G.UIT.T, config = { text = localize('toga_wtfdecktoggle'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+			}},
+		}},
 		togabalatro.checkbmp() and {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
 			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
 				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "BMPAllItems" },
@@ -336,6 +330,11 @@ togabalatro.itemoptions_tab = function()
 				{n = G.UIT.T, config = { text = localize('toga_bmploadall'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
 			}},
 		}} or nil,
+		{n = G.UIT.R, config = {align = "cr", padding = 0}, nodes = {
+			{n = G.UIT.C, config = { align = "cr", padding = 0.2 }, nodes = {
+				{n = G.UIT.T, config = { text = localize('toga_restartrequire'), scale = 0.4, colour = G.C.UI.TEXT_LIGHT }},
+			}},
+		}},
 	}}
 end
 

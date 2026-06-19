@@ -1,0 +1,18 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = "love.graphics.setColor(1, 1, 1, 1)"
+position = "after"
+payload = "if type(toga_extraimgdraw) == 'function' then toga_extraimgdraw(progress) end"
+match_indent = true
+
+[[patches]]
+[patches.copy]
+target = "main.lua"
+position = "append"
+sources = ["loads.lua"]

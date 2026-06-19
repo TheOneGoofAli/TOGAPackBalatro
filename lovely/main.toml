@@ -29,54 +29,6 @@ match_indent = true
 
 [[patches]]
 [patches.pattern]
-target = '=[SMODS MoreFluff "MoreFluff.lua"]'
-pattern = "G.do_colour_end_of_round_stuff = false"
-position = "before"
-payload = '''
-togabalatro.mf_displayproperties()
-'''
-match_indent = true
-
-# These feel a bit destructive because they are.
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/utils.lua"]'
-pattern = "for _, card in ipairs(context.cardarea.cards) do"
-position = "before"
-payload = "local curcards = togabalatro.preprocess(context)"
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/utils.lua"]'
-pattern = "for _, card in ipairs(context.cardarea.cards) do"
-position = "at"
-payload = '''
-if not curcards then return end
-for _, card in ipairs(curcards) do
-'''
-overwrite = true
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/utils.lua"]'
-pattern = "for i, card in ipairs(context.cardarea.cards) do"
-position = "before"
-payload = "local curcards = togabalatro.preprocess(context)"
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = '=[SMODS _ "src/utils.lua"]'
-pattern = "for i, card in ipairs(context.cardarea.cards) do"
-position = "at"
-payload = "for i, card in ipairs(curcards) do"
-overwrite = true
-match_indent = true
-
-[[patches]]
-[patches.pattern]
 target = 'main.lua'
 pattern = "love.audio.stop()"
 position = "after"
@@ -90,24 +42,6 @@ target = 'main.lua'
 pattern = "Oops! The game crashed"
 position = "at"
 payload = "A problem has been detected and Balatro has been stopped"
-overwrite = true
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "for _, area in ipairs(SMODS.get_card_areas('jokers')) do for _, _card in ipairs(area.cards) do"
-position = "at"
-payload = "local areas = togabalatro.areaprocess(SMODS.get_card_areas('jokers')); for _, area in ipairs(areas) do local curcards = togabalatro.areaprocess(area.cards); for _, _card in ipairs(curcards) do"
-overwrite = true
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/state_events.lua"
-pattern = "for _, v in ipairs(SMODS.get_card_areas('playing_cards')) do"
-position = "at"
-payload = "local playingcardareas = togabalatro.areaorderprocess(SMODS.get_card_areas('playing_cards')); for _, v in ipairs(playingcardareas) do"
 overwrite = true
 match_indent = true
 
@@ -142,14 +76,6 @@ match_indent = true
 
 [[patches]]
 [patches.pattern]
-target = "main.lua"
-pattern = "love.graphics.setColor(1, 1, 1, 1)"
-position = "after"
-payload = "if type(toga_extraimgdraw) == 'function' then toga_extraimgdraw(progress) end"
-match_indent = true
-
-[[patches]]
-[patches.pattern]
 target = "functions/common_events.lua"
 pattern = '''
 play_sound('highlight1', nil, 0.5)
@@ -166,9 +92,3 @@ pattern = "if self.playing_card and not initial then check_for_unlock({type = 'm
 position = "after"
 payload = "if togabalatro then check_for_unlock({ type = 'alloycheck_toga', card = self }) end"
 match_indent = true
-
-[[patches]]
-[patches.copy]
-target = "main.lua"
-position = "append"
-sources = ["loads.lua"]

@@ -201,7 +201,9 @@ SMODS.Consumable{
 	perishable_compat = false,
 	eternal_compat = false,
 	can_stack = false,
-	select_card = 'consumeables',
+	select_card = function(card, pack)
+		return 'consumeables', true
+	end,
 	poweritem = true,
 	toga_donotreuse = true
 }
@@ -334,7 +336,7 @@ function togabalatro.spbdeckwreck(card, failedchance)
 	for i = 1, math.floor(card.ability.extra.cardlimit) do destroyed_cards[#destroyed_cards+1] = temp_hand[i] end
 	play_sound('tarot1')
 	card:juice_up(0.3, 0.5)
-	SMODS.destroy_cards(destroyed_cards, nil, true)
+	SMODS.destroy_cards(destroyed_cards, { immediate = true })
 end
 
 SMODS.Consumable{
@@ -361,14 +363,6 @@ SMODS.Consumable{
 			play_sound('toga_spb')
 		end
 	end,
-	-- remove_from_deck = function(self, card, from_debuff)
-		-- if card.ability.extra.activated then return end
-		-- if SMODS.pseudorandom_probability(card, "toga_selfpropelledbomb", 1, card.ability.extra.odds, 'theselfpropelledbomb') then
-			-- toga_spbdeckwreck(card, true)
-		-- else
-			-- card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_safe_ex'), sound = togabalatro.config.SFXWhenRemoving and 'toga_thundershield'})
-		-- end
-	-- end,
 	perishable_compat = false,
 	eternal_compat = false,
 	can_stack = false,

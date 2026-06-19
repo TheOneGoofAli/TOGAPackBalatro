@@ -665,24 +665,6 @@ function draw_card(from, to, percent, dir, sort, card, delay, mute, stay_flipped
 	if togabalatro.isplayingcardarea(to) and togabalatro.isplayingcardarea(from) then SMODS.calculate_context({ individual_draw = true, from_area = from, to_area = to }) end
 end
 
-togabalatro.externalfontsloaded = {}
-togabalatro.getexternalfontcount = function()
-	local count = 0
-	for k, v in pairs(togabalatro.externalfontsloaded or {}) do
-		if k and v then count = count + 1 end
-	end
-	return count
-end
-
-sendInfoMessage("Hooking love.graphics.newFont...", "TOGAPack")
-local newfontref = love.graphics.newFont
-function love.graphics.newFont(arg1, arg2, arg3, arg4)
-	togabalatro.externalfontsloaded = togabalatro.externalfontsloaded or {}
-	if type(arg1) == 'string' and not togabalatro.externalfontsloaded[arg1] then togabalatro.externalfontsloaded[arg1] = true end
-	
-	return newfontref(arg1, arg2, arg3, arg4)
-end
-
 sendInfoMessage("Hooking Card:set_debuff...", "TOGAPack")
 local setdebuffref = Card.set_debuff
 function Card:set_debuff(should_debuff)
@@ -715,7 +697,6 @@ local bmpcurval, notifyitemreinit = togabalatro.config.BMPAllItems, false
 local kingcdival, notifykingcdi = togabalatro.config.KingCDIDeck, false
 local wtfdeckval, notifywtfdeck = togabalatro.config.WTFDeck, false
 local tcval = togabalatro.config.TitleScreenCard
-local raval, notifyra = togabalatro.getretroactive(), false
 sendInfoMessage("Hooking love.update...", "TOGAPack")
 function love.update(dt)
 	if togabalatro then
@@ -760,11 +741,6 @@ function love.update(dt)
 		if togabalatro.config.WTFDeck ~= wtfdeckval and not notifywtfdeck then
 			notifywtfdeck = true
 			togabalatro.systemchanges({ source = 'wtfdeck', uifunc = togabalatro.needrestartwtfdeck })
-		end
-		
-		if togabalatro.config.PLCMRetroactive ~= raval and not notifyra then
-			notifyra = true
-			togabalatro.systemchanges({ source = 'retroactiveapply', uifunc = togabalatro.needrestartretroactive })
 		end
 	end
 	
@@ -951,7 +927,33 @@ end
 sendInfoMessage("Hooking card_eval_status_text...", "TOGAPack")
 local cestref = card_eval_status_text
 function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
-	if next(SMODS.find_card('j_toga_pcmcia')) then return end
+	if togabalatro.animskipcheck() then
+		local update_blind_size, update_score
+		if extra then
+			if extra.update_blind_size then
+				G.CARD_EVAL_TRIGGERED = nil
+				update_blind_size = true
+			end
+			if extra.update_score then
+				G.CARD_EVAL_TRIGGERED = nil
+				update_score = true
+			end
+			if update_blind_size then
+                G.BLIND_SIZE_DISPLAY_QUEUE = G.BLIND_SIZE_DISPLAY_QUEUE or {}
+                table.remove(G.BLIND_SIZE_DISPLAY_QUEUE, 1)
+                G.HUD_blind:get_UIE_by_ID('HUD_blind_count'):juice_up(0.3, 0.3)
+            end
+            if update_score then
+                G.SCORE_DISPLAY_QUEUE = G.SCORE_DISPLAY_QUEUE or {}
+                table.remove(G.SCORE_DISPLAY_QUEUE, 1)
+                G.HUD:get_UIE_by_ID('chip_UI_count'):juice_up(0.3, 0.3)
+            end
+			if extra.playing_cards_created then 
+				playing_card_joker_effects(extra.playing_cards_created)
+			end
+		end
+		return
+	end
 	if next(SMODS.find_card('j_toga_notsosmileyface')) then
 		card = selrndcard() or card
 	end
@@ -961,7 +963,7 @@ end
 sendInfoMessage("Hooking Card:juice_up...", "TOGAPack")
 local juref = Card.juice_up
 function Card:juice_up(...)
-    if next(SMODS.find_card('j_toga_pcmcia')) then return end
+    if togabalatro.animskipcheck() then return end
 	local card
 	if next(SMODS.find_card('j_toga_notsosmileyface')) then
 		card = selrndcard()
@@ -972,34 +974,34 @@ end
 sendInfoMessage("Hooking DynaText:pulse...", "TOGAPack")
 local dtxtpulseref = DynaText.pulse
 function DynaText:pulse(...)
-	if not next(SMODS.find_card('j_toga_pcmcia')) then dtxtpulseref(self, ...) end
+	if not togabalatro.animskipcheck() then dtxtpulseref(self, ...) end
 end
 
 sendInfoMessage("Hooking juice_card...", "TOGAPack")
 local jcref = juice_card
 function juice_card(card)
-	if next(SMODS.find_card('j_toga_pcmcia')) then return end
+	if togabalatro.animskipcheck() then return end
 	return jcref(card)
 end
 
 sendInfoMessage("Hooking SMODS.calculate_effect...", "TOGAPack")
 local smce = SMODS.calculate_effect
 function SMODS.calculate_effect(e, ...)
-	if next(SMODS.find_card('j_toga_pcmcia')) then e.juice_card = nil end
+	if togabalatro.animskipcheck() then e.juice_card = nil end
 	return smce(e, ...)
 end
 
 sendInfoMessage("Hooking G.FUNCS.text_super_juice...", "TOGAPack")
 local tsjref = G.FUNCS.text_super_juice
 function G.FUNCS.text_super_juice(e, amt)
-	if next(SMODS.find_card('j_toga_pcmcia')) then return end
+	if togabalatro.animskipcheck() then return end
 	return tsjref(e, amt)
 end
 
 sendInfoMessage("Hooking UIElement:juice_up...", "TOGAPack")
 local uieju = UIElement.juice_up
 function UIElement:juice_up(amount, rot_amt)
-	if next(SMODS.find_card('j_toga_pcmcia')) then return end
+	if togabalatro.animskipcheck() then return end
     return uieju(self, amount, rot_amt)
 end
 
@@ -1120,11 +1122,11 @@ end
 sendInfoMessage("Hooking SMODS.card_select_area...", "TOGAPack")
 local cardselarearef = SMODS.card_select_area
 function SMODS.card_select_area(card, pack)
-    local select_area = cardselarearef(card, pack)
-	if card and card.ability and card.ability.set and not select_area then
-		if (card.ability.set == 'Planet' or card.ability.set == 'Tarot') and next(SMODS.find_card('j_toga_genie')) then select_area = "consumeables" end
+    local sa, cau = cardselarearef(card, pack)
+	if card and card.ability and card.ability.set and not sa then
+		if (card.ability.set == 'Planet' or card.ability.set == 'Tarot') and next(SMODS.find_card('j_toga_genie')) then sa = "consumeables"; cau = true end
 	end
-    return select_area
+    return sa, cau
 end
 
 sendInfoMessage("Hooking Card:get_chip_bonus...", "TOGAPack")
@@ -1163,6 +1165,7 @@ function get_X_same(num, hand, or_more)
 	return ret
 end
 
+sendInfoMessage("Hooking G.FUNCS.can_reroll...", "TOGAPack")
 local canrerollref = G.FUNCS.can_reroll
 function G.FUNCS.can_reroll(e)
 	canrerollref(e)

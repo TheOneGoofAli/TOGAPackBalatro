@@ -36,9 +36,8 @@ SMODS.Back{
 	pos = { x = 2, y = 0 },
 	atlas = "TOGADeckBack",
 	unlocked = true,
-	config = {hand_size = -1},
 	loc_vars = function(self, info_queue, center)
-		return { vars = { localize('Straight', "poker_hands"), self.config.hand_size } }
+		return { vars = { localize('Straight', "poker_hands") } }
 	end,
 	quip_filter = function(quip, type)
 		if (quip.mod and quip.mod.id == 'TOGAPack' and togabalatro.config.SpecialDeckMusic) or not togabalatro.config.SpecialDeckMusic then return true else return false end
@@ -201,8 +200,6 @@ SMODS.Back{
 		return { vars = { self.config.ante_scaling, self.config.opamtmod } }
 	end,
 	apply = function(self, back)
-		-- G.GAME.modifiers.toga_chipamtmod = (G.GAME.modifiers.toga_chipamtmod or 1) + self.config.opamtmod
-		-- G.GAME.modifiers.toga_multamtmod = (G.GAME.modifiers.toga_multamtmod or 1) + self.config.opamtmod
 		G.STATE = G.STATES.SHOP
 		G.GAME.shop_free = nil
 		G.GAME.shop_d6ed = nil
@@ -315,7 +312,7 @@ SMODS.Back{
 	pos = { x = 5, y = 2 },
 	atlas = "TOGADeckBack",
 	unlocked = true,
-	config = {ante_scaling = 2, joker_slot = -3, hand_size = 1},
+	config = {ante_scaling = 2, joker_slot = -2, hand_size = 1},
 	loc_vars = function(self, info_queue, center)
 		return { vars = { self.config.ante_scaling, self.config.joker_slot, self.config.hand_size } }
 	end,

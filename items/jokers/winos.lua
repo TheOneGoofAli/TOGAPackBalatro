@@ -3,6 +3,133 @@ sendInfoMessage("Loading Jokers - Windows OS...", "TOGAPack")
 local winj = {}
 
 table.insert(winj, {
+	key = 'win101',
+	config = { extra = { ths = 1 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { SMODS.signed(math.floor(card.ability.extra.ths)), localize('Pair', "poker_hands"), localize('Ace', "ranks") } }
+	end,
+	unlocked = true,
+	in_pool = function()
+		for k, v in ipairs(G.playing_cards or {}) do
+			if v and not SMODS.has_no_rank(v) and v:get_id() == 14 then return true end
+		end
+		return false
+	end,
+	rarity = 2,
+	atlas = 'TOGAJokersWindows',
+	pos = { x = 0, y = 0 },
+	cost = 6,
+	blueprint_compat = false,
+	calculate = function(self, card, context)
+		if context.before and context.poker_hands and context.poker_hands['Pair'] then
+			local add
+			for _, v in pairs(context.poker_hands['Pair'] or {}) do
+				local c1, c2 = not SMODS.has_no_rank(v[1]) and v[1]:get_id() or 0, not SMODS.has_no_rank(v[2]) and v[2]:get_id() or 0
+				if c1 == 14 and c1 == c2 then add = math.floor(card.ability.extra.ths); break end
+			end
+			if add then
+				return {
+					message = "!",
+					juice_card = G.hand,
+					func = function()
+						G.hand:change_size(add)
+						G.GAME.round_resets.temp_handsize = (G.GAME.round_resets.temp_handsize or 0) + add
+					end
+				}
+			end
+		end
+	end,
+	pixel_size = { w = 71, h = 80 },
+	attributes = { 'rank', 'ace', 'hand_type', 'hand_size' }
+})
+
+table.insert(winj, {
+	key = 'win386',
+	config = { extra = { xmult = 3.86 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.xmult } }
+	end,
+	unlocked = true,
+	in_pool = function()
+		local three, eight, six = false, false, false
+		for k, v in ipairs(G.playing_cards or {}) do
+			if v and not SMODS.has_no_rank(v) then
+				local id = v:get_id()
+				if id then
+					if id == 3 then three = true end
+					if id == 8 then eight = true end
+					if id == 6 then six = true end
+				end
+			end
+		end
+		return (three and eight and six)
+	end,
+	rarity = 3,
+	atlas = 'TOGAJokersWindows',
+	pos = { x = 1, y = 0 },
+	cost = 8,
+	blueprint_compat = true,
+	calculate = function(self, card, context)
+		if context.joker_main and context.full_hand then
+			local three, eight, six = false, false, false
+			for k, v in pairs(context.full_hand or {}) do
+				local id = not SMODS.has_no_rank(v) and v:get_id() or 0
+				if id then
+					if id == 3 then three = true end
+					if id == 8 then eight = true end
+					if id == 6 then six = true end
+				end
+			end
+			if three and eight and six then return { xmult = card.ability.extra.xmult } end
+		end
+	end,
+	pixel_size = { w = 71, h = 90 },
+	attributes = { 'xmult', 'rank', 'three', 'six', 'eight' }
+})
+
+table.insert(winj, {
+	key = 'winforworkgroups311',
+	config = { extra = { chips = 11, mult = 3 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.chips, card.ability.extra.mult } }
+	end,
+	unlocked = true,
+	in_pool = function()
+		for k, v in ipairs(G.playing_cards or {}) do
+			if v and not SMODS.has_no_rank(v) then
+				local id = v:get_id()
+				if (id == 3 or id == 14) then return true end
+			end
+		end
+		return false
+	end,
+	rarity = 1,
+	atlas = 'TOGAJokersWindows',
+	pos = { x = 2, y = 0 },
+	cost = 4,
+	blueprint_compat = true,
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play and context.other_card then
+			local cid = context.other_card:get_id()
+			if (cid == 14 or cid == 3) then return { chips = card.ability.extra.chips, mult = card.ability.extra.mult } end
+		end
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		if not from_debuff and G.STAGE == G.STAGES.RUN and not G.screenwipe then
+			if togabalatro.config.SFXWhenAdding then play_sound("toga_chimesold") end
+		end
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		if togabalatro.config.SFXWhenRemoving and G.STAGE == G.STAGES.RUN and not G.screenwipe then
+			if not from_debuff then play_sound("toga_chimesold")
+			else play_sound("toga_dingyold") end
+		end
+	end,
+	pixel_size = { w = 71, h = 87 },
+	attributes = { 'chips', 'mult', 'rank', 'ace', 'three' }
+})
+
+table.insert(winj, {
 	key = 'win95',
 	config = { extra = { hands = 1, discards = 1 } },
 	loc_vars = function(self, info_queue, card)
@@ -12,7 +139,7 @@ table.insert(winj, {
 	discovered = true,
 	rarity = 2,
 	atlas = 'TOGAJokersWindows',
-	pos = { x = 0, y = 0 },
+	pos = { x = 0, y = 1 },
 	cost = 6,
 	blueprint_compat = true,
 	demicolon_compat = true,
@@ -59,7 +186,7 @@ table.insert(winj, {
 	unlocked = true,
 	rarity = 2,
 	atlas = 'TOGAJokersWindows',
-	pos = { x = 1, y = 0 },
+	pos = { x = 1, y = 1 },
 	cost = 5,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
@@ -99,7 +226,7 @@ table.insert(winj, {
 	unlocked = true,
 	rarity = 2,
 	atlas = 'TOGAJokersWindows',
-	pos = { x = 2, y = 0 },
+	pos = { x = 2, y = 1 },
 	cost = 6,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
@@ -128,7 +255,7 @@ table.insert(winj, {
 	unlocked = true,
 	rarity = 2,
 	atlas = 'TOGAJokersWindows',
-	pos = { x = 0, y = 1 },
+	pos = { x = 0, y = 2 },
 	cost = 6,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
@@ -162,7 +289,7 @@ table.insert(winj, {
 	unlocked = true,
 	rarity = 2,
 	atlas = 'TOGAJokersWindows',
-	pos = { x = 1, y = 1 },
+	pos = { x = 1, y = 2 },
 	cost = 8,
 	blueprint_compat = true,
 	perishable_compat = false,
@@ -206,7 +333,7 @@ table.insert(winj, {
 	unlocked = true,
 	rarity = 3,
 	atlas = 'TOGAJokersWindows',
-	pos = { x = 2, y = 1 },
+	pos = { x = 2, y = 2 },
 	cost = 8,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
@@ -237,7 +364,6 @@ table.insert(winj, {
 	unlocked = true,
 	in_pool = function()
 		if togabalatro.config.ShowPower then
-			local s = 0
 			for k, v in ipairs(G.playing_cards or {}) do
 				if v and not SMODS.has_no_rank(v) and v:get_id() == 6 then return true end
 			end
@@ -246,7 +372,7 @@ table.insert(winj, {
 	end,
 	rarity = 3,
 	atlas = 'TOGAJokersWindows',
-	pos = { x = 0, y = 2 },
+	pos = { x = 0, y = 3 },
 	cost = 10,
 	blueprint_compat = false,
 	demicolon_compat = false,
@@ -320,7 +446,7 @@ table.insert(winj, {
 	end,
 	rarity = 3,
 	atlas = 'TOGAJokersWindows',
-	pos = { x = 1, y = 2 },
+	pos = { x = 1, y = 3 },
 	cost = 8,
 	blueprint_compat = false,
 	add_to_deck = function(self, card, from_debuff)
@@ -358,15 +484,15 @@ table.insert(winj, {
 
 table.insert(winj, {
 	key = 'win8',
-	config = { extra = { xmult = 0.1 } },
+	config = { extra = { add_prt = 1, rounds = 0, rtarget = 2 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult } }
+		return { vars = { card.ability.extra.add_prt, card.ability.extra.rounds, card.ability.extra.rtarget } }
 	end,
 	unlocked = true,
 	in_pool = function()
 		if togabalatro.config.ShowPower then
 			local s = 0
-			for k, v in ipairs(G.playing_cards or {}) do
+			for k, v in pairs(G.playing_cards or {}) do
 				if v and not SMODS.has_no_rank(v) and v:get_id() == 8 then return true end
 			end
 		end
@@ -374,37 +500,39 @@ table.insert(winj, {
 	end,
 	rarity = 3,
 	atlas = 'TOGAJokersWindows',
-	pos = { x = 2, y = 2 },
+	pos = { x = 2, y = 3 },
 	cost = 8,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.before and context.full_hand and #context.full_hand > 0 then
-			local hastriggered = false
-			local context = context
-			for i = 1, #context.full_hand do
-				local pcard = context.full_hand[i]
-				if pcard:get_id() == 8 then
-					if not hastriggered then hastriggered = true end
-					pcard.ability.perma_h_x_mult = (pcard.ability.perma_h_x_mult or 0) + card.ability.extra.xmult
+		if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
+			if to_number(card.ability.extra.rounds) >= to_number(card.ability.extra.rtarget) then
+				if not card.ability.extra.ready then
+					card.ability.extra.ready = true
+					local eval = function() return not card.ability.extra.active end
+					juice_card_until(card, eval, true)
+					return { message = localize('k_active_ex') }
 				end
+			else
+				card.ability.extra.rounds = (card.ability.extra.rounds or 0) + 1
+				return { message = to_number(card.ability.extra.rounds).."/"..to_number(card.ability.extra.rtarget), juice_card = context.blueprint_card or card }
 			end
-			if hastriggered then
-				return {
-					func = function()
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								for i = 1, #context.full_hand do
-									local pcard = context.full_hand[i]
-									if pcard:get_id() == 8 then
-										pcard:juice_up()
-									end
-								end
-								return true
-							end
-						}))
-					end,
-					extra = { message = localize('k_upgrade_ex') }
-				}
+		end
+		if context.selling_self and card.ability.extra.ready then
+			card.ability.extra.ready = false
+			if to_number(card.ability.extra.rounds) >= to_number(card.ability.extra.rtarget) then
+				local metro = {}
+				for k, v in pairs(G.playing_cards or {}) do
+					if v and not SMODS.has_no_rank(v) and v:get_id() == 8 then table.insert(metro, v) end
+				end
+				if next(metro) then
+					local chosen = pseudorandom_element(metro, pseudoseed('whostolemystartbutton'))
+					if chosen then
+						chosen.ability.perma_repetitions = (chosen.ability.perma_repetitions or 0) + 1
+						return { message = localize('k_upgrade_ex'), message_card = chosen, juice_card = context.blueprint_card or card }
+					end
+				else
+					return { message = localize('k_nope_ex'), juice_card = context.blueprint_card or card }
+				end
 			end
 		end
 	end,
@@ -421,7 +549,7 @@ table.insert(winj, {
 	end,
 	pixel_size = { w = 70, h = 84 },
 	poweritem = true,
-	attributes = { 'rank', 'eight', 'hands', 'scaling' }
+	attributes = { 'rank', 'eight', 'on_sell', 'modify_card', 'perma_bonus' }
 })
 
 return winj

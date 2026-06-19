@@ -62,7 +62,7 @@ table.insert(pso2j, {
 					func = function()
 						ease_dollars(-G.GAME.dollars+1, true)
 						SMODS.debuff_card(card, 'ironwillproc', 'lethalhitsave')
-						SMODS.destroy_cards(card, true, nil, true)
+						SMODS.destroy_cards(card, { bypass_eternal = true, pinch_anim = true })
 					end
 				}
 			}

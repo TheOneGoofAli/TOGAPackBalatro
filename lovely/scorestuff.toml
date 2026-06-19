@@ -1,0 +1,60 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# These feel a bit destructive because they are.
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "for _, card in ipairs(context.cardarea.cards) do"
+position = "before"
+payload = "local curcards = togabalatro.preprocess(context)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "for _, card in ipairs(context.cardarea.cards) do"
+position = "at"
+payload = '''
+if not curcards then return end
+for _, card in ipairs(curcards) do
+'''
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "for i, card in ipairs(context.cardarea.cards) do"
+position = "before"
+payload = "local curcards = togabalatro.preprocess(context)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "for i, card in ipairs(context.cardarea.cards) do"
+position = "at"
+payload = "for i, card in ipairs(curcards) do"
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "for _, area in ipairs(SMODS.get_card_areas('jokers')) do for _, _card in ipairs(area.cards) do"
+position = "at"
+payload = "local areas = togabalatro.areaprocess(SMODS.get_card_areas('jokers')); for _, area in ipairs(areas) do local curcards = togabalatro.areaprocess(area.cards); for _, _card in ipairs(curcards) do"
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "for _, v in ipairs(SMODS.get_card_areas('playing_cards')) do"
+position = "at"
+payload = "local playingcardareas = togabalatro.areaorderprocess(SMODS.get_card_areas('playing_cards')); for _, v in ipairs(playingcardareas) do"
+overwrite = true
+match_indent = true

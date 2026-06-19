@@ -31,7 +31,7 @@ SMODS.Atlas{key = "TOGASuperSonic", path = "togasupersonic.png", px = 75, py = 9
 SMODS.Atlas{key = "TOGAHyperSonic", path = "togahypersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 12, fps = 4}
 SMODS.Atlas{key = "TOGAJokerMoth", path = "togajokersm.png", px = 116, py = 95}
 SMODS.Atlas{key = "TOGAJokerCDi", path = "togajokerscdi.png", px = 113, py = 95}
-SMODS.Atlas{key = "modicon", path = "togaicon.png", px = 34, py = 34, atlas_table = 'ANIMATION_ATLAS', frames = 6, fps = 3}
+SMODS.Atlas{key = "TOGAJokerNopeAVI", path = "toganope.png", px = 71, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 124, fps = 23}
 
 -- Hear me scream.
 SMODS.Sound({key = "win95start", path = "win95start.ogg"}) -- The Microsoft Sound (95 & NT4)
@@ -47,6 +47,7 @@ SMODS.Sound({key = "ntreskit", path = "startup/ntreskit.ogg"}) -- Windows NT4 Re
 SMODS.Sound({key = "nt5loud", path = "startup/wnt5.ogg"}) -- Windows NT 5.0 Beta startup (the loud one)
 SMODS.Sound({key = "2000beta3", path = "startup/w2kb3.ogg"}) -- Windows 2000 Beta 3 startup
 SMODS.Sound({key = "wecho", path = "startup/echo.ogg"}) -- Custom Windows Startup, from OS Mockup Kit
+SMODS.Sound({key = "chimesold", path = "chimes.wav"}) -- chimes.wav (3.1x, 95, NT4)
 SMODS.Sound({key = "chordold", path = "chordold.wav"}) -- chord.wav (95 & NT4)
 SMODS.Sound({key = "chord", path = "chord.wav"}) -- chord.wav (98, ME, 2000 and XP)
 SMODS.Sound({key = "win98start", path = "win98start.ogg"}) -- The Microsoft Sound (98) [edited]
@@ -110,6 +111,7 @@ SMODS.Sound({key = "jaratehit", path = "crit_hit_mini.wav"}) -- Minicrits, TF2
 SMODS.Sound({key = "soldierscream", path = "screm.ogg"}) -- TF2 Soldier screaming?
 SMODS.Sound({key = "bass", path = "bass.ogg"}) -- Roblox Bass / Kik-Arse Bass Soundfont (2007) / Zero-G Sample Disc Bass 4 (1990s)
 SMODS.Sound({key = "mcprf5400", path = "macperforma5400.ogg"}) -- Mac Performa 5400 (Death Chime)
+SMODS.Sound({key = "dingyold", path = "dingold.wav"}) -- ding.wav (3.1x, 95 and NT4)
 SMODS.Sound({key = "dingy", path = "ding.wav"}) -- ding.wav (98, ME, 2000 and XP)
 SMODS.Sound({key = "bummer", path = "bummer.wav"}) -- bummer.wav (Chip's Challenge)
 SMODS.Sound({key = "sonicring", path = "sonicring.ogg"}) -- Ring Collect, Sonic games on Sega Genesis/Mega Drive
@@ -124,6 +126,7 @@ SMODS.Sound({key = "80085", path = "boobs.ogg"}) -- yes
 SMODS.Sound({key = "aimgotmail", path = "aimgotmail.ogg"}) -- AOL Instant Messenger
 SMODS.Sound({key = "aimwelcome", path = "aimwelcome.ogg"}) -- AOL Instant Messenger
 SMODS.Sound({key = "aimgoodbye", path = "aimgoodbye.ogg"}) -- AOL Instant Messenger
+SMODS.Sound({key = "nopeavi", path = "nope.ogg"}) -- "Nope." - Engineer, TF2
 
 SMODS.Sound({key = "kinghark_dinner", path = "cdi/dinner.ogg"}) -- "Dinner." - King Harkinian, Zelda: The Wand of Gamelon
 SMODS.Sound({key = "kinghark_oah", path = "cdi/oah.ogg"}) -- "OAH!" - King Harkinian, Zelda: The Wand of Gamelon
@@ -270,4 +273,65 @@ SMODS.Sound({
 		return not togabalatro.checksiiva() and togabalatro.config.UseCustomMMMusic and G.STAGE == G.STAGES.MAIN_MENU and togabalatro.mmm and togabalatro.mmm == 'titlexp' and 69420
 	end,
 	sync = false,
+})
+
+SMODS.Font({
+    key = "tf2font",
+    path = "tf2build.ttf",
+})
+
+SMODS.Font({
+    key = "pso2font",
+    path = "pso2_font.ttf",
+})
+
+SMODS.Font({
+    key = "aafont",
+    path = "Ace-Attorney.ttf",
+})
+
+SMODS.Font({
+    key = "winampfont",
+    path = "Winamp.ttf",
+})
+
+SMODS.Font({
+    key = "rlfont",
+    path = "Bourgeois-Bold.ttf",
+})
+
+SMODS.Font({
+    key = "spacecadetfont",
+    path = "space-cadet.ttf",
+})
+
+SMODS.Font({
+    key = "segoeuifont",
+    path = "segoeui.ttf",
+})
+
+SMODS.Font({
+    key = "scdfont",
+    path = "sonic-cd-menu-font.otf",
+	FONTSCALE = 0.06
+})
+
+SMODS.DrawStep({
+	key = 'toga_aero',
+	order = 21,
+	func = function(card, layer)
+		if not G.toga_aero then
+			G.toga_aero = SMODS.create_sprite(0, 0, G.CARD_W, G.CARD_H, 'toga_TOGAJokersOther', { x = 3, y = 3 })
+		end
+
+		if card.config.center.key == 'j_toga_aero' and (card.config.center.discovered or card.bypass_discovery_center) then
+			G.toga_aero.role.draw_major = card
+			G.toga_aero:draw_shader('dissolve', nil, nil, nil, card.children.center)
+			if card.edition then 
+				local edition = G.P_CENTERS[card.edition.key]
+				G.toga_aero:draw_shader(edition.shader, nil, nil, nil, card.children.center, scale_mod, rotate_mod)
+			end
+		end
+    end,
+    conditions = { vortex = false, facing = 'front' },
 })

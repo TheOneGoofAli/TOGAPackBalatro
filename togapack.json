@@ -7,8 +7,11 @@
 	"main_file": "togastuff.lua",
 	"priority": 2,
 	"badge_colour": "fd9712",
-	"version": "1.14.1g",
-	"dependencies": ["Steamodded (>=1.0.0~BETA-1620a)"],
+	"version": "1.15.0",
+	"icon_path": "togaicon.png",
+	"icon_width": 34,
+	"icon_fps": 3,
+	"dependencies": ["Steamodded (>=1.0.0~BETA-1814a)"],
 	"conflicts": ["Talisman (<<2.6.0*~)"],
 	"allow_redistribution": true,
 }

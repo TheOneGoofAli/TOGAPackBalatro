@@ -25,6 +25,9 @@ local toga_attrib = {
 	{ 'eemult', {}, { 'ee_mult' } },
 	{ 'eeemult', {}, { 'eee_mult' } },
 	{ 'virus', {}, { 'malware' } },
+	{ 'debuff_hand', {}, { 'debuffhand' } },
+	{ 'teamfortress2', {}, { 'team_fortress_2' } },
+	{ 'rocketleague', {}, { 'rocket_league' } },
 }
 
 for k, v in ipairs(toga_attrib) do

@@ -145,18 +145,6 @@ togabalatro.mancrash = function()
 	}))
 end
 
-togabalatro.getrandcons = function(seed)
-	seed = seed or 'grep'
-	local getconspool = SMODS.get_clean_pool('Consumeables')
-	local curcons, iter, iterlimit = nil, 0, 2222
-	while iter < iterlimit do
-		curcons = pseudorandom_element(getconspool, pseudoseed(seed))
-		iter = iter + 1
-		if curcons ~= "UNAVAILABLE" then break end
-	end
-	if curcons and curcons ~= "UNAVAILABLE" then return curcons else return "c_tower" end
-end
-
 togabalatro.iswindows = function(card)
 	if not (card and card.config and card.config.center and card.config.center.key) then return end
 	
@@ -165,6 +153,13 @@ togabalatro.iswindows = function(card)
 	or card.config.center.key == 'j_toga_win2000' or card.config.center.key == 'j_toga_winxp'
 	or card.config.center.key == 'j_toga_winvista' or card.config.center.key == 'j_toga_win7'
 	or card.config.center.key == 'j_toga_win8' then return true end
+end
+
+togabalatro.animskipcheck = function()
+	local s, v = pcall(function()
+		return next(SMODS.find_card('j_toga_pcmcia')) or (Talisman and Talisman.config_file.disable_anims) or (Handy.animation_skip.should_skip_messages() or Handy.animation_skip.should_skip_animation())
+	end)
+	return s and v
 end
 
 togabalatro.systemtype = function()
@@ -200,28 +195,33 @@ function togabalatro.mlineproc(s)
 	return t
 end
 
--- Initialize the process information during load of this mod into a table. Previously, this was active
+-- Initialize the process information during load of this mod into a local table. Previously, this was active
 -- in a constant loop, which could cause excessive unfocusing of the game as the system executed the function.
 -- Now, we do it just once here instead.
-if togabalatro.curos == 'Windows' then togabalatro.tasklisttable = togabalatro.mlineproc(os.capture('tasklist', true))
-elseif togabalatro.curos == 'UNIX' then togabalatro.tasklisttable = togabalatro.mlineproc(os.capture('ps -e', true)) end
+local tasktable = {}
+
+if togabalatro.curos == 'Windows' then tasktable = togabalatro.mlineproc(os.capture('tasklist', true))
+elseif togabalatro.curos == 'UNIX' then tasktable = togabalatro.mlineproc(os.capture('ps -e', true)) end
 
 -- If we still got nothing, just make the table blank.
-if not togabalatro.tasklisttable then togabalatro.tasklisttable = {} end
+if not tasktable then tasktable = {} end
 
 -- Check for specific process name.
-togabalatro.getprocessamount = function(process)
+local function getprocessamount(process)
 	process = string.lower(process) or 'whereismysupersuit'
 	local count = 0
-	for k, v in pairs(togabalatro.tasklisttable or {}) do
+	for k, v in pairs(tasktable or {}) do
 		if string.find(v, process) then count = count + 1 end
 	end
 	return count
 end
 
 togabalatro.processcounts = {}
-togabalatro.processcounts.chrome = togabalatro.getprocessamount('Chrome')
-togabalatro.processcounts.firefox = togabalatro.getprocessamount('Firefox')
+togabalatro.processcounts.chrome = getprocessamount('Chrome')
+togabalatro.processcounts.firefox = getprocessamount('Firefox')
+
+-- We're done with the table, wipe it.
+tasktable = nil
 
 togabalatro.startupsfx = {'toga_w96', 'toga_w94', 'toga_bells', 'toga_ntreskit', 'toga_longhorn', 'toga_gong', 'toga_money9597', 'toga_money9899', 'toga_nt5loud', 'toga_2000beta3', 'toga_wecho'}
 togabalatro.verifysfxconfig = function()
@@ -265,8 +265,6 @@ end
 togabalatro.setmenucardsfunc()
 
 -- Moved here instead.
-local retroactive = togabalatro.config.PLCMRetroactive
-togabalatro.getretroactive = function() return retroactive end
 togabalatro.modifyhandchipsmult = function(card, hand, instant, context, bchips, bmult, lchips, lmult)
 	bchips, bmult, lchips, lmult = bchips or 0, bmult or 0, lchips or 0, lmult or 0
 	context = context or {}
@@ -355,10 +353,6 @@ togabalatro.modifyhandchipsmult = function(card, hand, instant, context, bchips,
 		if clc then G.GAME.hands[hand].l_chips = to_big(G.GAME.hands[hand].l_chips) + to_big(lchips) end
 		if clm then G.GAME.hands[hand].l_mult = to_big(G.GAME.hands[hand].l_mult) + to_big(lmult) end
 	end
-	if retroactive then
-		if (clm or cbm) then G.GAME.hands[hand].mult = to_big(G.GAME.hands[hand].s_mult) + to_big(G.GAME.hands[hand].l_mult)*(to_big(G.GAME.hands[hand].level) - to_big(1)) end
-		if (clc or cbc) then G.GAME.hands[hand].chips = to_big(G.GAME.hands[hand].s_chips) + to_big(G.GAME.hands[hand].l_chips)*(to_big(G.GAME.hands[hand].level) - to_big(1)) end
-	end
 end
 
 togabalatro.iecheckpokerhand = function(tcard)
@@ -403,6 +397,7 @@ SMODS.ObjectType{
 	key = "TOGAJKR",
 	default = "j_toga_win95",
 	cards = {
+		["j_toga_win101"] = true, ["j_toga_win386"] = true, ["j_toga_winforworkgroups311"] = true,
 		["j_toga_win95"] = true, ["j_toga_win98"] = true, ["j_toga_winmillenium"] = true, ["j_toga_winnt4"] = true,
 		["j_toga_win2000"] = true, ["j_toga_winxp"] = true, ["j_toga_winvista"] = true, ["j_toga_win7"] = true,
 		["j_toga_win8"] = true, ["j_toga_beos"] = true, ["j_toga_useraccounts"] = true,
@@ -438,7 +433,9 @@ SMODS.ObjectType{
 		["j_toga_heatdeath"] = true, ["j_toga_bigbang"] = true, ["j_toga_winamp"] = true,
 		["j_toga_winrar"] = true, ["j_toga_winzip"] = true, ["j_toga_hyperterminal"] = true,
 		["j_toga_melons"] = true, ["j_toga_delphi"] = true, ["j_toga_smssender"] = true,
-		["j_toga_kingharkinian_cdi"] = true, ["j_toga_morshu_cdi"] = true, ["j_toga_mario_cdi"] = true
+		["j_toga_kingharkinian_cdi"] = true, ["j_toga_morshu_cdi"] = true, ["j_toga_mario_cdi"] = true,
+		["j_toga_diskquota"] = true, ["j_toga_mshelp"] = true, ["j_toga_msmoney"] = true,
+		["j_toga_aero"] = true, ["j_toga_nopeavi"] = true
 	}
 }
 
@@ -977,6 +974,7 @@ togabalatro.eorproc = function(area, card, context, i)
 	local reps = {1}
 	local j = 1
 	while j <= #reps do
+		card.repetition_trigger = j > 1 and j - 1
 		percent = percent or (i-0.999)/(#area.cards-0.998) + (j-1)*0.1
 		if reps[j] ~= 1 then
 			local _, eff = next(reps[j])
@@ -1009,6 +1007,7 @@ togabalatro.eorproc = function(area, card, context, i)
 		context.other_card = nil
 		j = j + (flags.calculated and 1 or #reps)
 	end
+	card.repetition_trigger = nil
 end
 
 -- This bit is 100% experimental... there should be a better way for doing this, right?
