@@ -134,7 +134,8 @@ SMODS.Booster{
 		ease_background_colour({ new_colour = HEX("DD463C"), special_colour = HEX("008BE3"), contrast = 1.3 })
 	end,
 	create_card = function(self, card)
-		return SMODS.copy_card(G.playing_cards[pseudorandom(pseudoseed('xcopy'), 1, #G.playing_cards or 1)], { no_add = true })
+		local c = pseudorandom_element(G.playing_cards, pseudoseed('xcopy')) or G.playing_cards[1]
+		return SMODS.copy_card(c, { no_add = true })
 	end,
 	kind = 'TOGABoostPack'
 }

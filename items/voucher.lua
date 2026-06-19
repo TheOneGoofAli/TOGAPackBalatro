@@ -206,7 +206,8 @@ SMODS.Voucher{
 			if next(pokerhands['Flush']) and G.consumeables.cards[1] then
 				return { func = function()
 					for i = 1, math.floor(card.ability.extra.copies) do
-						local card = SMODS.copy_card(pseudorandom_element(G.consumeables.cards, pseudoseed('dnsflush')))
+						local tcard = pseudorandom_element(G.consumeables.cards, pseudoseed('dnsflush'))
+						local card = SMODS.copy_card(tcard)
 						card:set_edition({negative = true}, true)
 						-- card:add_to_deck()
 						-- G.consumeables:emplace(card)
