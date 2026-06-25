@@ -258,8 +258,8 @@ return {
 			bl_toga_stamp = {
 				name = "The Stamp",
 				text = {
-					"Hand must contain",
-					"only 1 rank"
+					"Hand must not contain",
+					"repeating ranks"
 				}
 			},
 			bl_toga_login = {
@@ -559,8 +559,8 @@ return {
 				name = '{f:toga_spacecadetfont}Space Cadet',
 				text = {
 					"After the played cards are {C:attention}scored{},",
-					"{C:green}#3# in #4#{} chance to perform {C:attention}additional scoring{}",
-					"of a {C:attention}random{} card in the scoring hand.",
+					"{C:green}#3# in #4#{} chance to {C:attention}rescore{}",
+					"a {C:attention}random{} card in the scoring hand.",
 					"{s:0.9}For every {C:money,s:0.9}$20{s:0.9} held, try {C:attention,s:0.9}once{s:0.9} more.",
 					"{C:inactive,s:0.8}Currently #2# attempts.{}"
 				}
@@ -2216,6 +2216,14 @@ return {
 					"{C:attention}#1#{} card to an {C:attention}Alloy{} card.",
 				}
 			},
+			c_toga_msdn = {
+				name = "Microsoft Developer Network",
+				text = {
+					"{C:green}#1# in #2#{} chance to destroy",
+					"selected {C:attention}Joker{} and create",
+					"a {C:dark_edition}Negative{} copy of it",
+				}
+			},
 		},
 		Tag = {
 			tag_toga_togajokershop = {
@@ -2749,7 +2757,15 @@ return {
 					"{C:red}disabled{} to prevent {C:red}crashes{} due to",
 					"a {C:attention}Steamodded{} {C:red}bug{}",
 				},
-			}
+			},
+			toga_rescoreinfo = {
+				name = "Additional Scoring",
+				text = {
+					"This item does it's own scoring",
+					"of cards, processing the retriggers",
+					"and abilities if applicable",
+				},
+			},
 		},
 		Partner = {
 			pnr_toga_startupdisk={

@@ -2,8 +2,8 @@ sendInfoMessage("Loading Vouchers...", "TOGAPack")
 
 SMODS.Voucher{
 	key = 'fat32',
-	pos = { x = 0, y = 1 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 0, y = 0 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 16,
 	rarity = 4,
@@ -24,8 +24,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'diskdefrag',
-	pos = { x = 1, y = 1 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 1, y = 0 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 10,
 	rarity = 3,
@@ -46,8 +46,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'hardwarewizard',
-	pos = { x = 2, y = 1 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 2, y = 0 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 15,
 	rarity = 3,
@@ -67,8 +67,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'hardwarewizardxp',
-	pos = { x = 2, y = 2 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 2, y = 1 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 15,
 	rarity = 4,
@@ -89,8 +89,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'wormsninjarope',
-	pos = { x = 0, y = 2 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 0, y = 1 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 10,
 	rarity = 3,
@@ -106,8 +106,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'wormsscalesofjustice',
-	pos = { x = 1, y = 2 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 1, y = 1 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 15,
 	rarity = 3,
@@ -163,8 +163,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'mspaint',
-	pos = { x = 3, y = 1 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 3, y = 0 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 20,
 	rarity = 3,
@@ -188,8 +188,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'dataflush',
-	pos = { x = 4, y = 1 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 4, y = 0 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 20,
 	rarity = 3,
@@ -224,8 +224,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'sealegg',
-	pos = { x = 3, y = 2 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 3, y = 1 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 10,
 	rarity = 3,
@@ -242,8 +242,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'caniofferyouanegg',
-	pos = { x = 4, y = 2 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 4, y = 1 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 20,
 	rarity = 4,
@@ -271,8 +271,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'auroramatter',
-	pos = { x = 5, y = 1 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 5, y = 0 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 15,
 	rarity = 3,
@@ -288,8 +288,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'quantummatter',
-	pos = { x = 5, y = 2 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 5, y = 1 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 20,
 	rarity = 4,
@@ -306,8 +306,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'smoothstone',
-	pos = { x = 7, y = 1 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 7, y = 0 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 10,
 	rarity = 3,
@@ -320,8 +320,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'deepslate',
-	pos = { x = 7, y = 2 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 7, y = 1 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 20,
 	rarity = 3,
@@ -343,8 +343,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'spectralzipper',
-	pos = { x = 6, y = 1 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 6, y = 0 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 20,
 	rarity = 4,
@@ -363,8 +363,8 @@ SMODS.Voucher{
 
 SMODS.Voucher{
 	key = 'bigbonk',
-	pos = { x = 6, y = 2 },
-	atlas = 'TOGAConsumables',
+	pos = { x = 6, y = 1 },
+	atlas = 'TOGAConsumablesVoucher',
 	unlocked = true,
 	cost = 20,
 	rarity = 4,

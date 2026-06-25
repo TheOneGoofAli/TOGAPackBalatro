@@ -394,21 +394,21 @@ if togabalatro.config.WTFDeck then
 			return { vars = { self.config.ante_scaling, self.config.dollars } }
 		end,
 		apply = function(self, back)
-			for i = 1, math.random(2, 34) do
-				math.random()
+			local function rndy(m1, m2)
+				return pseudorandom('whatisthis', m1, m2)
 			end
 			
-			back.effect.config.chipmultamt = (back.effect.config.chipamtmult or 1) + math.random(1, 1000)/100
+			back.effect.config.chipmultamt = (back.effect.config.chipamtmult or 1) + rndy(1, 1000)/100
 			G.GAME.modifiers.toga_randomscore = true
 			G.GAME.modifiers.toga_norentperish = true
 			
 			G.GAME.toga_negchance = (G.GAME.toga_negchance or 1)*16
 			
 			for _, v in ipairs(G.handlist) do
-				G.GAME.hands[v].s_mult = G.GAME.hands[v].s_mult * (math.random(1, 2000)/100)
-				G.GAME.hands[v].l_mult = G.GAME.hands[v].l_mult * (math.random(1, 2000)/100)
-				G.GAME.hands[v].s_chips = G.GAME.hands[v].s_chips * (math.random(1, 400)/100)
-				G.GAME.hands[v].l_chips = G.GAME.hands[v].l_chips * (math.random(1, 400)/100)
+				G.GAME.hands[v].s_mult = G.GAME.hands[v].s_mult * (rndy(1, 2000)/100)
+				G.GAME.hands[v].l_mult = G.GAME.hands[v].l_mult * (rndy(1, 2000)/100)
+				G.GAME.hands[v].s_chips = G.GAME.hands[v].s_chips * (rndy(1, 400)/100)
+				G.GAME.hands[v].l_chips = G.GAME.hands[v].l_chips * (rndy(1, 400)/100)
 				G.GAME.hands[v].mult = math.max(G.GAME.hands[v].s_mult + G.GAME.hands[v].l_mult*(G.GAME.hands[v].level - 1), 1)
 				G.GAME.hands[v].chips = math.max(G.GAME.hands[v].s_chips + G.GAME.hands[v].l_chips*(G.GAME.hands[v].level - 1), 0)
 				G.GAME.hands[v].visible = true

@@ -1174,3 +1174,13 @@ function G.FUNCS.can_reroll(e)
 		e.config.button = nil
 	end
 end
+
+sendInfoMessage("Hooking SMODS.has_no_rank...", "TOGAPack")
+local hnrref = SMODS.has_no_rank
+function SMODS.has_no_rank(card)
+	local ret = hnrref(card)
+    for k, _ in pairs(SMODS.get_enhancements(card)) do
+        if k == 'm_stone' then return false end
+    end
+	return ret
+end

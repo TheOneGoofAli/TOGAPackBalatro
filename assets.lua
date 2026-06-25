@@ -1,37 +1,39 @@
 sendInfoMessage("Initializing assets...", "TOGAPack")
 
 -- Define thy map.
-SMODS.Atlas{key = "TOGAJokersMain", path = "togajokers.png", px = 72, py = 95}
-SMODS.Atlas{key = "TOGAJokersMainW", path = "togajokersw.png", px = 91, py = 95}
-SMODS.Atlas{key = "TOGAJokersOther", path = "togajokersother.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGAJokersOtherDiffSize", path = "togajokersothersize.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGAJokersWindows", path = "togajokerswinos.png", px = 72, py = 95}
-SMODS.Atlas{key = "TOGAJokersMac", path = "togamacos.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGAJokersLinux", path = "togalinuxos.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGAJokersBeOS", path = "togabeos.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGAJokersUpdate", path = "togajokerupdate.png", px = 71, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 10, fps = 4}
-SMODS.Atlas{key = "TOGAJokerRover", path = "togarover.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGABoosterPack", path = "togabooster.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGAConsumables", path = "togacons.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGADeckBack", path = "togadeck.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGATags", path = "togatags.png", px = 34, py = 34}
-SMODS.Atlas{key = "TOGASeals", path = "togaseal.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGAEnhancements", path = "togaenh.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGAStickers", path = "togastickers.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGAStakes", path = "togastake.png", px = 29, py = 29}
-SMODS.Atlas{key = "TOGADialUpBlind", path = "togadialupblind.png", px = 34, py = 34, atlas_table = 'ANIMATION_ATLAS', frames = 24}
-SMODS.Atlas{key = "TOGAWWWBlind", path = "togawwwblind.png", px = 34, py = 34, atlas_table = 'ANIMATION_ATLAS', frames = 32}
-SMODS.Atlas{key = "TOGAOtherBlind", path = "togaotherblind.png", px = 34, py = 34, atlas_table = 'ANIMATION_ATLAS', frames = 1}
-SMODS.Atlas{key = "TOGAMoreIcons", path = "togamoricons.png", px = 36, py = 36, disable_mipmap = true}
-SMODS.Atlas{key = "TOGAFunny", path = "togazefunny.png", px = 64, py = 64, atlas_table = 'ANIMATION_ATLAS', frames = 9}
-SMODS.Atlas{key = "TOGAFunnyStatic", path = "togazefunny.png", px = 64, py = 64}
-SMODS.Atlas{key = "TOGAJokersPSO2", path = "togapso2.png", px = 71, py = 95}
-SMODS.Atlas{key = "TOGASonic", path = "togasonic.png", px = 75, py = 95}
-SMODS.Atlas{key = "TOGASuperSonic", path = "togasupersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 3, fps = 4}
-SMODS.Atlas{key = "TOGAHyperSonic", path = "togahypersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 12, fps = 4}
-SMODS.Atlas{key = "TOGAJokerMoth", path = "togajokersm.png", px = 116, py = 95}
-SMODS.Atlas{key = "TOGAJokerCDi", path = "togajokerscdi.png", px = 113, py = 95}
-SMODS.Atlas{key = "TOGAJokerNopeAVI", path = "toganope.png", px = 71, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 124, fps = 23}
+SMODS.Atlas({key = "TOGAJokersMain", path = "togajokers.png", px = 72, py = 95})
+SMODS.Atlas({key = "TOGAJokersMainW", path = "togajokersw.png", px = 91, py = 95})
+SMODS.Atlas({key = "TOGAJokersOther", path = "togajokersother.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAJokersOtherDiffSize", path = "togajokersothersize.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAJokersWindows", path = "togajokerswinos.png", px = 72, py = 95})
+SMODS.Atlas({key = "TOGAJokersMac", path = "togamacos.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAJokersLinux", path = "togalinuxos.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAJokersBeOS", path = "togabeos.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAJokersUpdate", path = "togajokerupdate.png", px = 71, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 10, fps = 4})
+SMODS.Atlas({key = "TOGAJokerRover", path = "togarover.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGABoosterPack", path = "togabooster.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAConsumablesTarot", path = "togaconstarot.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAConsumablesSpectral", path = "togaconsspectral.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAConsumablesVoucher", path = "togaconsvoucher.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGADeckBack", path = "togadeck.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGATags", path = "togatags.png", px = 34, py = 34})
+SMODS.Atlas({key = "TOGASeals", path = "togaseal.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAEnhancements", path = "togaenh.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAStickers", path = "togastickers.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAStakes", path = "togastake.png", px = 29, py = 29})
+SMODS.Atlas({key = "TOGADialUpBlind", path = "togadialupblind.png", px = 34, py = 34, atlas_table = 'ANIMATION_ATLAS', frames = 24})
+SMODS.Atlas({key = "TOGAWWWBlind", path = "togawwwblind.png", px = 34, py = 34, atlas_table = 'ANIMATION_ATLAS', frames = 32})
+SMODS.Atlas({key = "TOGAOtherBlind", path = "togaotherblind.png", px = 34, py = 34, atlas_table = 'ANIMATION_ATLAS', frames = 1})
+SMODS.Atlas({key = "TOGAMoreIcons", path = "togamoricons.png", px = 36, py = 36, disable_mipmap = true})
+SMODS.Atlas({key = "TOGAFunny", path = "togazefunny.png", px = 64, py = 64, atlas_table = 'ANIMATION_ATLAS', frames = 9})
+SMODS.Atlas({key = "TOGAFunnyStatic", path = "togazefunny.png", px = 64, py = 64})
+SMODS.Atlas({key = "TOGAJokersPSO2", path = "togapso2.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGASonic", path = "togasonic.png", px = 75, py = 95})
+SMODS.Atlas({key = "TOGASuperSonic", path = "togasupersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 3, fps = 4})
+SMODS.Atlas({key = "TOGAHyperSonic", path = "togahypersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 12, fps = 4})
+SMODS.Atlas({key = "TOGAJokerMoth", path = "togajokersm.png", px = 116, py = 95})
+SMODS.Atlas({key = "TOGAJokerCDi", path = "togajokerscdi.png", px = 113, py = 95})
+SMODS.Atlas({key = "TOGAJokerNopeAVI", path = "toganope.png", px = 71, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 124, fps = 23})
 
 -- Hear me scream.
 SMODS.Sound({key = "win95start", path = "win95start.ogg"}) -- The Microsoft Sound (95 & NT4)

@@ -219,14 +219,16 @@ SMODS.Blind{
 	mult = 2,
 	boss = { min = 5 },
 	debuff_hand = function(self, cards, hand, handname, check)
-		local ranks = {}
-		for k, v in ipairs(cards or {}) do
-			if not SMODS.has_no_rank(v) then
-				local rank = v:get_id()
-				if not (ranks[1] and ranks[1] == rank) then table.insert(ranks, rank) end
+		local currank, same = 0, false
+		for _, c in ipairs(cards) do
+			if not SMODS.has_no_rank(c) then
+				currank = c:get_id()
+				for k, v in ipairs(cards) do
+					if v ~= c and v:get_id() == currank then same = true end
+				end
 			end
 		end
-		if #ranks ~= 1 then return true end
+		return same
 	end
 }
 

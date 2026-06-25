@@ -124,6 +124,7 @@ table.insert(jokers, {
 	pos = { x = 3, y = 1 },
 	cost = 4,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.before and type(context.full_hand) == 'table' and next(context.full_hand) and not context.blueprint then
 			local card3 = #context.full_hand == 3
@@ -193,6 +194,7 @@ table.insert(jokers, {
 	pos = { x = 2, y = 2 },
 	cost = 8,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play and context.other_card == context.scoring_hand[#context.scoring_hand] then
 			return { x_chips = card.ability.extra.xchips }
@@ -239,7 +241,7 @@ table.insert(jokers, {
 			play_sound("toga_plus98emptybin")
 		end
 	end,
-	attributes = { 'scaling', 'xchips' }
+	attributes = { 'scaling', 'xchips', 'enhancements' }
 })
 
 table.insert(jokers, {
@@ -281,6 +283,7 @@ table.insert(jokers, {
 	cost = 10,
 	blueprint_compat = false,
 	eternal_compat = false,
+	perishable_compat = false,
 	demicolon_compat = true,
 	calculate = function(self, card, context)
 		if card.ability.eternal then card:set_eternal(false); card.ability.eternal = false end
@@ -330,6 +333,7 @@ table.insert(jokers, {
 	pos = { x = 2, y = 3 },
 	cost = 4,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.ending_shop and G.shop and not context.blueprint then
 			local gain = togabalatro.shopitemcost()
@@ -2092,6 +2096,7 @@ table.insert(jokers, {
 		if self.discovered then
 			info_queue[#info_queue + 1] = {key = "toga_clippyorigin", set = 'Other'}
 		end
+		info_queue[#info_queue + 1] = {key = "toga_rescoreinfo", set = 'Other'}
 		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { math.floor(card.ability.extra.rescores) } }
 	end,
 	unlocked = true,
@@ -2124,6 +2129,7 @@ table.insert(jokers, {
 	key = 'rover',
 	config = { extra = { odds = 15, curstate = "shop" } },
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = {key = "toga_rescoreinfo", set = 'Other'}
 		return { vars = { SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds) } }
 	end,
 	unlocked = true,
@@ -2357,6 +2363,7 @@ table.insert(jokers, {
 	config = { extra = { cashpoint = 20, alltrig = 1, odds = 6 } },
 	loc_vars = function(self, info_queue, card)
 		card.ability.extra.alltrig = 1+togabalatro.cashpointmulitple(card.ability.extra.cashpoint)
+		info_queue[#info_queue + 1] = {key = "toga_rescoreinfo", set = 'Other'}
 		return { vars = { card.ability.extra.cashpoint, math.max(card.ability.extra.alltrig, 1), SMODS.get_probability_vars(card or self, 1, card.ability.extra.odds) } }
 	end,
 	unlocked = true,
@@ -2398,23 +2405,39 @@ table.insert(jokers, {
 table.insert(jokers, {
 	key = 'binaryjkr',
 	unlocked = true,
+	in_pool = function()
+		for k, v in pairs(G.playing_cards or {}) do
+			if v and not SMODS.has_no_rank(v) then
+				local rank = v:get_id()
+				if rank and rank == 10 then return true end
+			end
+		end
+	end,
 	rarity = 2,
 	atlas = 'TOGAJokersOther',
 	pos = { x = 2, y = 1 },
 	cost = 6,
 	blueprint_compat = false,
-	attributes = { 'rank', 'ten', 'two' }
+	attributes = { 'rank', 'ten', 'two', 'passive' }
 })
 
 table.insert(jokers, {
 	key = 'hexadecimaljkr',
 	unlocked = true,
+	in_pool = function()
+		for k, v in pairs(G.playing_cards or {}) do
+			if v and not SMODS.has_no_rank(v) then
+				local rank = v:get_id()
+				if rank and rank == 14 then return true end
+			end
+		end
+	end,
 	rarity = 2,
 	atlas = 'TOGAJokersOther',
 	pos = { x = 3, y = 1 },
 	cost = 6,
 	blueprint_compat = false,
-	attributes = { 'rank', 'ace', 'ten' }
+	attributes = { 'rank', 'ace', 'ten', 'passive' }
 })
 
 table.insert(jokers, {
@@ -2487,6 +2510,14 @@ table.insert(jokers, {
 table.insert(jokers, {
 	key = 'y2ksticker',
 	unlocked = true,
+	in_pool = function()
+		for k, v in pairs(G.playing_cards or {}) do
+			if v and not SMODS.has_no_rank(v) then
+				local rank = v:get_id()
+				if rank and rank == 2 then return true end
+			end
+		end
+	end,
 	rarity = 1,
 	atlas = 'TOGAJokersOtherDiffSize',
 	pos = { x = 2, y = 0 },
@@ -2689,6 +2720,13 @@ table.insert(jokers, {
 	key = 'stoneroad',
 	config = { extra = { hm = 1, odds = 2 } },
 	unlocked = true,
+	in_pool = function()
+		if G.playing_cards then
+			for k, v in pairs(G.playing_cards or {}) do
+				if SMODS.has_enhancement(v, 'm_stone') then return true end
+			end
+		end
+	end,
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
 		return { vars = { card.ability.extra.hm, SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds) } }
@@ -2990,6 +3028,7 @@ table.insert(jokers, {
 	atlas = 'TOGAJokerMoth',
 	pos = { x = 0, y = 0 },
 	cost = 6,
+	blueprint_compat = false,
 	display_size = { w = 71 * 1.63, h = 95 },
 	pixel_size = { w = 71, h = 95 },
 	attributes = { 'passive', 'hand_type' }
@@ -3360,7 +3399,9 @@ table.insert(jokers, {
 			juice_card_until(card, eval, true)
 		end
 		
-		if G.GAME.blind.boss and G.GAME.blind.in_blind and ((context.remove_playing_cards and context.removed and next(context.removed)) or ((context.joker_type_destroyed or context.selling_card) and context.card)) then
+		if G.GAME.blind.boss and G.GAME.blind.in_blind and not card.ability.baljeets
+		and ((context.remove_playing_cards and context.removed and next(context.removed)) or ((context.joker_type_destroyed or context.selling_card) and context.card)) then
+			card.ability.baljeets = true
 			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
 				update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
 				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
@@ -3453,13 +3494,11 @@ if Talisman then
 			end
 		end,
 		add_to_deck = function(self, card, from_debuff)
-			if G.STAGE == G.STAGES.RUN and not G.screenwipe then card.sell_cost = 0 end
 			if not from_debuff and togabalatro.config.SFXWhenAdding and G.STAGE == G.STAGES.RUN and not G.screenwipe then
 				play_sound("toga_ie31")
 			end
 		end,
 		remove_from_deck = function(self, card, from_debuff)
-			if G.STAGE == G.STAGES.RUN and not G.screenwipe then card.sell_cost = 0 end
 			if not from_debuff and togabalatro.config.SFXWhenRemoving and G.STAGE == G.STAGES.RUN and not G.screenwipe then
 				play_sound("toga_access97")
 			end
@@ -3506,13 +3545,11 @@ if Talisman then
 			end
 		end,
 		add_to_deck = function(self, card, from_debuff)
-			if G.STAGE == G.STAGES.RUN and not G.screenwipe then card.sell_cost = 0 end
 			if not from_debuff and togabalatro.config.SFXWhenAdding and G.STAGE == G.STAGES.RUN and not G.screenwipe then
 				play_sound("toga_duck")
 			end
 		end,
 		remove_from_deck = function(self, card, from_debuff)
-			if G.STAGE == G.STAGES.RUN and not G.screenwipe then card.sell_cost = 0 end
 			if not from_debuff and togabalatro.config.SFXWhenRemoving and G.STAGE == G.STAGES.RUN and not G.screenwipe then
 				play_sound("toga_kcud")
 			end

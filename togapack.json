@@ -7,7 +7,7 @@
 	"main_file": "togastuff.lua",
 	"priority": 2,
 	"badge_colour": "fd9712",
-	"version": "1.15.0",
+	"version": "1.15.0a",
 	"icon_path": "togaicon.png",
 	"icon_width": 34,
 	"icon_fps": 3,
