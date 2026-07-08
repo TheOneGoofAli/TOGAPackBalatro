@@ -11,6 +11,7 @@ SMODS.Joker{
 	cost = 8,
 	pools = { ["TOGAJKR"] = true },
 	blueprint_compat = false,
+	demicolon_compat = false,
 	calculate = function(self, card, context)
 		if context.other_consumeable then
 			local aheads, onlyspades = {}, true

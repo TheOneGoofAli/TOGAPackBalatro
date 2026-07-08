@@ -370,6 +370,9 @@ SMODS.Voucher{
 	rarity = 4,
 	config = { rarity = 4, extra = { odds = 100, cmopamt = 20 } },
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = {key = "toga_chipmultmodinfo", set = 'Other'}
+		info_queue[#info_queue + 1] = {key = "toga_chipmultmodexample", set = 'Other'}
+		info_queue[#info_queue + 1] = {key = "toga_chipmultmodwarn", set = 'Other'}
 		return { vars = { card.ability.extra.cmopamt, SMODS.get_probability_vars(card or self, 2, card.ability.extra.odds or 100, "bigbonk", nil, true) } }
 	end,
 	calculate = function(self, card, context)

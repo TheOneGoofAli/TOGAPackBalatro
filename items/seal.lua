@@ -6,7 +6,7 @@ SMODS.Seal{
 	badge_colour = HEX("61666D"),
 	atlas = "TOGASeals",
 	pos = { x = 0, y = 0 },
-	config = { odds = 25 },
+	config = { odds = 20 },
 	loc_vars = function(self, info_queue, card)
 		if not togabalatro.config.ShowPower then return { key = self.key.."_locked" } end
 		

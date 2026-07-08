@@ -378,7 +378,7 @@ table.insert(winj, {
 	demicolon_compat = false,
 	calculate = function(self, card, context)
 		if context.blueprint or context.retrigger_joker then return end
-		if card.ability.extra.active and context.destroy_card and context.cardarea == G.play and context.scoring_hand and #context.scoring_hand == 1 and #context.full_hand == 1 and context.destroy_card:get_id() == 6 then
+		if card.ability.extra.active and context.destroy_card and context.cardarea == G.play and context.scoring_hand and #context.full_hand == 1 and context.destroy_card:get_id() == 6 then
 			return {
 				remove = true,
 				func = function()

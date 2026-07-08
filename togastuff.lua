@@ -6,12 +6,15 @@ sendInfoMessage("░▀▀▀░▀▀▀░▀░▀░▀▀░░▀░▀░
 sendInfoMessage("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▄▄██▄▄░░░░░█████░░", "TOGAPack")
 sendInfoMessage("Hello World! Starting TOGAPack...", "TOGAPack")
 
+-- I think, therefore, I am.
+togabalatro = SMODS.current_mod
+
+-- Get system limit stuff for atlas check afterwards.
+togabalatro.curlimits = love.graphics.getSystemLimits()
+
 -- Initialize assets...
 sendDebugMessage("Executing assets.lua", "TOGAPack")
 assert(SMODS.load_file("assets.lua"))()
-
--- I think, therefore, I am.
-togabalatro = SMODS.current_mod
 
 assert(SMODS.load_file("tabs.lua"))()
 
@@ -250,7 +253,7 @@ togabalatro.setmenucardsfunc = function()
 				func = function()
 					for _, c in pairs(G.title_top and G.title_top.cards or {}) do
 						if c and c.config and c.config.center and c.config.center.key and c.config.center.key == 'j_toga_win95' then
-							c.click = function() G.FUNCS.openModUI_TOGAPack() end
+							c.click = function() if MP and MP.LOBBY and MP.LOBBY.code then G.FUNCS.toga_bmplobby() else G.FUNCS.openModUI_TOGAPack() end end
 							break
 						end
 					end
@@ -1145,6 +1148,8 @@ togabalatro.achievementproc = function(a, t)
 		end
 	end
 end
+
+togabalatro.hahaone = 1
 
 -- I've not done such loading since making Windows for SRB2, but as the content is split off from this main file, gotta do it!
 -- This loads the actual content...

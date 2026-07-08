@@ -86,7 +86,7 @@ table.insert(jokers, {
 	perishable_compat = false,
 	calculate = function(self, card, context)
 		if G.GAME.current_round.discards_left == 2 then
-			local eval = function() return G.GAME.current_round.discards_left == 1 end
+			local eval = function() return G.GAME.current_round.discards_left == 1 and not G.RESET_JIGGLES end
 			juice_card_until(card, eval, true)
 		end
 		
@@ -617,6 +617,9 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'bonzibuddy',
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.c_strength
+	end,
 	unlocked = true,
 	rarity = 2,
 	atlas = 'TOGAJokersMain',
@@ -738,6 +741,9 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'netscapenavigator',
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_holo
+	end,
 	unlocked = true,
 	in_pool = function()
 		if togabalatro.config.ShowPower then
@@ -770,7 +776,7 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'diskcleanup',
-	config = { extra = { destroymoney = 2 } },
+	config = { extra = { destroymoney = 3 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { SMODS.signed_dollars(card.ability.extra.destroymoney) } }
 	end,
@@ -845,6 +851,8 @@ table.insert(jokers, {
 	key = 'regedit',
 	loc_vars = function(self, info_queue, card)
 		local togaregeditsuit = G.GAME.current_round.togabalatro and G.GAME.current_round.togabalatro.regedit and G.GAME.current_round.togabalatro.regedit.suit
+		info_queue[#info_queue + 1] = G.P_CENTERS.c_star
+		info_queue[#info_queue + 1] = G.P_CENTERS.c_sigil
 		return { vars = { localize(togaregeditsuit or "Hearts", 'suits_plural') } }
 	end,
 	unlocked = true,
@@ -865,6 +873,8 @@ table.insert(jokers, {
 	key = 'certserver',
 	loc_vars = function(self, info_queue, card)
 		local togacertserver = G.GAME.current_round.togabalatro and G.GAME.current_round.togabalatro.certserver or {}
+		info_queue[#info_queue + 1] = G.P_CENTERS.c_strength
+		info_queue[#info_queue + 1] = G.P_CENTERS.c_ouija
 		return { vars = { localize(togacertserver.rank or "Ace", 'ranks') } }
 	end,
 	unlocked = true,
@@ -1007,7 +1017,7 @@ table.insert(jokers, {
 				if v and v:is_face() then db = false; break end
 			end
 			if db then
-				return { debuff = true, debuff_text = localize('toga_fontsdebuff') }
+				return { debuff = true, debuff_text = localize('toga_fontsdebuff'), debuff_source = card }
 			end
 		end
 	end,
@@ -1075,6 +1085,7 @@ table.insert(jokers, {
 	key = 'visualstudio',
 	config = { extra = { mrank = 1 } },
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.c_strength
 		return { vars = { math.floor(card.ability.extra.mrank) } }
 	end,
 	unlocked = true,
@@ -1242,7 +1253,7 @@ table.insert(jokers, {
 	loc_vars = function(self, info_queue, card)
 		local ante, filesize = math.abs(to_number(G.GAME.round_resets.ante)) or 1, togabalatro.lastfilesize()
 		card.ability.extra.chips = math.min(filesize/1048576, card.ability.extra.cap+card.ability.extra.antecaplift*ante)
-		return { vars = { SMODS.signed(card.ability.extra.chips), filesize/1048576, card.ability.extra.cap+card.ability.extra.antecaplift*ante, card.ability.extra.antecaplift } } -- 1 MB, up to 500 MB
+		return { vars = { SMODS.signed(card.ability.extra.chips), filesize/1048576, card.ability.extra.cap+card.ability.extra.antecaplift*ante, card.ability.extra.antecaplift } }
 	end,
 	unlocked = true,
 	in_pool = function()
@@ -1405,6 +1416,7 @@ table.insert(jokers, {
 table.insert(jokers, {
 	key = 'monitor',
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = {key = "toga_probexplain", set = 'Other'}
 		return { vars = { love.window.getDisplayCount() } }
 	end,
 	unlocked = true,
@@ -1432,6 +1444,10 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'mmc',
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_baseball
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_toga_wincatalog
+	end,
 	unlocked = true,
 	rarity = 1,
 	atlas = 'TOGAJokersMain',
@@ -1517,6 +1533,30 @@ table.insert(jokers, {
 		if context.open_booster then return { dollars = card.ability.extra.money } end
 	end,
 	attributes = { 'economy', 'booster' }
+})
+
+table.insert(jokers, {
+	key = '7zip',
+	unlocked = true,
+	rarity = 1,
+	atlas = 'TOGAJokersMain',
+	pos = { x = 4, y = 11 },
+	cost = 5,
+	blueprint_compat = false,
+	add_to_deck = function(self, card, from_debuff)
+		if G.STAGE == G.STAGES.RUN and not G.screenwipe then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					SMODS.change_booster_limit(1)
+					return true
+				end
+			}))
+		end
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		SMODS.change_booster_limit(-1)
+	end,
+	attributes = { 'shop', 'booster' }
 })
 
 table.insert(jokers, {
@@ -1623,7 +1663,7 @@ table.insert(jokers, {
 					break
 				end
 			end
-			if debuff then return { debuff = true } end
+			if debuff then return { debuff = true, debuff_text = localize('toga_dqdebuff'), debuff_source = card } end
 		end
 	end,
 	attributes = { 'xmult', 'debuff_hand', 'hand_type' }
@@ -2610,12 +2650,14 @@ table.insert(jokers, {
 	cost = 4,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if G.GAME.current_round.discards_left == 2 then
-			local eval = function() return G.GAME.current_round.discards_left == 1 end
-			juice_card_until(card, eval, true)
-		end
-		
 		if context.pre_discard then
+			if G.GAME.current_round.discards_left == 2 and not context.blueprint then
+				local eval = function(c)
+					return G.GAME.current_round.discards_left == 1 and not G.RESET_JIGGLES
+				end
+				juice_card_until(card, eval, true)
+			end
+			
 			if G.GAME.current_round.discards_left == 1 then
 				local ccard = context.blueprint_card or card
 				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
@@ -2824,7 +2866,7 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'heatdeath',
-	config = { extra = { xm = 0, xmg = 0.1 } },
+	config = { extra = { xm = 0, xmg = 0.15 } },
 	loc_vars = function(self, info_queue, card)
 		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { 1+card.ability.extra.xm, card.ability.extra.xmg } }
 	end,
@@ -2974,8 +3016,15 @@ table.insert(jokers, {
 				amt = amt + (v:get_chip_bonus() or 0)/2
 			end
 			if amt > 0 then
-				card.ability.extra.chips = card.ability.extra.chips + amt
-				card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
+				SMODS.scale_card(card, {
+					ref_table = card.ability.extra,
+					ref_value = "chips",
+					scalar_table = togabalatro,
+					scalar_value = "hahaone",
+					operation = function(ref_table, ref_value, initial, change)
+						ref_table[ref_value] = initial + amt*change
+					end,
+				})
 			end
 		end
 		
@@ -3036,7 +3085,7 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'kingharkinian_cdi',
-	config = { extra = { m = 0, mg = 2 } },
+	config = { extra = { m = 0, mg = 3 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { SMODS.signed(card.ability.extra.m), SMODS.signed(card.ability.extra.mg) } }
 	end,
@@ -3250,7 +3299,6 @@ table.insert(jokers, {
 	attributes = { 'meta', 'xchips', 'joke' }
 })
 
---local winupdateframes = {0, 1, 2, 3, 4, 5, 5, 4, 3, 2, 1}
 table.insert(jokers, {
 	key = 'winupdate',
 	unlocked = true,
@@ -3390,10 +3438,12 @@ table.insert(jokers, {
 	soul_pos = { x = 7, y = 3 },
 	no_collection = true,
 	cost = 1,
-	blueprint_compat = false,
+	blueprint_compat = true,
 	perishable_compat = false,
 	calculate = function(self, card, context)
-		if context.setting_blind and context.blind and context.blind.boss then
+		if context.retrigger_joker then return end
+		
+		if context.setting_blind and context.blind and context.blind.boss and not context.blueprint then
 			card.ability.baljeets = nil
 			local eval = function() return G.GAME.blind.in_blind == false or card.ability.baljeets end
 			juice_card_until(card, eval, true)
@@ -3401,37 +3451,44 @@ table.insert(jokers, {
 		
 		if G.GAME.blind.boss and G.GAME.blind.in_blind and not card.ability.baljeets
 		and ((context.remove_playing_cards and context.removed and next(context.removed)) or ((context.joker_type_destroyed or context.selling_card) and context.card)) then
-			card.ability.baljeets = true
-			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
-				update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
-				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
-					play_sound('tarot1')
-					card:juice_up(0.8, 0.5)
-					G.TAROT_INTERRUPT_PULSE = true
+			local ccard = context.blueprint_card or card
+			return {
+				func = function()
+					G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+						update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
+						G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+							play_sound('tarot1')
+							ccard:juice_up(0.8, 0.5)
+							G.TAROT_INTERRUPT_PULSE = true
+							return true end }))
+						update_hand_text({delay = 0}, {mult = '+', StatusText = true})
+						G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+							play_sound('tarot1')
+							ccard:juice_up(0.8, 0.5)
+							return true end }))
+						update_hand_text({delay = 0}, {chips = '+', StatusText = true})
+						G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+							play_sound('tarot1')
+							ccard:juice_up(0.8, 0.5)
+							G.TAROT_INTERRUPT_PULSE = nil
+							return true end }))
+						update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+2'})
+						delay(1.3)
+						SMODS.upgrade_poker_hands({ from = ccard, instant = true, level_up = 2})
+						update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+						if ccard == card then
+							G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+								card.ability.baljeets = true
+								SMODS.debuff_card(card, 'baljeet', 'baljeet')
+								SMODS.destroy_cards(card, { bypass_eternal = true, pinch_anim = true })
+							return true end }))
+						end
 					return true end }))
-				update_hand_text({delay = 0}, {mult = '+', StatusText = true})
-				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-					play_sound('tarot1')
-					card:juice_up(0.8, 0.5)
-					return true end }))
-				update_hand_text({delay = 0}, {chips = '+', StatusText = true})
-				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-					play_sound('tarot1')
-					card:juice_up(0.8, 0.5)
-					G.TAROT_INTERRUPT_PULSE = nil
-					return true end }))
-				update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level='+2'})
-				delay(1.3)
-				SMODS.upgrade_poker_hands({ from = card, instant = true, level_up = 2})
-				update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
-				G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
-					SMODS.debuff_card(card, 'baljeet', 'baljeet')
-					SMODS.destroy_cards(card, { bypass_eternal = true, pinch_anim = true })
-				return true end }))
-			return true end }))
+				end
+			}
 		end
 		
-		if context.end_of_round and context.main_eval and context.beat_boss then
+		if context.end_of_round and context.main_eval and context.beat_boss and not context.blueprint then
 			card.ability.baljeets = true
 			G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
 				SMODS.debuff_card(card, 'baljeet', 'baljeet')
@@ -3567,7 +3624,7 @@ end
 togabalatro.bmpexclude = {
 	['monitor'] = true, ['chrome'] = true, ['firefox'] = true, ['jimboplus'] = true, ['gamecontrollers'] = true,
 	['dragndrop'] = true, ['nonebattery'] = true, ['cpu'] = true, ['pcmcia'] = true, ['pso2ironwill'] = true,
-	['drivespace'] = true, ['wscript'] = true, ['winamp'] = true,
+	['drivespace'] = true, ['wscript'] = true, ['winamp'] = true, ['drwatson'] = true
 }
 
 -- Absolute exclusions.
@@ -3588,6 +3645,7 @@ end
 
 for i, j in ipairs(jokers) do
 	if togabalatro.canjokerload(j.key) then
+		if not j.demicolon_compat then j.demicolon_compat = false end
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Initializing "..intjkrname..j.key, "TOGAPack") end
 		SMODS.Joker(j)
 	end

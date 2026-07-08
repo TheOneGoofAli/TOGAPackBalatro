@@ -21,6 +21,7 @@ SMODS.Joker{
 	cost = 6,
 	pools = { ["TOGAJKR"] = true },
 	blueprint_compat = true,
+	demicolon_compat = false,
 	calculate = function(self, card, context)
 		card.ability.extra.hxmult = math.max(card.ability.extra.hxmult, horsehxmult)
 		if Talisman then card.ability.extra.heeemult = math.max(card.ability.extra.heeemult, horseeeemult) end
@@ -62,6 +63,7 @@ SMODS.Joker{
 	cost = 5,
 	pools = { ["Cat"] = true, ["TOGAJKR"] = true },
 	blueprint_compat = true,
+	demicolon_compat = false,
 	calculate = function(self, card, context)
 		card.ability.extra.xchips = math.max(card.ability.extra.xchips, catxchips)
 		if Talisman then card.ability.extra.eeechips = math.max(card.ability.extra.eeechips, cateeechips) end

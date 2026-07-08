@@ -24,6 +24,7 @@ if SDM_0s_Stuff_Config and SDM_0s_Stuff_Config.sdm_bakery then
 		cost = 5,
 		pools = { ["TOGAJKR"] = true },
 		blueprint_compat = true,
+		demicolon_compat = false,
 		calculate = function(self, card, context)
 			if context.before then
 				card.ability.extra.bakedgoods = {}

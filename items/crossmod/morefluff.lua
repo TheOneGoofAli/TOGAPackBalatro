@@ -90,6 +90,7 @@ SMODS.Joker{
 	cost = 7,
 	pools = { ["TOGAJKR"] = true },
 	blueprint_compat = true,
+	demicolon_compat = false,
 	calculate = function(self, card, context)
 		if context.coloureof then return { rescore = true, card = context.blueprint_card or card } end
 	end,

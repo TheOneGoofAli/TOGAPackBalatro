@@ -947,9 +947,9 @@ return {
 			j_toga_diskcleanup = {
 				name = 'Disk Cleanup',
 				text = {
-					"Gain {C:money}#1#{} per",
-					"{C:red}destroyed{}",
-					"{C:attention}playing card",
+					"Earn {C:money}#1#{} when a",
+					"{C:attention}playing card{}",
+					"is {C:red}destroyed{}",
 				},
 			},
 			j_toga_regedit = {
@@ -1714,6 +1714,13 @@ return {
 					"{C:common}Common{} {C:attention}Jokers{} or {C:toga_consgradient}consumeables{}",
 					"{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips){}",
 				},
+			},
+			j_toga_7zip = {
+				name = '7-Zip',
+				text = {
+					"{C:gold}Shops{} have an extra",
+					"{C:attention}Booster Pack slot{}"
+				}
 			},
 		},
 		Enhanced = {
@@ -2761,9 +2768,17 @@ return {
 			toga_rescoreinfo = {
 				name = "Additional Scoring",
 				text = {
-					"This item does it's own scoring",
-					"of cards, processing the retriggers",
-					"and abilities if applicable",
+					"This item does it's own {C:attention}scoring{}",
+					"of cards, processing the {C:attention}retriggers{}",
+					"and {C:attention}abilities{} if applicable",
+				},
+			},
+			toga_probexplain = {
+				name = "Probabilities",
+				text = {
+					"[{C:green}1 in 4{} chance]",
+					"{C:green}1{} is the {C:attention}numerator{}",
+					"{C:green}4{} is the {C:attention}denominator{}",
 				},
 			},
 		},
@@ -2927,6 +2942,7 @@ return {
 			toga_targetsuitjkr = "Suit-specific Jokers",
 			toga_multiplehands = "Multiple Hands",
 			toga_fontsdebuff = "Scoring hand must contain a face card",
+			toga_dqdebuff = "Cannot play most played poker hand (including ties)",
 			--
 			toga_furnaceprocess = "Smelted...",
 			toga_novalidrecipe = "No recipes match selected cards.",
@@ -3199,6 +3215,9 @@ return {
 				"Balatro Multiplayer detected", "Because TOGA's Stuff has not been tested with Balatro Multiplayer, you may", "experience unexpected crashes with specific items. Per config, items that",
 				"would be usually omitted from loading are loaded regardless, potentially", "causing desynchronizations and/or unfair advantages.",
 				"Have fun, but don't try to cheat, will you?"
+			},
+			toga_bmplobbywarn = {
+				"Lobby Warning", "Please be careful when changing settings", "of the mod whilst in a lobby.",
 			},
 			toga_stjnote = {
 				"Slay the Jokers detected",

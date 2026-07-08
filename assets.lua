@@ -33,7 +33,24 @@ SMODS.Atlas({key = "TOGASuperSonic", path = "togasupersonic.png", px = 75, py = 
 SMODS.Atlas({key = "TOGAHyperSonic", path = "togahypersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 12, fps = 4})
 SMODS.Atlas({key = "TOGAJokerMoth", path = "togajokersm.png", px = 116, py = 95})
 SMODS.Atlas({key = "TOGAJokerCDi", path = "togajokerscdi.png", px = 113, py = 95})
-SMODS.Atlas({key = "TOGAJokerNopeAVI", path = "toganope.png", px = 71, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 124, fps = 23})
+
+-- Variants of atlas configurations due to the atlas being this wide!
+local nopeatlascfg = {
+	{key = "TOGAJokerNopeAVI", path = "toganope.png", px = 71, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 124, fps = 23}, -- Default
+	{key = "TOGAJokerNopeAVI", path = "toganopeoptim.png", px = 71, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 62, fps = 11}, -- Optimized, but still animated
+	{key = "TOGAJokerNopeAVI", path = "toganopefallback.png", px = 71, py = 95} -- Fallback, no animation
+}
+
+if togabalatro.curlimits.texturesize > 16383 then
+	sendDebugMessage("Nope.AVI - Loading full atlas...", "TOGAPack")
+	SMODS.Atlas(nopeatlascfg[1])
+elseif togabalatro.curlimits.texturesize > 8191 then
+	sendDebugMessage("Nope.AVI - Loading optimized atlas due to system limits...", "TOGAPack")
+	SMODS.Atlas(nopeatlascfg[2])
+else
+	sendDebugMessage("Nope.AVI - Loading fallback atlas due to system limits...", "TOGAPack")
+	SMODS.Atlas(nopeatlascfg[3])
+end
 
 -- Hear me scream.
 SMODS.Sound({key = "win95start", path = "win95start.ogg"}) -- The Microsoft Sound (95 & NT4)
