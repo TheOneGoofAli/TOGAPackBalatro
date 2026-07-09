@@ -1514,7 +1514,7 @@ table.insert(jokers, {
 			})
 		end
 	end,
-	attributes = { 'xmult', 'scaling', 'booster' }
+	attributes = { 'xmult', 'scaling', 'booster', 'archiver' }
 })
 
 table.insert(jokers, {
@@ -1532,7 +1532,7 @@ table.insert(jokers, {
 	calculate = function(self, card, context)
 		if context.open_booster then return { dollars = card.ability.extra.money } end
 	end,
-	attributes = { 'economy', 'booster' }
+	attributes = { 'economy', 'booster', 'archiver' }
 })
 
 table.insert(jokers, {
@@ -1556,7 +1556,7 @@ table.insert(jokers, {
 	remove_from_deck = function(self, card, from_debuff)
 		SMODS.change_booster_limit(-1)
 	end,
-	attributes = { 'shop', 'booster' }
+	attributes = { 'shop', 'booster', 'archiver' }
 })
 
 table.insert(jokers, {

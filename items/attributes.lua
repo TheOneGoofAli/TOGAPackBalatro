@@ -28,6 +28,7 @@ local toga_attrib = {
 	{ 'debuff_hand', {}, { 'debuffhand' } },
 	{ 'teamfortress2', {}, { 'team_fortress_2' } },
 	{ 'rocketleague', {}, { 'rocket_league' } },
+	{ 'archiver', {}, {} },
 }
 
 for k, v in ipairs(toga_attrib) do
