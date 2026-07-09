@@ -505,6 +505,8 @@ table.insert(winj, {
 	blueprint_compat = true,
 	calculate = function(self, card, context)
 		if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
+			if not card.ability.extra.ready then card.ability.extra.rounds = (card.ability.extra.rounds or 0) + 1 end
+			
 			if to_number(card.ability.extra.rounds) >= to_number(card.ability.extra.rtarget) then
 				if not card.ability.extra.ready then
 					card.ability.extra.ready = true
@@ -513,7 +515,6 @@ table.insert(winj, {
 					return { message = localize('k_active_ex') }
 				end
 			else
-				card.ability.extra.rounds = (card.ability.extra.rounds or 0) + 1
 				return { message = to_number(card.ability.extra.rounds).."/"..to_number(card.ability.extra.rtarget), juice_card = context.blueprint_card or card }
 			end
 		end
