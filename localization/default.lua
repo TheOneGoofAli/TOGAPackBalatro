@@ -964,7 +964,7 @@ return {
 				name = 'Microsoft Agent',
 				text = {
 					"{C:dark_edition}Unbalances{} {C:attention}#1#%{} of",
-					"{C:blue}Chips{} and {C:red}Mult{}",
+					"base {C:blue}Chips{} and {C:red}Mult{}",
 				},
 			},
 			j_toga_drwatson = {
@@ -3145,7 +3145,7 @@ return {
 			ach_toga_win9x = 'Have Windows 95, 98 and ME together',
 			ach_toga_win10k = 'Have 5 copies of Windows 2000',
 			ach_toga_winmecrash = 'Get Windows ME debuffed',
-			ach_toga_teapots = 'Have more than 1 GLTeapot',
+			ach_toga_teapots = 'Obtain a GLTeapot',
 			ach_toga_sfrock = 'Play a '..(sfit or 'Straight Flush')..' with only Stone Cards',
 			ach_toga_altloadscrn = 'Activate a different loading screen',
 			ach_toga_altloadscrn_hidden = 'Rumors speak of "ALT" + "D" held together',
@@ -3171,7 +3171,7 @@ return {
 		},
 		ui_strings = {
 			toga_intro = {
-				"Thank you for installing TOGA's Stuff!", "Welcome to TOGA's Stuff. As this mod has a lot of additions, as well as some", "optional content, the mod config is recommended to be given a look.",
+				"Thank you for installing TOGA's Stuff!", "Welcome to TOGA's Stuff. As this mod has a lot of additions, as well as some", "optional content, you may want to give the mod config a look over.",
 				"Note: The Windows 95 card on main menu acts as a shortcut to mod config.", "", "Would you like to open the mod config now?"
 			},
 			toga_needrestart = {

@@ -441,6 +441,8 @@ if togabalatro.config.WTFDeck then
 			}))
 		end,
 		calculate = function(self, back, context)
+			if context.retrigger_joker then return end
+			
 			if context.before then back.effect.config.repeatamount = G.jokers and G.jokers.cards and #G.jokers.cards or 0 end
 			
 			if context.cardarea == G.play and context.repetition and not context.repetition_only
@@ -455,7 +457,7 @@ if togabalatro.config.WTFDeck then
 			
 			if context.mod_probability then return { denominator = context.denominator / 2 } end
 			
-			if context.toga_affectchipmult and context.opamount and not context.retrigger_joker then
+			if context.toga_affectchipmult and context.opamount then
 				if back.effect and back.effect.config and back.effect.config.chipmultamt and tonumber(to_number(back.effect.config.chipmultamt)) then return { amtmult = back.effect.config.chipmultamt, card = back } end
 			end
 		end,
