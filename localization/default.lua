@@ -1310,7 +1310,6 @@ return {
 				name = {'{f:toga_pso2font,C:blue}Deband{}', '{C:blue,s:0.8}Deband{}'},
 				text = {
 					"{X:blind,C:white}X0.8{} Blind requirements",
-					"{C:inactive,s:0.8}(Does not stack with copies.)"
 				}
 			},
 			j_toga_skifree_skier = {
