@@ -340,7 +340,7 @@ SMODS.Font({
 
 SMODS.Font({
     key = "tnric",
-    path = "timesnewromanitaliccondensed.ttf",
+    path = "timesnewromanic.ttf",
 	render_scale = 250,
 	TEXT_HEIGHT_SCALE = 0.66
 })
