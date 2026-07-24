@@ -26,6 +26,7 @@ local toga_attrib = {
 	{ 'eeemult', {}, { 'eee_mult' } },
 	{ 'virus', {}, { 'malware' } },
 	{ 'debuff_hand', {}, { 'debuffhand' } },
+	{ 'debuffed_hand', {}, { 'debuffedhand' } },
 	{ 'teamfortress2', {}, { 'team_fortress_2' } },
 	{ 'rocketleague', {}, { 'rocket_league' } },
 	{ 'archiver', {}, {} },

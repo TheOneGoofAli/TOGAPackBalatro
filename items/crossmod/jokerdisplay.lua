@@ -7,8 +7,8 @@ loc_colour()
 -- leaves in hot water be like:
 local jd_areasref = JokerDisplay.get_display_areas
 function JokerDisplay.get_display_areas()
-	local ret, teapots = jd_areasref(), SMODS.find_card('c_toga_glteapot')
-	if next(teapots) and teapots[1] and teapots[1].area == G.consumeables or next(SMODS.find_card('j_toga_linux_ubuntu')) then ret[#ret+1] = G.consumeables end
+	local ret = jd_areasref()
+	if next(SMODS.find_card('j_toga_linux_ubuntu')) then ret[#ret+1] = G.consumeables end
     return ret
 end
 
@@ -838,6 +838,20 @@ togabalatro.jd_def["j_toga_asterism"] = {
 	end
 }
 
+togabalatro.jd_def["j_toga_mcanvil"] = {
+	extra = {
+		{
+			{ text = "(" },
+			{ ref_table = "card.joker_display_values", ref_value = "odds" },
+			{ text = ")" },
+		}
+	},
+	extra_config = { colour = G.C.GREEN, scale = 0.3 },
+	calc_function = function(card)
+		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "mcanvil") } }
+	end
+}
+
 togabalatro.jd_def["j_toga_spacecadetpinball"] = {
 	text = {
 		{ text = "1", colour = G.C.FILTER },
@@ -1398,15 +1412,7 @@ togabalatro.jd_def["j_toga_sonicthehedgehog"] = {
 		}
 	},
 	calc_function = function(card)
-		local cards = G.hand and G.hand.highlighted or {}
-		local golds = 0
-		
-		if cards and next(cards) then
-			for k, v in pairs(cards) do
-				if SMODS.has_enhancement(v, 'm_gold') then golds = golds + 1 end
-			end
-		end
-		card.joker_display_values.rings = math.min((card.ability.extra.rings or 0) + golds, 50)
+		card.joker_display_values.rings = math.min((card.ability.extra.rings or 0), 50)
 		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'toga_7chaosemeralds') } }
 	end,
 	retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
@@ -1432,18 +1438,7 @@ togabalatro.jd_def["j_toga_supersonicthehedgehog"] = {
 	},
 	text_config = { colour = G.C.GREEN, scale = 0.8 },
 	calc_function = function(card)
-		local text, _, shand = JokerDisplay.evaluate_hand()
-		local golds = 0
-		
-		if shand and next(shand) then
-			for k, v in pairs(shand) do
-				if SMODS.has_enhancement(v, 'm_gold') then
-					local triggers = JokerDisplay.calculate_card_triggers(v, shand)
-					golds = golds + triggers
-				end
-			end
-		end
-		card.joker_display_values.rings = math.min((card.ability.extra.rings or 0) + golds, 150)
+		card.joker_display_values.rings = math.min((card.ability.extra.rings or 0), 150)
 		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'toga_7superemeralds') } }
 		card.joker_display_values.nodds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.nodds, 'toga_supersonicdestroy') } }
 	end,
@@ -1487,6 +1482,47 @@ togabalatro.jd_def["j_toga_victor"] = {
 	end
 }
 
+togabalatro.jd_def["j_toga_mothernature"] = {
+	extra = {
+		{
+			{ text = "(" },
+			{ ref_table = "card.joker_display_values", ref_value = "odds" },
+			{ text = ")" },
+		}
+	},
+	extra_config = { colour = G.C.GREEN, scale = 0.3 },
+	calc_function = function(card)
+		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'toga_mothernature' .. G.GAME.round_resets.ante) } }
+	end
+}
+
+togabalatro.jd_def["j_toga_f1"] = {
+	text = {
+		{ text = "(" },
+		{ ref_table = "card.joker_display_values", ref_value = "txt" },
+		{ text = ")" },
+	},
+	text_config = { colour = G.C.UI.TEXT_INACTIVE, scale = 0.3 },
+	calc_function = function(card)
+		card.joker_display_values.isused = card.ability.extra.used
+		if not G.shop then
+			card.joker_display_values.txt = localize('toga_inactive')
+		else
+			card.joker_display_values.txt = card.joker_display_values.isused and localize('toga_inactive') or localize('k_active_ex')
+		end
+	end,
+	style_function = function(card, text, reminder_text, extra)
+		if text and text.children[1] and text.children[2] and card.joker_display_values then
+			if not G.shop then
+				text.children[2].config.colour = G.C.UI.TEXT_INACTIVE
+			else
+				text.children[2].config.colour = not card.joker_display_values.isused and G.C.FILTER or G.C.UI.TEXT_INACTIVE
+			end
+		end
+		return false
+	end
+}
+
 togabalatro.jd_def["j_toga_bigbang"] = {
 	text = {
 		{
@@ -1514,6 +1550,27 @@ togabalatro.jd_def["j_toga_heatdeath"] = {
 	calc_function = function(card)
 		card.joker_display_values.xm = 1+card.ability.extra.xm
 	end,
+}
+
+togabalatro.jd_def["j_toga_afterdark"] = {
+	text = {
+		{ text = "+", colour = G.C.CHIPS },
+		{ ref_table = "card.ability.extra", ref_value = "c", colour = G.C.CHIPS, retrigger_type = "mult" },
+	},
+}
+
+togabalatro.jd_def["j_toga_goose_ugg"] = {
+	extra = {
+		{
+			{ text = "(" },
+			{ ref_table = "card.joker_display_values", ref_value = "odds" },
+			{ text = ")" },
+		}
+	},
+	extra_config = { colour = G.C.GREEN, scale = 0.3 },
+	calc_function = function(card)
+		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds) } }
+	end
 }
 
 togabalatro.jd_def["j_toga_winamp"] = {

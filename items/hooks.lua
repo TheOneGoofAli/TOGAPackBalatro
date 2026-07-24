@@ -606,6 +606,7 @@ sendInfoMessage("Hooking Card_Character:add_speech_bubble...", "TOGAPack")
 local cardcharaddspeechbubbleref = Card_Character.add_speech_bubble
 function Card_Character:add_speech_bubble(text_key, align, loc_vars, quip_args)
 	if self.config.args.center == 'c_toga_selfpropelledbomb' then return end
+	if self.config.args.center == 'j_toga_kappa' then self.children.particles:remove(); self.children.particles = nil end
 	cardcharaddspeechbubbleref(self, text_key, align, loc_vars, quip_args)
 end
 
@@ -900,7 +901,9 @@ function get_blind_amount(ante)
 		end
 	end
 	if deband[1] then
-		amt = amt*0.8
+		for k, v in pairs(deband) do
+			amt = amt*0.8
+		end
 	end
 	for k, v in pairs(G.playing_cards or {}) do
 		if SMODS.has_enhancement(v, 'm_toga_lead') and tonumber(v.ability.toga_blindredamt) then amt = amt*v.ability.toga_blindredamt end
@@ -1125,6 +1128,7 @@ function SMODS.card_select_area(card, pack)
     local sa, cau = cardselarearef(card, pack)
 	if card and card.ability and card.ability.set and not sa then
 		if (card.ability.set == 'Planet' or card.ability.set == 'Tarot') and next(SMODS.find_card('j_toga_genie')) then sa = "consumeables"; cau = true end
+		if (card.ability.set == 'Spectral') and next(SMODS.find_card('j_toga_earl')) then sa = "consumeables"; cau = true end
 	end
     return sa, cau
 end

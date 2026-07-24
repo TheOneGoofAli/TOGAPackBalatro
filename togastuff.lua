@@ -113,6 +113,11 @@ togabalatro.calculate = function(self, context)
 			end
 		end
 	end
+	
+	if context.stay_flipped and context.from_area == G.play and context.other_card and context.other_card.toga_anvilhit then
+		context.other_card.toga_anvilhit = nil
+		return { modify = { to_area = G.deck } }
+	end
 end
 
 togabalatro.nfs = require("SMODS.nativefs")
@@ -438,7 +443,10 @@ SMODS.ObjectType{
 		["j_toga_melons"] = true, ["j_toga_delphi"] = true, ["j_toga_smssender"] = true,
 		["j_toga_kingharkinian_cdi"] = true, ["j_toga_morshu_cdi"] = true, ["j_toga_mario_cdi"] = true,
 		["j_toga_diskquota"] = true, ["j_toga_mshelp"] = true, ["j_toga_msmoney"] = true,
-		["j_toga_aero"] = true, ["j_toga_nopeavi"] = true, ["j_toga_7zip"] = true
+		["j_toga_aero"] = true, ["j_toga_nopeavi"] = true, ["j_toga_7zip"] = true,
+		["j_toga_kappa"] = true, ["j_toga_mothernature"] = true, ["j_toga_afterdark"] = true,
+		["j_toga_goose_ugg"] = true, ["j_toga_chesspawn"] = true, ["j_toga_f1"] = true,
+		["j_toga_earl"] = true,
 	}
 }
 

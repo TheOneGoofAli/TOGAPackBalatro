@@ -292,28 +292,9 @@ return {
 			j_toga_mcanvil = {
 				name = 'Anvil',
 				text = {
-					{
-						"Played {C:attention}Steel Cards{} are",
-						"{C:attention}converted{} to {C:attention}Iron Cards{}",
-						"afterwards",
-					},
-					{
-						"Played {C:attention}Iron Cards{} gain",
-						"{C:attention}held in hand{} {X:mult,C:white}X#1#{} Mult",
-						"afterwards"
-					},
-				}
-			},
-			j_toga_mcanvil_stj = {
-				name = 'Anvil',
-				text = {
-					"Played {C:attention}Steel Cards{} are",
-					"{C:attention}converted{} to {C:attention}Iron Cards{}",
-					"afterwards",
-					"",
-					"Played {C:attention}Iron Cards{} gain",
-					"{C:attention}held in hand{} {X:mult,C:white}X#1#{} Mult",
-					"afterwards"
+					"{C:green}#1# in #2#{} chance for",
+					"each played {C:attention}Iron Card{}",
+					"to return to {C:attention}deck{}",
 				}
 			},
 			j_toga_taskmgr = {
@@ -384,8 +365,8 @@ return {
 			j_toga_win98 = {
 				name = 'Windows 98',
 				text = {
-					"When a card {C:attention}scores{}, {C:attention}#3#%{} of total sell value",
-					"of all current Jokers is given as {C:red}Mult{}. {C:inactive,s:0.8}(Currently {C:money,s:0.8}$#4#{C:inactive,s:0.8}){}",
+					"{C:attention}Scoring{} cards give {C:attention}#3#%{} of total sell value",
+					"of all current Jokers as {C:red}Mult{}. {C:inactive,s:0.8}(Currently {C:money,s:0.8}$#4#{C:inactive,s:0.8}){}",
 					"Held {C:attention}Consumables{} increase given {C:red}Mult{} by {C:attention}#1#%{} each.",
 					"{C:inactive,s:0.8}(Currently #2#%){}"
 				}
@@ -1414,7 +1395,7 @@ return {
 					},
 					{
 						"{C:green}#1# in #2#{} chance to become {C:attention}Super Sonic{}",
-						"after playing {C:attention}#4# Gold{} cards",
+						"after scoring {C:attention}#4# Gold{} cards",
 						"{C:inactive}(Currently #3#/#4#)",
 					},
 				},
@@ -1497,7 +1478,8 @@ return {
 				name = 'Victor',
 				text = {
 					"Create a random {C:planet}#2#{} card",
-					"if {C:attention}#1#{} was in played hand",
+					"if {C:blue}played{} or {C:red}discarded{} hand",
+					"contains a {C:attention}#1#{}",
 					"{C:inactive}(Must have room)",
 				}
 			},
@@ -1633,7 +1615,8 @@ return {
 				name = {'King Harkinian', '{s:0.8}Zelda: The Wand of Gamelon'},
 				text = {
 					"This Joker gains {C:mult}#2#{} Mult",
-					"when {C:enhanced}enhancing{} {C:attention}Aces{} or {C:attention}Kings{}",
+					"when {C:attention}Aces{} or {C:attention}Kings{} change",
+					"{C:attention}suits{} or are {C:enhanced}enhanced{}",
 					"{C:inactive}(Currently {}{C:mult}#1#{}{C:inactive} Mult){}"
 				}
 			},
@@ -1720,6 +1703,64 @@ return {
 				text = {
 					"{C:gold}Shops{} have an extra",
 					"{C:attention}Booster Pack slot{}"
+				}
+			},
+			j_toga_kappa = {
+				name = '#1#',
+				text = {
+					"If {C:attention}played hand{} is {C:attention}final{} and",
+					"{C:red}not allowed{}, {C:blue}play{} it {C:dark_edition}anyway{}{element:1,s:-1} ",
+				},
+			},
+			j_toga_goose_ugg = {
+				name = 'Goose',
+				text = {
+					"When entering the {C:gold}Shop{},",
+					"{C:green}#1# in #2#{} chance to make",
+					"a random {C:attention}item{} {C:gold}free{}",
+				}
+			},
+			j_toga_afterdark = {
+				name = '{f:toga_tnric}After Dark',
+				text = {
+					"Gains {C:chips}#2#{} Chips",
+					"when {C:attention}Blind{} is selected",
+					"{C:inactive}(Currently {C:chips}#1#{C:inactive} Chips){}",
+				},
+			},
+			j_toga_chesspawn = {
+				name = 'Chess Pawn',
+				text = {
+					"After playing {C:attention}#2#{} hands,",
+					"all cards in hand",
+					"become {C:attention}#3#s{}, then",
+					"{C:red,E:2}self-destructs{}",
+					"{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#){}",
+				}
+			},
+			j_toga_mothernature = {
+				name = 'Mother Nature',
+				text = {
+                    "{C:green}#2# in #3#{} chance to create",
+                    "a {C:planet}#1#{} card when any",
+                    "{C:attention}Booster Pack{} is opened",
+                    "{C:inactive}(Must have room)",
+                },
+			},
+			j_toga_f1 = {
+				name = 'F1',
+				text = {
+                    "Once per {C:gold}Shop{}, add a {C:attention}copy{} of {C:attention}first{}",
+					"opened {C:attention}Booster Pack{} to {C:gold}Shop{}",
+					"{C:inactive}(#1#)",
+                },
+			},
+			j_toga_earl = {
+				name = 'Earl',
+				text = {
+					"{C:spectral}#1#{} cards",
+					"can be {C:attention}saved{} from",
+					"{C:attention}Booster Packs{}",
 				}
 			},
 		},
@@ -1821,6 +1862,7 @@ return {
 				text = {
 					"If {C:attention}played{}, draw a card",
 					"to {C:attention}hand{} from deck",
+					"before scoring",
 				},
 			},
 			m_toga_nickel = {
@@ -2892,9 +2934,10 @@ return {
 			c_toga_glteapot = {
 				name = "GLTeapot",
 				text = {
-					"Gains {C:money}$#1#{} of",
-					"{C:attention}sell value{} at",
-					"end of round",
+					"Adds permanent {C:enhanced}held in hand{} {C:chips}#1#{} Chips",
+					"to {C:attention}leftmost{} or selected {C:attention}leftmost{}",
+					"card in hand",
+					"{C:inactive}(Useable once per round)",
 				},
 			}
 		},
@@ -2905,6 +2948,9 @@ return {
 		},
 		suits_plural = {
 			-- oops, nothing!
+		},
+		quips = {
+			toga_kappa = { " " }
 		},
 		dictionary = {
 			togazipboosterpack = "ZIP Package",
@@ -3010,6 +3056,8 @@ return {
 			toga_firetech = "Fire Technique",
 			toga_icetech = "Ice Technique",
 			toga_skillhunter = "Skill (Hunter)",
+			toga_basekappa = ":Kappa:",
+			toga_polykappa = ":KappaPride:",
 			k_togaitem = 'Item?',
 			b_toga_togaitem_cards = 'Item? Cards',
 			toga_nerfedver = "Toned Down",

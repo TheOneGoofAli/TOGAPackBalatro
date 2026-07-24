@@ -32,17 +32,13 @@ table.insert(sj, {
 		
 		if (context.blueprint or context.retrigger_joker) then return end
 		
-		if context.before and context.full_hand and next(context.full_hand) then
-			for k, v in ipairs(context.full_hand or {}) do
-				if SMODS.has_enhancement(v, 'm_gold') then
-					if (tonumber(card.ability.extra.rings) or 0) < 50 then
-						card.ability.extra.rings = math.min((card.ability.extra.rings or 0) + 1, 50)
-						if card.ability.extra.rings >= 50 then
-							SMODS.calculate_effect({ message = "!", message_card = v, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonictally', pitch = 1}, card)
-						else
-							SMODS.calculate_effect({ message = "+", message_card = v, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonicring', pitch = 1}, card)
-						end
-					end
+		if context.individual and context.cardarea == G.play and context.other_card then
+			if (tonumber(card.ability.extra.rings) or 0) < 50 then
+				card.ability.extra.rings = math.min((card.ability.extra.rings or 0) + 1, 50)
+				if card.ability.extra.rings >= 50 then
+					SMODS.calculate_effect({ message = "!", message_card = context.other_card, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonictally', pitch = 1}, card)
+				else
+					SMODS.calculate_effect({ message = "+", message_card = context.other_card, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonicring', pitch = 1}, card)
 				end
 			end
 		end

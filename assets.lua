@@ -146,6 +146,8 @@ SMODS.Sound({key = "aimgotmail", path = "aimgotmail.ogg"}) -- AOL Instant Messen
 SMODS.Sound({key = "aimwelcome", path = "aimwelcome.ogg"}) -- AOL Instant Messenger
 SMODS.Sound({key = "aimgoodbye", path = "aimgoodbye.ogg"}) -- AOL Instant Messenger
 SMODS.Sound({key = "nopeavi", path = "nope.ogg"}) -- "Nope." - Engineer, TF2
+SMODS.Sound({key = "goosehonk", path = "goose.ogg"}) -- honk.
+SMODS.Sound({key = "goosehonkreverse", path = "esoog.ogg"}) -- .knoh
 
 SMODS.Sound({key = "kinghark_dinner", path = "cdi/dinner.ogg"}) -- "Dinner." - King Harkinian, Zelda: The Wand of Gamelon
 SMODS.Sound({key = "kinghark_oah", path = "cdi/oah.ogg"}) -- "OAH!" - King Harkinian, Zelda: The Wand of Gamelon
@@ -297,6 +299,7 @@ SMODS.Sound({
 SMODS.Font({
     key = "tf2font",
     path = "tf2build.ttf",
+	TEXT_HEIGHT_SCALE = 0.75
 })
 
 SMODS.Font({
@@ -333,6 +336,13 @@ SMODS.Font({
     key = "scdfont",
     path = "sonic-cd-menu-font.otf",
 	FONTSCALE = 0.06
+})
+
+SMODS.Font({
+    key = "tnric",
+    path = "timesnewromanitaliccondensed.ttf",
+	render_scale = 250,
+	TEXT_HEIGHT_SCALE = 0.66
 })
 
 SMODS.DrawStep({

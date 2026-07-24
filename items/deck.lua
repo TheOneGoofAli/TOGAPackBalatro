@@ -414,7 +414,7 @@ if togabalatro.config.WTFDeck then
 				G.GAME.hands[v].visible = true
 			end
 			
-			change_shop_size(1)
+			change_shop_size(2)
 			
 			G.STATE = G.STATES.SHOP
 			G.GAME.shop_free = nil
@@ -445,12 +445,8 @@ if togabalatro.config.WTFDeck then
 			
 			if context.before then back.effect.config.repeatamount = G.jokers and G.jokers.cards and #G.jokers.cards or 0 end
 			
-			if context.cardarea == G.play and context.repetition and not context.repetition_only
-			and context.other_card and back.effect.config.repeatamount and back.effect.config.repeatamount > 0 then
-				return {
-					repetitions = back.effect.config.repeatamount,
-					message = localize('k_again_ex'),
-				}
+			if context.repetition and not context.repetition_only and context.other_card and back.effect.config.repeatamount and back.effect.config.repeatamount > 0 then
+				return { repetitions = back.effect.config.repeatamount }
 			end
 			
 			if context.after then back.effect.config.repeatamount = 0 end

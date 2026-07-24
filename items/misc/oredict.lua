@@ -99,6 +99,16 @@ togabalatro.has_alloy = function()
 	return false
 end
 
+-- Smeltery should appear if at least 2 valid enhancements exist.
+togabalatro.furnace_inpool = function()
+	local count = 0
+	for k, v in pairs(G.playing_cards or {}) do
+		if togabalatro.is_mineral(G.playing_cards[i], montus) then count = count + 1 end
+		if count >= 2 then return true end
+	end
+	return false
+end
+
 togabalatro.add_to_oredict = function(key, material, quiet)
 	quiet = quiet or false
 	if not (key or material) then sendErrorMessage("Key or material not defined: ["..tostring(key).."] ["..tostring(material).."]", "TOGAPack - OreDictionary"); return end

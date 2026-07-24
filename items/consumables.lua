@@ -24,7 +24,7 @@ SMODS.Consumable{
 		return { key = card.togamodarea and self.key..'_modinfo' or card.fake_card and self.key..'_fakecard' or cando and self.key..'_ready' or G.hand and G.hand.highlighted and #G.hand.highlighted > 0 and self.key.."_novalidrecipe" or self.key, vars = { card.ability.extra.moneygain } }
 	end,
 	in_pool = function()
-		return togabalatro.config.ShowPower and togabalatro.has_mineral(true) -- Should only spawn if mineral cards.
+		return togabalatro.config.ShowPower and togabalatro.furnace_inpool() -- Should only spawn if enough are present.
 	end,
 	can_use = function(self, card, area, copier)
 		if togabalatro.validsmeltrecipes and #togabalatro.validsmeltrecipes < 0 then return false end
@@ -555,25 +555,75 @@ SMODS.Consumable {
 	atlas = "TOGAJokersBeOS",
 	pos = {x = 1, y = 0},
 	cost = 1,
-	config = { extra = { gsv = 2 } },
+	config = { extra = { ghchips = 10, canuse = true } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.gsv } }
+		return { vars = { SMODS.signed(card.ability.extra.ghchips), card.ability.extra.canuse } }
 	end,
 	in_pool = function()
 		return false
 	end,
-	can_use = function()
-		return false
+	can_use = function(self, card)
+		if not card.ability.extra.canuse then return false end
+		
+		return G.hand.highlighted and G.hand.highlighted[1] and #G.hand.highlighted == 1 and G.hand.highlighted[1] or G.hand.cards and G.hand.cards[1]
 	end,
 	calculate = function(self, card, context)
 		if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
-			card.ability.extra_value = card.ability.extra_value + card.ability.extra.gsv
-			card:set_cost()
+			card.ability.extra.canuse = true
 			return {
-				message = localize('k_val_up'),
-				colour = G.C.MONEY
+				message = localize('k_reset'),
 			}
 		end
+	end,
+	use = function(self, card, area, copier)
+		local tcard = G.hand.highlighted and G.hand.highlighted[1] and #G.hand.highlighted == 1 and G.hand.highlighted[1] or G.hand.cards and G.hand.cards[1]
+		if tcard then
+			card.ability.extra.canuse = false
+			tcard.ability.perma_h_chips = (tcard.ability.perma_h_chips or 0) + card.ability.extra.ghchips
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.4,
+				func = function()
+					play_sound('tarot1')
+					card:juice_up(0.3, 0.5)
+					return true
+				end
+			}))
+			local percent = 1.15 - (1 - 0.999) / (1 - 0.998) * 0.3
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.15,
+				func = function()
+					tcard:flip()
+					play_sound('card1', percent)
+					tcard:juice_up(0.3, 0.3)
+					return true
+				end
+			}))
+			delay(0.3)
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.15,
+				func = function()
+					tcard:flip()
+					play_sound('tarot2', percent, 0.6)
+					tcard:juice_up(0.3, 0.3)
+					return true
+				end
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = 'after',
+				delay = 0.2,
+				func = function()
+					G.hand:unhighlight_all()
+					return true
+				end
+			}))
+			delay(0.5)
+		end
+	end,
+	keep_on_use = function(self, card)
+		return true
 	end,
 	pixel_size = { w = 56, h = 95 },
 	can_stack = false,

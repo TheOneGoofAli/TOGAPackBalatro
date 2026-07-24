@@ -120,6 +120,9 @@ SMODS.Tag{
 
 SMODS.Tag{
 	key = "guaranteedice",
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_oops
+	end,
 	atlas = "TOGATags",
 	pos = { x = 3, y = 0 },
 	config = { type = "store_joker_create" },
@@ -148,6 +151,9 @@ SMODS.Tag{
 
 SMODS.Tag{
 	key = "thenet",
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.c_black_hole
+	end,
 	atlas = "TOGATags",
 	pos = { x = 4, y = 0 },
 	config = { type = "immediate", odds = 15 },
