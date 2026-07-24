@@ -2998,6 +2998,7 @@ table.insert(jokers, {
 		local kt = localize(card and card.edition and card.edition.polychrome and 'toga_polykappa' or 'toga_basekappa')
 		if card and card.edition and card.edition.negative then kt = string.reverse(kt) end
 		return {
+			key = togabalatro.stjcheck() and self.key.."_stj" or self.key,
 			vars = {
 				elements = { SMODS.create_sprite(0, 0, 0.5, 0.5, 'toga_TOGAMoreIcons', { x = 8, y = 0 } ) },
 				kt,

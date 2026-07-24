@@ -1712,6 +1712,13 @@ return {
 					"{C:red}not allowed{}, {C:blue}play{} it {C:dark_edition}anyway{}{element:1,s:-1} ",
 				},
 			},
+			j_toga_kappa_stj = {
+				name = ':Kappa:',
+				text = {
+					"If {C:attention}played hand{} is {C:attention}final{} and",
+					"{C:red}not allowed{}, {C:blue}play{} it {C:dark_edition}anyway{}",
+				},
+			},
 			j_toga_goose_ugg = {
 				name = 'Goose',
 				text = {
