@@ -30,6 +30,8 @@ local toga_attrib = {
 	{ 'teamfortress2', {}, { 'team_fortress_2' } },
 	{ 'rocketleague', {}, { 'rocket_league' } },
 	{ 'archiver', {}, {} },
+	{ 'play_limit', {}, { 'card_selection_limit' } },
+	{ 'discard_limit', {}, { 'card_selection_limit' } },
 }
 
 for k, v in ipairs(toga_attrib) do

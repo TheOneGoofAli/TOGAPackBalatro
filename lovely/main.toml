@@ -99,7 +99,7 @@ target = "functions/UI_definitions.lua"
 pattern = "for k, v in ipairs(text) do"
 position = "before"
 payload = '''
-if togabalatro and SMODS.find_card('j_toga_kappa') then
+if togabalatro and next(SMODS.find_card('j_toga_kappa')) then
 	row[#row+1] = { n = G.UIT.R, config = { align = "cm" }, nodes = { { n = G.UIT.O, config = { object = SMODS.create_sprite(0, 0, 1, 1, 'toga_TOGAMoreIcons', { x = 8, y = 0 } ) } } } }
 end
 '''

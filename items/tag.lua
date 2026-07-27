@@ -153,13 +153,11 @@ SMODS.Tag{
 	key = "thenet",
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.c_black_hole
+		return { key = next(SMODS.find_mod('Cryptid')) and self.key.."_cryptid" or self.key, vars = { SMODS.get_probability_vars(card or self, 1, card.ability.odds or self.config.odds) } }
 	end,
 	atlas = "TOGATags",
 	pos = { x = 4, y = 0 },
 	config = { type = "immediate", odds = 15 },
-	loc_vars = function(self, info_queue, card)
-		return { key = next(SMODS.find_mod('Cryptid')) and self.key.."_cryptid" or self.key, vars = { SMODS.get_probability_vars(card or self, 1, card.ability.odds or self.config.odds) } }
-	end,
 	in_pool = function(self, args)
 		return true
 	end,

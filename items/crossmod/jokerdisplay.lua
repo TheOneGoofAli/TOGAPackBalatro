@@ -1448,17 +1448,6 @@ togabalatro.jd_def["j_toga_supersonicthehedgehog"] = {
 }
 
 togabalatro.jd_def["j_toga_hypersonicthehedgehog"] = {
-	extra = {
-		{
-			{ text = "(" },
-			{ ref_table = "card.joker_display_values", ref_value = "odds" },
-			{ text = ")" },
-		}
-	},
-	extra_config = { colour = G.C.RED, scale = 0.4 },
-	calc_function = function(card)
-		card.joker_display_values.odds = localize { type = 'variable', key = "jdis_odds", vars = { SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'toga_hypersonicdestroy', nil) } }
-	end,
 	retrigger_function = function(playing_card, scoring_hand, held_in_hand, joker_card)
 		return JokerDisplay.calculate_joker_triggers(joker_card)*2 or 0
 	end

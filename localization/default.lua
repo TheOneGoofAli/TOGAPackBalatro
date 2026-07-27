@@ -1448,8 +1448,7 @@ return {
 						"Retrigger {C:attention}all{} playing cards twice",
 					},
 					{
-						"Played cards have a {C:green}#1# in #2#{}",
-						"chance to be destroyed",
+						"{C:attention}+2{} card selection limit",
 					},
 					{
 						"{C:attention,E:1}Jokers cannot be debuffed",
@@ -1459,9 +1458,8 @@ return {
 			j_toga_hypersonicthehedgehog_stj = {
 				name = "{C:edition}Hyper Sonic{}",
 				text = {
-					"Retrigger {C:attention}all{} playing cards twice",
-					"Played {C:attention}non-Gold{} cards have a",
-					"{C:green}#1# in #2#{} chance to be destroyed",
+					"Retrigger {C:attention}all{} playing cards thrice",
+					"{C:attention}+2{} card selection limit",
 					"{C:attention,E:1}Jokers cannot be debuffed",
 				},
 			},

@@ -12,7 +12,7 @@ table.insert(sj, {
 	end,
 	unlocked = true,
 	in_pool = function()
-		return togabalatro.config.ShowPower
+		return togabalatro.config.ShowPower and not (next(SMODS.find_card('j_toga_supersonicthehedgehog') or next(SMODS.find_card('j_toga_hypersonicthehedgehog'))))
 	end,
 	discovered = true,
 	rarity = 3,
@@ -26,13 +26,12 @@ table.insert(sj, {
 			return {
 				message = localize('k_again_ex'),
 				repetitions = 1,
-				card = context.blueprint_card or card
 			}
 		end
 		
 		if (context.blueprint or context.retrigger_joker) then return end
 		
-		if context.individual and context.cardarea == G.play and context.other_card then
+		if context.individual and context.cardarea == G.play and context.other_card and SMODS.has_enhancement(context.other_card, 'm_gold') then
 			if (tonumber(card.ability.extra.rings) or 0) < 50 then
 				card.ability.extra.rings = math.min((card.ability.extra.rings or 0) + 1, 50)
 				if card.ability.extra.rings >= 50 then
@@ -112,7 +111,6 @@ table.insert(sj, {
 	atlas = 'TOGASuperSonic',
 	pos = { x = 0, y = 0 },
 	soul_pos = { x = 0, y = 1 },
-	no_collection = true,
 	cost = 20,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
@@ -120,13 +118,12 @@ table.insert(sj, {
 			return {
 				message = localize('k_again_ex'),
 				repetitions = 1,
-				card = context.blueprint_card or card
 			}
 		end
 		
 		if (context.blueprint or context.retrigger_joker) then return end
 		
-		if context.individual and context.cardarea == G.play and context.other_card then
+		if context.individual and context.cardarea == G.play and context.other_card and SMODS.has_enhancement(context.other_card, 'm_gold') then
 			if (tonumber(card.ability.extra.rings) or 0) < 150 then
 				card.ability.extra.rings = math.min((card.ability.extra.rings or 0) + 1, 150)
 				if card.ability.extra.rings >= 150 then
@@ -179,7 +176,6 @@ table.insert(sj, {
 		end
 	end,
 	poweritem = true,
-	remainhidden = true,
 	display_size = { w = 71 * 1.056, h = 95 },
 	pixel_size = { w = 71, h = 95 },
 	attributes = { 'retrigger', 'enhancements', 'prevent_debuff', 'destroy_card', 'chance' }
@@ -187,10 +183,8 @@ table.insert(sj, {
 
 table.insert(sj, {
 	key = 'hypersonicthehedgehog',
-	config = { extra = { odds = 8 } },
 	loc_vars = function(self, info_queue, card)
-		local num, den = SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds, 'toga_hypersonicdestroy')
-		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { num, den } }
+		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key }
 	end,
 	unlocked = true,
 	in_pool = function()
@@ -201,7 +195,6 @@ table.insert(sj, {
 	atlas = 'TOGAHyperSonic',
 	pos = { x = 0, y = 0 },
 	soul_pos = { x = 0, y = 1 },
-	no_collection = true,
 	cost = 40,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
@@ -209,22 +202,19 @@ table.insert(sj, {
 			return {
 				message = localize('k_again_ex'),
 				repetitions = 2,
-				card = context.blueprint_card or card
 			}
 		end
-		
-		if (context.blueprint or context.retrigger_joker) then return end
-		
-		if context.destroy_card and context.cardarea == G.play and SMODS.pseudorandom_probability(card, 'toga_hypersonicdestroy', 1, card.ability.extra.odds) then
-			context.destroy_card.sonicdestroyed = true
-			return { remove = true }
-		end
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		togabalatro.handlimitchange(2)
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		togabalatro.handlimitchange(-2)
 	end,
 	poweritem = true,
-	remainhidden = true,
 	display_size = { w = 71 * 1.056, h = 95 },
 	pixel_size = { w = 71, h = 95 },
-	attributes = { 'retrigger', 'prevent_debuff', 'destroy_card', 'chance' }
+	attributes = { 'retrigger', 'prevent_debuff', 'play_limit', 'discard_limit' }
 })
 
 return sj

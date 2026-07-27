@@ -30,7 +30,7 @@ SMODS.Enhancement{
 	key = 'chocolate',
 	atlas = "TOGAEnhancements",
 	pos = { x = 7, y = 1 },
-	config = { bonus = 50, extra = { chodds = 4 } },
+	config = { bonus = 75, extra = { chodds = 4 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { SMODS.signed(card.ability.bonus), SMODS.get_probability_vars(card, 1, (card.ability or self.config).extra.chodds) } }
 	end,
