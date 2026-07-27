@@ -606,7 +606,7 @@ sendInfoMessage("Hooking Card_Character:add_speech_bubble...", "TOGAPack")
 local cardcharaddspeechbubbleref = Card_Character.add_speech_bubble
 function Card_Character:add_speech_bubble(text_key, align, loc_vars, quip_args)
 	if self.config.args.center == 'c_toga_selfpropelledbomb' then return end
-	if self.config.args.center == 'j_toga_kappa' then self.children.particles:remove(); self.children.particles = nil end
+	if self.config.args.center == 'j_toga_kappa' then self.children.particles:remove(); self.children.particles = nil; return end
 	cardcharaddspeechbubbleref(self, text_key, align, loc_vars, quip_args)
 end
 
@@ -614,6 +614,7 @@ sendInfoMessage("Hooking Card_Character:say_stuff...", "TOGAPack")
 local cardcharsaystuffref = Card_Character.say_stuff
 function Card_Character:say_stuff(n, not_first, quip_key)
 	if self.config.args.center == 'c_toga_selfpropelledbomb' then return end
+	if self.config.args.center == 'j_toga_kappa' then return end
 	cardcharsaystuffref(self, n, not_first, quip_key)
 end
 
