@@ -1054,7 +1054,7 @@ sendInfoMessage("Hooking Flush House evaluation...", "TOGAPack")
 local flushhouse = SMODS.PokerHands['Flush House']
 local flushhouseeval = SMODS.PokerHands['Flush House'].evaluate
 function flushhouse.evaluate(parts)
-	return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and next(parts._flush) and { SMODS.merge_lists(parts._all_pairs, parts._flush) } or fullhouseeval(parts)
+	return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and next(parts._flush) and { SMODS.merge_lists(parts._all_pairs, parts._flush) } or flushhouseeval(parts)
 end
 
 sendInfoMessage("Hooking Card:set_edition...", "TOGAPack")
