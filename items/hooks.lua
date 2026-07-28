@@ -845,24 +845,8 @@ local getstraightref = get_straight
 function get_straight(hand, min_length, skip, wrap)
 	local ret = getstraightref(hand, min_length, skip, wrap)
 	if next(ret) then return ret end
-	
-	if not next(SMODS.find_card('j_toga_wishingstones')) then return {} end
-	
-	min_length = min_length or 5
-	if min_length < 2 then min_length = 2 end
-	if #hand < min_length then return {} end
-	
-	ret = {}
-	local stone_count, t = 0, {}
-	for i = 1, #hand do
-		if SMODS.has_enhancement(hand[i], 'm_stone') then stone_count = stone_count + 1; t[#t+1] = hand[i] end
-	end
-	if stone_count >= min_length then
-		table.insert(ret, t)
-		return ret
-	end
 
-	return {}
+	return togabalatro.wishstonestraightcalc(hand, min_length, skip, wrap) or togabalatro.hypertermstraightcalc(hand) or {}
 end
 
 sendInfoMessage("Hooking SMODS.four_fingers...", "TOGAPack")
@@ -1066,11 +1050,11 @@ function fullhouse.evaluate(parts)
 	return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and parts._all_pairs or fullhouseeval(parts)
 end
 
-sendInfoMessage("Hooking Straight evaluation...", "TOGAPack")
-local straightph = SMODS.PokerHands['Straight']
-local straightpheval = SMODS.PokerHands['Straight'].evaluate
-function straightph.evaluate(parts)
-	return next(SMODS.find_card('j_toga_hyperterminal')) and #parts._2 >= 2 and parts._all_pairs or straightpheval(parts)
+sendInfoMessage("Hooking Flush House evaluation...", "TOGAPack")
+local flushhouse = SMODS.PokerHands['Flush House']
+local flushhouseeval = SMODS.PokerHands['Flush House'].evaluate
+function flushhouse.evaluate(parts)
+	return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and next(parts._flush) and { SMODS.merge_lists(parts._all_pairs, parts._flush) } or fullhouseeval(parts)
 end
 
 sendInfoMessage("Hooking Card:set_edition...", "TOGAPack")

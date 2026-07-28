@@ -1117,6 +1117,31 @@ togabalatro.getlevelaverage = function()
 	return average
 end
 
+togabalatro.wishstonestraightcalc = function(hand, min_length, skip, wrap)
+	if next(SMODS.find_card('j_toga_wishingstones')) then
+		local min_length = min_length or 5
+		if min_length < 2 then min_length = 2 end
+		if #hand < min_length then return {} end
+		
+		local ret = {}
+		local stone_count, t = 0, {}
+		for i = 1, #hand do
+			if SMODS.has_enhancement(hand[i], 'm_stone') then stone_count = stone_count + 1; t[#t+1] = hand[i] end
+		end
+		if stone_count >= min_length then
+			table.insert(ret, t)
+			return ret
+		end
+	end
+end
+
+togabalatro.hypertermstraightcalc = function(hand)
+	if next(SMODS.find_card('j_toga_hyperterminal')) then
+		local ret = SMODS.PokerHandParts._2.func(hand) or {}
+		if next(ret) and #ret >= 2 then return ret end
+	end
+end
+
 local overflowcheck, incantationcheck, saturncheck = next(SMODS.find_mod('Overflow')) and Overflow, next(SMODS.find_mod('Incantation')) and Incantation, next(SMODS.find_mod('Saturn')) and Saturn
 -- Check for Overflow or Incantation... or Saturn?
 togabalatro.stackingcompat = function(consumable)
