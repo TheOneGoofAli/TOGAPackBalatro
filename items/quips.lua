@@ -27,7 +27,7 @@ SMODS.JimboQuip({
 		sound = 'music_shhh'
     },
     filter = function(self, type)
-		if (type == 'lose' or type == 'loss') then return true, { weight = SMODS.find_card('j_toga_kappa') and 4822 or 2 } end
+		if (type == 'lose' or type == 'loss') then return true, { weight = next(SMODS.find_card('j_toga_kappa')) and 4822 or 2 } end
     end,
 	play_sounds = function(self, times)
 		-- sorry, nothing!

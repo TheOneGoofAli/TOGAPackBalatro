@@ -52,14 +52,12 @@ togabalatro.calculate = function(self, context)
 		G.GAME.current_round.toga_manyullyn = 0
 	end
 	
-	if context.modify_hand then
+	if context.initial_scoring_step then
 		if context.scoring_name then
 			local shifta = SMODS.find_card('j_toga_pso2shifta')
 			
 			if shifta[1] and togabalatro.shiftacheck(context.scoring_name) then
-				hand_chips, mult = hand_chips * 1.97, mult * 1.97
-				SMODS.calculate_effect({ message = '!', delay = 0.01, sound = 'xchips', pitch = 0+math.random(-2, 2)/10, volume = 1, colour = G.C.CHIPS }, shifta[1])
-				SMODS.calculate_effect({ message = '!', delay = 0.01, sound = 'multhit2', pitch = 0+math.random(-2, 2)/10, volume = 1, colour = G.C.MULT }, shifta[1])
+				return { x_chips = 1.97, x_mult = 1.97, message_card = shifta[1] }
 			end
 		end
 	end

@@ -36,8 +36,8 @@ function colour_end_of_round_effects()
 	end
 end
 
-SMODS.Atlas{key = "TOGAJokersColours", path = "togacolours.png", px = 71, py = 95}
-SMODS.Joker{
+SMODS.Atlas({key = "TOGAJokersColours", path = "togacolours.png", px = 71, py = 95})
+SMODS.Joker({
 	key = 'penwheel',
 	config = { extra = { percolormoney = 2 } },
 	loc_vars = function(self, info_queue, card)
@@ -77,8 +77,9 @@ SMODS.Joker{
 		if self.discovered then SMODS.create_mod_badges({ mod = SMODS.find_mod('MoreFluff')[1] }, badges) end
 	end,
 	attributes = { 'economy', 'colour', 'consumeable' }
-}
-SMODS.Joker{
+})
+
+SMODS.Joker({
 	key = 'displayproperties',
 	unlocked = true,
 	in_pool = function()
@@ -98,53 +99,53 @@ SMODS.Joker{
 		if self.discovered then SMODS.create_mod_badges({ mod = SMODS.find_mod('MoreFluff')[1] }, badges) end
 	end,
 	attributes = { 'colour', 'consumeable' }
-}
--- Temporary absence.
--- SMODS.Joker{
-	-- key = 'colourfulprinter',
-	-- unlocked = true,
-	-- discovered = true,
-	-- blueprint_compat = false,
-	-- eternal_compat = true,
-	-- perishable_compat = false,
-	-- demicolon_compat = true,
-	-- rarity = "crv_p",
-	-- atlas = 'TOGAJokersMain',
-	-- pos = { x = 3, y = 4 },
-	-- cost = 10,
-	-- pools = { ["TOGAJKR"] = true },
-	-- calculate = function(self, card, context)
-		-- if context.setting_blind or context.forcetrigger then
-			-- return {
-				-- func = function()
-					-- local createnegative = false
-					-- if G.GAME.used_vouchers["v_crv_printerup"] == true then createnegative = true end
-					-- if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or createnegative then
-						-- G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + (createnegative and 1 or 0)
-						-- G.E_MANAGER:add_event(Event({
-							-- func = function()
-								-- local colourcard = SMODS.create_card({ set = 'Colour', no_edition = createnegative and true or false }) -- egg.
-								-- if createnegative then colourcard:set_edition('e_negative', true, true) end
-								-- colourcard:add_to_deck()
-								-- G.consumeables:emplace(colourcard)
-								-- G.GAME.consumeable_buffer = math.max(G.GAME.consumeable_buffer - (createnegative and 1 or 0), 0)
-								-- return true
-							-- end
-						-- }))
-					-- end
-				-- end
-			-- }
-		-- end
-	-- end,
-	-- set_badges = function(self, card, badges)
-		-- if self.discovered then
-			-- SMODS.create_mod_badges({ mod = SMODS.find_mod('MoreFluff')[1] }, badges)
-			-- SMODS.create_mod_badges({ mod = SMODS.find_mod('RevosVault')[1] }, badges)
-		-- end
-	-- end,
-	-- dependencies = 'RevosVault',
-	-- attributes = { 'colour', 'consumeable', 'printer' }
--- }
+})
+
+SMODS.Joker({
+	key = 'colourfulprinter',
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = false,
+	eternal_compat = true,
+	perishable_compat = false,
+	demicolon_compat = true,
+	rarity = "crv_p",
+	atlas = 'TOGAJokersMain',
+	pos = { x = 3, y = 4 },
+	cost = 10,
+	pools = { ["TOGAJKR"] = true },
+	calculate = function(self, card, context)
+		if context.setting_blind or context.forcetrigger then
+			return {
+				func = function()
+					local createnegative = false
+					if G.GAME.used_vouchers["v_crv_printerup"] == true then createnegative = true end
+					if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit or createnegative then
+						G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + (createnegative and 1 or 0)
+						G.E_MANAGER:add_event(Event({
+							func = function()
+								local colourcard = SMODS.create_card({ set = 'Colour', no_edition = createnegative and true or false }) -- egg.
+								if createnegative then colourcard:set_edition('e_negative', true, true) end
+								colourcard:add_to_deck()
+								G.consumeables:emplace(colourcard)
+								G.GAME.consumeable_buffer = math.max(G.GAME.consumeable_buffer - (createnegative and 1 or 0), 0)
+								return true
+							end
+						}))
+					end
+				end
+			}
+		end
+	end,
+	set_badges = function(self, card, badges)
+		if self.discovered then
+			SMODS.create_mod_badges({ mod = SMODS.find_mod('MoreFluff')[1] }, badges)
+		end
+	end,
+	dependencies = 'RevosVault',
+	attributes = { 'colour', 'consumeable', 'printer' }
+})
+
 FLUFF.Colour({
 	name = "col_TOGAClassic",
 	key = "classic",
@@ -188,6 +189,7 @@ FLUFF.Colour({
 	end,
 	mf_art_credit = "Multi"
 })
+
 FLUFF.Colour({
 	name = "col_TOGAProfessional",
 	key = "professional",
@@ -231,6 +233,7 @@ FLUFF.Colour({
 	end,
 	mf_art_credit = "Multi"
 })
+
 FLUFF.Colour({
 	name = "col_TOGALuna",
 	key = "luna",
@@ -274,6 +277,7 @@ FLUFF.Colour({
 	end,
 	mf_art_credit = "Multi"
 })
+
 FLUFF.Colour({
 	name = "col_TOGAAero",
 	key = "aero",

@@ -449,7 +449,7 @@ if togabalatro.config.WTFDeck then
 				return { repetitions = back.effect.config.repeatamount }
 			end
 			
-			if context.after then back.effect.config.repeatamount = 0 end
+			if context.blind_defeated then back.effect.config.repeatamount = 0 end
 			
 			if context.mod_probability then return { denominator = context.denominator / 2 } end
 			
