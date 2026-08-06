@@ -644,6 +644,7 @@ table.insert(jokers, {
 	pos = { x = 2, y = 7 },
 	cost = 6,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.using_consumeable and context.consumeable and context.consumeable.ability.set == 'Tarot' and not context.blueprint then
 			SMODS.scale_card(card, {
@@ -899,6 +900,7 @@ table.insert(jokers, {
 	pos = { x = 0, y = 0 },
 	cost = 7,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if (context.before or context.pre_discard) and not context.blueprint then
 			local phands
@@ -993,6 +995,7 @@ table.insert(jokers, {
 	cost = 8,
 	blueprint_compat = true,
 	demicolon_compat = true,
+	eternal_compat = false,
 	calculate = function(self, card, context)
 		if context.initial_scoring_step or context.force_trigger then
 			local chipsmulttogether = (mult + hand_chips) * (card.ability.extra.unbalance or 1)
@@ -1054,6 +1057,7 @@ table.insert(jokers, {
 	pos = { x = 5, y = 2 },
 	cost = 5,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.debuffed_hand and G.GAME.blind and G.GAME.blind.boss and not context.blueprint then
 			SMODS.scale_card(card, {
@@ -1225,6 +1229,7 @@ table.insert(jokers, {
 	pos = { x = 2, y = 5 },
 	cost = 5,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.joker_main then return { xmult = math.max(1+card.ability.extra.bonusxmult, 1) } end
 		if context.debuffed_ups and context.card and not context.blueprint then
@@ -1266,6 +1271,7 @@ table.insert(jokers, {
 	pos = { x = 3, y = 6 },
 	cost = 6,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.tag_triggered and not context.blueprint then
 			SMODS.scale_card(card, {
@@ -1379,6 +1385,7 @@ table.insert(jokers, {
 	pos = { x = 1, y = 7 },
 	cost = 6,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.money_altered and context.amount and to_number(context.amount) < to_number(0) and not context.blueprint then
 			local mchange = math.abs(context.amount)
@@ -1409,6 +1416,7 @@ table.insert(jokers, {
 	pos = { x = 3, y = 7 },
 	cost = 4,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.ante_change and not context.blueprint then
 			SMODS.scale_card(card, {
@@ -1590,6 +1598,7 @@ table.insert(jokers, {
 	pos = { x = 1, y = 10 },
 	cost = 6,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.joker_main then return { xmult = 1+card.ability.extra.xm } end
 		
@@ -1943,6 +1952,7 @@ table.insert(jokers, {
 	pos = { x = 5, y = 9 },
 	cost = 8,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.joker_main then return { chips = card.ability.extra.cchips } end
 		
@@ -2010,6 +2020,8 @@ table.insert(jokers, {
 	soul_pos = { x = 7, y = 7 },
 	cost = 4,
 	blueprint_compat = true,
+	eternal_compat = false,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.joker_main then return { mult = card.ability.extra.m } end
 		
@@ -2047,6 +2059,8 @@ table.insert(jokers, {
 	soul_pos = { x = 7, y = 8 },
 	cost = 5,
 	blueprint_compat = true,
+	eternal_compat = false,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.joker_main then return { xmult = 1+card.ability.extra.cxmult } end
 		
@@ -2269,6 +2283,7 @@ table.insert(jokers, {
 	soul_pos = { x = 1, y = 0 },
 	cost = 15,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.roverscore then return { rover = card.ability.extra.odds, card = context.blueprint_card or card } end
 		if context.after then card.ability.roverscore = nil end
@@ -2444,13 +2459,7 @@ table.insert(jokers, {
 		return { vars = { SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds, "mcanvil") } }
 	end,
 	unlocked = true,
-	in_pool = function()
-		if G.playing_cards then
-			for k, v in pairs(G.playing_cards or {}) do
-				if SMODS.has_enhancement(v, 'm_toga_iron') then return true end
-			end
-		end
-	end,
+	enhancement_gate = 'm_toga_iron',
 	rarity = 2,
 	atlas = 'TOGAJokersOther',
 	pos = { x = 5, y = 0 },
@@ -2773,18 +2782,13 @@ table.insert(jokers, {
 		return { vars = { 1+card.ability.extra.cxchips, card.ability.extra.gxchips } }
 	end,
 	unlocked = true,
-	in_pool = function()
-		if G.playing_cards then
-			for k, v in pairs(G.playing_cards or {}) do
-				if SMODS.has_enhancement(v, 'm_toga_chocolate') then return true end
-			end
-		end
-	end,
+	enhancement_gate = 'm_toga_chocolate',
 	rarity = 2,
 	atlas = 'TOGAJokersOther',
 	pos = { x = 5, y = 2 },
 	cost = 6,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.joker_main then return { xchips = 1+card.ability.extra.cxchips } end
 		
@@ -2845,13 +2849,7 @@ table.insert(jokers, {
 	key = 'stoneroad',
 	config = { extra = { hm = 1, odds = 2 } },
 	unlocked = true,
-	in_pool = function()
-		if G.playing_cards then
-			for k, v in pairs(G.playing_cards or {}) do
-				if SMODS.has_enhancement(v, 'm_stone') then return true end
-			end
-		end
-	end,
+	enhancement_gate = 'm_stone',
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
 		return { vars = { card.ability.extra.hm, SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds) } }
@@ -2959,6 +2957,8 @@ table.insert(jokers, {
 	pos = { x = 1, y = 3 },
 	cost = 6,
 	blueprint_compat = true,
+	eternal_compat = false,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.toga_levelup and not (context.blueprint or context.retrigger_joker) then
 			SMODS.scale_card(card, {
@@ -2981,6 +2981,7 @@ table.insert(jokers, {
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
 	end,
 	unlocked = true,
+	enhancement_gate = 'm_glass',
 	rarity = 2,
 	atlas = 'TOGAJokersOther',
 	pos = { x = 2, y = 3 },
@@ -3129,6 +3130,7 @@ table.insert(jokers, {
 	pos = { x = 5, y = 3 },
 	cost = 4,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.joker_main then return { chips = card.ability.extra.c } end
 		
@@ -3241,6 +3243,7 @@ table.insert(jokers, {
 	pos = { x = 0, y = 0 },
 	cost = 4,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.joker_main then return { chips = card.ability.extra.c } end
 		
@@ -3324,6 +3327,7 @@ table.insert(jokers, {
 	pos = { x = 10, y = 0 },
 	cost = 4,
 	blueprint_compat = true,
+	perishable_compat = false,
 	pixel_size = { w = 69, h = 74 },
 	calculate = function(self, card, context)
 		if context.joker_main then return { chips = card.ability.extra.chips } end
@@ -3423,6 +3427,7 @@ table.insert(jokers, {
 	pos = { x = 0, y = 0 },
 	cost = 4,
 	blueprint_compat = true,
+	perishable_compat = false,
 	calculate = function(self, card, context)
 		if context.joker_main then return { mult = card.ability.extra.m } end
 		

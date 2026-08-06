@@ -53,8 +53,9 @@ return {
 			b_toga_311deck = {
 				name = 'WinDeck 3.11',
 				text = {
-					"{C:attention}+#2#{} hand size, +{C:money}$#1#{} on start",
-					"{C:planet}+#5#{} level to all {C:attention}poker hands{}",
+					"Start with +{C:money}$#1#{} more,",
+					"{C:planet}+#5#{} level to all {C:attention}poker hands{},",
+					"{C:attention}+#2#{} hand size, {C:attention}+#5#{} shop size,",
 					"{C:red}#3#{} card selection limit",
 					"{C:attention}+#4#{} Ante to win"
 				}
@@ -2939,8 +2940,7 @@ return {
 				name = "GLTeapot",
 				text = {
 					"Adds permanent {C:enhanced}held in hand{} {C:chips}#1#{} Chips",
-					"to {C:attention}leftmost{} or selected {C:attention}leftmost{}",
-					"card in hand",
+					"to {C:attention}leftmost{} or {C:attention}selected{} card in hand",
 					"{C:inactive}(Useable once per round)",
 				},
 			}

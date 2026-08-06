@@ -73,17 +73,32 @@ SMODS.Back{
 	pos = { x = 4, y = 0 },
 	atlas = "TOGADeckBack",
 	unlocked = true,
-	config = { extraante = 3, dollars = 7, reducehandsel = -2, hand_size = 3, pokerhandlvlup = 1},
+	config = { extraante = 3, dollars = 7, reducehandsel = -2, hand_size = 3, pokerhandlvlup = 1, shopsize = 1 },
 	loc_vars = function(self, info_queue, center)
-		return { vars = { self.config.dollars, self.config.hand_size, self.config.reducehandsel, self.config.extraante, self.config.pokerhandlvlup } }
+		return { vars = { self.config.dollars, self.config.hand_size, self.config.reducehandsel, self.config.extraante, self.config.pokerhandlvlup, self.config.shopsize } }
 	end,
 	apply = function(self, back)
 		G.E_MANAGER:add_event(Event({
 			func = function()
-				SMODS.upgrade_poker_hands({ from = G.deck.cards[1] or G.deck, instant = true })
-				G.GAME.win_ante = G.GAME.win_ante + self.config.extraante
 				if G.hand then
 					togabalatro.handlimitchange(self.config.reducehandsel)
+					return true
+				end
+			end,
+		}))
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if G.deck then
+					SMODS.upgrade_poker_hands({ from = G.deck.cards[1] or G.deck, instant = true })
+					G.GAME.win_ante = G.GAME.win_ante + self.config.extraante
+					return true
+				end
+			end,
+		}))
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				if G.GAME.shop then
+					change_shop_size(self.config.shopsize)
 					return true
 				end
 			end,
