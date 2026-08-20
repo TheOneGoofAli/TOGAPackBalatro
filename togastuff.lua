@@ -596,7 +596,7 @@ togabalatro.round = function(num, dplaces)
 end
 
 togabalatro.checkbmp = function()
-	return next(SMODS.find_mod('Multiplayer')) or false
+	return next(SMODS.find_mod('Multiplayer')) or next(SMODS.find_mod('MultiplayerExperimental')) or MP and MP.BOOT_MOD_ID or false
 end
 
 togabalatro.checksiiva = function()
