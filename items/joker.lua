@@ -753,7 +753,7 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'mothernature',
-	config = { extra = { odds = 4 } },
+	config = { extra = { odds = 2 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { localize('k_planet'), SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds, 'toga_mothernature' .. G.GAME.round_resets.ante) } }
 	end,
@@ -890,7 +890,7 @@ table.insert(jokers, {
 
 table.insert(jokers, {
 	key = 'tempinternetfiles',
-	config = { extra = { curxmult = 1, percard = 0.01 } },
+	config = { extra = { curxmult = 1, percard = 0.01 }, extra_slots_used = 1 },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.curxmult, card.ability.extra.percard, localize('Flush', "poker_hands") } }
 	end,
@@ -952,11 +952,6 @@ table.insert(jokers, {
 	pos = { x = 4, y = 3 },
 	cost = 7,
 	blueprint_compat = false,
-	calculate = function(self, card, context)
-		if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-			SMODS.calculate_effect({message = localize('k_reset') }, card)
-		end
-	end,
 	attributes = { 'passive', 'suit' }
 })
 
@@ -974,11 +969,6 @@ table.insert(jokers, {
 	pos = { x = 4, y = 5 },
 	cost = 6,
 	blueprint_compat = false,
-	calculate = function(self, card, context)
-		if context.end_of_round and not (context.individual or context.repetition or context.blueprint) then
-			return { message = localize('k_reset') }
-		end
-	end,
 	attributes = { 'passive', 'rank' }
 })
 
@@ -1426,7 +1416,7 @@ table.insert(jokers, {
 			})
 		end
 		
-		if context.individual and context.cardarea == G.hand and context.other_card and not context.end_of_round and not context.repetition and not context.repetition_only and not context.other_card.debuff then
+		if context.individual and context.cardarea == G.hand and context.other_card and not context.end_of_round and not context.repetition and not context.repetition_only then
 			return { chips = card.ability.extra.curhchips }
 		end
 	end,
@@ -2860,7 +2850,7 @@ table.insert(jokers, {
 	cost = 6,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.cardarea == G.hand and context.other_card and not context.other_card.debuff and SMODS.has_enhancement(context.other_card, 'm_stone') and not context.repetition and not context.repetition_only
+		if context.cardarea == G.hand and context.other_card and SMODS.has_enhancement(context.other_card, 'm_stone') and not context.repetition and not context.repetition_only
 		and not context.end_of_round and SMODS.pseudorandom_probability(card, "parkingonroad", 1, card.ability.extra.odds, "stoneroad") then
 			return { dollars = card.ability.extra.hm }
 		end
@@ -3700,7 +3690,7 @@ table.insert(jokers, {
 	cost = 33,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.cardarea == G.hand and context.other_card and not context.other_card.debuff and not context.repetition and not context.repetition_only and not context.end_of_round then
+		if context.cardarea == G.hand and context.other_card and not context.repetition and not context.repetition_only and not context.end_of_round then
 			-- Still, dear god...
 			return {
 				dollars = SMODS.pseudorandom_probability(card, "michaelrosen_money", 1, card.ability.extra.odds, "michaelrosen_money") and card.ability.extra.heldmoney or nil,

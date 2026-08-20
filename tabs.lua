@@ -237,7 +237,7 @@ end
 togabalatro.getitemsforoptions = function()
 	local items, list = {}, {}
 	for i, v in ipairs(list) do
-		if G.P_CENTERS[v] and not G.P_CENTERS[v].no_collection then
+		if G.P_CENTERS[v] and (not SMODS.hide_from_collection(G.P_CENTERS[v])) then
 			local gencard = Card(G.CARD_W, G.CARD_H, G.CARD_W, G.CARD_H, nil, G.P_CENTERS[v], { bypass_discovery_center = true, bypass_discovery_ui = true })
 			gencard.no_ui = true
 			gencard.states.drag.can = false

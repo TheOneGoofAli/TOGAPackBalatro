@@ -211,7 +211,7 @@ SMODS.Sound({
 	path = "silence.ogg",
 	pitch = 1,
 	select_music_track = function()
-		return G.OVERLAY_MENU and G.OVERLAY_MENU:get_UIE_by_ID('toga_intro') and 69e42
+		return G.OVERLAY_MENU and (G.OVERLAY_MENU:get_UIE_by_ID('toga_intro') or G.OVERLAY_MENU:get_UIE_by_ID('toga_moderror')) and 69e42
 	end,
 	sync = false,
 })

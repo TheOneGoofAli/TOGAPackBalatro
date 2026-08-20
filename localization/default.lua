@@ -3110,6 +3110,9 @@ return {
 			toga_yes = "Yes",
 			toga_no = "No",
 			toga_ok = "OK",
+			toga_lpe_omf = "Open Mods folder",
+			toga_lpe_restart = "Restart",
+			toga_lpe_ignore = "Ignore",
 			toga_loaddisitems = "Load disabled items",
 			toga_unloaddisitems = "Do not load disabled items",
 			-- tooltips
@@ -3303,6 +3306,19 @@ return {
 				"Please note that some items of TOGA's Stuff may not",
 				"work as intended or cause crashes when stacked due to how",
 				"Incantation handles consumeable stacking.",
+			},
+			toga_lovelypatcherror = {
+				"TOGA's Stuff - Incomplete Load",
+				"It appears that some of this mods' Lovely patches have not been applied.",
+				"Please verify that this mod is not nested and the 'lovely' subdirectory",
+				"is not empty. Some items may not function properly and/or cause crashes",
+				"if you skip this warning.",
+			},
+			toga_nestedmoderror = {
+				"TOGA's Stuff - Nested Directory",
+				"This install of TOGA's Stuff appears to be nested, which breaks loading",
+				"of its' Lovely patches. Please unnest the mod and restart the game.",
+				"(i.e. 'Mods/modname/modname' > 'Mods/modname')",
 			},
 		},
 	}

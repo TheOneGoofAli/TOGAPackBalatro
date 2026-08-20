@@ -1180,6 +1180,19 @@ togabalatro.achievementproc = function(a, t)
 	end
 end
 
+togabalatro.titlescreencheck = function()
+	if G.toga_patch then return end
+	if not togabalatro.has_shown_load_error then
+		togabalatro.has_shown_load_error = true
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				togabalatro.loaderror()
+				return true
+			end
+		}))
+	end
+end
+
 togabalatro.hahaone = 1
 
 -- I've not done such loading since making Windows for SRB2, but as the content is split off from this main file, gotta do it!

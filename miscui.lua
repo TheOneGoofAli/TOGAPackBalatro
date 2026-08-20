@@ -927,6 +927,96 @@ function togabalatro.bonusloadscreenapplyerror()
 	}}
 end
 
+function togabalatro.lovelypatcherror()
+	local errtext = G.localization.misc.ui_strings.toga_lovelypatcherror
+	play_sound('toga_chord', 1, 0.5)
+	return { n = G.UIT.ROOT, config = { align = "cm", colour = clr, padding = 32.01, r = 0.1, minw = 5, id = 'toga_moderror'}, nodes = {
+		{n = G.UIT.C, config = { align = "cl", outline = 1, outline_colour = HEX('C3C3C3'), colour = G.C.UI.BACKGROUND_INACTIVE, padding = 0.035 }, nodes = {
+			{n = G.UIT.R, config = {align = "cl", colour = HEX('000082'), minw = 11.5}, nodes = {
+				{n = G.UIT.C, config = { align = "cl", padding = 0.1 }, nodes = {
+					{n = G.UIT.T, config = { text = errtext[1], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+				}},
+			}},
+			{n = G.UIT.R, config = { align = "cl", minw = 5 }, nodes = {
+				{n = G.UIT.C, config = { align = "tl", padding = 0.05 }, nodes = {
+					{n = G.UIT.O, config = { w = 1, h = 1, object = Sprite(36, 36, 36, 36, G.ASSET_ATLAS['toga_TOGAMoreIcons'], { x = 1, y = 0 }) } },
+				}},
+				{n = G.UIT.C, config = { align = "cl", padding = -0.05}, nodes = {
+					{n = G.UIT.R, config = { align = "cl", padding = 0.2 }, nodes = {
+						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
+							{n = G.UIT.T, config = { text = errtext[2], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+						}},
+						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
+							{n = G.UIT.T, config = { text = errtext[3], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+						}},
+						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
+							{n = G.UIT.T, config = { text = errtext[4], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+						}},
+						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
+							{n = G.UIT.T, config = { text = errtext[5], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+						}},
+					}},
+				}},
+			}},
+			{n = G.UIT.R, config = {align = "cm", colour = HEX('c0c0c0'), padding = 0.15}, nodes = {
+				{n = G.UIT.C, config = { align = "cm" }, nodes = {
+					UIBox_button({label = { localize('toga_lpe_omf') }, button = "openModsDirectory", minw = 4, minh = 0.65, colour = HEX('555555')})
+				}},
+				{n = G.UIT.C, config = { align = "cm" }, nodes = {
+					UIBox_button({label = { localize('toga_lpe_restart') }, button = "toga_execrestart", minw = 2, minh = 0.65, colour = HEX('555555')})
+				}},
+				{n = G.UIT.C, config = { align = "cm" }, nodes = {
+					UIBox_button({label = { localize('toga_lpe_ignore') }, button = "toga_closeprompt", minw = 2, minh = 0.65, colour = HEX('555555')})
+				}},
+			}},
+		}},
+	}}
+end
+
+function togabalatro.nestedmod()
+	local errtext = G.localization.misc.ui_strings.toga_nestedmoderror
+	play_sound('toga_chord', 1, 0.5)
+	return { n = G.UIT.ROOT, config = { align = "cm", colour = clr, padding = 32.01, r = 0.1, minw = 5, id = 'toga_moderror'}, nodes = {
+		{n = G.UIT.C, config = { align = "cl", outline = 1, outline_colour = HEX('C3C3C3'), colour = G.C.UI.BACKGROUND_INACTIVE, padding = 0.035 }, nodes = {
+			{n = G.UIT.R, config = {align = "cl", colour = HEX('000082'), minw = 11.5}, nodes = {
+				{n = G.UIT.C, config = { align = "cl", padding = 0.1 }, nodes = {
+					{n = G.UIT.T, config = { text = errtext[1], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+				}},
+			}},
+			{n = G.UIT.R, config = { align = "cl", minw = 5 }, nodes = {
+				{n = G.UIT.C, config = { align = "tl", padding = 0.05 }, nodes = {
+					{n = G.UIT.O, config = { w = 1, h = 1, object = Sprite(36, 36, 36, 36, G.ASSET_ATLAS['toga_TOGAMoreIcons'], { x = 7, y = 0 }) } },
+				}},
+				{n = G.UIT.C, config = { align = "cl", padding = -0.05}, nodes = {
+					{n = G.UIT.R, config = { align = "cl", padding = 0.2 }, nodes = {
+						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
+							{n = G.UIT.T, config = { text = errtext[2], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+						}},
+						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
+							{n = G.UIT.T, config = { text = errtext[3], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+						}},
+						{n = G.UIT.R, config = { align = "cl", padding = -0.05 }, nodes = {
+							{n = G.UIT.T, config = { text = errtext[4], scale = 0.5, colour = G.C.UI.TEXT_LIGHT }},
+						}},
+					}},
+				}},
+			}},
+			{n = G.UIT.R, config = {align = "cm", colour = HEX('c0c0c0'), padding = 0.15}, nodes = {
+				{n = G.UIT.C, config = { align = "cm" }, nodes = {
+					--UIBox_button({label = { localize('toga_yes') }, button = "openModUI_TOGAPack", minw = 2, minh = 0.65, colour = HEX('555555')})
+					UIBox_button({label = { localize('toga_lpe_omf') }, button = "openModsDirectory", minw = 4, minh = 0.65, colour = HEX('555555')})
+				}},
+				{n = G.UIT.C, config = { align = "cm" }, nodes = {
+					UIBox_button({label = { localize('toga_lpe_restart') }, button = "toga_execrestart", minw = 2, minh = 0.65, colour = HEX('555555')})
+				}},
+				{n = G.UIT.C, config = { align = "cm" }, nodes = {
+					UIBox_button({label = { localize('toga_lpe_ignore') }, button = "toga_closeprompt", minw = 2, minh = 0.65, colour = HEX('555555')})
+				}},
+			}},
+		}},
+	}}
+end
+
 function togabalatro.msoobe()
 	if not togabalatro.config.oobe then
 		togabalatro.config.oobe = true
@@ -944,6 +1034,34 @@ function togabalatro.msoobe()
 			}
 		})
 	end
+end
+
+function togabalatro.loaderror()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = togabalatro.lovelypatcherror(),
+		config = {
+			align = "cm",
+			offset = {x = 0, y = 0},
+			bond = 'Weak',
+			no_esc = true,
+			no_back = true,
+		}
+	})
+end
+
+function togabalatro.lovelydirerror()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = togabalatro.nestedmod(),
+		config = {
+			align = "cm",
+			offset = {x = 0, y = 0},
+			bond = 'Weak',
+			no_esc = true,
+			no_back = true,
+		}
+	})
 end
 
 -- If we have a source that is passing a UI function along, return it or fallback to generic.

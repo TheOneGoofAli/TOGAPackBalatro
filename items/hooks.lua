@@ -757,6 +757,7 @@ function Game:main_menu(ctx)
 	G.E_MANAGER:add_event(Event({
 		func = function() togabalatro.msoobe() return true end
 	}))
+	togabalatro.titlescreencheck()
 	-- Slay the Jokers warning.
 	if togabalatro.stjcheck() then
 		G.E_MANAGER:add_event(Event({
@@ -1174,4 +1175,27 @@ function SMODS.has_no_rank(card)
 		end
 	end
 	return ret
+end
+
+sendInfoMessage("Hooking Game:splash_screen...", "TOGAPack")
+local splashscrref = Game.splash_screen
+function Game:splash_screen()
+	local ret = splashscrref(self)
+	if self and not self.toga_patch and togabalatro then
+		self.SETTINGS.paused = true
+		togabalatro.has_shown_load_error = true
+		local isdirokay = togabalatro.nfs.getInfo(togabalatro.path .. "lovely", 'directory')
+		local warnfunc = not isdirokay and togabalatro.lovelydirerror or togabalatro.loaderror
+		G.E_MANAGER:add_event(Event({
+			func = function() warnfunc() return true end
+		}))
+	end
+	return ret
+end
+
+sendInfoMessage("Hooking Controller:key_press_update...", "TOGAPack")
+local joykeypressupdref = Controller.key_press_update
+function Controller:key_press_update(key, dt)
+	if key == "escape" and G.STATE == G.STATES.SPLASH and G.OVERLAY_MENU and G.OVERLAY_MENU:get_UIE_by_ID('toga_moderror') then return end
+	return joykeypressupdref(self, key, dt)
 end

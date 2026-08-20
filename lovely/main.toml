@@ -21,6 +21,14 @@ match_indent = true
 
 [[patches]]
 [patches.pattern]
+target = "game.lua"
+pattern = "self:splash_screen()"
+position = "before"
+payload = "self.toga_patch = true"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
 target = "functions/state_events.lua"
 pattern = "check_for_unlock({type = 'run_card_replays'})"
 position = "before"
@@ -103,4 +111,30 @@ if togabalatro and next(SMODS.find_card('j_toga_kappa')) then
 	row[#row+1] = { n = G.UIT.R, config = { align = "cm" }, nodes = { { n = G.UIT.O, config = { object = SMODS.create_sprite(0, 0, 1, 1, 'toga_TOGAMoreIcons', { x = 8, y = 0 } ) } } } }
 end
 '''
+match_indent = true
+
+# Hi, Cryptid...
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Cryptid "lib/overrides.lua"]'
+pattern = '''
+function SMODS.four_fingers()
+'''
+position = "at"
+payload = "function SMODS.four_fingers(...)"
+overwrite = true
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Cryptid "lib/overrides.lua"]'
+pattern = '''
+return smods_four_fingers() - Cryptid.get_paved_joker()
+'''
+position = "at"
+payload = '''
+-- TOGA's Stuff was here!
+return smods_four_fingers(...) - Cryptid.get_paved_joker()
+'''
+overwrite = true
 match_indent = true
