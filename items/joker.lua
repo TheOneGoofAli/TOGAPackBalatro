@@ -1338,6 +1338,7 @@ table.insert(jokers, {
 	loc_vars = function(self, info_queue, card)
 		local ante, filesize = math.abs(to_number(G.GAME.round_resets.ante)) or 1, togabalatro.lastfilesize()
 		card.ability.extra.chips = math.min(filesize/1048576, card.ability.extra.cap+card.ability.extra.antecaplift*ante)
+		info_queue[#info_queue + 1] = {key = "toga_wineprotonnote", set = 'Other'}
 		return { vars = { SMODS.signed(card.ability.extra.chips), filesize/1048576, card.ability.extra.cap+card.ability.extra.antecaplift*ante, card.ability.extra.antecaplift } }
 	end,
 	unlocked = true,
@@ -3106,40 +3107,6 @@ table.insert(jokers, {
 	pixel_size = { w = 62, h = 95 },
 	poweritem = true,
 	attributes = { 'passive', 'shop', 'chance' }
-})
-
-table.insert(jokers, {
-	key = 'afterdark',
-	config = { extra = { c = 0, cg = 10 } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { SMODS.signed(card.ability.extra.c), SMODS.signed(card.ability.extra.cg) } }
-	end,
-	unlocked = true,
-	rarity = 1,
-	atlas = 'TOGAJokersOther',
-	pos = { x = 5, y = 3 },
-	cost = 4,
-	blueprint_compat = true,
-	perishable_compat = false,
-	calculate = function(self, card, context)
-		if context.joker_main then return { chips = card.ability.extra.c } end
-		
-		if context.retrigger_joker or context.blueprint then return end
-		
-		if context.setting_blind then
-			SMODS.scale_card(card, {
-				ref_table = card.ability.extra,
-				ref_value = "c",
-				scalar_value = "cg",
-			})
-		end
-		
-		if context.skip_blind then
-			card.ability.extra.c = 0
-			SMODS.calculate_effect({message = localize('k_reset')}, card)
-		end
-	end,
-	attributes = { 'chips', 'scaling' }
 })
 
 table.insert(jokers, {

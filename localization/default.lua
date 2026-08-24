@@ -2828,6 +2828,15 @@ return {
 					"{C:green}4{} is the {C:attention}denominator{}",
 				},
 			},
+			toga_wineprotonnote = {
+				name = "Wine/Proton Note",
+				text = {
+					"This item may {C:red}not{}",
+					"function correctly",
+					"if {C:attention}Balatro{} is launched",
+					"with {C:red}Wine{}/{C:blind}Proton{}",
+				},
+			},
 		},
 		Partner = {
 			pnr_toga_startupdisk={

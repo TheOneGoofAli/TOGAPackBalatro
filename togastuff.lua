@@ -1140,6 +1140,26 @@ togabalatro.hypertermstraightcalc = function(hand)
 	end
 end
 
+togabalatro.toiletrockcalc = function(hand)
+	if next(SMODS.find_card('j_toga_toiletrock')) then
+		local ret = {}
+		local four_fingers = SMODS.four_fingers('flush')
+		if #hand < four_fingers then return ret
+		else
+			local t = {}
+			local stone_count = 0
+			for i=1, #hand do
+				if SMODS.has_enhancement(hand[i], 'm_stone') then stone_count = stone_count + 1; t[#t+1] = hand[i] end
+			end
+			if stone_count >= four_fingers then
+				table.insert(ret, t)
+				return ret
+			end
+			return {}
+		end
+	end
+end
+
 local overflowcheck, incantationcheck, saturncheck = next(SMODS.find_mod('Overflow')) and Overflow, next(SMODS.find_mod('Incantation')) and Incantation, next(SMODS.find_mod('Saturn')) and Saturn
 -- Check for Overflow or Incantation... or Saturn?
 togabalatro.stackingcompat = function(consumable)

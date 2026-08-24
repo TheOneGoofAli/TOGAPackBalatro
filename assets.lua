@@ -41,10 +41,10 @@ local nopeatlascfg = {
 	{key = "TOGAJokerNopeAVI", path = "toganopefallback.png", px = 71, py = 95} -- Fallback, no animation
 }
 
-if togabalatro.curlimits.texturesize > 16383 then
+if togabalatro.curlimits.texturesize >= 32768 then
 	sendDebugMessage("Nope.AVI - Loading full atlas...", "TOGAPack")
 	SMODS.Atlas(nopeatlascfg[1])
-elseif togabalatro.curlimits.texturesize > 8191 then
+elseif togabalatro.curlimits.texturesize >= 8192 then
 	sendDebugMessage("Nope.AVI - Loading optimized atlas due to system limits...", "TOGAPack")
 	SMODS.Atlas(nopeatlascfg[2])
 else
