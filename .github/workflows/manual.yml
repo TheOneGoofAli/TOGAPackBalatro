@@ -32,6 +32,6 @@ jobs:
           name: TOGAsStuff # the name of the package
           version: ${{ github.ref_name }} # Use the tag as the package version
           community: Balatro
-          repo: balatro.thunderstore.io
+          repo: thunderstore.io
           categories: | # <-- notice this pipe character
             mods
