@@ -1,0 +1,7 @@
+{
+    "name": "TOGAsStuff",
+    "version_number": "1.152.4",
+    "website_url": "https://github.com/TheOneGoofAli/TOGAPackBalatro",
+    "description": "A personal timewaster project that is a mod for Balatro.",
+    "dependencies": ["Thunderstore-lovely-0.9.0", "Steamodded-Steamodded-26.829.0"]
+}
