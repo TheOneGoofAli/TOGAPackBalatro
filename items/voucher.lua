@@ -19,7 +19,8 @@ SMODS.Voucher{
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'hand_size' }
 }
 
 SMODS.Voucher{
@@ -42,6 +43,7 @@ SMODS.Voucher{
 		G.GAME.round_resets.discards = G.GAME.round_resets.discards - (card and card.ability.extra or self.config.extra).discards
 		ease_discard(-(card and card.ability.extra or self.config.extra).discards)
 	end,
+	attributes = { 'discard' }
 }
 
 SMODS.Voucher{
@@ -63,6 +65,7 @@ SMODS.Voucher{
 			return { numerator = context.numerator * (card and card.ability.extra or self.config.extra).probabilitymult }
 		end
 	end,
+	attributes = { 'mod_chance' }
 }
 
 SMODS.Voucher{
@@ -85,6 +88,7 @@ SMODS.Voucher{
 			return { numerator = context.numerator * (card and card.ability.extra or self.config.extra).probabilitymult }
 		end
 	end,
+	attributes = { 'mod_chance' }
 }
 
 SMODS.Voucher{
@@ -102,6 +106,7 @@ SMODS.Voucher{
 		togabalatro.handlimitchange(math.max(1, math.floor((card and card.ability.extra or self.config.extra).moreselect)))
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Increased card selection limit by "..math.max(1, math.floor((card and card.ability.extra or self.config.extra).moreselect))..".", "TOGAPack") end
 	end,
+	attributes = { 'play_limit', 'discard_limit' }
 }
 
 SMODS.Voucher{
@@ -159,6 +164,7 @@ SMODS.Voucher{
 		
 		G.HUD:recalculate()
 	end,
+	attributes = { 'play_limit', 'discard_limit', 'joker_slot', 'consumable_slot', 'hand_level', 'hands', 'discard', 'hand_size' }
 }
 
 SMODS.Voucher{
@@ -183,7 +189,8 @@ SMODS.Voucher{
 			return { amtmult = card.ability.extra.opamtincr, card = card }
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'chipoperatormod', 'multoperatormod' }
 }
 
 SMODS.Voucher{
@@ -219,7 +226,8 @@ SMODS.Voucher{
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'hand_type', 'consumeable', 'discard' }
 }
 
 SMODS.Voucher{
@@ -237,7 +245,8 @@ SMODS.Voucher{
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'passive', 'chance', 'editions' }
 }
 
 SMODS.Voucher{
@@ -266,7 +275,8 @@ SMODS.Voucher{
 		return togabalatro.config.ShowPower and togabalatro.config.JokeJokersActive
 	end,
 	jokeitem = true,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'joker', 'xmult' }
 }
 
 SMODS.Voucher{
@@ -284,6 +294,7 @@ SMODS.Voucher{
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Negative edition chance multiplied by "..math.ceil((card and card.ability.extra or self.config.extra).negchance).."X.", "TOGAPack") end
 		G.GAME.toga_negchance = (G.GAME.toga_negchance or 1)*(card and card.ability.extra or self.config.extra).negchance
 	end,
+	attributes = { 'passive', 'editions' }
 }
 
 SMODS.Voucher{
@@ -302,6 +313,7 @@ SMODS.Voucher{
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Negative edition chance multiplied by "..math.ceil((card and card.ability.extra or self.config.extra).negchance).."X.", "TOGAPack") end
 		G.GAME.toga_negchance = (G.GAME.toga_negchance or 1)*(card and card.ability.extra or self.config.extra).negchance
 	end,
+	attributes = { 'passive', 'editions' }
 }
 
 SMODS.Voucher{
@@ -316,6 +328,7 @@ SMODS.Voucher{
 		G.GAME.toga_stonehasrank = true
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Stone Cards now have a unique rank for rest of run.", "TOGAPack") end
 	end,
+	attributes = { 'enhancements', 'rank' }
 }
 
 SMODS.Voucher{
@@ -339,6 +352,7 @@ SMODS.Voucher{
 			end
 		end
 	end,
+	attributes = { 'xmult', 'enhancements', 'chance' }
 }
 
 SMODS.Voucher{
@@ -359,6 +373,7 @@ SMODS.Voucher{
 		G.GAME.spectralzipper_chance = (card and card.ability.extra or self.config.extra).odds or 100
 		if togabalatro.config.DoMoreLogging then sendInfoMessage("Spectral Zipper chance set to "..G.GAME.spectralzipper_chance..".", "TOGAPack") end
 	end,
+	attributes = { 'chance', 'booster' }
 }
 
 SMODS.Voucher{
@@ -385,5 +400,6 @@ SMODS.Voucher{
 		return togabalatro.config.ShowPower
 	end,
 	pixel_size = { w = 71, h = 79 },
-	poweritem = true
+	poweritem = true,
+	attributes = { 'chipoperatormod', 'multoperatormod', 'chance' }
 }

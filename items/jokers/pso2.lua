@@ -18,7 +18,7 @@ table.insert(pso2j, {
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge(localize('toga_firetech'), G.C.RED, G.C.WHITE, 1)
 	end,
-	attributes = { 'passive', 'hand_type', 'planet' }
+	attributes = { 'passive', 'hand_type', 'planet', 'xmult', 'xchips' }
 })
 
 table.insert(pso2j, {

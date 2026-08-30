@@ -160,21 +160,21 @@ local sonicshuffle = CardArea.shuffle
 function CardArea:shuffle(_seed)
 	if self and self == G.deck and G.GAME.toga_nodeckshuffle then return end
 	local r = sonicshuffle(self, _seed)
-	if self == G.deck then
-		local otherc, smsc = {}, {}
-		for i, k in ipairs(self.cards) do
-			if SMODS.has_enhancement(k, 'm_toga_sms') then
-				smsc[#smsc+1] = k
-			else
-				otherc[#otherc+1] = k
-			end
-		end
-		for _, card in ipairs(otherc) do
-			table.insert(smsc, card)
-		end
-		self.cards = smsc
-		self:set_ranks()
-	end
+	-- if self == G.deck then
+		-- local otherc, smsc = {}, {}
+		-- for i, k in ipairs(self.cards) do
+			-- if SMODS.has_enhancement(k, 'm_toga_sms') then
+				-- smsc[#smsc+1] = k
+			-- else
+				-- otherc[#otherc+1] = k
+			-- end
+		-- end
+		-- for _, card in ipairs(otherc) do
+			-- table.insert(smsc, card)
+		-- end
+		-- self.cards = smsc
+		-- self:set_ranks()
+	-- end
 	return r
 end
 
@@ -1171,7 +1171,11 @@ function Game:splash_screen()
 		local isdirokay = togabalatro.nfs.getInfo(togabalatro.path .. "lovely", 'directory')
 		local warnfunc = not isdirokay and togabalatro.lovelydirerror or togabalatro.loaderror
 		G.E_MANAGER:add_event(Event({
-			func = function() warnfunc() return true end
+			func = function()
+				warnfunc()
+				love.window.requestAttention(true)
+				return true
+			end
 		}))
 	end
 	return ret

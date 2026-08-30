@@ -116,6 +116,23 @@ togabalatro.calculate = function(self, context)
 		context.other_card.toga_anvilhit = nil
 		return { modify = { to_area = G.deck } }
 	end
+	
+	if context.drawing_cards and G.deck and G.deck.cards then
+		-- Moved from a hook.
+		local otherc, smsc = {}, {}
+		for i, k in ipairs(G.deck.cards) do
+			if SMODS.has_enhancement(k, 'm_toga_sms') then
+				smsc[#smsc+1] = k
+			else
+				otherc[#otherc+1] = k
+			end
+		end
+		for _, card in ipairs(otherc) do
+			table.insert(smsc, card)
+		end
+		G.deck.cards = smsc
+		G.deck:set_ranks()
+	end
 end
 
 togabalatro.nfs = require("SMODS.nativefs")
@@ -1160,16 +1177,13 @@ togabalatro.toiletrockcalc = function(hand)
 	end
 end
 
-local overflowcheck, incantationcheck, saturncheck = next(SMODS.find_mod('Overflow')) and Overflow, next(SMODS.find_mod('Incantation')) and Incantation, next(SMODS.find_mod('Saturn')) and Saturn
--- Check for Overflow or Incantation... or Saturn?
+local overflowcheck, saturncheck = next(SMODS.find_mod('Overflow')) and Overflow, next(SMODS.find_mod('Saturn')) and Saturn
+-- Check for Overflow or Saturn.
 togabalatro.stackingcompat = function(consumable)
 	if not (consumable and consumable.ability) then return end
 	-- Overflow check.
 	if overflowcheck and consumable:getQty() or consumable.ability.immutable and consumable.ability.immutable.overflow_amount then
 		return true, consumable:getQty() or consumable.qty
-	-- Incantation check, although this will be deprecated.
-	elseif incantationcheck and consumable.ability.qty then
-		return true, consumable:getQty() or consumable.ability.qty
 	-- Saturn check... why?
 	elseif saturncheck and consumable.ability.amt then
 		return true, consumable.ability.amt

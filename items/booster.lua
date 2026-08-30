@@ -25,6 +25,7 @@ SMODS.Booster{
 	create_card = function(self, card)
 		return SMODS.create_card({ set = 'TOGAJKR', area = G.pack_cards, key_append = 'toga'})
 	end,
+	attributes = { 'joker' },
 	kind = 'TOGABoostPack'
 }
 
@@ -51,6 +52,7 @@ SMODS.Booster{
 		local leg = i == 1 and G.GAME.used_vouchers and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance and SMODS.pseudorandom_probability(card or self, "toga_legzip", 1, G.GAME.spectralzipper_chance or 100, 'togaziparchive') or nil
 		return SMODS.create_card({ set = 'Joker', area = G.pack_cards, legendary = leg, skip_materialize = true, soulable = true, key_append = "toga" })
 	end,
+	attributes = { 'joker' },
 	kind = 'TOGABoostPack',
 	in_pool = function()
 		return togabalatro.config.ShowPower
@@ -82,6 +84,7 @@ SMODS.Booster{
 		local leg = i == 1 and G.GAME.used_vouchers and G.GAME.used_vouchers['v_toga_spectralzipper'] == true and G.GAME.spectralzipper_chance and SMODS.pseudorandom_probability(card or self, "toga_legrar", 1, G.GAME.spectralzipper_chance or 100, 'togararpack') or nil
 		return SMODS.create_card({ set = 'Consumeables', area = G.pack_cards, skip_materialize = true, key = leg and 'c_soul' or nil, soulable = true, key_append = "toga" })
 	end,
+	attributes = { 'consumable' },
 	kind = 'TOGABoostPack',
 	in_pool = function()
 		return togabalatro.config.ShowPower
@@ -110,6 +113,7 @@ SMODS.Booster{
 		local _seal = SMODS.poll_seal({mod = 10})
 		return SMODS.create_card({set = 'Playing Card', edition = _edition, seal = _seal, area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "playcardcab"})
 	end,
+	attributes = { 'playing_card' },
 	kind = 'TOGABoostPack',
 	in_pool = function()
 		return togabalatro.config.ShowPower
@@ -137,5 +141,6 @@ SMODS.Booster{
 		local c = pseudorandom_element(G.playing_cards, pseudoseed('xcopy')) or G.playing_cards[1]
 		return SMODS.copy_card(c, { no_add = true })
 	end,
+	attributes = { 'playing_card' },
 	kind = 'TOGABoostPack'
 }

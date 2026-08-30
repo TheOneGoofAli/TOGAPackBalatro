@@ -35,7 +35,8 @@ SMODS.Blind{
 			--G.hand.config.highlighted_limit = math.max(G.hand.config.highlighted_limit + self.vars.reducedhandsel, 5)
 			if togabalatro.config.DoMoreLogging then sendInfoMessage("Defeated, card selection limit is "..G.hand.config.highlighted_limit..".", "TOGAPack") end
 		end
-	end
+	end,
+	attributes = { 'play_limit', 'discard_limit' }
 }
 
 SMODS.Blind{
@@ -86,7 +87,8 @@ SMODS.Blind{
 			if togabalatro.config.DoMoreLogging then sendInfoMessage("Defeated, changed hand size to "..G.hand.config.card_limit..".", "TOGAPack") end
 		end
 		ease_dollars(50)
-	end
+	end,
+	attributes = { 'play_limit', 'discard_limit', 'hand_size' }
 }
 
 -- You have given me how many hours of trouble?
@@ -114,7 +116,8 @@ SMODS.Blind{
 			
 			if context.after then blind.triggered = false end
         end
-    end
+    end,
+	attributes = { 'xblindsize', 'hand_type' }
 }
 
 SMODS.Blind{
@@ -139,6 +142,7 @@ SMODS.Blind{
 			end
 		end
 	end,
+	attributes = { 'multoperatormod' }
 }
 
 SMODS.Blind{
@@ -163,6 +167,7 @@ SMODS.Blind{
 			end
 		end
 	end,
+	attributes = { 'chipoperatormod' }
 }
 
 SMODS.Blind{
@@ -183,7 +188,8 @@ SMODS.Blind{
 			end
 			return true end })) 
         end
-	end
+	end,
+	attributes = { 'lose_economy' }
 }
 
 SMODS.Blind{
@@ -207,7 +213,8 @@ SMODS.Blind{
 			if SMODS.has_no_rank(v) then return false end
 		end
 		return true
-	end
+	end,
+	attributes = { 'hand_type', 'rank' }
 }
 
 SMODS.Blind{
@@ -229,7 +236,8 @@ SMODS.Blind{
 			end
 		end
 		return same
-	end
+	end,
+	attributes = { 'rank' }
 }
 
 SMODS.Blind{
@@ -246,7 +254,8 @@ SMODS.Blind{
 			if v:get_id() == 3 then return false end
 		end
 		return true
-	end
+	end,
+	attributes = { 'hand_type', 'rank', 'three' }
 }
 
 -- Add check for a specific deck.

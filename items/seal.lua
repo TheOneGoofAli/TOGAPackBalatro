@@ -43,7 +43,8 @@ SMODS.Seal{
 			}
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'chance', 'generation', 'joker' }
 }
 
 SMODS.Seal{
@@ -55,5 +56,6 @@ SMODS.Seal{
 		if not togabalatro.config.ShowPower then return { key = self.key.."_locked" } end
 	end,
 	sound = { sound = "gold_seal", per = 1.2, vol = 0.4 },
-	poweritem = true
+	poweritem = true,
+	attributes = { 'custom_score_card' }
 }

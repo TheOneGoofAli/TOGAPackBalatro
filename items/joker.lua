@@ -910,11 +910,11 @@ table.insert(jokers, {
 				phands = dphands
 			end
 			if phands and next(phands['Flush']) then
-				card.ability.extra.curxmult = 1
-				return {
-					message = localize('k_reset'),
-					colour = G.C.RED
-				}
+				SMODS.reset_card(card, {
+					ref_table = card.ability.extra,
+					ref_value = "curxmult",
+					reset_value = 1,
+				})
 			end
 		end
 		
@@ -934,7 +934,7 @@ table.insert(jokers, {
 		if context.joker_main then return { xmult = card.ability.extra.curxmult } end
 	end,
 	display_size = { w = 71 * 1.27, h = 95 },
-	pixel_size = { w = 71, h = 95 },
+	-- pixel_size = { w = 71, h = 95 },
 	attributes = { 'xmult', 'hand_type', 'scaling', 'reset' }
 })
 
@@ -1985,11 +1985,19 @@ table.insert(jokers, {
 			}
 		end
 		
-		if context.skip_blind then
+		if context.skip_blind and to_number(card.ability.extra.cchips) ~= 0 then
 			if SMODS.pseudorandom_probability(card, 'j_toga_chipchallenge', 1, card.ability.extra.odds, 'chipschallenge') then
-				card.ability.extra.cchips = 0
-				return { message = localize('toga_bummer'), colour = G.C.RED, sound = not silent and togabalatro.config.SFXWhenTriggered and 'toga_bummer' }
-			else return { message = localize('k_safe_ex') } end
+				SMODS.reset_card(card, {
+					ref_table = card.ability.extra,
+					ref_value = "cchips",
+					reset_value = 0,
+				})
+				if to_number(card.ability.extra.cchips) == 0 then
+					return { message = localize('toga_bummer'), colour = G.C.RED, sound = not silent and togabalatro.config.SFXWhenTriggered and 'toga_bummer' }
+				end
+			else
+				return { message = localize('k_safe_ex') }
+			end
 		end
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
@@ -2029,9 +2037,12 @@ table.insert(jokers, {
 			})
 		end
 		
-		if context.ante_end and not context.retrigger_joker then
-			card.ability.extra.m = 0
-			return { message = localize('k_reset') }
+		if context.ante_change and context.ante_end and not context.retrigger_joker then
+			SMODS.reset_card(card, {
+				ref_table = card.ability.extra,
+				ref_value = "m",
+				reset_value = 0,
+			})
 		end
 	end,
 	attributes = { 'mult', 'scaling', 'reset', 'hands' }
@@ -3360,7 +3371,7 @@ table.insert(jokers, {
 	cost = 6,
 	blueprint_compat = false,
 	display_size = { w = 71 * 1.63, h = 95 },
-	pixel_size = { w = 71, h = 95 },
+	-- pixel_size = { w = 71, h = 95 },
 	attributes = { 'passive', 'hand_type' }
 })
 
@@ -3412,7 +3423,7 @@ table.insert(jokers, {
 		end
 	end,
 	display_size = { w = 71 * 1.59, h = 95 },
-	pixel_size = { w = 71, h = 95 },
+	-- pixel_size = { w = 71, h = 95 },
 	attributes = { 'mult', 'enhancements', 'scaling', 'ace', 'king' }
 })
 
@@ -3448,7 +3459,7 @@ table.insert(jokers, {
 		end
 	end,
 	display_size = { w = 71 * 1.59, h = 95 },
-	pixel_size = { w = 71, h = 95 },
+	-- pixel_size = { w = 71, h = 95 },
 	attributes = { 'passive', 'shop' }
 })
 
@@ -3482,7 +3493,7 @@ table.insert(jokers, {
 		end
 	end,
 	display_size = { w = 71 * 1.59, h = 95 },
-	pixel_size = { w = 71, h = 95 },
+	-- pixel_size = { w = 71, h = 95 },
 	attributes = { 'economy', 'jokers' }
 })
 

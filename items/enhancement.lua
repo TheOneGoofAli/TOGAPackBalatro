@@ -8,7 +8,8 @@ SMODS.Enhancement{
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'draw_card' }
 }
 
 SMODS.Enhancement{
@@ -24,6 +25,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'extra_play' }
 }
 
 SMODS.Enhancement{
@@ -48,6 +50,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'chips', 'chance', 'destroy_card' }
 }
 
 SMODS.Enhancement{
@@ -65,6 +68,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'chips' }
 }
 
 SMODS.Enhancement{
@@ -82,6 +86,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'retrigger' }
 }
 
 SMODS.Enhancement{
@@ -96,6 +101,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'xmult' }
 }
 
 SMODS.Enhancement{
@@ -110,6 +116,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'xchips' }
 }
 
 SMODS.Enhancement{
@@ -121,6 +128,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'passive' }
 }
 
 SMODS.Enhancement{
@@ -135,6 +143,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'xchips' }
 }
 
 SMODS.Enhancement{
@@ -145,6 +154,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'draw_card' }
 }
 
 SMODS.Enhancement{
@@ -155,6 +165,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'prevent_debuff' }
 }
 
 SMODS.Enhancement{
@@ -168,6 +179,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'rank' }
 }
 
 SMODS.Enhancement{
@@ -185,6 +197,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'passive' }
 }
 
 SMODS.Enhancement{
@@ -199,6 +212,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'modify_card', 'on_destroy' }
 }
 
 SMODS.Enhancement{
@@ -215,6 +229,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'chance', 'hand_level' }
 }
 
 SMODS.Enhancement{
@@ -238,6 +253,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'mult', 'position' }
 }
 
 SMODS.Enhancement{
@@ -266,6 +282,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight
 	end,
+	attributes = { 'chips', 'enhancement', 'full_deck' }
 }
 
 SMODS.Enhancement{
@@ -294,6 +311,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'score' }
 }
 
 SMODS.Enhancement{
@@ -316,6 +334,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'economy', 'xmult' }
 }
 
 SMODS.Enhancement{
@@ -338,6 +357,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'xchips' }
 }
 
 SMODS.Enhancement{
@@ -360,6 +380,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'xmult' }
 }
 
 SMODS.Enhancement{
@@ -382,6 +403,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'xmult' }
 }
 
 SMODS.Enhancement{
@@ -404,6 +426,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'xmult' }
 }
 
 SMODS.Enhancement{
@@ -426,6 +449,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'xmult', 'xchips' }
 }
 
 SMODS.Enhancement{
@@ -451,6 +475,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'retrigger' }
 }
 
 SMODS.Enhancement{
@@ -473,6 +498,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'joker_slot' }
 }
 
 SMODS.Enhancement{
@@ -500,6 +526,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'xscore' }
 }
 
 SMODS.Enhancement{
@@ -524,6 +551,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'modify_draw_to' }
 }
 
 SMODS.Enhancement{
@@ -545,6 +573,7 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'prevent_debuff' }
 }
 
 SMODS.Enhancement{
@@ -576,4 +605,5 @@ SMODS.Enhancement{
 	get_weight = function(self)
 		return self.weight * (G.GAME.toga_alloyrate or 1)
 	end,
+	attributes = { 'xmult' }
 }

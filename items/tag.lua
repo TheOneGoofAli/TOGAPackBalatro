@@ -23,6 +23,7 @@ SMODS.Tag{
 			return card
 		end
 	end,
+	attributes = { 'generation', 'joker' }
 }
 
 SMODS.Tag{
@@ -55,6 +56,7 @@ SMODS.Tag{
 			return true
 		end
 	end,
+	attributes = { 'booster' }
 }
 
 SMODS.Tag{
@@ -88,6 +90,7 @@ SMODS.Tag{
 			return true
 		end
 	end,
+	attributes = { 'booster' }
 }
 
 SMODS.Tag{
@@ -106,9 +109,7 @@ SMODS.Tag{
 		if context.type == "immediate" then
 			G.CONTROLLER.locks[lock] = true
 			tag:yep('+', G.C.ORANGE,function() 
-				local card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, "c_toga_selfpropelledbomb", "thespbrun")
-				card:add_to_deck()
-				G.consumeables:emplace(card)
+				SMODS.add_card({ key = "c_toga_selfpropelledbomb", key_append = "thespbrun" })
 				G.CONTROLLER.locks[lock] = nil
 				return true
 			end)
@@ -116,6 +117,7 @@ SMODS.Tag{
 			return true
 		end
 	end,
+	attributes = { 'generation', 'consumable' }
 }
 
 SMODS.Tag{
@@ -146,7 +148,8 @@ SMODS.Tag{
 			return card
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'generation', 'joker' }
 }
 
 SMODS.Tag{
@@ -175,7 +178,8 @@ SMODS.Tag{
 			tag.triggered = true
 			return true
 		end
-	end
+	end,
+	attributes = { 'generation', 'consumable' }
 }
 
 SMODS.Tag{
@@ -222,6 +226,7 @@ SMODS.Tag{
 			return true
 		end
 	end,
+	attributes = { 'joker', 'editions' }
 }
 
 SMODS.Tag{
@@ -247,7 +252,8 @@ SMODS.Tag{
 			return card
 		end
 	end,
-	poweritem = true
+	poweritem = true,
+	attributes = { 'generation', 'joker', 'rarity' }
 }
 
 SMODS.Tag{
@@ -281,6 +287,7 @@ SMODS.Tag{
 			return true
 		end
 	end,
+	attributes = { 'booster' }
 }
 
 SMODS.Tag{
@@ -314,6 +321,7 @@ SMODS.Tag{
 			return true
 		end
 	end,
+	attributes = { 'booster' }
 }
 
 SMODS.Tag{
@@ -346,4 +354,5 @@ SMODS.Tag{
 			return true
 		end
 	end,
+	attributes = { 'booster' }
 }

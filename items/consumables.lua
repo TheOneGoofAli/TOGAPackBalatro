@@ -90,7 +90,8 @@ SMODS.Consumable{
 		return 'consumeables', true
 	end,
 	poweritem = true,
-	toga_donotreuse = true
+	toga_donotreuse = true,
+	attributes = { 'enhancements', 'modify_card', 'toga_alloy' }
 }
 
 -- Find the metal pages... wait what?
@@ -154,6 +155,7 @@ SMODS.Consumable {
 	toga_donotreuse = true,
 	no_bulkuse = true,
 	can_mass_use = false,
+	attributes = { 'chance', 'enhancements', 'modify_card' }
 }
 
 SMODS.Consumable {
@@ -203,6 +205,7 @@ SMODS.Consumable {
 	toga_donotreuse = true,
 	no_bulkuse = true,
 	can_mass_use = false,
+	attributes = { 'enhancements', 'destroy_card' }
 }
 
 local spbdeckpart, spbcardmin = 0.75, 20
@@ -254,7 +257,8 @@ SMODS.Consumable{
 	toga_donotreuse = true,
 	no_bulkuse = true,
 	can_mass_use = false,
-	can_bulk_use = false
+	can_bulk_use = false,
+	attributes = { 'chance', 'destroy_card' }
 }
 
 SMODS.Consumable {
@@ -296,6 +300,7 @@ SMODS.Consumable {
 	no_bulkuse = true,
 	can_bulk_use = false,
 	can_mass_use = false,
+	attributes = { 'modify_card', 'seals' }
 }
 
 SMODS.Consumable {
@@ -337,6 +342,7 @@ SMODS.Consumable {
 	no_bulkuse = true,
 	can_bulk_use = false,
 	can_mass_use = false,
+	attributes = { 'modify_card', 'enhancements' }
 }
 
 SMODS.Consumable {
@@ -378,6 +384,7 @@ SMODS.Consumable {
 	no_bulkuse = true,
 	can_bulk_use = false,
 	can_mass_use = false,
+	attributes = { 'modify_card', 'enhancements' }
 }
 
 SMODS.Consumable {
@@ -419,6 +426,7 @@ SMODS.Consumable {
 	no_bulkuse = true,
 	can_bulk_use = false,
 	can_mass_use = false,
+	attributes = { 'modify_card', 'seals' }
 }
 
 SMODS.Consumable {
@@ -486,6 +494,7 @@ SMODS.Consumable {
 	no_bulkuse = true,
 	can_bulk_use = false,
 	can_mass_use = false,
+	attributes = { 'modify_card', 'enhancements', 'chance', 'toga_alloy' }
 }
 
 SMODS.Consumable {
@@ -547,6 +556,7 @@ SMODS.Consumable {
 	no_bulkuse = true,
 	can_bulk_use = false,
 	can_mass_use = false,
+	attributes = { 'destroy_card', 'joker', 'chance', 'editions' }
 }
 
 SMODS.Consumable {
@@ -630,4 +640,5 @@ SMODS.Consumable {
 	no_bulkuse = true,
 	can_bulk_use = false,
 	can_mass_use = false,
+	attributes = { 'modify_card', 'chips' }
 }

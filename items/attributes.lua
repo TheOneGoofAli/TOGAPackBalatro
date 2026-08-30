@@ -1,6 +1,7 @@
 sendInfoMessage("Loading Attributes...", "TOGAPack")
 
 local toga_attrib = {
+	{ 'toga_alloy', {}, { 'alloy' } },
 	{ 'meta', {}, {} },
 	{ 'shop', {}, {} },
 	{ 'booster', {}, {} },
@@ -32,6 +33,9 @@ local toga_attrib = {
 	{ 'archiver', {}, {} },
 	{ 'play_limit', {}, { 'card_selection_limit' } },
 	{ 'discard_limit', {}, { 'card_selection_limit' } },
+	{ 'draw_card', {}, { 'draw_order' } },
+	{ 'extra_play', {}, {} },
+	{ 'modify_draw_to', {}, {} },
 }
 
 for k, v in ipairs(toga_attrib) do
@@ -44,6 +48,6 @@ for k, v in ipairs(toga_attrib) do
 			alias = type(alias) == 'alias' and next(alias) and alias or nil
 		})
 	else
-		error("TOGA - Invalid input for registering attribute.")
+		error("TOGA's Stuff - Invalid input for registering attribute.")
 	end
 end
