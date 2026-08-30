@@ -1,0 +1,37 @@
+# This is a basic workflow that is manually triggered
+
+name: Update Thunderstore entry
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Push to Thunderstore'
+        # Default value if no value is explicitly provided
+        default: 'aeiou'
+        # Input has to be provided for the workflow to run
+        required: false
+        # The data type of the input
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      # Use checkout to publish the files in your repo
+      - uses: actions/checkout@v4
+      - uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          namespace: TheOneGoofAli # the thunderstore 'team' to publish under
+          description: A personal timewaster project that is a mod for Balatro.
+          token: ${{ secrets.THUNDERINGMYSTORE_API }}
+          name: TOGAsStuff # the name of the package
+          version: ${{ github.ref_name }} # Use the tag as the package version
+          community: Balatro
+          repo: thunderstore.io
+          categories: | # <-- notice this pipe character
+            mods
