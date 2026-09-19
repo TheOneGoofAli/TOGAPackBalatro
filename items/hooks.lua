@@ -160,21 +160,6 @@ local sonicshuffle = CardArea.shuffle
 function CardArea:shuffle(_seed)
 	if self and self == G.deck and G.GAME.toga_nodeckshuffle then return end
 	local r = sonicshuffle(self, _seed)
-	-- if self == G.deck then
-		-- local otherc, smsc = {}, {}
-		-- for i, k in ipairs(self.cards) do
-			-- if SMODS.has_enhancement(k, 'm_toga_sms') then
-				-- smsc[#smsc+1] = k
-			-- else
-				-- otherc[#otherc+1] = k
-			-- end
-		-- end
-		-- for _, card in ipairs(otherc) do
-			-- table.insert(smsc, card)
-		-- end
-		-- self.cards = smsc
-		-- self:set_ranks()
-	-- end
 	return r
 end
 
@@ -417,16 +402,6 @@ function SMODS.upgrade_poker_hands(args)
 			for _, eval in pairs(lvlcalc) do
 				for key, eval2 in pairs(eval) do
 					if eval2.card then
-						-- if eval2.xplvlup then
-							-- args.level_up = args.level_up * 2
-							-- SMODS.calculate_effect({message = localize('k_upgrade_ex'), juice_card = args.from}, eval2.card)
-						-- end
-						
-						-- if eval2.lplvl then
-							-- args.level_up = args.level_up * 0.5
-							-- SMODS.calculate_effect({message = localize('toga_halved'), juice_card = args.from}, eval2.card)
-						-- end
-						
 						if eval2.no_level then
 							args.level_up = args.level_up * 0
 							SMODS.calculate_effect({message = localize('toga_nullified'), juice_card = args.from}, eval2.card)
@@ -785,18 +760,6 @@ function Game:main_menu(ctx)
 			func = function() togabalatro.cryptidnotice() return true end
 		}))
 	end
-	-- PWX warning.
-	if next(SMODS.find_mod('jen')) then
-		G.E_MANAGER:add_event(Event({
-			func = function() togabalatro.pwxnotice() return true end
-		}))
-	end
-	-- Incantation w/o PWX.
-	if not next(SMODS.find_mod('jen')) and next(SMODS.find_mod('incantation')) then
-		G.E_MANAGER:add_event(Event({
-			func = function() togabalatro.incantationnotice() return true end
-		}))
-	end
 	if Talisman then
 		G.E_MANAGER:add_event(Event({
 			func = function() togabalatro.talismannote() return true end
@@ -982,61 +945,10 @@ function UIElement:juice_up(amount, rot_amt)
     return uieju(self, amount, rot_amt)
 end
 
--- Commented out due to nothing using it for now.
--- sendInfoMessage("Hooking Card:use_consumeable...", "TOGAPack")
--- local carduseconsref = Card.use_consumeable
--- local function toga_reusecons(self, area, copier, reuser)
-	-- if self:can_use_consumeable(true, true) and not self.config.center.toga_donotreuse then
-		-- if reuser then SMODS.calculate_effect({message = localize('k_again_ex')}, reuser) end
-		-- carduseconsref(self, area, copier)
-		-- SMODS.calculate_context({using_consumeable = true, consumeable = self, area = self.from_area})
-	-- end
--- end
-
--- local ofburef = Overflow and Overflow.bulk_use
--- if Overflow and ofburef then
-	-- sendInfoMessage("Hooking Overflow.bulk_use...", "TOGAPack")
-	-- function Overflow.bulk_use(card, area, amount)
-		-- local ret = ofburef(card, area, amount)
-		-- local consusecalc = {}
-		-- SMODS.calculate_context({toga_reuse_consumeable = card, toga_overflow_bulkuse = true}, consusecalc)
-		-- for _, eval in pairs(consusecalc) do
-			-- for key, eval2 in pairs(eval) do
-				-- if eval2.card and tonumber(eval2.repetitions) and math.floor(eval2.repetitions) >= 1 then
-					-- for i = 1, eval2.repetitions do
-						-- SMODS.calculate_effect({message = localize('k_again_ex')}, eval2.card)
-						-- ofburef(card, area, amount)
-					-- end
-				-- end
-			-- end
-		-- end
-		-- return ret
-	-- end
--- end
-
--- sendInfoMessage("Hooking Card:use_consumeable...", "TOGAPack")
--- function Card:use_consumeable(area, copier)
-	-- local ret = carduseconsref(self, area, copier)
-	-- -- Consumeable reuse/retrigger context.
-	-- local consusecalc = {}
-	-- SMODS.calculate_context({toga_reuse_consumeable = self}, consusecalc)
-	-- for _, eval in pairs(consusecalc) do
-		-- for key, eval2 in pairs(eval) do
-			-- if eval2.card and tonumber(eval2.repetitions) and math.floor(eval2.repetitions) >= 1 then
-				-- for i = 1, eval2.repetitions do
-					-- toga_reusecons(self, area, copier, eval2.card)
-				-- end
-			-- end
-		-- end
-	-- end
-	-- return ret
--- end
-
 sendInfoMessage("Hooking Full House evaluation...", "TOGAPack")
 local fullhouse = SMODS.PokerHands['Full House']
 local fullhouseeval = SMODS.PokerHands['Full House'].evaluate
 function fullhouse.evaluate(parts, hand)
-	--return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and parts._all_pairs or fullhouseeval(parts, hand)
 	return togabalatro.mothcalc(hand, parts, false) or togabalatro.purplebunnycalc(hand, parts, false) or fullhouseeval(parts, hand)
 end
 
@@ -1044,7 +956,6 @@ sendInfoMessage("Hooking Flush House evaluation...", "TOGAPack")
 local flushhouse = SMODS.PokerHands['Flush House']
 local flushhouseeval = SMODS.PokerHands['Flush House'].evaluate
 function flushhouse.evaluate(parts, hand)
-	--return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and next(parts._flush) and { SMODS.merge_lists(parts._all_pairs, parts._flush) } or flushhouseeval(parts, hand)
 	return togabalatro.mothcalc(hand, parts, true) or togabalatro.purplebunnycalc(hand, parts, true) or flushhouseeval(parts, hand)
 end
 

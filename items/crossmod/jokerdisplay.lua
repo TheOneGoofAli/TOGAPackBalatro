@@ -8,7 +8,7 @@ loc_colour()
 local jd_areasref = JokerDisplay.get_display_areas
 function JokerDisplay.get_display_areas()
 	local ret = jd_areasref()
-	if next(SMODS.find_card('j_toga_linux_ubuntu')) then ret[#ret+1] = G.consumeables end
+	if next(SMODS.find_card('j_toga_linux_ubuntu')) or next(SMODS.find_card('j_toga_winmillenium')) then ret[#ret+1] = G.consumeables end
     return ret
 end
 
@@ -272,7 +272,7 @@ togabalatro.jd_def["j_toga_netscapenavigator"] = {
 		return playing_card.edition and playing_card.edition.holo and JokerDisplay.calculate_joker_triggers(joker_card) or 0
 	end,
 	retrigger_joker_function = function(card, retrigger_joker)
-		return card ~= retrigger_joker and card.edition and card.edition.holo or 0
+		return card ~= retrigger_joker and card.edition and card.edition.holo and JokerDisplay.calculate_joker_triggers(retrigger_joker) or 0
 	end
 }
 
@@ -566,7 +566,8 @@ togabalatro.jd_def["j_toga_winmillenium"] = {
 		card.joker_display_values.totalchips = card.ability.extra.basechips + card.ability.extra.chipbonus*vouchcount
 	end,
 	mod_function = function(card, mod_joker)
-		return { chips = mod_joker.ability.extra.totalbonus*JokerDisplay.calculate_joker_triggers(mod_joker) }
+		local tc = mod_joker.ability.extra.basechips + mod_joker.ability.extra.chipbonus * togabalatro.vouchcount()
+		return { chips = tc*JokerDisplay.calculate_joker_triggers(mod_joker) }
 	end
 }
 

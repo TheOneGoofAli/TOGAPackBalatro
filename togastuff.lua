@@ -49,61 +49,7 @@ togabalatro.set_debuff = function(card)
 	if card and card.ability and card.ability.set and card.ability.set == 'Joker' and next(SMODS.find_card('j_toga_hypersonicthehedgehog')) then return 'prevent_debuff' end
 end
 
--- togabalatro.set_mod_badge = function(obj)
-	-- local mod = togabalatro
-	-- local mod_name = mod.display_name
-	-- local max_text_width = 1.732
-	-- local scale_fac = 1
-	-- local badge_text = DynaText({string = mod_name or 'ERROR', colours = {mod.badge_text_colour or G.C.WHITE}, maxw = mod.no_marquee and max_text_width, float = true, shadow = true, offset_y = -0.05, silent = true, spacing = 1*scale_fac, scale = 0.297})
-	-- local badge_scroll = SMODS.UIScrollBox({
-		-- content = badge_text,
-		-- container = {
-			-- config = {
-				-- can_collide = false,
-			-- }
-		-- },
-		-- overflow = {
-			-- node_config = {
-				-- no_overflow = not mod.no_marquee and "h" or false,
-				-- maxw = not mod.no_marquee and max_text_width or nil,
-			-- },
-			-- config = {
-				-- can_collide = false,
-			-- }
-		-- },
-		-- sync_mode = "offset",
-		-- scroll_move = function(self, dt)
-			-- local dx = self:get_scroll_distance()
-			-- if dx == 0 or mod.no_marquee then return end
-			-- if not self.scroll_start_pause then
-				-- self.scroll_start_pause = 1.5
-			-- end
-			-- if self.scroll_start_pause > 0 and self.scroll_offset.x >= 0 then
-				-- self.scroll_start_pause = self.scroll_start_pause - G.real_dt
-			-- else
-				-- self.scroll_offset.x = (self.scroll_offset.x or 0) + G.real_dt / 1.5
-				-- if self.scroll_offset.x > self.content_container.T.w then
-					-- self.scroll_start_pause = 1.5
-					-- self.scroll_offset.x = -self.T.w - 0.1
-				-- end
-			-- end
-		-- end,
-	-- })
-	-- return {n=G.UIT.R, config={align = "cm", id = 'badge_'..mod.id, colour = mod.badge_colour or G.C.GREEN, shader = not obj.no_shader_on_modbadge and mod.badge_shader or nil, r = 0.1, minw = 2, minh = 0.36, emboss = 0.05, padding = 0.027}, nodes={
-		-- {n=G.UIT.B, config={h=0.1,w=0.03}},
-		-- {n=G.UIT.O, config={id = 'smods_mod_badge_text', object=SMODS.create_sprite(0, 0, 0.35, 0.35, G.ASSET_ATLAS['toga_TOGAMoreIcons'], { x = 5, y = 0 }) }},
-		-- {n=G.UIT.B, config={h=0.1,w=0.03}},
-		-- {n=G.UIT.O, config={id = 'smods_mod_badge_text', object=badge_scroll}},
-		-- {n=G.UIT.B, config={h=0.1,w=0.03}},
-	-- }}
--- end
-
-togabalatro.calculate = function(self, context)
-	-- Evil. :)
-	-- if next(context) then
-		-- if math.random(1, 5) == 1 then delay(0.1) end
-	-- end
-	
+togabalatro.calculate = function(self, context)	
 	if context.before then
 		local cxt = context
 		check_for_unlock({ type = 'sfrock', context = cxt })
@@ -1047,28 +993,6 @@ togabalatro.heldinhandscoring = function(context, scoring_hand)
 	end
 end
 
--- togabalatro.scoreheldinhand = function(areas, context, handrescore)
-	-- local allcards = {}
-	
-	-- for i = 1, #G.playing_cards do
-		-- if G.playing_cards[i] then allcards[#allcards+1] = G.playing_cards[i] end
-	-- end
-	
-	-- allcards = togabalatro.preprocess(context, allcards)
-	
-	-- for i = 1, #(context.cardarea do
-		-- local card, area = context.cardarea.cards[i], context.cardarea
-		-- if card then
-			-- if area == G.hand and handrescore then
-				-- SMODS.score_card(card, context)
-			-- end
-			-- if area ~= G.hand and card.seal == 'toga_urlseal' then
-				-- SMODS.score_card(card, context)
-			-- end
-		-- end
-	-- end
--- end
-
 togabalatro.scoreheldinhand = function(areas, context, handrescore)
 	for _, area in ipairs(areas) do
 		if area == G.hand and handrescore then
@@ -1241,39 +1165,6 @@ togabalatro.getlevelaverage = function()
 	return average
 end
 
--- togabalatro.getcenterkey = function(card)
-	-- local str = ''
-	-- if card and card.config and card.config.center and type(card.config.center.key) == 'string' then str = card.config.center.key end
-	-- return str
--- end
-
--- togabalatro.controlpanelcalc = function()
-	-- local unique, types, jkrr = 0, {}, {}
-	-- for _, a in pairs({G.jokers, G.consumeables}) do
-		-- for _, v in pairs(a.cards or {}) do
-			-- if v and v.ability and v.ability.set then
-				-- if v.ability.set == 'Joker' then
-					-- local rarity
-					-- for k, r in pairs(SMODS.Rarities) do
-						-- if v:is_rarity(k) then rarity = k; break end
-					-- end
-					-- if rarity then
-						-- types[v.ability.set] = true
-						-- if not jkrr[rarity] then
-							-- jkrr[rarity] = true
-							-- unique = unique + 1
-						-- end
-					-- end
-				-- elseif v.ability.consumeable and not types[v.ability.set] then
-					-- types[v.ability.set] = true
-					-- unique = unique + 1
-				-- end
-			-- end
-		-- end
-	-- end
-	-- return unique, types, jkrr
--- end
-
 togabalatro.wishstonestraightcalc = function(hand, min_length, skip, wrap)
 	if next(SMODS.find_card('j_toga_wishingstones')) then
 		local min_length = min_length or 5
@@ -1388,19 +1279,6 @@ togabalatro.achievementproc = function(a, t)
 				play_sound('toga_sonicspecialmessage', 1, 0.3)
 			end
 		end
-	end
-end
-
-togabalatro.titlescreencheck = function()
-	if G.toga_patch then return end
-	if not togabalatro.has_shown_load_error then
-		togabalatro.has_shown_load_error = true
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				togabalatro.loaderror()
-				return true
-			end
-		}))
 	end
 end
 
