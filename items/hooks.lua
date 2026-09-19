@@ -1167,6 +1167,7 @@ function SMODS.has_no_rank(card)
 	return ret
 end
 
+sendInfoMessage("Hooking SMODS.is_poker_hand_visible...", "TOGAPack")
 local ispkrhndvisref = SMODS.is_poker_hand_visible
 function SMODS.is_poker_hand_visible(handname)
 	local ret = ispkrhndvisref(handname)
