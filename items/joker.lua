@@ -3057,7 +3057,7 @@ table.insert(jokers, {
 	blueprint_compat = false,
 	display_size = { w = 88, h = 75 },
 	poweritem = true,
-	attributes = { 'passive', 'rank', 'nine' }
+	attributes = { 'passive', 'rank', 'nine', 'plushie', 'hatsunemiku' }
 })
 
 table.insert(jokers, {

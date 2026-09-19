@@ -3,6 +3,8 @@ sendInfoMessage("Loading Attributes...", "TOGAPack")
 local toga_attrib = {
 	{ 'toga_alloy', {}, { 'alloy' } },
 	{ 'bunny', {}, { 'bnuuy' } },
+	{ 'plushie', {}, { 'plush' } },
+	{ 'hatsunemiku', {}, { 'hatsune_miku' } },
 	{ 'meta', {}, {} },
 	{ 'shop', {}, {} },
 	{ 'booster', {}, {} },
