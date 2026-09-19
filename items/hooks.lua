@@ -204,7 +204,7 @@ sendInfoMessage("Hooking Game:update_game_over...", "TOGAPack")
 local ugoref = Game.update_game_over
 function Game:update_game_over(dt)
 	if not G.STATE_COMPLETE then
-		if G.GAME.selected_back.effect.center.key == 'b_toga_screamingdeck' and togabalatro.config.SFXWhenTriggered then play_sound('toga_soldierscream', 1, 0.4) end
+		if G.GAME.selected_back.effect.center.key == 'b_toga_screamingdeck' and togabalatro.config.SFXWhenTriggered and togabalatro.config.AAAAAALoseSFX then play_sound('toga_soldierscream', 1, 0.4) end
 		if G.GAME.selected_back.effect.center.key == 'b_toga_srb2kartdeck' and togabalatro.config.SpecialDeckMusic then G.toga_customdeckmusic = true; G.normal_music_speed = true end
 		if next(SMODS.find_card('j_toga_spacecadetpinball', true)) and togabalatro.config.SFXWhenTriggered then play_sound('toga_pinballshutdown', 1, 0.4) end
 	end
@@ -357,7 +357,10 @@ function SMODS.modify_rank(card, amount, manual_sprites)
 	SMODS.calculate_context({ vs_modify_rank = true }, vscalc)
 	for _, eval in pairs(vscalc) do
 		for key, eval2 in pairs(eval) do
-			if eval2.amount and eval2.card then amount = amount + eval2.amount end
+			if eval2.amount and eval2.card then
+				local amt = math.abs(amount) + eval2.amount
+				amount = amount < 0 and -amt or amt
+			end
 		end
 	end
 	local bonzicalc = {}
@@ -414,10 +417,10 @@ function SMODS.upgrade_poker_hands(args)
 			for _, eval in pairs(lvlcalc) do
 				for key, eval2 in pairs(eval) do
 					if eval2.card then
-						if eval2.xplvlup then
-							args.level_up = args.level_up * 2
-							SMODS.calculate_effect({message = localize('k_upgrade_ex'), juice_card = args.from}, eval2.card)
-						end
+						-- if eval2.xplvlup then
+							-- args.level_up = args.level_up * 2
+							-- SMODS.calculate_effect({message = localize('k_upgrade_ex'), juice_card = args.from}, eval2.card)
+						-- end
 						
 						-- if eval2.lplvl then
 							-- args.level_up = args.level_up * 0.5
@@ -813,6 +816,7 @@ sendInfoMessage("Hooking Card:calculate_perishable...", "TOGAPack")
 local calcperishref = Card.calculate_perishable
 function Card:calculate_perishable()
 	if G.GAME.modifiers.toga_norentperish then return end
+	if next(SMODS.find_card('j_toga_computerlock')) and self.ability.set == 'Joker' then return end
 	return calcperishref(self)
 end
 
@@ -998,8 +1002,8 @@ end
 		-- SMODS.calculate_context({toga_reuse_consumeable = card, toga_overflow_bulkuse = true}, consusecalc)
 		-- for _, eval in pairs(consusecalc) do
 			-- for key, eval2 in pairs(eval) do
-				-- if eval2.card and tonumber(eval2.amount) and math.floor(eval2.amount) >= 1 then
-					-- for i = 1, eval2.amount do
+				-- if eval2.card and tonumber(eval2.repetitions) and math.floor(eval2.repetitions) >= 1 then
+					-- for i = 1, eval2.repetitions do
 						-- SMODS.calculate_effect({message = localize('k_again_ex')}, eval2.card)
 						-- ofburef(card, area, amount)
 					-- end
@@ -1018,8 +1022,8 @@ end
 	-- SMODS.calculate_context({toga_reuse_consumeable = self}, consusecalc)
 	-- for _, eval in pairs(consusecalc) do
 		-- for key, eval2 in pairs(eval) do
-			-- if eval2.card and tonumber(eval2.amount) and math.floor(eval2.amount) >= 1 then
-				-- for i = 1, eval2.amount do
+			-- if eval2.card and tonumber(eval2.repetitions) and math.floor(eval2.repetitions) >= 1 then
+				-- for i = 1, eval2.repetitions do
 					-- toga_reusecons(self, area, copier, eval2.card)
 				-- end
 			-- end
@@ -1031,15 +1035,17 @@ end
 sendInfoMessage("Hooking Full House evaluation...", "TOGAPack")
 local fullhouse = SMODS.PokerHands['Full House']
 local fullhouseeval = SMODS.PokerHands['Full House'].evaluate
-function fullhouse.evaluate(parts)
-	return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and parts._all_pairs or fullhouseeval(parts)
+function fullhouse.evaluate(parts, hand)
+	--return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and parts._all_pairs or fullhouseeval(parts, hand)
+	return togabalatro.mothcalc(hand, parts, false) or togabalatro.purplebunnycalc(hand, parts, false) or fullhouseeval(parts, hand)
 end
 
 sendInfoMessage("Hooking Flush House evaluation...", "TOGAPack")
 local flushhouse = SMODS.PokerHands['Flush House']
 local flushhouseeval = SMODS.PokerHands['Flush House'].evaluate
-function flushhouse.evaluate(parts)
-	return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and next(parts._flush) and { SMODS.merge_lists(parts._all_pairs, parts._flush) } or flushhouseeval(parts)
+function flushhouse.evaluate(parts, hand)
+	--return next(SMODS.find_card('j_toga_achemoth')) and #parts._2 >= 2 and next(parts._flush) and { SMODS.merge_lists(parts._all_pairs, parts._flush) } or flushhouseeval(parts, hand)
+	return togabalatro.mothcalc(hand, parts, true) or togabalatro.purplebunnycalc(hand, parts, true) or flushhouseeval(parts, hand)
 end
 
 sendInfoMessage("Hooking Card:set_edition...", "TOGAPack")
@@ -1158,6 +1164,15 @@ function SMODS.has_no_rank(card)
 			if k == 'm_stone' then return false end
 		end
 	end
+	return ret
+end
+
+local ispkrhndvisref = SMODS.is_poker_hand_visible
+function SMODS.is_poker_hand_visible(handname)
+	local ret = ispkrhndvisref(handname)
+    if SMODS.PokerHands[handname] and G.GAME.hands[handname] and G.GAME.selected_back and G.GAME.selected_back.effect.center.key == 'b_toga_wtfdeck' then
+        return true
+    end
 	return ret
 end
 

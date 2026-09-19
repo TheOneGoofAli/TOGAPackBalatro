@@ -34,16 +34,20 @@ SMODS.Enhancement{
 	pos = { x = 7, y = 1 },
 	config = { bonus = 75, extra = { chodds = 4 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { SMODS.signed(card.ability.bonus), SMODS.get_probability_vars(card, 1, (card.ability or self.config).extra.chodds) } }
+		return { vars = { SMODS.signed(card.ability.bonus), SMODS.get_probability_vars(card, 1, (card.ability or self.config).extra.chodds, 'toga_choccyeat') } }
 	end,
 	replace_base_card = true,
 	no_rank = true,
 	no_suit = true,
 	always_scores = true,
 	calculate = function(self, card, context)
-		if context.destroy_card and context.cardarea == G.play and context.destroy_card == card and SMODS.pseudorandom_probability(card, 'toga_chocolate', 1, card.ability.extra.chodds) then
+		if context.destroy_card and context.cardarea == G.play and context.destroy_card == card and SMODS.pseudorandom_probability(card, 'toga_chocolate', 1, card.ability.extra.chodds, 'toga_choccyeat') then
 			card.choccy_trigger = true
 			return { remove = true }
+		end
+		
+		if context.main_scoring and context.cardarea == G.deck and next(SMODS.find_card('j_toga_choccymilk')) then
+			return { chips = card:get_chip_bonus()*0.2 }
 		end
 	end,
 	weight = 5,
@@ -241,7 +245,7 @@ SMODS.Enhancement{
 		return { vars = { SMODS.signed(card.ability.toga_hmult) } }
 	end,
 	calculate = function(self, card, context)
-		if context.main_scoring and context.cardarea == G.hand and not context.end_of_round and not context.repetition and not context.repetition_only then
+		if context.main_scoring and context.cardarea == G.hand then
 			local cards = 0
 			for k, v in ipairs((G.hand or {}).cards) do
 				if v ~= card then cards = cards + 1 else break end
@@ -260,7 +264,7 @@ SMODS.Enhancement{
 	key = 'ardite',
 	atlas = "TOGAEnhancements",
 	pos = { x = 8, y = 2 },
-	config = { toga_stonechips = 6 },
+	config = { toga_stonechips = 10 },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_stone
 		local stones = 0
@@ -270,7 +274,7 @@ SMODS.Enhancement{
 		return { vars = { SMODS.signed(card.ability.toga_stonechips), SMODS.signed(card.ability.toga_stonechips*stones) } }
 	end,
 	calculate = function(self, card, context)
-		if context.main_scoring and context.cardarea == G.hand and not context.end_of_round and not context.repetition and not context.repetition_only then
+		if context.main_scoring and context.cardarea == G.hand then
 			local stones = 0
 			for k, v in pairs(G.playing_cards or {}) do
 				if v and SMODS.has_enhancement(v, 'm_stone') then stones = stones + 1 end
@@ -301,7 +305,7 @@ SMODS.Enhancement{
         badges[#badges+1] = create_badge(localize('toga_alloyunsure'), HEX('917591'), G.C.WHITE, 1)
     end,
 	calculate = function(self, card, context)
-		if context.main_scoring and context.cardarea == G.play and not context.end_of_round and not context.repetition and not context.repetition_only then
+		if context.main_scoring and context.cardarea == G.play then
 			G.GAME.current_round.toga_montus = (G.GAME.current_round.toga_montus or 0) + 1
 			return { score = card.ability.toga_montus_score*G.GAME.current_round.toga_montus }
 		end
@@ -410,9 +414,9 @@ SMODS.Enhancement{
 	key = 'lumium',
 	atlas = "TOGAEnhancements",
 	pos = { x = 5, y = 1 },
-	config = { h_x_mult = 2 },
+	config = { г_x_mult = 2 },
 	loc_vars = function(self, info_queue, card)
-		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.h_x_mult } }
+		return { key = card and card.showrecipe and self.key .. "_recipe" or self.key, vars = { card.ability.г_x_mult } }
 	end,
 	in_pool = function(self, args)
 		return togabalatro.config.ShowPower and not not G.GAME.toga_alloyrate
@@ -421,6 +425,11 @@ SMODS.Enhancement{
 	set_badges = function(self, card, badges)
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('cf8f42'), G.C.WHITE, 1)
     end,
+	calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == "unscored" then
+			return { xmult = card.ability.u_x_mult }
+		end
+	end,
 	poweritem = true,
 	weight = 2,
 	get_weight = function(self)
@@ -517,7 +526,7 @@ SMODS.Enhancement{
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('328181'), G.C.WHITE, 1)
     end,
 	calculate = function(self, card, context)
-		if context.main_scoring and context.cardarea == G.hand and not context.end_of_round and not context.repetition and not context.repetition_only then
+		if context.main_scoring and context.cardarea == G.hand then
 			return { x_score = card.ability.toga_h_x_score }
 		end
 	end,
@@ -595,7 +604,7 @@ SMODS.Enhancement{
         badges[#badges+1] = create_badge(localize('toga_alloy'), HEX('9261CC'), G.C.WHITE, 1)
     end,
 	calculate = function(self, card, context)
-		if context.main_scoring and context.cardarea == G.play and not context.end_of_round and not context.repetition and not context.repetition_only then
+		if context.main_scoring and context.cardarea == G.play then
 			G.GAME.current_round.toga_manyullyn = (G.GAME.current_round.toga_manyullyn or 0) + 1
 			return { xmult = 1+(card.ability.toga_insatiablexmult*G.GAME.current_round.toga_manyullyn) }
 		end

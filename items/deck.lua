@@ -426,7 +426,6 @@ if togabalatro.config.WTFDeck then
 				G.GAME.hands[v].l_chips = G.GAME.hands[v].l_chips * (rndy(1, 400)/100)
 				G.GAME.hands[v].mult = math.max(G.GAME.hands[v].s_mult + G.GAME.hands[v].l_mult*(G.GAME.hands[v].level - 1), 1)
 				G.GAME.hands[v].chips = math.max(G.GAME.hands[v].s_chips + G.GAME.hands[v].l_chips*(G.GAME.hands[v].level - 1), 0)
-				G.GAME.hands[v].visible = true
 			end
 			
 			change_shop_size(2)

@@ -98,9 +98,8 @@ table.insert(sj, {
 	config = { extra = { odds = 7, nodds = 8 } },
 	loc_vars = function(self, info_queue, card)
 		local num, den = SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds, 'toga_7superemeralds')
-		local num1, den1 = SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.nodds, 'toga_supersonicdestroy')
 		local scoredgold, maxgold = card.ability.extra.rings or 0, 150
-		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { num, den, num1, den1, scoredgold, maxgold } }
+		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { num, den, scoredgold, maxgold } }
 	end,
 	unlocked = true,
 	in_pool = function()
@@ -132,11 +131,6 @@ table.insert(sj, {
 					SMODS.calculate_effect({ message = "+", message_card = context.other_card, juice_card = card, sound = togabalatro.config.SFXWhenTriggered and 'toga_sonicring', pitch = 1}, card)
 				end
 			end
-		end
-		
-		if context.destroy_card and context.cardarea == G.play and not SMODS.has_enhancement(context.destroy_card, 'm_gold') and SMODS.pseudorandom_probability(card, 'toga_supersonicdestroy', 1, card.ability.extra.nodds) then
-			context.destroy_card.sonicdestroyed = true
-			return { remove = true }
 		end
 		
 		if context.after then

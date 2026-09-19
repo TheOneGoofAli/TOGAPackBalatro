@@ -51,7 +51,7 @@ table.insert(winj, {
 	end,
 	unlocked = true,
 	in_pool = function()
-		local three, eight, six = false, false, false
+		local three, eight, six
 		for k, v in ipairs(G.playing_cards or {}) do
 			if v and not SMODS.has_no_rank(v) then
 				local id = v:get_id()
@@ -62,7 +62,7 @@ table.insert(winj, {
 				end
 			end
 		end
-		return (three and eight and six)
+		return three or eight or six
 	end,
 	rarity = 3,
 	atlas = 'TOGAJokersWindows',
@@ -164,38 +164,29 @@ table.insert(winj, {
 	attributes = { 'discard', 'hands' }
 })
 
-togabalatro.gettotaljokervalue = function()
-	local value = 0
-	if G.jokers then
-		for i = 1, #G.jokers.cards do
-			if G.jokers.cards[i].ability.set == 'Joker' then
-				value = value + G.jokers.cards[i].sell_cost
-			end
-		end
-	end
-	return value
-end
-
 table.insert(winj, {
 	key = 'win98',
-	config = { extra = { consslotbonus = 0.1, totalconsslotbonus = 0, percentage = 0.2 } },
+	config = { extra = { pcg = 1 } },
 	loc_vars = function(self, info_queue, card)
-		card.ability.extra.totalconsslotbonus = togabalatro.getconscount()*card.ability.extra.consslotbonus or 0
-		return { vars = { card.ability.extra.consslotbonus*100, card.ability.extra.totalconsslotbonus*100, card.ability.extra.percentage*100, togabalatro.gettotaljokervalue()*card.ability.extra.percentage } }
+		return { vars = { SMODS.signed(card.ability.extra.pcg), localize("8", 'ranks'), localize("9", 'ranks') } }
 	end,
 	unlocked = true,
 	rarity = 2,
 	atlas = 'TOGAJokersWindows',
 	pos = { x = 1, y = 1 },
 	cost = 5,
-	blueprint_compat = true,
+	blueprint_compat = false,
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-			local sellvalues = togabalatro.gettotaljokervalue()*card.ability.extra.percentage
-			local slotbonus = sellvalues*togabalatro.getconscount()*card.ability.extra.consslotbonus or 0
-			return {
-				mult = sellvalues + slotbonus
-			}
+		if context.reroll_shop then
+			local en = false
+			for k, v in pairs(G.playing_cards) do
+				local r = v:get_id()
+				if not SMODS.has_no_rank(v) and (r == 8 or r == 9) then
+					en = true
+					v.ability.perma_bonus = (v.ability.perma_bonus or 0) + card.ability.extra.pcg
+				end
+			end
+			if en then return { message = localize('k_upgrade_ex'), message_card = G.deck.cards[1] or G.deck, juice_card = card } end
 		end
 	end,
 	add_to_deck = function(self, card, from_debuff)
@@ -209,19 +200,18 @@ table.insert(winj, {
 			else play_sound("toga_chord") end
 		end
 	end,
-	attributes = { 'joker', 'consumeable', 'mult', 'sell_value' }
+	attributes = { 'rank', 'eight', 'nine', 'modify_card', 'full_deck' }
 })
 
-local function toga_vouchcount()
+function togabalatro.vouchcount()
 	return G.vouchers and G.vouchers.cards and #G.vouchers.cards or 0
 end
 
 table.insert(winj, {
 	key = 'winmillenium',
-	config = { extra = { basechips = 10, chipbonus = 10, totalbonus = 20 } },
+	config = { extra = { basechips = 10, chipbonus = 5 } },
 	loc_vars = function(self, info_queue, card)
-		card.ability.extra.totalbonus = card.ability.extra.basechips + card.ability.extra.chipbonus * toga_vouchcount()
-		return { vars = { card.ability.extra.basechips, card.ability.extra.chipbonus, card.ability.extra.totalbonus } }
+		return { vars = { SMODS.signed(card.ability.extra.basechips), SMODS.signed(card.ability.extra.chipbonus), SMODS.signed(card.ability.extra.basechips + card.ability.extra.chipbonus * togabalatro.vouchcount()) } }
 	end,
 	unlocked = true,
 	rarity = 2,
@@ -230,10 +220,8 @@ table.insert(winj, {
 	cost = 6,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		card.ability.extra.totalbonus = card.ability.extra.basechips + card.ability.extra.chipbonus * toga_vouchcount()
-		
 		if context.other_joker or context.other_consumeable then
-			return { chips = card.ability.extra.totalbonus, message_card = context.other_joker or context.other_consumeable }
+			return { chips = card.ability.extra.basechips + card.ability.extra.chipbonus * togabalatro.vouchcount(), message_card = context.other_joker or context.other_consumeable }
 		end
 	end,
 	add_to_deck = function(self, card, from_debuff)
@@ -252,6 +240,9 @@ table.insert(winj, {
 
 table.insert(winj, {
 	key = 'winnt4',
+	loc_vars = function(self, info_queue, card)
+		return { vars = { localize("4", 'ranks') } }
+	end,
 	unlocked = true,
 	rarity = 2,
 	atlas = 'TOGAJokersWindows',
@@ -260,12 +251,10 @@ table.insert(winj, {
 	blueprint_compat = true,
 	calculate = function(self, card, context)
 		if context.cardarea == G.play and context.repetition and not context.repetition_only then
-			if not context.other_card:is_face() then
-				-- This is basically the inverse of Sock and Buskin...
+			if context.other_card and not SMODS.has_no_rank(context.other_card) and context.other_card:get_id() == 4 then
 				return {
 					message = localize('k_again_ex'),
-					repetitions = 1,
-					card = context.blueprint_card or card
+					repetitions = 2,
 				}
 			end
 		end
@@ -326,19 +315,25 @@ table.insert(winj, {
 
 table.insert(winj, {
 	key = 'winxp',
-	config = { extra = { odds = 5 } },
+	config = { extra = { gxm = 0.05 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { SMODS.get_probability_vars(card or self, 1, (card.ability or self.config).extra.odds) } }
+		return { vars = { card.ability.extra.gxm, localize("5", 'ranks') } }
 	end,
 	unlocked = true,
 	rarity = 3,
 	atlas = 'TOGAJokersWindows',
 	pos = { x = 2, y = 2 },
 	cost = 8,
-	blueprint_compat = true,
+	blueprint_compat = false,
 	calculate = function(self, card, context)
-		if context.toga_levelup and SMODS.pseudorandom_probability(card, "experiencethebest", 1, card.ability.extra.odds, 'yesyoucan') then
-			return { xplvlup = true, card = context.blueprint_card or card }
+		if context.end_of_round and context.individual and context.cardarea == G.hand and context.other_card then
+			if G.GAME.blind and G.GAME.blind:get_type() == 'Big' then
+				local r = not SMODS.has_no_rank(context.other_card) and context.other_card:get_id()
+				if r and r == 5 then
+					context.other_card.ability.perma_x_mult = (context.other_card.ability.perma_x_mult or 1) + card.ability.extra.gxm
+					return { message = localize('k_upgrade_ex'), colour = G.C.MULT, message_card = context.other_card, juice_card = context.retrigger_joker or context.blueprint or card }
+				end
+			end
 		end
 	end,
 	add_to_deck = function(self, card, from_debuff)
@@ -352,7 +347,7 @@ table.insert(winj, {
 			else play_sound("toga_winxpcritstop") end
 		end
 	end,
-	attributes = { 'chance', 'level_up' }
+	attributes = { 'rank', 'five', 'passive' }
 })
 
 table.insert(winj, {
@@ -460,9 +455,8 @@ table.insert(winj, {
 			else play_sound("toga_winvista7critstop") end
 		end
 	end,
-	calc_scaling = function(self, card, other_card, initial_value, scalar_value, args)
-		if card == other_card then return end
-		if to_big(scalar_value) > to_big(0) then
+	calculate = function(self, card, context)
+		if context.scaling_card and context.scalar and to_big(context.scalar) > to_big(0) then
 			local s = 0
 			for k, v in ipairs(G.playing_cards or {}) do
 				if v and not SMODS.has_no_rank(v) and v:get_id() == 7 then s = s + 1 end
@@ -472,7 +466,7 @@ table.insert(winj, {
 					message = '!',
 					delay = 0.2,
 					override_scalar_value = {
-						value = scalar_value * (1+s*card.ability.extra.xscale)
+						value = context.scalar * (1+s*card.ability.extra.xscale)
 					}
 				}
 			end

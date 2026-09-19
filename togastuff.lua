@@ -34,20 +34,79 @@ togabalatro.optional_features = function()
 	return {
 		retrigger_joker = true,
 		post_trigger = true,
-		quantum_enhancements = togabalatro.config.EnableQE and true or nil
+		quantum_enhancements = togabalatro.config.EnableQE and true or nil,
+		cardareas = {
+			discard = true,
+			deck = true
+		}
 	}
 end
 
 togabalatro.set_debuff = function(card)
 	if SMODS.has_enhancement(card, 'm_toga_nickel') then return 'prevent_debuff' end
+	if next(SMODS.find_card('j_toga_choccymilk')) and SMODS.has_enhancement(card, 'm_toga_chocolate') then return 'prevent_debuff' end
 	if card and card.config and card.config.center and card.config.center.key and card.config.center.key == 'j_toga_supersonicthehedgehog' then return 'prevent_debuff' end
 	if card and card.ability and card.ability.set and card.ability.set == 'Joker' and next(SMODS.find_card('j_toga_hypersonicthehedgehog')) then return 'prevent_debuff' end
 end
 
+-- togabalatro.set_mod_badge = function(obj)
+	-- local mod = togabalatro
+	-- local mod_name = mod.display_name
+	-- local max_text_width = 1.732
+	-- local scale_fac = 1
+	-- local badge_text = DynaText({string = mod_name or 'ERROR', colours = {mod.badge_text_colour or G.C.WHITE}, maxw = mod.no_marquee and max_text_width, float = true, shadow = true, offset_y = -0.05, silent = true, spacing = 1*scale_fac, scale = 0.297})
+	-- local badge_scroll = SMODS.UIScrollBox({
+		-- content = badge_text,
+		-- container = {
+			-- config = {
+				-- can_collide = false,
+			-- }
+		-- },
+		-- overflow = {
+			-- node_config = {
+				-- no_overflow = not mod.no_marquee and "h" or false,
+				-- maxw = not mod.no_marquee and max_text_width or nil,
+			-- },
+			-- config = {
+				-- can_collide = false,
+			-- }
+		-- },
+		-- sync_mode = "offset",
+		-- scroll_move = function(self, dt)
+			-- local dx = self:get_scroll_distance()
+			-- if dx == 0 or mod.no_marquee then return end
+			-- if not self.scroll_start_pause then
+				-- self.scroll_start_pause = 1.5
+			-- end
+			-- if self.scroll_start_pause > 0 and self.scroll_offset.x >= 0 then
+				-- self.scroll_start_pause = self.scroll_start_pause - G.real_dt
+			-- else
+				-- self.scroll_offset.x = (self.scroll_offset.x or 0) + G.real_dt / 1.5
+				-- if self.scroll_offset.x > self.content_container.T.w then
+					-- self.scroll_start_pause = 1.5
+					-- self.scroll_offset.x = -self.T.w - 0.1
+				-- end
+			-- end
+		-- end,
+	-- })
+	-- return {n=G.UIT.R, config={align = "cm", id = 'badge_'..mod.id, colour = mod.badge_colour or G.C.GREEN, shader = not obj.no_shader_on_modbadge and mod.badge_shader or nil, r = 0.1, minw = 2, minh = 0.36, emboss = 0.05, padding = 0.027}, nodes={
+		-- {n=G.UIT.B, config={h=0.1,w=0.03}},
+		-- {n=G.UIT.O, config={id = 'smods_mod_badge_text', object=SMODS.create_sprite(0, 0, 0.35, 0.35, G.ASSET_ATLAS['toga_TOGAMoreIcons'], { x = 5, y = 0 }) }},
+		-- {n=G.UIT.B, config={h=0.1,w=0.03}},
+		-- {n=G.UIT.O, config={id = 'smods_mod_badge_text', object=badge_scroll}},
+		-- {n=G.UIT.B, config={h=0.1,w=0.03}},
+	-- }}
+-- end
+
 togabalatro.calculate = function(self, context)
+	-- Evil. :)
+	-- if next(context) then
+		-- if math.random(1, 5) == 1 then delay(0.1) end
+	-- end
+	
 	if context.before then
 		local cxt = context
-		check_for_unlock({type = 'sfrock', context = cxt })
+		check_for_unlock({ type = 'sfrock', context = cxt })
 		G.GAME.current_round.toga_montus = 0
 		G.GAME.current_round.toga_manyullyn = 0
 	end
@@ -103,6 +162,7 @@ togabalatro.calculate = function(self, context)
 	end
 	
 	if (context.joker_type_destroyed or context.selling_card) and Object.is(context.card, Card) then
+		check_for_unlock({type = 'yetiskifree_toga', card = context.card })
 		if not context.card.debuff and context.card.config and context.card.config.center and context.card.config.center.key and context.card.config.center.key == 'c_toga_selfpropelledbomb' and context.card.ability then
 			if SMODS.pseudorandom_probability(context.card, "toga_selfpropelledbomb", 1, context.card.ability.extra.odds or 4, 'theselfpropelledbomb') then
 				togabalatro.spbdeckwreck(context.card, true)
@@ -119,19 +179,54 @@ togabalatro.calculate = function(self, context)
 	
 	if context.drawing_cards and G.deck and G.deck.cards then
 		-- Moved from a hook.
-		local otherc, smsc = {}, {}
+		local otherc, smsc, mikuc, tc = {}, {}, {}, {}
 		for i, k in ipairs(G.deck.cards) do
-			if SMODS.has_enhancement(k, 'm_toga_sms') then
+			local sms = SMODS.has_enhancement(k, 'm_toga_sms')
+			local miku = next(SMODS.find_card('j_toga_mikuplush')) and not SMODS.has_no_rank(k) and k:get_id() == 9
+			if sms then
 				smsc[#smsc+1] = k
+			elseif miku then
+				mikuc[#mikuc+1] = k
 			else
 				otherc[#otherc+1] = k
 			end
 		end
-		for _, card in ipairs(otherc) do
-			table.insert(smsc, card)
+		for _, card in ipairs(smsc) do
+			table.insert(tc, card)
 		end
-		G.deck.cards = smsc
+		for _, card in ipairs(otherc) do
+			table.insert(tc, card)
+		end
+		for _, card in ipairs(mikuc) do
+			table.insert(tc, card)
+		end
+		G.deck.cards = tc
 		G.deck:set_ranks()
+	end
+	
+	if context.ante_change and context.ante_end then
+		for k, v in pairs(G.I.CARD) do
+			if v and v.ability and v.ability.toga_ups_debuff then v.ability.toga_ups_debuff = nil end
+		end
+	end
+	
+	if context.first_hand_drawn then
+		local duck = SMODS.find_card('j_toga_bonusducks')
+		if duck[1] then
+			if not (context.blueprint or context.retrigger_joker) and pseudorandom(pseudoseed('tf2soldiermerasmus')) < 0.05 then
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						duck[1]:juice_up()
+						play_sound('toga_soldierseekmerasmus', 1)
+						return true
+					end
+				}))
+			end
+		end
+	end
+	
+	if context.setting_ability and context.other_card and not context.unchanged and context.new == 'm_toga_notification' then
+		play_sound('toga_winxpballoon', 1, 2.5)
 	end
 end
 
@@ -443,7 +538,7 @@ SMODS.ObjectType{
 		["j_toga_chrome"] = true, ["j_toga_firefox"] = true, ["j_toga_cavingjkr"] = true,
 		["j_toga_miningjkr"] = true, ["j_toga_virtualpc"] = true, ["j_toga_tuneupwizard"] = true,
 		["j_toga_desktop"] = true, ["j_toga_choccymilk"] = true, ["j_toga_nonebattery"] = true,
-		["j_toga_dragndrop"] = true, ["j_toga_repairdisk"] = true, ["j_toga_merlin"] = true,
+		["j_toga_dialer"] = true, ["j_toga_repairdisk"] = true, ["j_toga_merlin"] = true,
 		["j_toga_briefcase"] = true, ["j_toga_vga"] = true, ["j_toga_mshome"] = true,
 		["j_toga_gamecontrollers"] = true, ["j_toga_wincatalog"] = true, ["j_toga_monitor"] = true,
 		["j_toga_notsosmileyface"] = true, ["j_toga_rloctane"] = true, ["j_toga_wscript"] = true,
@@ -461,16 +556,15 @@ SMODS.ObjectType{
 		["j_toga_aero"] = true, ["j_toga_nopeavi"] = true, ["j_toga_7zip"] = true,
 		["j_toga_kappa"] = true, ["j_toga_mothernature"] = true, ["j_toga_afterdark"] = true,
 		["j_toga_goose_ugg"] = true, ["j_toga_chesspawn"] = true, ["j_toga_f1"] = true,
-		["j_toga_earl"] = true,
+		["j_toga_earl"] = true, ["j_toga_mikuplush"] = true, ["j_toga_purplebunny"] = true,
 	}
 }
 
-SMODS.ConsumableType{
+SMODS.ConsumableType({
 	key = "togaitem",
 	primary_colour = HEX('5f0000'),
 	secondary_colour = HEX('5f0000'),
-	no_collection = true,
-}
+})
 
 G.FUNCS.toga_quack = function(card)
 	local chance, isn = math.random(1, 50) == 42, card and card.edition and card.edition.negative
@@ -666,7 +760,7 @@ togabalatro.chipchallenge_handchoice = function(joker)
 		if G.GAME.hands[v] and SMODS.is_poker_hand_visible(v) then names[#names+1] = v end
 	end
 	if next(names) then
-		local hand = pseudorandom_element(names, pseudoseed('challengedchips'))
+		local hand = pseudorandom_element(names, pseudoseed('challengedchips'..G.GAME.round_resets.ante))
 		joker.ability.extra.chand = hand
 	end
 end
@@ -809,7 +903,8 @@ function SMODS.calculate_end_of_round_effects(context)
 	end
 	
 	if context.cardarea == G.hand and context.end_of_round then
-		togabalatro.triggereof(context) -- initial end of round scoring of cards with Hyperlink Seals
+		local areas = togabalatro.areaprocess(SMODS.get_card_areas('playing_cards'))
+		togabalatro.triggereof(areas, context) -- initial end of round scoring of cards with Hyperlink Seals
 		local clippitcalc = {}
 		SMODS.calculate_context({clippitscore_eor = true, cardarea = context.cardarea}, clippitcalc)
 		for _, eval in pairs(clippitcalc) do
@@ -817,7 +912,7 @@ function SMODS.calculate_end_of_round_effects(context)
 				if eval2.card then
 					for i = 1, math.floor(eval2.rescores or eval2.card.ability.extra and eval2.card.ability.extra.rescores or 1) do
 						calcendroundref(context)
-						togabalatro.triggereof(context) -- rescore...
+						togabalatro.triggereof(areas, context) -- rescore...
 					end
 				end
 			end
@@ -932,7 +1027,8 @@ end
 togabalatro.heldinhandscoring = function(context, scoring_hand)
 	if context.cardarea == G.hand then
 		context.main_scoring = true
-		if togabalatro.canareascore(context.cardarea) then togabalatro.scoreheldinhand(context) end
+		local areas = togabalatro.areaprocess(SMODS.get_card_areas('playing_cards'))
+		if togabalatro.canareascore(context.cardarea) then togabalatro.scoreheldinhand(areas, context) end
 		
 		-- Clippit rescore.
 		local clippitcalc = {}
@@ -942,7 +1038,7 @@ togabalatro.heldinhandscoring = function(context, scoring_hand)
 			for key, eval2 in pairs(eval) do
 				if eval2.card then
 					for i = 1, math.floor(eval2.rescores or eval2.card.ability.extra and eval2.card.ability.extra.rescores or 1) do
-						togabalatro.scoreheldinhand(context, true)
+						togabalatro.scoreheldinhand(areas, context, true)
 					end
 				end
 			end
@@ -951,23 +1047,42 @@ togabalatro.heldinhandscoring = function(context, scoring_hand)
 	end
 end
 
-togabalatro.scoreheldinhand = function(context, handrescore)
-	local allcards = {}
+-- togabalatro.scoreheldinhand = function(areas, context, handrescore)
+	-- local allcards = {}
 	
-	for i = 1, #G.playing_cards do
-		if G.playing_cards[i] then allcards[#allcards+1] = G.playing_cards[i] end
-	end
+	-- for i = 1, #G.playing_cards do
+		-- if G.playing_cards[i] then allcards[#allcards+1] = G.playing_cards[i] end
+	-- end
 	
-	allcards = togabalatro.preprocess(context, allcards)
+	-- allcards = togabalatro.preprocess(context, allcards)
 	
-	for i = 1, #allcards do
-		local card, area = allcards[i], allcards[i].area
-		if card then
-			if area == G.hand and handrescore then
+	-- for i = 1, #(context.cardarea do
+		-- local card, area = context.cardarea.cards[i], context.cardarea
+		-- if card then
+			-- if area == G.hand and handrescore then
+				-- SMODS.score_card(card, context)
+			-- end
+			-- if area ~= G.hand and card.seal == 'toga_urlseal' then
+				-- SMODS.score_card(card, context)
+			-- end
+		-- end
+	-- end
+-- end
+
+togabalatro.scoreheldinhand = function(areas, context, handrescore)
+	for _, area in ipairs(areas) do
+		if area == G.hand and handrescore then
+			local curcards = togabalatro.preprocess(context, area.cards)
+			for _, card in ipairs(curcards) do
 				SMODS.score_card(card, context)
 			end
-			if area ~= G.hand and card.seal == 'toga_urlseal' then
-				SMODS.score_card(card, context)
+		end
+		if area ~= G.hand then
+			local curcards = togabalatro.preprocess(context, area.cards)
+			for _, card in ipairs(curcards) do
+				if card.seal == 'toga_urlseal' then
+					SMODS.score_card(card, context)
+				end
 			end
 		end
 	end
@@ -1037,22 +1152,16 @@ togabalatro.eorproc = function(area, card, context, i)
 end
 
 -- This bit is 100% experimental... there should be a better way for doing this, right?
-togabalatro.triggereof = function(context)
+togabalatro.triggereof = function(areas, context)
 	local contextcopy = context
 	contextcopy.cardarea = G.hand
-	
-	local allcards = {}
-	
-	for i = 1, #G.playing_cards do
-		if G.playing_cards[i] then allcards[#allcards+1] = G.playing_cards[i] end
-	end
-	
-	allcards = togabalatro.preprocess(context, allcards)
-	
-	for i = 1, #allcards do
-		local card, area = allcards[i], allcards[i].area
-		if area ~= G.hand and card.seal == 'toga_urlseal' then
-			togabalatro.eorproc(area, card, contextcopy, i)
+	for i, area in ipairs(areas) do
+		if area ~= G.hand and area.cards then
+			for _, card in ipairs(area.cards) do
+				if card.seal == 'toga_urlseal' then
+					togabalatro.eorproc(area, card, contextcopy, i)
+				end
+			end
 		end
 	end
 end
@@ -1132,6 +1241,39 @@ togabalatro.getlevelaverage = function()
 	return average
 end
 
+-- togabalatro.getcenterkey = function(card)
+	-- local str = ''
+	-- if card and card.config and card.config.center and type(card.config.center.key) == 'string' then str = card.config.center.key end
+	-- return str
+-- end
+
+-- togabalatro.controlpanelcalc = function()
+	-- local unique, types, jkrr = 0, {}, {}
+	-- for _, a in pairs({G.jokers, G.consumeables}) do
+		-- for _, v in pairs(a.cards or {}) do
+			-- if v and v.ability and v.ability.set then
+				-- if v.ability.set == 'Joker' then
+					-- local rarity
+					-- for k, r in pairs(SMODS.Rarities) do
+						-- if v:is_rarity(k) then rarity = k; break end
+					-- end
+					-- if rarity then
+						-- types[v.ability.set] = true
+						-- if not jkrr[rarity] then
+							-- jkrr[rarity] = true
+							-- unique = unique + 1
+						-- end
+					-- end
+				-- elseif v.ability.consumeable and not types[v.ability.set] then
+					-- types[v.ability.set] = true
+					-- unique = unique + 1
+				-- end
+			-- end
+		-- end
+	-- end
+	-- return unique, types, jkrr
+-- end
+
 togabalatro.wishstonestraightcalc = function(hand, min_length, skip, wrap)
 	if next(SMODS.find_card('j_toga_wishingstones')) then
 		local min_length = min_length or 5
@@ -1173,6 +1315,41 @@ togabalatro.toiletrockcalc = function(hand)
 				return ret
 			end
 			return {}
+		end
+	end
+end
+
+togabalatro.mothcalc = function(hand, parts, flushcalc)
+	if next(SMODS.find_card('j_toga_achemoth')) and type(parts) == 'table' and #parts._2 >= 2 then
+		if flushcalc and next(parts._flush) then
+			return { SMODS.merge_lists(parts._all_pairs, parts._flush) }
+		elseif not flushcalc then
+			return parts._all_pairs
+		end
+	end
+end
+
+togabalatro.purplebunnycalc = function(hand, parts, flushcalc)
+	if next(SMODS.find_card('j_toga_purplebunny')) and type(hand) == 'table' then
+		local q, f, t, o
+		local cards = {}
+		for k, v in pairs(hand) do
+			local r = not SMODS.has_no_rank(v) and v:get_id()
+			local hr = false
+			if r then
+				if r == 12 then q = true; hr = true
+				elseif r == 5 then f = true; hr = true
+				elseif r == 3 then t = true; hr = true
+				else o = true end
+				if hr then table.insert(cards, v) end
+			end
+		end
+		if q and f and t and not o then
+			if flushcalc and next(parts._flush) then
+				return { SMODS.merge_lists({ cards }, parts._flush) }
+			elseif not flushcalc then
+				return cards
+			end
 		end
 	end
 end

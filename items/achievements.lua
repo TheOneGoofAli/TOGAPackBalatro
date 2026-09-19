@@ -1,23 +1,23 @@
 sendInfoMessage("Loading Achievements...", "TOGAPack")
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'win9x',
 	bypass_all_unlocked = true,
 	unlock_condition = function(self, args)
 		return next(SMODS.find_card('j_toga_win95')) and next(SMODS.find_card('j_toga_win98')) and next(SMODS.find_card('j_toga_winmillenium'))
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'win10k',
 	bypass_all_unlocked = true,
 	unlock_condition = function(self, args)
 		local w2k = SMODS.find_card('j_toga_win2000')
 		return next(w2k) and #w2k == 5
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'sfrock',
 	bypass_all_unlocked = true,
 	unlock_condition = function(self, args)
@@ -32,17 +32,17 @@ SMODS.Achievement {
 			end
 		end
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'manualcrash',
 	bypass_all_unlocked = true,
 	unlock_condition = function(self, args)
 		if args and args.type and args.type == 'manualcrash_toga' then return true end
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'alloytime',
 	bypass_all_unlocked = true,
 	unlock_condition = function(self, args)
@@ -53,9 +53,9 @@ SMODS.Achievement {
 			end
 		end
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'supersonic',
 	bypass_all_unlocked = true,
 	unlock_condition = function(self, args)
@@ -66,18 +66,32 @@ SMODS.Achievement {
 			end
 		end
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
+	key = 'skifree_eat',
+	bypass_all_unlocked = true,
+	hidden_text = true,
+	unlock_condition = function(self, args)
+		if args and args.type and args.type == 'yetiskifree_toga' then
+			local ac = args.card
+			if ac and ac.config and ac.config.center and ac.config.center.key and ac.config.center.key == 'j_toga_skifree_skier' and ac.yeti_eaten then
+				return true
+			end
+		end
+	end,
+})
+
+SMODS.Achievement({
 	key = 'altloadscrn',
 	bypass_all_unlocked = true,
 	hidden_text = true,
 	unlock_condition = function(self, args)
 		if args and args.type and args.type == 'altloadscreen' and togabalatro.config.BonusLoadScreen then return true end
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'hypersonic',
 	bypass_all_unlocked = true,
 	hidden_text = true,
@@ -89,9 +103,9 @@ SMODS.Achievement {
 			end
 		end
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'negativebrass',
 	bypass_all_unlocked = true,
 	hidden_text = true,
@@ -103,18 +117,18 @@ SMODS.Achievement {
 			end
 		end
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'winmecrash',
 	bypass_all_unlocked = true,
 	hidden_text = true,
 	unlock_condition = function(self, args)
 		if args and args.type and args.type == 'winmedebuff' then return true end
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'teapots',
 	bypass_all_unlocked = true,
 	hidden_text = true,
@@ -122,9 +136,9 @@ SMODS.Achievement {
 		local teapot = SMODS.find_card('c_toga_glteapot')
 		return next(teapot) and #teapot >= 1
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'titlexp',
 	bypass_all_unlocked = true,
 	hidden_text = true,
@@ -133,9 +147,9 @@ SMODS.Achievement {
 			return true
 		end
 	end,
-}
+})
 
-SMODS.Achievement {
+SMODS.Achievement({
 	key = 'soniccd',
 	bypass_all_unlocked = true,
 	hidden_text = true,
@@ -143,4 +157,4 @@ SMODS.Achievement {
 		local s, cd = next(SMODS.find_card('j_toga_sonicthehedgehog')), next(SMODS.find_card('j_toga_littleplanet'))
 		return s and cd
 	end,
-}
+})

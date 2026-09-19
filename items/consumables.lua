@@ -309,35 +309,35 @@ SMODS.Consumable {
 	atlas = "TOGAConsumablesSpectral",
 	pos = {x = 2, y = 0},
 	cost = 5,
-	config = { extra = { cards = 2 } },
+	config = { max_highlighted = 2, mod_conv = 'm_toga_notification' },
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.m_toga_notification
-		return { vars = { card.ability.extra.cards } }
+		info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+		return { vars = { card.ability.max_highlighted, localize({ type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv }) } }
 	end,
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
-	can_use = function(self, card)
-		if G.hand and #G.hand.highlighted ~= 0 and #G.hand.highlighted <= card.ability.extra.cards then 
-			return true
-		end
-		return false
-	end,
-	use = function(self, card, area, copier)
-		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            play_sound('tarot1')
-            card:juice_up(0.3, 0.5)
-		return true end }))
-		delay(0.2)
-		for i, v in pairs(G.hand.highlighted) do
-			local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
-			G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('card1', percent, 1);v:juice_up(0.3, 0.3);return true end }))
-			G.E_MANAGER:add_event(Event({trigger = 'after',func = function() v:set_ability(G.P_CENTERS["m_toga_notification"]);return true end }))
-			G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('tarot2', percent, 0.6);play_sound('toga_winxpballoon', 1, 2.5);v:juice_up(0.3, 0.3);return true end }))
-		end
-		delay(0.2)
-		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
-	end,
+	-- can_use = function(self, card)
+		-- if G.hand and #G.hand.highlighted ~= 0 and #G.hand.highlighted <= card.ability.extra.cards then 
+			-- return true
+		-- end
+		-- return false
+	-- end,
+	-- use = function(self, card, area, copier)
+		-- G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            -- play_sound('tarot1')
+            -- card:juice_up(0.3, 0.5)
+		-- return true end }))
+		-- delay(0.2)
+		-- for i, v in pairs(G.hand.highlighted) do
+			-- local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+			-- G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('card1', percent, 1);v:juice_up(0.3, 0.3);return true end }))
+			-- G.E_MANAGER:add_event(Event({trigger = 'after',func = function() v:set_ability(G.P_CENTERS["m_toga_notification"]);return true end }))
+			-- G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('tarot2', percent, 0.6);play_sound('toga_winxpballoon', 1, 2.5);v:juice_up(0.3, 0.3);return true end }))
+		-- end
+		-- delay(0.2)
+		-- G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
+	-- end,
 	poweritem = true,
 	no_bulkuse = true,
 	can_bulk_use = false,
@@ -351,35 +351,35 @@ SMODS.Consumable {
 	atlas = "TOGAConsumablesSpectral",
 	pos = {x = 3, y = 0},
 	cost = 5,
-	config = { extra = { cards = 2 } },
+	config = { max_highlighted = 2, mod_conv = 'm_toga_sms' },
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.m_toga_sms
-		return { vars = { card.ability.extra.cards } }
+		info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+		return { vars = { card.ability.max_highlighted, localize({ type = 'name_text', set = 'Enhanced', key = card.ability.mod_conv }) } }
 	end,
 	in_pool = function()
 		return togabalatro.config.ShowPower
 	end,
-	can_use = function(self, card)
-		if G and G.hand and #G.hand.highlighted ~= 0 and #G.hand.highlighted <= card.ability.extra.cards then 
-			return true
-		end
-		return false
-	end,
-	use = function(self, card, area, copier)
-		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            play_sound('tarot1')
-            card:juice_up(0.3, 0.5)
-		return true end }))
-		delay(0.2)
-		for i, v in pairs(G.hand.highlighted) do
-			local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
-			G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('card1', percent, 1);v:juice_up(0.3, 0.3);return true end }))
-			G.E_MANAGER:add_event(Event({trigger = 'after',func = function() v:set_ability(G.P_CENTERS["m_toga_sms"]);return true end }))
-			G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('tarot2', percent, 0.6);v:juice_up(0.3, 0.3);return true end }))
-		end
-		delay(0.2)
-		G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
-	end,
+	-- can_use = function(self, card)
+		-- if G and G.hand and #G.hand.highlighted ~= 0 and #G.hand.highlighted <= card.ability.extra.cards then 
+			-- return true
+		-- end
+		-- return false
+	-- end,
+	-- use = function(self, card, area, copier)
+		-- G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            -- play_sound('tarot1')
+            -- card:juice_up(0.3, 0.5)
+		-- return true end }))
+		-- delay(0.2)
+		-- for i, v in pairs(G.hand.highlighted) do
+			-- local percent = 0.85 + (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+			-- G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('card1', percent, 1);v:juice_up(0.3, 0.3);return true end }))
+			-- G.E_MANAGER:add_event(Event({trigger = 'after',func = function() v:set_ability(G.P_CENTERS["m_toga_sms"]);return true end }))
+			-- G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() v:flip();play_sound('tarot2', percent, 0.6);v:juice_up(0.3, 0.3);return true end }))
+		-- end
+		-- delay(0.2)
+		-- G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
+	-- end,
 	poweritem = true,
 	no_bulkuse = true,
 	can_bulk_use = false,

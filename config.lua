@@ -23,5 +23,5 @@ return {
 	["BonusLoadScreen"] = false,
 	["TitleScreenCard"] = true,
 	["AchievementSFX"] = true,
-	["PLCMRetroactive"] = false,
+	["AAAAAALoseSFX"] = true,
 }

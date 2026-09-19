@@ -2,6 +2,7 @@ sendInfoMessage("Loading Attributes...", "TOGAPack")
 
 local toga_attrib = {
 	{ 'toga_alloy', {}, { 'alloy' } },
+	{ 'bunny', {}, { 'bnuuy' } },
 	{ 'meta', {}, {} },
 	{ 'shop', {}, {} },
 	{ 'booster', {}, {} },
@@ -12,6 +13,7 @@ local toga_attrib = {
 	{ 'level_up', {}, {} },
 	{ 'modify_joker', {}, {} },
 	{ 'prevent_debuff', {}, {} },
+	{ 'perishables', {}, { 'perishable' } },
 	{ 'chipoperatormod', {}, {} },
 	{ 'multoperatormod', {}, {} },
 	{ 'voucher', {}, { 'vouchers' } },

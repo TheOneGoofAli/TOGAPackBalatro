@@ -33,6 +33,8 @@ SMODS.Atlas({key = "TOGASuperSonic", path = "togasupersonic.png", px = 75, py = 
 SMODS.Atlas({key = "TOGAHyperSonic", path = "togahypersonic.png", px = 75, py = 95, atlas_table = 'ANIMATION_ATLAS', frames = 12, fps = 4})
 SMODS.Atlas({key = "TOGAJokerMoth", path = "togajokersm.png", px = 116, py = 95})
 SMODS.Atlas({key = "TOGAJokerCDi", path = "togajokerscdi.png", px = 113, py = 95})
+SMODS.Atlas({key = "TOGAJokerMiku", path = "togamikuplush.png", px = 88, py = 75})
+SMODS.Atlas({key = "TOGARosenFace", path = "togarosen.png", px = 71, py = 95})
 
 -- Variants of atlas configurations due to the atlas being this wide!
 local nopeatlascfg = {
@@ -148,6 +150,7 @@ SMODS.Sound({key = "aimgoodbye", path = "aimgoodbye.ogg"}) -- AOL Instant Messen
 SMODS.Sound({key = "nopeavi", path = "nope.ogg"}) -- "Nope." - Engineer, TF2
 SMODS.Sound({key = "goosehonk", path = "goose.ogg"}) -- honk.
 SMODS.Sound({key = "goosehonkreverse", path = "esoog.ogg"}) -- .knoh
+SMODS.Sound({key = "soldierseekmerasmus", path = "Soldier_sf12_seeking01.ogg"}) -- "Merasmus!" - Soldier, TF2
 
 SMODS.Sound({key = "kinghark_dinner", path = "cdi/dinner.ogg"}) -- "Dinner." - King Harkinian, Zelda: The Wand of Gamelon
 SMODS.Sound({key = "kinghark_oah", path = "cdi/oah.ogg"}) -- "OAH!" - King Harkinian, Zelda: The Wand of Gamelon
@@ -360,6 +363,26 @@ SMODS.DrawStep({
 				local edition = G.P_CENTERS[card.edition.key]
 				G.toga_aero:draw_shader(edition.shader, nil, nil, nil, card.children.center, scale_mod, rotate_mod)
 			end
+		end
+    end,
+    conditions = { vortex = false, facing = 'front' },
+})
+
+SMODS.DrawStep({
+    key = 'floating_sprite_rosen',
+    order = 60,
+    func = function(card, layer)
+		if not G.toga_rosen then
+			G.toga_rosen = SMODS.create_sprite(0, 0, G.CARD_W, G.CARD_H, 'toga_TOGARosenFace', { x = 0, y = 0 })
+		end
+		
+		local scale_mod = 0.07 + 0.02*math.sin(1.8*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL - math.floor(G.TIMERS.REAL))*math.pi*14)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^3
+        local rotate_mod = 0.05*math.sin(1.219*G.TIMERS.REAL) + 0.00*math.sin((G.TIMERS.REAL)*math.pi*5)*(1 - (G.TIMERS.REAL - math.floor(G.TIMERS.REAL)))^2
+
+		if card.config.center.key == 'j_toga_michaelrosen' and (card.config.center.discovered or card.bypass_discovery_center) then
+			G.toga_rosen.role.draw_major = card
+			G.toga_rosen:draw_shader('dissolve',0, nil, nil, card.children.center,scale_mod, rotate_mod,nil, 0.1 + 0.03*math.sin(1.8*G.TIMERS.REAL),nil, 0.6)
+			G.toga_rosen:draw_shader('dissolve', nil, nil, nil, card.children.center, scale_mod, rotate_mod)
 		end
     end,
     conditions = { vortex = false, facing = 'front' },

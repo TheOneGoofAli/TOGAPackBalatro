@@ -45,27 +45,23 @@ table.insert(lj, {
 
 table.insert(lj, {
 	key = 'linux_slackware',
-	config = { extra = { persuit = 0.1 } },
+	config = { extra = { uchips = 30 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.persuit } }
+		return { vars = { SMODS.signed(card.ability.extra.uchips) } }
 	end,
 	unlocked = true,
-	rarity = 2,
+	rarity = 1,
 	atlas = 'TOGAJokersLinux',
 	pos = { x = 2, y = 0 },
-	cost = 6,
+	cost = 4,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-			local uniquesuits, suits = {}, 0
-			for i = 1, #G.play.cards do
-				if G.play.cards[i] and not uniquesuits[G.play.cards[i].base.suit] then uniquesuits[G.play.cards[i].base.suit] = true; suits = suits + 1 end
-			end
-			return { xmult = suits > 1 and 1+(suits-1)*card.ability.extra.persuit }
+		if context.individual and context.cardarea == "unscored" then
+			return { chips = card.ability.extra.uchips }
 		end
 	end,
 	pixel_size = { w = 69, h = 62 },
-	attributes = { 'hands', 'suit', 'xmult' }
+	attributes = { 'chips' }
 })
 
 table.insert(lj, {
