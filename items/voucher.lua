@@ -214,10 +214,9 @@ SMODS.Voucher{
 				return { func = function()
 					for i = 1, math.floor(card.ability.extra.copies) do
 						local tcard = pseudorandom_element(G.consumeables.cards, pseudoseed('dnsflush'))
-						local card = SMODS.copy_card(tcard)
-						card:set_edition({negative = true}, true)
-						-- card:add_to_deck()
-						-- G.consumeables:emplace(card)
+						local ccard = SMODS.copy_card(tcard, { no_add = true })
+						ccard:set_edition({negative = true}, true)
+						SMODS.add_to_deck(ccard)
 					end
 				end }
 			end

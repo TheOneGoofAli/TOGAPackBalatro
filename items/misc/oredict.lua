@@ -103,9 +103,9 @@ end
 togabalatro.furnace_inpool = function()
 	local count = 0
 	for k, v in pairs(G.playing_cards or {}) do
-		if togabalatro.is_mineral(G.playing_cards[i], true) then count = count + 1 end
-		if count >= 2 then return true end
+		if togabalatro.is_mineral(v, true) then count = count + 1 end
 	end
+	if count >= 2 then return true end
 	return false
 end
 
