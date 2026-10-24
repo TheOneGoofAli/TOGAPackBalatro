@@ -202,7 +202,7 @@ togabalatro.jd_def["j_toga_skype"] = {
 	},
 	calc_function = function(card)
 		local _, modcount = togabalatro.checkownedmoditems()
-		card.joker_display_values.xmult = modcount*card.ability.extra.permodxmult
+		card.joker_display_values.xmult = 1+card.ability.extra.permodxmult*modcount
 		card.joker_display_values.modcount = modcount
 	end,
 }

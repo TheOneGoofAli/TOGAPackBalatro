@@ -343,7 +343,7 @@ SMODS.Voucher{
 		return { vars = { SMODS.get_probability_vars(card or self, 1, card.ability.extra.odds or 4, "deepslate_xmult") } }
 	end,
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.hand and context.other_card and not context.end_of_round and not context.repetition and not context.repetition_only and not context.other_card.debuff
+		if context.individual and context.cardarea == G.hand and context.other_card and not context.end_of_round
 		and not context.blueprint and not context.retrigger_joker and SMODS.pseudorandom_probability(card, "deepslate_xmult", 1, card.ability.extra.odds or 4, "deepslate_xmult") then
 			local bchips = context.other_card:get_chip_bonus()
 			if to_big(bchips) > 0 then

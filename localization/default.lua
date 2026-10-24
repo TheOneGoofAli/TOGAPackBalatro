@@ -1833,6 +1833,15 @@ return {
 					"{C:inactive,s:0.8}Why are you so {C:purple,s:0.8}ourple{C:inactive,s:0.8}?{}",
 				}
 			},
+			j_toga_goldengun = {
+				name = 'Golden Gun',
+				text = {
+					"If played hand is",
+					"a single {C:attention}#1#{} of {C:clubs}#2#{},",
+					"create a {C:attention}random{} Consumable",
+					"{C:inactive}(Must have room)",
+				}
+			},
 		},
 		Enhanced = {
 			m_toga_notification = {
@@ -2902,6 +2911,14 @@ return {
 					"with {C:red}Wine{}/{C:blind}Proton{}",
 				},
 			},
+			undiscovered_togaitem = {
+				name = "Not Discovered",
+				text = {
+					"Obtain this card in",
+					"an unseeded run to",
+					"learn what it does",
+				},
+			},
 		},
 		Partner = {
 			pnr_toga_startupdisk={
@@ -3067,6 +3084,7 @@ return {
 			toga_rlholycow = "Holy cow!",
 			toga_rlwap = "What a play!",
 			toga_gotmail = "Got Mail!",
+			toga_merasmussoldier = "Merasmus!",
 			toga_targetsuitjkr = "Suit-specific Jokers",
 			toga_multiplehands = "Multiple Hands",
 			toga_fontsdebuff = "Scoring hand must contain a face card",

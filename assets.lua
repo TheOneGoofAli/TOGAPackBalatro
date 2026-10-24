@@ -5,6 +5,7 @@ SMODS.Atlas({key = "TOGAJokersMain", path = "togajokers.png", px = 72, py = 95})
 SMODS.Atlas({key = "TOGAJokersMainW", path = "togajokersw.png", px = 91, py = 95})
 SMODS.Atlas({key = "TOGAJokersOther", path = "togajokersother.png", px = 71, py = 95})
 SMODS.Atlas({key = "TOGAJokersOtherDiffSize", path = "togajokersothersize.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAJokersGoldenGun", path = "togagoldengun.png", px = 69, py = 95})
 SMODS.Atlas({key = "TOGAJokersWindows", path = "togajokerswinos.png", px = 72, py = 95})
 SMODS.Atlas({key = "TOGAJokersMac", path = "togamacos.png", px = 71, py = 95})
 SMODS.Atlas({key = "TOGAJokersLinux", path = "togalinuxos.png", px = 71, py = 95})
@@ -35,6 +36,7 @@ SMODS.Atlas({key = "TOGAJokerMoth", path = "togajokersm.png", px = 116, py = 95}
 SMODS.Atlas({key = "TOGAJokerCDi", path = "togajokerscdi.png", px = 113, py = 95})
 SMODS.Atlas({key = "TOGAJokerMiku", path = "togamikuplush.png", px = 88, py = 75})
 SMODS.Atlas({key = "TOGARosenFace", path = "togarosen.png", px = 71, py = 95})
+SMODS.Atlas({key = "TOGAItemUndiscovered", path = "togaitemundiscovered.png", px = 71, py = 95})
 
 -- Variants of atlas configurations due to the atlas being this wide!
 local nopeatlascfg = {
@@ -386,4 +388,10 @@ SMODS.DrawStep({
 		end
     end,
     conditions = { vortex = false, facing = 'front' },
+})
+
+SMODS.UndiscoveredSprite({
+	key = "togaitem",
+	atlas = "TOGAItemUndiscovered",
+	pos = { x = 0, y = 0 }
 })

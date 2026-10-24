@@ -996,8 +996,14 @@ end
 sendInfoMessage("Hooking Card:click...", "TOGAPack")
 local cardclickref = Card.click
 function Card:click()
-	if self and self.config and self.config.center and self.config.center.shiftinfoclick and love.keyboard.isDown("lshift") and type(self.config.center.shiftinfoclick) == 'string' and G.FUNCS[self.config.center.shiftinfoclick] then
-		return G.FUNCS[self.config.center.shiftinfoclick]()
+	if self and self.config and self.config.center then
+		if self.config.center.key == 'j_toga_goose_ugg' and not self.debuff and not silent and togabalatro.config.SFXWhenTriggered then
+			play_sound("toga_goosehonk", 1, 0.35)
+		end
+		
+		if self.config.center.shiftinfoclick and love.keyboard.isDown("lshift") and type(self.config.center.shiftinfoclick) == 'string' and G.FUNCS[self.config.center.shiftinfoclick] then
+			return G.FUNCS[self.config.center.shiftinfoclick]()
+		end
 	end
 	return cardclickref(self)
 end

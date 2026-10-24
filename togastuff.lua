@@ -22,7 +22,6 @@ togabalatro.debug_info = {
 	QEDeck = togabalatro.config.EnableQE,
 	JokeItems = togabalatro.config.JokeJokersActive,
 	MainlineItems = togabalatro.config.ShowPower,
-	NerfedItems = togabalatro.config.UseNerfed,
 	Logging = togabalatro.config.DoMoreLogging and togabalatro.config.DoEvenMoreLogging and "Full" or togabalatro.config.DoMoreLogging and "Normal" or false,
 	KingCDIDeck = togabalatro.config.KingCDIDeck,
 	WITDeck = togabalatro.config.WTFDeck,
@@ -126,9 +125,10 @@ togabalatro.calculate = function(self, context)
 	if context.drawing_cards and G.deck and G.deck.cards then
 		-- Moved from a hook.
 		local otherc, smsc, mikuc, tc = {}, {}, {}, {}
+		local mikus = next(SMODS.find_card('j_toga_mikuplush'))
 		for i, k in ipairs(G.deck.cards) do
 			local sms = SMODS.has_enhancement(k, 'm_toga_sms')
-			local miku = next(SMODS.find_card('j_toga_mikuplush')) and not SMODS.has_no_rank(k) and k:get_id() == 9
+			local miku = mikus and not SMODS.has_no_rank(k) and k:get_id() == 9
 			if sms then
 				smsc[#smsc+1] = k
 			elseif miku then
@@ -137,16 +137,16 @@ togabalatro.calculate = function(self, context)
 				otherc[#otherc+1] = k
 			end
 		end
+		EMPTY(G.deck.cards)
 		for _, card in ipairs(smsc) do
-			table.insert(tc, card)
+			table.insert(G.deck.cards, card)
 		end
 		for _, card in ipairs(otherc) do
-			table.insert(tc, card)
+			table.insert(G.deck.cards, card)
 		end
 		for _, card in ipairs(mikuc) do
-			table.insert(tc, card)
+			table.insert(G.deck.cards, card)
 		end
-		G.deck.cards = tc
 		G.deck:set_ranks()
 	end
 	
@@ -162,8 +162,7 @@ togabalatro.calculate = function(self, context)
 			if not (context.blueprint or context.retrigger_joker) and pseudorandom(pseudoseed('tf2soldiermerasmus')) < 0.05 then
 				G.E_MANAGER:add_event(Event({
 					func = function()
-						duck[1]:juice_up()
-						play_sound('toga_soldierseekmerasmus', 1)
+						SMODS.calculate_effect({ message = localize('toga_merasmussoldier'), sound = togabalatro.config.SFXWhenTriggered and 'toga_soldierseekmerasmus', pitch = 1, volume = 0.8 }, duck[1])
 						return true
 					end
 				}))
@@ -1123,9 +1122,9 @@ togabalatro.playextracards = function()
 					if SMODS.has_enhancement(G.deck.cards[i], 'm_toga_sms') and sms_deck[v] == G.deck.cards[i] then
 						if G.deck.cards[i]:is_face() then inc_career_stat('c_face_cards_played', 1) end
 						G.deck.cards[i].base.times_played = G.deck.cards[i].base.times_played + 1
-						-- removed to match SMODS.
 						G.GAME.round_scores.cards_played.amt = G.GAME.round_scores.cards_played.amt + 1
 						draw_card(G.deck, G.play, i*100/#sms_deck, 'up', nil, G.deck.cards[i])
+						inc_career_stat('c_cards_played', 1)
 					end
 				end
 			end
