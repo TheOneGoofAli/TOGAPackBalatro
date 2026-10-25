@@ -502,6 +502,7 @@ SMODS.ObjectType{
 		["j_toga_kappa"] = true, ["j_toga_mothernature"] = true, ["j_toga_afterdark"] = true,
 		["j_toga_goose_ugg"] = true, ["j_toga_chesspawn"] = true, ["j_toga_f1"] = true,
 		["j_toga_earl"] = true, ["j_toga_mikuplush"] = true, ["j_toga_purplebunny"] = true,
+		["j_toga_goldengun"] = true,
 	}
 }
 
