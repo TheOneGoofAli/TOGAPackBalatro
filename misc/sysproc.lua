@@ -19,6 +19,7 @@ function togabalatro.mlineproc(s)
 	return t
 end
 
+local hasinit = false
 function togabalatro.metainit()
 	togabalatro.processcounts = togabalatro.processcounts or {}
 	if hasinit then
