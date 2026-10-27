@@ -3516,9 +3516,11 @@ table.insert(jokers, {
 			bonus = bonus * 0.8
 		end
 		card.ability.extra.totalxmult = 1+totalbonus
+		if count == 0 then info_queue[#info_queue + 1] = {key = "toga_moremetaitemnofunc", set = 'Other'} end
 		return { key = card.edition and card.edition.polychrome and self.key.."_poly" or self.key, vars = { card.ability.extra.xmult, card.ability.extra.totalxmult, count, card.ability.extra.process } }
 	end,
 	unlocked = true,
+	discovered = true,
 	in_pool = function()
 		return togabalatro.config.JokeJokersActive and togabalatro.processcounts.chrome > 0 -- Should only spawn if allowed to via config!
 	end,
@@ -3528,7 +3530,7 @@ table.insert(jokers, {
 	cost = 5,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.before then
+		if context.before and togabalatro.processcounts.chrome > 0 then
 			local count = togabalatro.processcounts.chrome
 			local bonus, totalbonus = card.ability.extra.xmult, 0
 			for i = 1, count do
@@ -3537,7 +3539,7 @@ table.insert(jokers, {
 			end
 			card.ability.extra.totalxmult = 1+totalbonus
 		end
-		if context.joker_main then return { xmult = math.max(card.ability.extra.totalxmult, 1) } end
+		if context.joker_main and togabalatro.processcounts.chrome > 0 then return { xmult = math.max(card.ability.extra.totalxmult, 1) } end
 	end,
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
@@ -3559,9 +3561,11 @@ table.insert(jokers, {
 			bonus = bonus * 0.8
 		end
 		card.ability.extra.totalxchips = 1+totalbonus
+		if count == 0 then info_queue[#info_queue + 1] = {key = "toga_moremetaitemnofunc", set = 'Other'} end
 		return { vars = { card.ability.extra.xchips, card.ability.extra.totalxchips, count, card.ability.extra.process } }
 	end,
 	unlocked = true,
+	discovered = true,
 	in_pool = function()
 		return togabalatro.config.JokeJokersActive and togabalatro.processcounts.firefox > 0 -- Should only spawn if allowed to via config!
 	end,
@@ -3571,7 +3575,7 @@ table.insert(jokers, {
 	cost = 5,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.before then
+		if context.before and togabalatro.processcounts.firefox > 0 then
 			local count = togabalatro.processcounts.firefox
 			local bonus, totalbonus = card.ability.extra.xchips, 0
 			for i = 1, count do
@@ -3580,7 +3584,7 @@ table.insert(jokers, {
 			end
 			card.ability.extra.totalxchips = 1+totalbonus
 		end
-		if context.joker_main then return { xchips = math.max(card.ability.extra.totalxchips, 1) } end
+		if context.joker_main and togabalatro.processcounts.firefox > 0 then return { xchips = math.max(card.ability.extra.totalxchips, 1) } end
 	end,
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )

@@ -368,10 +368,6 @@ return {
 			j_toga_win98 = {
 				name = 'Windows 98',
 				text = {
-					-- "{C:attention}Scoring{} cards give {C:attention}#3#%{} of total sell value",
-					-- "of all current Jokers as {C:red}Mult{}. {C:inactive,s:0.8}(Currently {C:money,s:0.8}$#4#{C:inactive,s:0.8}){}",
-					-- "Held {C:attention}Consumables{} increase given {C:red}Mult{} by {C:attention}#1#%{} each.",
-					-- "{C:inactive,s:0.8}(Currently #2#%){}"
 					"{C:attention}#2#s{} and {C:attention}#3#s{} in {C:attention}full deck{}",
 					"gain {C:chips}#1#{} Chip permanently{}",
 					"per reroll in {C:gold}the shop{}",
@@ -736,7 +732,7 @@ return {
 				name = 'Windows Vista',
 				text = {
 					{
-						"If the played hand contains a single {C:attention}6{},",
+						"If the played hand contains a single {C:attention}#2#{},",
 						"{C:red}destroy{} it and apply {C:dark_edition}Negative{} to",
 						"a {C:attention}random Editioned{} Joker",
 						"{C:inactive,s:0.8}(Cannot target already {C:dark_edition,s:0.8}Negative{C:inactive,s:0.8} Jokers.){}",
@@ -751,7 +747,7 @@ return {
 			j_toga_winvista_stj = {
 				name = 'Windows Vista',
 				text = {
-					"If active and played hand contains a single {C:attention}6{},",
+					"If active and played hand contains a single {C:attention}#2#{},",
 					"{C:red}destroys{} it, applies {C:dark_edition}Negative{} to a {C:attention}random",
 					"{C:attention}Editioned{} Joker and becomes inactive",
 					"{s:0.9}Recharges after defeating {C:attention,s:0.9}Boss Blinds",
@@ -763,7 +759,7 @@ return {
 				name = 'Windows 7',
 				text = {
 					"Increase {C:attention}scaling{} of other Jokers",
-					"by {X:attention,C:white}X#1#{} per {C:attention}7{} in {C:attention}full deck{}",
+					"by {X:attention,C:white}X#1#{} per {C:attention}#3#{} in {C:attention}full deck{}",
 					"{C:inactive}(Currently {X:attention,C:white}X#2#{}{C:inactive}){}",
 				}
 			},
@@ -772,7 +768,7 @@ return {
 				text = {
 					"After {C:attention}#3#{} rounds, sell this card",
 					"to add {C:attention}#1#{} permanent retrigger",
-					"to a random {C:attention}8{} in full deck",
+					"to a random {C:attention}#4#{} in full deck",
 					"{C:inactive}(Currently {C:attention}#2#{C:inactive}/#3#){}",
 				}
 			},
@@ -864,14 +860,14 @@ return {
 			j_toga_mac_os_9 = {
 				name = 'Mac OS {C:attention}9{}',
 				text = {
-					"Held in hand {C:clubs}Clubs{}",
+					"Held in hand {C:clubs}#2#{}",
 					"give {X:mult,C:white}X#1#{} Mult"
 				}
 			},
 			j_toga_mac_os_x = {
 				name = 'Mac OS {C:blue}X{}',
 				text = {
-					"Held in hand {C:attention}10s{}",
+					"Held in hand {C:attention}#2#s{}",
 					"give {X:chips,C:white}X#1#{} Chips"
 				}
 			},
@@ -1684,9 +1680,10 @@ return {
 			j_toga_winforworkgroups311 = {
 				name = {'Windows For Workgroups', '{s:0.65}Windows 3.1 with Built-in Networking'},
 				text = {
-					"Each played {C:attention}Ace{} or {C:attention}3{}",
+					"Each played {C:attention}#3#{} or {C:attention}#4#{}",
 					"gives {C:chips}+#1#{} Chips and",
 					"{C:mult}+#2#{} Mult when scored",
+					"{C:inactive,s:0.8}Hang on, this is just a weird #5#!",
 				}
 			},
 			j_toga_win101 = {
@@ -1700,7 +1697,7 @@ return {
 				name = {'Microsoft Windows/386 (2.xx)', '{s:0.7}Presentation Manager'},
 				text = {
 					"{X:mult,C:white}X#1#{} Mult if played hand",
-					"contains a {C:attention}3{}, {C:attention}6{} and {C:attention}8{}"
+					"contains a {C:attention}#2#{}, {C:attention}#3#{} and {C:attention}#4#{}"
 				}
 			},
 			j_toga_diskquota = {
@@ -1755,7 +1752,7 @@ return {
 				name = '#1#',
 				text = {
 					"If {C:attention}played hand{} is {C:attention}final{} and",
-					"{C:red}not allowed{}, {C:blue}play{} it {C:dark_edition}anyway{}{element:1,s:-1} ",
+					"{C:red}not allowed{}, score it {C:dark_edition}anyway{}{element:1,s:-1} ",
 				},
 			},
 			j_toga_kappa_stj = {
@@ -2911,6 +2908,15 @@ return {
 					"with {C:red}Wine{}/{C:blind}Proton{}",
 				},
 			},
+			toga_moremetaitemnofunc = {
+				name = "Non-functioning Item",
+				text = {
+					"This item may not appear",
+					"naturally or do anything",
+					"because of mod config or",
+					"if no processes were found",
+				},
+			},
 			undiscovered_togaitem = {
 				name = "Not Discovered",
 				text = {
@@ -3212,6 +3218,9 @@ return {
 			toga_lpe_ignore = "Ignore",
 			toga_loaddisitems = "Load disabled items",
 			toga_unloaddisitems = "Do not load disabled items",
+			toga_moremetacontent = "Allow the mod to read system processes*",
+			toga_consentaccept = "Allow",
+			toga_consentdecline = "Decline",
 			-- tooltips
 			toga_description = "Description:",
 			toga_desc_startupsfx1 = "You can configure which one plays",
@@ -3228,6 +3237,9 @@ return {
 			toga_desc_windowsfx2 = "(Uses sounds from Plus! 95)",
 			toga_desc_titlescreen1 = "The card also acts as shortcut",
 			toga_desc_titlescreen2 = "to this mods' config",
+			toga_desc_moremeta1 = "Some items of the mod base their",
+			toga_desc_moremeta2 = "effects on number of specific apps",
+			toga_desc_moremeta3 = "which updates when loading Balatro",
 			ml_toga_alloyrecipe_explanation = {
 				"Hover over the Alloy Enhancement",
 				"to see its' recipe",
@@ -3325,8 +3337,11 @@ return {
 		},
 		ui_strings = {
 			toga_intro = {
-				"Thank you for installing TOGA's Stuff!", "Welcome to TOGA's Stuff. As this mod has a lot of additions, as well as some", "optional content, you may want to give the mod config a look over.",
-				"Note: The Windows 95 card on main menu acts as a shortcut to mod config.", "", "Would you like to open the mod config now?"
+				"Thank you for installing TOGA's Stuff!",
+				"Welcome to TOGA's Stuff. As this mod has a lot of customization settings",
+				"some optional content and achievements, you may want to consider taking",
+				"a look at the mod config at some point.",
+				"Note: the Windows 95 card on main menu is interactable.",
 			},
 			toga_needrestart = {
 				"Mod Config Change", "You must restart Balatro before changes to the", "mod config will take effect.", "", "Do you want to restart Balatro now?"
@@ -3418,6 +3433,13 @@ return {
 				"This install of TOGA's Stuff appears to be nested, which breaks loading",
 				"of its' Lovely patches. Please unnest the mod and restart the game.",
 				"(i.e. 'Mods/modname/modname' > 'Mods/modname')",
+			},
+			toga_consenttext = {
+				"TOGA's Stuff - Meta Items Notice",
+				"TOGA's Stuff has some items that base their effects on amount of specific",
+				"running applications. Allow TOGA's Stuff to read your running applications?",
+				"This information does not persist through game restarts.",
+				"You can enable or disable this in mod config at any point in time.",
 			},
 		},
 	}

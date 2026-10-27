@@ -24,4 +24,5 @@ return {
 	["TitleScreenCard"] = true,
 	["AchievementSFX"] = true,
 	["AAAAAALoseSFX"] = true,
+	["HasDoneMoreMetaPrompt"] = false,
 }

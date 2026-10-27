@@ -6,7 +6,7 @@ table.insert(macj, {
 	key = 'mac_os_9',
 	config = { extra = { hxmult = macos9_hxmult } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.hxmult } }
+		return { vars = { card.ability.extra.hxmult, localize("Clubs", 'suits_plural'), } }
 	end,
 	unlocked = true,
 	rarity = 3,
@@ -28,7 +28,7 @@ table.insert(macj, {
 	key = 'mac_os_x',
 	config = { extra = { hxchips = macosx_hxchips } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.hxchips } }
+		return { vars = { card.ability.extra.hxchips, localize("10", 'ranks') } }
 	end,
 	unlocked = true,
 	rarity = 3,

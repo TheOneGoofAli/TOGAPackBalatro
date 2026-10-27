@@ -47,7 +47,7 @@ table.insert(winj, {
 	key = 'win386',
 	config = { extra = { xmult = 3.86 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult } }
+		return { vars = { card.ability.extra.xmult, localize("3", 'ranks'), localize("6", 'ranks'), localize("8", 'ranks') } }
 	end,
 	unlocked = true,
 	in_pool = function()
@@ -91,7 +91,7 @@ table.insert(winj, {
 	key = 'winforworkgroups311',
 	config = { extra = { chips = 11, mult = 3 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.chips, card.ability.extra.mult } }
+		return { vars = { card.ability.extra.chips, card.ability.extra.mult,  localize("Ace", 'ranks'),  localize("3", 'ranks') } }
 	end,
 	unlocked = true,
 	in_pool = function()
@@ -354,7 +354,7 @@ table.insert(winj, {
 	key = 'winvista',
 	config = { extra = { active = true } },
 	loc_vars = function(self, info_queue, card)
-		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { localize(card.ability.extra.active and 'toga_active' or 'toga_inactive') } }
+		return { key = togabalatro.stjcheck() and self.key.."_stj" or self.key, vars = { localize(card.ability.extra.active and 'toga_active' or 'toga_inactive'), localize("6", 'ranks') } }
 	end,
 	unlocked = true,
 	in_pool = function()
@@ -427,7 +427,7 @@ table.insert(winj, {
 		for k, v in ipairs(G.playing_cards or {}) do
 			if v and not SMODS.has_no_rank(v) and v:get_id() == 7 then s = s + 1 end
 		end
-		return { vars = { card.ability.extra.xscale, 1+s*card.ability.extra.xscale } }
+		return { vars = { card.ability.extra.xscale, 1+s*card.ability.extra.xscale, localize("7", 'ranks') } }
 	end,
 	unlocked = true,
 	in_pool = function()
@@ -480,7 +480,7 @@ table.insert(winj, {
 	key = 'win8',
 	config = { extra = { add_prt = 1, rounds = 0, rtarget = 2 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.add_prt, card.ability.extra.rounds, card.ability.extra.rtarget } }
+		return { vars = { card.ability.extra.add_prt, card.ability.extra.rounds, card.ability.extra.rtarget, localize("8", 'ranks') } }
 	end,
 	unlocked = true,
 	in_pool = function()

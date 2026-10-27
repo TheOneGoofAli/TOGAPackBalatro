@@ -97,6 +97,16 @@ togabalatro.config_tab = function()
 				{n = G.UIT.T, config = { text = localize('toga_titlescreencard'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT, tooltip = { title = localize('toga_description'), text = {localize('toga_desc_titlescreen1'), localize('toga_desc_titlescreen2')} } }},
 			}},
 		}},
+		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+			{n = G.UIT.C, config = { align = "cl", padding = -0.25 }, nodes = {
+				create_toggle{ col = true, label = "", scale = 0.85, w = 0.15, shadow = true, ref_table = togabalatro.config, ref_value = "AllowMoreMeta" },
+			}},
+			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
+				{n = G.UIT.T, config = { text = localize('toga_moremetacontent'), scale = 0.5, colour = G.C.UI.TEXT_LIGHT,
+					tooltip = { title = localize('toga_description'), text = {localize('toga_desc_moremeta1'), localize('toga_desc_moremeta2'), localize('toga_desc_moremeta3')} }
+				}},
+			}},
+		}},
 		{n = G.UIT.R, config = {align = "cr", padding = 0}, nodes = {
 			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
 				UIBox_button({label = {localize('toga_showintroagain')}, button = "toga_showintroagain", minw = 4, minh = 0.7})
@@ -106,6 +116,11 @@ togabalatro.config_tab = function()
 			}},
 			{n = G.UIT.C, config = { align = "cl", padding = 0.2 }, nodes = {
 				UIBox_button({label = {localize('toga_mancrash')}, button = "toga_mancrash", minw = 2.3, minh = 0.7})
+			}},
+		}},
+		{n = G.UIT.R, config = {align = "cr", padding = 0}, nodes = {
+			{n = G.UIT.C, config = { align = "cr", padding = 0.2 }, nodes = {
+				{n = G.UIT.T, config = { text = localize('toga_restartrequire'), scale = 0.4, colour = G.C.UI.TEXT_LIGHT }},
 			}},
 		}},
 	}}

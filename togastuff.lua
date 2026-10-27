@@ -237,54 +237,10 @@ togabalatro.curcpucount = love.system.getProcessorCount()
 togabalatro.cursorsupport = love.mouse.isCursorSupported()
 togabalatro.curos = togabalatro.systemtype()
 
-function os.capture(cmd, raw)
-	local f = assert(io.popen(cmd, 'r'))
-	local s = assert(f:read('*a'))
-	f:close()
-	if raw then return s end
-	s = string.gsub(s, '^%s+', '')
-	s = string.gsub(s, '%s+$', '')
-	s = string.gsub(s, '[\n\r]+', ' ')
-	return s
-end
+sendDebugMessage("Executing misc/sysproc.lua", "TOGAPack")
+assert(SMODS.load_file("misc/sysproc.lua"))()
 
-function togabalatro.mlineproc(s)
-	local t = {}
-	local i = 1
-	for str in string.gmatch(s, "[^\r\n]+") do
-		t[i] = str
-		i = i + 1
-	end
-	return t
-end
-
--- Initialize the process information during load of this mod into a local table. Previously, this was active
--- in a constant loop, which could cause excessive unfocusing of the game as the system executed the function.
--- Now, we do it just once here instead.
-local tasktable = {}
-
-if togabalatro.curos == 'Windows' then tasktable = togabalatro.mlineproc(os.capture('tasklist', true))
-elseif togabalatro.curos == 'UNIX' then tasktable = togabalatro.mlineproc(os.capture('ps -e', true)) end
-
--- If we still got nothing, just make the table blank.
-if not tasktable then tasktable = {} end
-
--- Check for specific process name.
-local function getprocessamount(process)
-	process = string.lower(process) or 'whereismysupersuit'
-	local count = 0
-	for k, v in pairs(tasktable or {}) do
-		if string.find(v, process) then count = count + 1 end
-	end
-	return count
-end
-
-togabalatro.processcounts = {}
-togabalatro.processcounts.chrome = getprocessamount('Chrome')
-togabalatro.processcounts.firefox = getprocessamount('Firefox')
-
--- We're done with the table, wipe it.
-tasktable = nil
+if togabalatro.config.AllowMoreMeta then togabalatro.metainit() end
 
 togabalatro.startupsfx = {'toga_w96', 'toga_w94', 'toga_bells', 'toga_ntreskit', 'toga_longhorn', 'toga_gong', 'toga_money9597', 'toga_money9899', 'toga_nt5loud', 'toga_2000beta3', 'toga_wecho'}
 togabalatro.verifysfxconfig = function()
@@ -513,9 +469,11 @@ SMODS.ConsumableType({
 })
 
 G.FUNCS.toga_quack = function(card)
+	if not card then return end
+	card:juice_up(0.1, 0.1)
 	local chance, isn = math.random(1, 50) == 42, card and card.edition and card.edition.negative
 	if not silent and togabalatro.config.SFXWhenTriggered then play_sound((chance or isn) and 'toga_kcud' or 'toga_duck') end
-	if card and chance then card:set_edition(not isn and "e_negative" or nil, true) end
+	if chance then card:set_edition(not isn and "e_negative" or nil, true) end
 end
 G.FUNCS.togabalatro_startupsfx = function(args)
 	if not args or args.to_key == nil then return end
