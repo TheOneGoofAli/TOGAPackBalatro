@@ -1058,7 +1058,6 @@ return {
 					"{C:attention}was not{} debuffed",
 					"earlier {C:attention}this Ante{}",
 					"{C:inactive}(Currently {}{X:mult,C:white}X#2#{}{C:inactive} Mult){}",
-					-- "{C:inactive,s:0.8}(Once per Ante per given card){}",
 				}
 			},
 			j_toga_ups_stj = {

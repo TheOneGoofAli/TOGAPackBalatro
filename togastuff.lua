@@ -618,7 +618,7 @@ togabalatro.checksiiva = function()
 	return next(SMODS.find_mod('Qualatro')) or false
 end
 
--- As Talisman is now optional and we have some items using this, best keep these.
+-- Best keep these... especially since some may still want to run Talisman instead of Amulet.
 to_big = to_big or function(a) return a end
 to_number = to_number or function(a) return a end
 

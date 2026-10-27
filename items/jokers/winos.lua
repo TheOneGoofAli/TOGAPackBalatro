@@ -91,7 +91,7 @@ table.insert(winj, {
 	key = 'winforworkgroups311',
 	config = { extra = { chips = 11, mult = 3 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.chips, card.ability.extra.mult,  localize("Ace", 'ranks'),  localize("3", 'ranks') } }
+		return { vars = { card.ability.extra.chips, card.ability.extra.mult, localize("Ace", 'ranks'), localize("3", 'ranks') } }
 	end,
 	unlocked = true,
 	in_pool = function()
