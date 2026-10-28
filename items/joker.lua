@@ -3509,7 +3509,7 @@ table.insert(jokers, {
 	key = 'chrome',
 	config = { extra = { xmult = 1.5, process = 'Chrome', totalxmult = 0 } },
 	loc_vars = function(self, info_queue, card)
-		local count = togabalatro.processcounts.chrome
+		local count = togabalatro.getprocamt(card.ability.extra.process)
 		local bonus, totalbonus = card.ability.extra.xmult, 0
 		for i = 1, count do
 			totalbonus = totalbonus + bonus
@@ -3522,7 +3522,7 @@ table.insert(jokers, {
 	unlocked = true,
 	discovered = true,
 	in_pool = function()
-		return togabalatro.config.JokeJokersActive and togabalatro.processcounts.chrome > 0 -- Should only spawn if allowed to via config!
+		return togabalatro.config.JokeJokersActive and togabalatro.config.AllowMoreMeta and togabalatro.getprocamt('Chrome') > 0 -- Should only spawn if allowed to via config!
 	end,
 	rarity = 2,
 	atlas = 'TOGAJokersOtherDiffSize',
@@ -3530,8 +3530,8 @@ table.insert(jokers, {
 	cost = 5,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.before and togabalatro.processcounts.chrome > 0 then
-			local count = togabalatro.processcounts.chrome
+		if context.before and togabalatro.getprocamt(card.ability.extra.process) > 0 then
+			local count = togabalatro.getprocamt(card.ability.extra.process)
 			local bonus, totalbonus = card.ability.extra.xmult, 0
 			for i = 1, count do
 				totalbonus = totalbonus + bonus
@@ -3539,7 +3539,7 @@ table.insert(jokers, {
 			end
 			card.ability.extra.totalxmult = 1+totalbonus
 		end
-		if context.joker_main and togabalatro.processcounts.chrome > 0 then return { xmult = math.max(card.ability.extra.totalxmult, 1) } end
+		if context.joker_main and togabalatro.getprocamt(card.ability.extra.process) then return { xmult = math.max(card.ability.extra.totalxmult, 1) } end
 	end,
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )
@@ -3554,7 +3554,7 @@ table.insert(jokers, {
 	key = 'firefox',
 	config = { extra = { xchips = 1.5, process = 'Firefox', totalxchips = 0 } },
 	loc_vars = function(self, info_queue, card)
-		local count = togabalatro.processcounts.firefox
+		local count = togabalatro.getprocamt('Firefox')
 		local bonus, totalbonus = card.ability.extra.xchips, 0
 		for i = 1, count do
 			totalbonus = totalbonus + bonus
@@ -3567,7 +3567,7 @@ table.insert(jokers, {
 	unlocked = true,
 	discovered = true,
 	in_pool = function()
-		return togabalatro.config.JokeJokersActive and togabalatro.processcounts.firefox > 0 -- Should only spawn if allowed to via config!
+		return togabalatro.config.JokeJokersActive and togabalatro.config.AllowMoreMeta and togabalatro.getprocamt('Firefox') > 0 -- Should only spawn if allowed to via config!
 	end,
 	rarity = 2,
 	atlas = 'TOGAJokersOtherDiffSize',
@@ -3575,8 +3575,8 @@ table.insert(jokers, {
 	cost = 5,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.before and togabalatro.processcounts.firefox > 0 then
-			local count = togabalatro.processcounts.firefox
+		if context.before and togabalatro.getprocamt(card.ability.extra.process) > 0 then
+			local count = togabalatro.getprocamt(card.ability.extra.process)
 			local bonus, totalbonus = card.ability.extra.xchips, 0
 			for i = 1, count do
 				totalbonus = totalbonus + bonus
@@ -3584,7 +3584,7 @@ table.insert(jokers, {
 			end
 			card.ability.extra.totalxchips = 1+totalbonus
 		end
-		if context.joker_main and togabalatro.processcounts.firefox > 0 then return { xchips = math.max(card.ability.extra.totalxchips, 1) } end
+		if context.joker_main and togabalatro.getprocamt(card.ability.extra.process) > 0 then return { xchips = math.max(card.ability.extra.totalxchips, 1) } end
 	end,
 	set_badges = function(self, card, badges)
 		badges[#badges+1] = create_badge("Joke (TOGA)", G.C.SECONDARY_SET.Tarot, G.C.WHITE, 1 )

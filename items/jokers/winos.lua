@@ -91,7 +91,8 @@ table.insert(winj, {
 	key = 'winforworkgroups311',
 	config = { extra = { chips = 11, mult = 3 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.chips, card.ability.extra.mult, localize("Ace", 'ranks'), localize("3", 'ranks') } }
+		local _, ccardtxt = pcall(function() return localize{type = 'name_text', set = 'Joker', key = 'j_walkie_talkie' } end)
+		return { vars = { card.ability.extra.chips, card.ability.extra.mult, localize("Ace", 'ranks'), localize("3", 'ranks'), ccardtxt or 'Walkie-Talkie' } }
 	end,
 	unlocked = true,
 	in_pool = function()

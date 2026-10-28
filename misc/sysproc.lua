@@ -19,9 +19,10 @@ function togabalatro.mlineproc(s)
 	return t
 end
 
+togabalatro.processcounts = togabalatro.processcounts or {}
+
 local hasinit = false
 function togabalatro.metainit()
-	togabalatro.processcounts = togabalatro.processcounts or {}
 	if hasinit then
 		sendInfoMessage("Process count table is already initialized. Restart the game to reinitialize.", "TOGAPack - Meta Items")
 		return
@@ -57,4 +58,13 @@ function togabalatro.metainit()
 	-- Ensure table is gone.
 	tasktable = nil
 	hasinit = true
+end
+
+function togabalatro.getprocamt(name)
+	name = string.lower(tostring(name)) or 'whereismysupersuit'
+	local count = 0
+	if type(togabalatro.processcounts) == 'table' and togabalatro.processcounts[name] and tonumber(togabalatro.processcounts[name]) then
+		count = togabalatro.processcounts[name]
+	end
+	return count
 end

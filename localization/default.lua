@@ -1682,7 +1682,8 @@ return {
 					"Each played {C:attention}#3#{} or {C:attention}#4#{}",
 					"gives {C:chips}+#1#{} Chips and",
 					"{C:mult}+#2#{} Mult when scored",
-					"{C:inactive,s:0.8}Hang on, this is just a weird #5#!",
+					"{C:inactive,s:0.8}Hang on, this is just",
+					"{C:inactive,s:0.8}a weird #5#!",
 				}
 			},
 			j_toga_win101 = {
