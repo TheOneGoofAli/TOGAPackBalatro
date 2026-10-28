@@ -3092,25 +3092,28 @@ table.insert(jokers, {
 	cost = 8,
 	blueprint_compat = true,
 	calculate = function(self, card, context)
-		if context.after then
-			local ctx = context
-			local ccard = ctx.retrigger_joker or ctx.blueprint_card or card
-			G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-			return { func = function()
-				G.E_MANAGER:add_event(Event({func = function()
-					if #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
-						G.E_MANAGER:add_event(Event({func = function()
-							play_sound('timpani')
-							SMODS.add_card({ set = 'Consumeables' })
-							ccard:juice_up()
-							return true
-						end}))
-						delay(0.6)
-					end
-					G.GAME.consumeable_buffer = math.max(G.GAME.consumeable_buffer - 1, 0)
-					return true
-				end}))
-			end }
+		if context.after and context.full_hand and #context.full_hand == 1 then
+			local pc = context.full_hand[1]
+			if pc and pc:is_suit('Clubs') and pc:get_id() == 12 then
+				local ctx = context
+				local ccard = ctx.retrigger_joker or ctx.blueprint_card or card
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+				return { func = function()
+					G.E_MANAGER:add_event(Event({func = function()
+						if #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
+							G.E_MANAGER:add_event(Event({func = function()
+								play_sound('timpani')
+								SMODS.add_card({ set = 'Consumeables' })
+								ccard:juice_up()
+								return true
+							end}))
+							delay(0.6)
+						end
+						G.GAME.consumeable_buffer = math.max(G.GAME.consumeable_buffer - 1, 0)
+						return true
+					end}))
+				end }
+			end
 		end
 	end,
 	pixel_size = { w = 69, h = 95 },
